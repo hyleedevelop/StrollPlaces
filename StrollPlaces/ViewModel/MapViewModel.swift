@@ -5,8 +5,9 @@
 //  Created by Eric on 2023/03/13.
 //
 
-import Foundation
-//import RxSwift
+import UIKit
+import RxSwift
+import RxCocoa
 //import RealmSwift
 
 enum InfoType: String {
@@ -15,9 +16,10 @@ enum InfoType: String {
     case tourSpot = "지역명소"
 }
 
-class MapViewModel {
+final class MapViewModel {
     
-    var parkData = [Park]()
+    private var parkData = [Park]()
+    
     //var walkingStreetData = [WalkingStreet]()
     //var tourSpotData = [TourSpot]()
     
@@ -106,24 +108,40 @@ class MapViewModel {
         }
     }
     
-    //MARK: - Realm 관련
+    //MARK: - UICollectionView 관련
     
-   //func setupRealmData() {
-   //        print(Realm.Configuration.defaultConfiguration.fileURL ?? "...")
-   //
-   //        let park = Park()
-   //        park.name = "말탕개미공원"
-   //        park.lat = 37.859825
-   //        park.lon = 127.741181
-   //
-   //        do {
-   //            let realm = try Realm()
-   //            try realm.write {
-   //                realm.add(park)
-   //            }
-   //        } catch {
-   //            print(error.localizedDescription)
-   //        }
-   //    }
+    let themeCellViewModel: [ThemeCellViewModel]
+    
+    init(_ themeCellViewModel: [ThemeCellData]) {
+        //self.articleVM = articleVM
+        self.themeCellViewModel = themeCellViewModel.compactMap(ThemeCellViewModel.init)
+    }
+    
+    func cellData(at index: Int) -> ThemeCellViewModel {
+        return self.themeCellViewModel[index]
+    }
     
 }
+
+final class ThemeCellViewModel {
+    
+    let themeCellData: ThemeCellData
+    //let icon: UIImage
+    //let title: String
+    
+    var icon: Observable<UIImage> {
+        return Observable<UIImage>.just(themeCellData.icon)
+    }
+
+    var title: Observable<String> {
+        return Observable<String>.just(themeCellData.title)
+    }
+    
+    init(_ themeCellData: ThemeCellData) {
+        self.themeCellData = themeCellData
+        //self.icon = themeCell.icon
+        //self.title = themeCell.title
+    }
+    
+}
+

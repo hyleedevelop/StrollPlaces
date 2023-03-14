@@ -30,16 +30,25 @@ struct K {
         static let southKoreaCenterLocation = CLLocation(latitude: 36.34, longitude: 127.77)
     }
     
-    
     // CollectionView 관련
     struct ThemeCV {
         static let cellName: String = "ThemeCollectionViewCell"
         static let spacingWidth: CGFloat = 0
-        static let spacingHeight: CGFloat = -10
+        static let spacingHeight: CGFloat = 0
         static let leadingSpacing: CGFloat = (spacingWidth + spacingHeight) * 2
         static let trailingSpacing: CGFloat = (spacingWidth + spacingHeight) * 2
         static let cellColumns: CGFloat = 3
         static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
-        static let cellHeight: CGFloat = 25
+        static let cellHeight: CGFloat = 34
+    }
+    
+    // 메세지 관련
+    struct Message {
+        static let errorTitle = "Error"
+        
+        static let resetMessage = "Are you sure you want to reset all input?"
+        static let exportAsImageMessage = "Do you want to export the result as an image?"
+        static let sendEmailErrorMessage = "Check your e-mail settings."
+        static let notifyLaterUpdate = "This will be updated soon."
     }
 }

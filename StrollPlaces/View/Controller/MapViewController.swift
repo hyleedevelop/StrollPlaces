@@ -6,48 +6,36 @@
 //
 
 import UIKit
+import SnapKit
 import CoreLocation
 import MapKit
-import SnapKit
+//import Cluster
 import RxSwift
 import RxCocoa
 
-class MapViewController: UIViewController {
+final class MapViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
+    @IBOutlet weak var zoomInButton: UIButton!
+    @IBOutlet weak var zoomOutButton: UIButton!
+    @IBOutlet weak var currentLocationButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     
     //MARK: - property
     
-    // 인스턴스 관련
-    private let mapViewModel = MapViewModel()
+    // 인스턴스
+    private var mapViewModel: MapViewModel!
     private var locationManager: CLLocationManager!
-    //private var clusterManager: MKClusterAnnotation!
+    //private var clusterManager: ClusterManager!
     
-    // Rx 관련
-    //private let bag = DisposeBag()
+    // Rx
+    private let bag = DisposeBag()
     
-    // UI 관련
-    private lazy var testButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("버튼", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 20
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = 1.0
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        return button
-    }()
-
     // collection view
     private lazy var themeButtonCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = CGSize(width: 120, height: K.ThemeCV.cellHeight)
         flowLayout.minimumInteritemSpacing = K.ThemeCV.spacingWidth
         flowLayout.minimumLineSpacing = K.ThemeCV.spacingHeight
         let cv = UICollectionView(frame: CGRect(), collectionViewLayout: flowLayout)
@@ -60,6 +48,13 @@ class MapViewController: UIViewController {
         return cv
     }()
     
+    // 사용자의 현재 위치를 받아오고, 이를 중심으로 regionRadius 반경만큼의 영역을 보여주기
+    var currentLocation: CLLocation {
+        let latitude = ((locationManager.location?.coordinate.latitude) ?? K.Map.defaultLatitude) as Double
+        let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
@@ -68,10 +63,10 @@ class MapViewController: UIViewController {
         
         setupUserLocation()
         setupMapView()
-//        addMarker()
-        
-        //setupButton()
         setupCollectionView()
+        setupMapControlButton()
+        
+        //setupAnnotationCluster(type: .park)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,60 +87,131 @@ class MapViewController: UIViewController {
     
     // 지도 관련 설정
     private func setupMapView() {
-        // 기본 설정
+        // 기본 옵션 설정
         self.mapView.isZoomEnabled = true
         self.mapView.isRotateEnabled = true
         self.mapView.isScrollEnabled = true
         self.mapView.isPitchEnabled = true
         self.mapView.isUserInteractionEnabled = true
         self.mapView.showsCompass = true
-        self.mapView.centerToLocation(location: K.Map.initialLocation, regionRadius: 1000)  // 초기위치를 중심으로 반경 1 km 까지 표시
         
-        // 카메라 영역 제한 설정
-//        let region = MKCoordinateRegion(center: K.Map.southKoreaCenterLocation.coordinate,
-//                                        latitudinalMeters: 0,
-//                                        longitudinalMeters: 0)
-//        self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
-//                                       animated: true)
-        
-        // 카메라 줌 제한 설정
-        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 1400.km)
+        // 카메라 줌아웃 제한 설정
+        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 1500.km)
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
+        
+        // 지도 영역 제한 설정
+        let region = MKCoordinateRegion(center: K.Map.southKoreaCenterLocation.coordinate,
+                                        latitudinalMeters: 500.km,
+                                        longitudinalMeters: 500.km)
+        self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
+                                       animated: false)
+    
+//        self.mapView.addAnnotation(latitude: K.Map.defaultLatitude-0.004,
+//                                   longitude: K.Map.defaultLongitude,
+//                                   title: "Title",
+//                                   subtitle: "Subtitle")
+        
+        // 앱 최초 실행 시, 남한 전체 영역을 2초간 보여주고, 그 후 사용자의 위치로 2초간 확대하는 애니메이션 실행
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) {
+                    self.mapView.centerToLocation(location: K.Map.southKoreaCenterLocation, regionRadius: 500.km)
+                    self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 1000.m)
+                }
+            }
+        }
+        
     }
     
-    private func setupButton() {
-//        self.mapView.addSubview(testButton)
-//
-//        testButton.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(20)
-//            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(50)
-//            $0.width.equalTo(80)
-//            $0.height.equalTo(30)
-//        }
-    }
-    
+    // CollectionView 설정
     private func setupCollectionView() {
         self.mapView.addSubview(self.themeButtonCollectionView)
         
         self.themeButtonCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(1)
             $0.left.right.equalTo(self.mapView.safeAreaLayoutGuide)
-            $0.height.equalTo(35)
+            $0.height.equalTo(40)
         }
         
         self.themeButtonCollectionView.delegate = self
         self.themeButtonCollectionView.dataSource = self
-    }
-    
-    
-    //MARK: - @objc method
-    
-    @objc private func buttonTapped(_ sender: UIButton) {
-        if sender == testButton {
-            print("버튼을 클릭했습니다.")
-        }
-    }
         
+        let themeCell: [ThemeCellData] = [
+            ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
+            ThemeCellData(icon: UIImage(systemName: "tree.fill")!, title: "공원"),
+            ThemeCellData(icon: UIImage(systemName: "road.lanes")!, title: "산책로"),
+            ThemeCellData(icon: UIImage(systemName: "triangle.fill")!, title: "지역명소"),
+            ThemeCellData(icon: UIImage(systemName: "toilet.fill")!, title: "공중화장실")
+        ]
+        
+        self.mapViewModel = MapViewModel(themeCell)
+    }
+    
+    // map controll button 설정
+    private func setupMapControlButton() {
+        // "줌인" 버튼을 눌렀을 때
+        self.zoomInButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.mapView.zoomLevel += 1
+            })
+            .disposed(by: self.bag)
+        
+        // "줌아웃" 버튼을 눌렀을 때
+        self.zoomOutButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.mapView.zoomLevel -= 2
+            })
+            .disposed(by: self.bag)
+        
+        // "현재위치로 이동하기" 버튼을 눌렀을 때
+        self.currentLocationButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 1000.m)
+            })
+            .disposed(by: self.bag)
+    }
+    
+    // annotation cluster 설정
+    private func setupAnnotationCluster(type: InfoType) {
+        self.mapView.delegate = self
+        var coordinateArray = [CLLocationCoordinate2D]()
+        
+        switch type {
+            
+        case .park:
+            let parkArray = mapViewModel.getParkInfo()
+            
+            DispatchQueue.global().async {
+                for index in 1..<parkArray.count-1 {  // for index in 1..<parkArray.count-1
+                    if let lat = parkArray[index].lat,
+                       let lon = parkArray[index].lon {
+                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                        let annotation = MapItem(coordinate: coordinate)
+                        
+                        coordinateArray.append(coordinate)
+                        self.mapView.addAnnotation(annotation)
+                        print(index, coordinate, separator: " / ")
+                    }
+                }
+
+            }
+            
+        case .walkingStreet:
+            break
+            
+        case .tourSpot:
+            break
+            
+        }
+        
+//        for coordinate in coordinateArray {
+//
+//        }
+    }
+    
 }
 
 //MARK: - extension for CLLocationManagerDelegate
@@ -183,63 +249,113 @@ extension MapViewController: CLLocationManagerDelegate {
     
 }
 
+//MARK: - extension for MKMapViewDelegate
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let item = annotation as? MapItem {
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "mapItem")
+                               ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "mapItem")
+            
+            annotationView.annotation = item
+            annotationView.image = UIImage(named: "star.fill")
+            annotationView.clusteringIdentifier = "mapItemClustered"
+            
+            return annotationView
+            
+        } else if let cluster = annotation as? MKClusterAnnotation {
+            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterView")
+            ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
+            
+            clusterView.annotation = cluster
+            clusterView.image = UIImage(named: "star.fill")
+            
+            return clusterView
+            
+        } else {
+            return nil
+            
+        }
+    }
+    
+}
+
 //MARK: - extension for UICollectionViewDataSource, UICollectionViewDelegate
 
-extension MapViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MapViewController: UICollectionViewDataSource,
+                             UICollectionViewDelegate,
+                             UICollectionViewDelegateFlowLayout {
     
+    // section의 개수
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
+    // section 내 아이템의 개수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return self.mapViewModel.themeCellViewModel.count
     }
     
+    // 각 셀마다 실행할 내용
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return UICollectionViewCell() }
-//        let cellViewModel = cellDataSource[indexPath.row]
-//
-//        cell.updateCell(viewModel: cellViewModel)
+
+        // drive 연산자를 이용해 이미지를 바인딩
+        self.mapViewModel.cellData(at: indexPath.row).icon.asDriver(onErrorJustReturn: UIImage())
+            .drive(cell.themeIcon.rx.image)
+            .disposed(by: self.bag)
         
-        switch indexPath.row {
-        case 0:
-            cell.themeLabel.layer.borderColor = UIColor.black.cgColor
-            cell.themeLabel.layer.borderWidth = 1.5
-            cell.themeLabel.text = "공원"
-        case 1:
-//            cell.themeButton.setTitle("산책로", for: .normal)
-            cell.themeLabel.text = "산책로"
-        case 2:
-//            cell.themeButton.setTitle("지역명소", for: .normal)
-            cell.themeLabel.text = "지역명소"
-        case 3:
-            cell.themeLabel.text = "화장실"
-        default:
-            print("nothing...")
-        }
+        // drive 연산자를 이용해 텍스트를 바인딩
+        self.mapViewModel.cellData(at: indexPath.row).title.asDriver(onErrorJustReturn: "")
+            .drive(cell.themeLabel.rx.text)
+            .disposed(by: self.bag)
         
+        // 텍스트 폰트 설정
         cell.themeLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         
         return cell
     }
     
+    // 각 셀의 사이즈 설정
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var width: Double?
+        
+        self.mapViewModel.cellData(at: indexPath.row).title.asObservable()
+            .map { $0.count }
+            .subscribe(onNext: { value in
+                width = Double(value) * 15 + 40
+            })
+            .disposed(by: self.bag)
+            
+        guard let width = width else {
+            fatalError("[ERROR] Unable to get size for collection view cell.")
+        }
+        
+        return CGSize(width: width, height: K.ThemeCV.cellHeight)
+    }
+    
+    // 셀이 선택되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return }
         
         cell.themeLabel.layer.borderColor = UIColor.black.cgColor
         cell.themeLabel.layer.borderWidth = 1.5
-        print(#function)
+        print(#function, "\(indexPath.row)", separator: ", ")
     }
     
+    // 셀이 해제되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return }
         
         cell.themeLabel.layer.borderColor = UIColor.lightGray.cgColor
         cell.themeLabel.layer.borderWidth = 0.5
-        print(#function)
+        print(#function, "\(indexPath.row)", separator: ", ")
     }
     
 }

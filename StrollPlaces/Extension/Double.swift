@@ -9,12 +9,12 @@ import Foundation
 
 extension Double {
     
+    var m: Double {
+        return self
+    }
+    
     var km: Double {
         return (self * 1000)
     }
-    
-//    func km() -> Double {
-//        return (self * 1000)
-//    }
     
 }

@@ -10,6 +10,12 @@ target 'StrollPlaces' do
   pod 'RxCocoa'
   pod 'RealmSwift'
   pod 'SnapKit'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseCrashlytics'
+  pod 'FirebasePerformance'
+  #pod 'Google-Mobile-Ads-SDK'
+  pod 'AcknowList'
+  pod 'Cluster'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths

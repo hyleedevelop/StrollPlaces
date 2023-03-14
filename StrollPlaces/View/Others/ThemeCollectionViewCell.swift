@@ -9,24 +9,27 @@ import UIKit
 
 class ThemeCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var themeIcon: UIImageView!
     @IBOutlet weak var themeLabel: UILabel!
+    @IBOutlet weak var backView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        setupButton()
+        setupBackView()
     }
     
-    private func setupButton() {
-        themeLabel.clipsToBounds = true
-        themeLabel.layer.cornerRadius = K.ThemeCV.cellHeight / 2.0
-        themeLabel.layer.borderColor = UIColor.lightGray.cgColor
-        themeLabel.layer.borderWidth = 0.5
-        themeLabel.layer.shadowColor = UIColor.black.cgColor
-        themeLabel.layer.shadowRadius = 3
-        themeLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
-        themeLabel.layer.shadowOpacity = 0.3
-        //themeButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+    private func setupBackView() {
+        backView.clipsToBounds = true
+        backView.layer.masksToBounds = false
+        backView.layer.cornerRadius = (K.ThemeCV.cellHeight / 2.0) - 2
+        backView.layer.borderColor = UIColor.lightGray.cgColor
+        backView.layer.borderWidth = 0.5
+        backView.layer.shadowColor = UIColor.black.cgColor
+        backView.layer.shadowRadius = 1
+        backView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        backView.layer.shadowOpacity = 0.3
+        
     }
 
 }

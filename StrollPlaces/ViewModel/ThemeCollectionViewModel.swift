@@ -5,9 +5,15 @@
 //  Created by Eric on 2023/03/13.
 //
 
-import Foundation
+import UIKit
 
-struct ThemeCollectionViewModel {
+final class ThemeCollectionViewModel {
+    
+    //MARK: - 속성
+    
+    
+    
+    //MARK: - 메서드
     
     
     
