@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0751435E29C17A8400109B8E /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751435D29C17A8400109B8E /* Annotation.swift */; };
-		0751436429C1E58000109B8E /* CountClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436329C1E58000109B8E /* CountClusterAnnotationView.swift */; };
-		0751436629C1F78600109B8E /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436529C1F78600109B8E /* AnnotationView.swift */; };
+		0751436829C201CD00109B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* UIImage.swift */; };
+		0751436B29C2076F00109B8E /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436929C2076F00109B8E /* AnnotationView.swift */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
 		07987ED429C0B5BE004B87F0 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED329C0B5BE004B87F0 /* MapItem.swift */; };
 		0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9529BF584B006AB70D /* AppDelegate.swift */; };
@@ -63,9 +62,8 @@
 
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
-		0751435D29C17A8400109B8E /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Annotation.swift; path = StrollPlaces/Model/Annotation.swift; sourceTree = SOURCE_ROOT; };
-		0751436329C1E58000109B8E /* CountClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountClusterAnnotationView.swift; sourceTree = "<group>"; };
-		0751436529C1F78600109B8E /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		0751436729C201CD00109B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		0751436929C2076F00109B8E /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnnotationView.swift; path = ../../../../../.Trash/AnnotationView.swift; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
 		07987ED329C0B5BE004B87F0 /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		0799CC9229BF584B006AB70D /* StrollPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrollPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,7 +241,6 @@
 				0799CCE329BF6204006AB70D /* TourSpot.swift */,
 				07AFB59029C012A600DD1C34 /* SettingCellData.swift */,
 				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
-				0751435D29C17A8400109B8E /* Annotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -254,8 +251,7 @@
 				0799CCDA29BF5A6F006AB70D /* K.swift */,
 				07AFB59229C024BD00DD1C34 /* AppSetting.swift */,
 				07987ED329C0B5BE004B87F0 /* MapItem.swift */,
-				0751436329C1E58000109B8E /* CountClusterAnnotationView.swift */,
-				0751436529C1F78600109B8E /* AnnotationView.swift */,
+				0751436929C2076F00109B8E /* AnnotationView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -265,6 +261,7 @@
 			children = (
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
+				0751436729C201CD00109B8E /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -539,14 +536,14 @@
 				0799CCE429BF6204006AB70D /* TourSpot.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* Park.swift in Sources */,
+				0751436B29C2076F00109B8E /* AnnotationView.swift in Sources */,
 				07987ED429C0B5BE004B87F0 /* MapItem.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
 				0799CCDF29BF5D5D006AB70D /* ThemeCollectionViewModel.swift in Sources */,
-				0751436429C1E58000109B8E /* CountClusterAnnotationView.swift in Sources */,
+				0751436829C201CD00109B8E /* UIImage.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
-				0751436629C1F78600109B8E /* AnnotationView.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */,
@@ -555,7 +552,6 @@
 				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,
 				0799CCE229BF61FC006AB70D /* WalkingSpot.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
-				0751435E29C17A8400109B8E /* Annotation.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

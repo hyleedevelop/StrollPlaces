@@ -25,9 +25,13 @@ struct K {
     struct Map {
         static let defaultLatitude: Double = 37.88604
         static let defaultLongitude: Double = 127.7454
+        static let southKoreaCenterLatitude: Double = 36.34
+        static let southKoreaCenterLongitude: Double = 127.77
+        
         static let initialLocation = CLLocation(latitude: K.Map.defaultLatitude,
                                                 longitude: K.Map.defaultLongitude)
-        static let southKoreaCenterLocation = CLLocation(latitude: 36.34, longitude: 127.77)
+        static let southKoreaCenterLocation = CLLocation(latitude: southKoreaCenterLatitude,
+                                                         longitude: southKoreaCenterLongitude)
         static let seoulLocation = CLLocation(latitude: 37.535545, longitude: 126.983683)
     }
     

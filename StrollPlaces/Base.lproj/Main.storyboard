@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xB8-kg-qIR">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xB8-kg-qIR">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
@@ -55,12 +55,22 @@
                                     <constraint firstAttribute="width" constant="122" id="cOX-IL-wlb"/>
                                 </constraints>
                             </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Crr-1z-Sm1">
+                                <rect key="frame" x="32" y="662" width="329" height="32"/>
+                                <segments>
+                                    <segment title="Count"/>
+                                    <segment title="Count + Image"/>
+                                    <segment title="Image"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="OFK-8x-TzC" firstAttribute="top" secondItem="Crr-1z-Sm1" secondAttribute="bottom" constant="28" id="1P9-ZX-FWQ"/>
                             <constraint firstItem="xB8-kg-qIR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="EsJ-K6-P8t"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xB8-kg-qIR" secondAttribute="trailing" id="Ntg-or-UcY"/>
+                            <constraint firstItem="Crr-1z-Sm1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O6P-o9-nfv"/>
                             <constraint firstItem="xB8-kg-qIR" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gWb-gA-zHt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xB8-kg-qIR" secondAttribute="bottom" id="i6P-jt-N40"/>
                             <constraint firstItem="OFK-8x-TzC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uSn-CD-V95"/>
@@ -71,6 +81,7 @@
                     <connections>
                         <outlet property="currentLocationButton" destination="PAh-NZ-ant" id="bUZ-B4-cfx"/>
                         <outlet property="mapView" destination="xB8-kg-qIR" id="Qfi-tl-0Lq"/>
+                        <outlet property="segmentedControl" destination="Crr-1z-Sm1" id="biZ-QQ-Q0A"/>
                         <outlet property="zoomInButton" destination="mzX-wW-SHy" id="hkK-ZQ-jlj"/>
                         <outlet property="zoomOutButton" destination="Z23-BU-D22" id="hSN-dW-X8T"/>
                     </connections>

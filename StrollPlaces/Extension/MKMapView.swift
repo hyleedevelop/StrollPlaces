@@ -90,5 +90,16 @@ extension MKMapView {
         self.removeAnnotations(self.annotations)
     }
     
+    //MARK: - Cluster 라이브러리 관련
+
+    func annotationView<T: MKAnnotationView>(of type: T.Type, annotation: MKAnnotation?, reuseIdentifier: String) -> T {
+        guard let annotationView = dequeueReusableAnnotationView(withIdentifier: reuseIdentifier) as? T else {
+            return type.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        }
+        annotationView.annotation = annotation
+        return annotationView
+    }
+    
+    
     
 }

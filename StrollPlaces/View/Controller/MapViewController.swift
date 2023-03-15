@@ -13,14 +13,30 @@ import CoreLocation
 import MapKit
 import Cluster
 
+enum Selection: Int {
+    case count, imageCount, image
+}
+
 final class MapViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var zoomInButton: UIButton!
     @IBOutlet weak var zoomOutButton: UIButton!
     @IBOutlet weak var currentLocationButton: UIButton!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            self.mapView.region = .init(center: region.center,
+                                        latitudinalMeters: region.delta,
+                                        longitudinalMeters: region.delta)
+        }
+    }
+    
+    @IBAction func valueChanged(_ sender: UISegmentedControl) {
+        removeAnnotations()
+        addAnnotations()
+    }
     
     //MARK: - property
     
@@ -63,7 +79,12 @@ final class MapViewController: UIViewController {
     }
     
     // 지도 관련
-    //var annotationArray = [Annotation]()
+    var annotationArray = [Annotation]()
+    let region = (
+        center: CLLocationCoordinate2D(latitude: K.Map.southKoreaCenterLatitude,
+                                       longitude: K.Map.southKoreaCenterLongitude),
+        delta: 2.0
+    )
     
     //MARK: - drawing cycle
     
@@ -77,23 +98,10 @@ final class MapViewController: UIViewController {
         setupMapControlButton()
         
         moveToCurrentLocation()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.AddAnnotationCluster(type: .park)
-        }
+        clusterManager.add(MeAnnotation(coordinate: region.center))
+        addAnnotations()
         
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(true)
-//        self.locationManager.startUpdatingLocation()
-//        self.locationManager.startUpdatingHeading()
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(true)
-//        self.locationManager.stopUpdatingLocation()
-//        self.locationManager.stopUpdatingHeading()
-//    }
     
     deinit {
         self.mapView.delegate = nil
@@ -129,15 +137,6 @@ final class MapViewController: UIViewController {
                                         longitudinalMeters: 700.km)
         self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
                                        animated: false)
-    
-//        self.mapView.addAnnotation(latitude: K.Map.defaultLatitude-0.004,
-//                                   longitude: K.Map.defaultLongitude,
-//                                   title: "Title",
-//                                   subtitle: "Subtitle")
-        
-        
-
-        
     }
     
     // CollectionView 설정
@@ -197,15 +196,15 @@ final class MapViewController: UIViewController {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) {
                     self.mapView.centerToLocation(location: K.Map.southKoreaCenterLocation, regionRadius: 700.km)
-                    self.mapView.centerToLocation(location: K.Map.seoulLocation, regionRadius: 5.km)
-                    //self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 500.m)
+//                    self.mapView.centerToLocation(location: K.Map.seoulLocation, regionRadius: 5.km)
+//                    self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 500.m)
                 }
             }
         }
     }
     
     // annotation cluster 설정
-    private func AddAnnotationCluster(type: InfoType) {
+    private func addAnnotations() {
         /*
         var annotationArray = [MapItem]()
         
@@ -236,112 +235,23 @@ final class MapViewController: UIViewController {
         self.mapView.addAnnotations(annotationArray)
         */
         
-        let clusterManager = ClusterManager()
-        let annotation = Annotation(
-            coordinate: CLLocationCoordinate2D(latitude: K.Map.defaultLatitude-0.03,
-                                               longitude: K.Map.defaultLongitude)
-        )
-        clusterManager.add(annotation)
-        
-        
-    }
-    
-}
-
-//MARK: - extension for CLLocationManagerDelegate
-
-extension MapViewController: CLLocationManagerDelegate {
-    
-    // 1. 사용자 위치 관련 설정
-    private func setupUserLocation() {
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.getLocationUsagePermission()
-    }
-    
-    // 2. 위치 추적 권한 요청 실행
-    private func getLocationUsagePermission() {
-        self.locationManager.requestWhenInUseAuthorization()
-    }
-    
-    // 3. 위치 추적 권한 요청 결과에 따른 처리
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("위치 추적 권한 허용됨")
-            self.locationManager.startUpdatingLocation()
-            self.locationManager.startUpdatingHeading()
-        case .restricted, .notDetermined:
-            print("위치 추적 권한 미설정")
-        case .denied:
-            print("위치 추적 권한 거부됨")
-        default:
-            break
+        let annotations: [Annotation] = (0..<100000).map { i in
+            let annotation = Annotation()
+            annotation.coordinate = CLLocationCoordinate2D(
+                latitude: region.center.latitude + drand48() * region.delta - region.delta / 2,
+                longitude: region.center.longitude + drand48() * region.delta - region.delta / 2
+            )
+            return annotation
         }
-    }
-    
-}
-
-//MARK: - extension for ClusterManagerDelegate
-
-extension MapViewController: ClusterManagerDelegate {
-    
-    func cellSize(for zoomLevel: Double) -> Double? {
-        return nil // default
-    }
-    
-    func shouldClusterAnnotation(_ annotation: MKAnnotation) -> Bool {
-        return !(annotation is MeAnnotation)
-    }
-    
-}
-
-//MARK: - extension for MKMapViewDelegate
-
-extension MapViewController: MKMapViewDelegate {
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? ClusterAnnotation {
-            return CountClusterAnnotationView(annotation: annotation, reuseIdentifier: "cluster")
-        } else {
-            return MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
-        }
-        
-//        // non-clustered annotation
-//        if let item = annotation as? MapItem {
-//            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "mapItem")
-//                               ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "mapItem")
-//
-//            annotationView.annotation = item
-//            annotationView.image = UIImage(named: "annotation")  // Assets에 있는 이미지
-//            annotationView.clusteringIdentifier = "mapItemClustered"
-//
-//            return annotationView
-//
-//        // clustered annotation
-//        } else if let cluster = annotation as? MKClusterAnnotation {
-//            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterView")
-//                            ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
-//
-//            clusterView.annotation = cluster
-//            clusterView.image = UIImage(named: "cluster")  // Assets에 있는 이미지
-//
-//            return nil
-//
-//        } else {
-//            return nil
-//
-//        }
+        clusterManager.add(annotations)
+        clusterManager.reload(mapView: self.mapView)
         
     }
     
-    // annotation을 클릭했을 때 실행할 내용
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print(#function)
-        
+    private func removeAnnotations() {
+        clusterManager.removeAll()
+        clusterManager.reload(mapView: self.mapView)
     }
-    
     
 }
 
@@ -432,6 +342,138 @@ extension MapViewController: UICollectionViewDataSource,
         cell.themeLabel.layer.borderWidth = 0.5
     }
     
+}
+
+//MARK: - extension for CLLocationManagerDelegate
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    // 1. 사용자 위치 관련 설정
+    private func setupUserLocation() {
+        self.locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.getLocationUsagePermission()
+    }
+    
+    // 2. 위치 추적 권한 요청 실행
+    private func getLocationUsagePermission() {
+        self.locationManager.requestWhenInUseAuthorization()
+    }
+    
+    // 3. 위치 추적 권한 요청 결과에 따른 처리
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("위치 추적 권한 허용됨")
+            self.locationManager.startUpdatingLocation()
+            self.locationManager.startUpdatingHeading()
+        case .restricted, .notDetermined:
+            print("위치 추적 권한 미설정")
+        case .denied:
+            print("위치 추적 권한 거부됨")
+        default:
+            break
+        }
+    }
+    
+}
+
+//MARK: - extension for ClusterManagerDelegate
+
+extension MapViewController: ClusterManagerDelegate {
+    
+    func cellSize(for zoomLevel: Double) -> Double? {
+        return nil // default
+    }
+    
+    func shouldClusterAnnotation(_ annotation: MKAnnotation) -> Bool {
+        return !(annotation is MeAnnotation)
+    }
+    
+}
+
+//MARK: - extension for MKMapViewDelegate
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? ClusterAnnotation {
+            let index = segmentedControl.selectedSegmentIndex
+            let identifier = "Cluster\(index)"
+            let selection = Selection(rawValue: index)!
+            return mapView.annotationView(selection: selection, annotation: annotation, reuseIdentifier: identifier)
+        } else if let annotation = annotation as? MeAnnotation {
+            let identifier = "Me"
+            let annotationView = mapView.annotationView(of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
+            annotationView.image = .me
+            return annotationView
+        } else {
+            let identifier = "Pin"
+            let annotationView = mapView.annotationView(of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
+            annotationView.pinTintColor = UIColor.green
+            return annotationView
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        clusterManager.reload(mapView: mapView) { finished in
+            print(finished)
+        }
+    }
+    
+    // annotation을 클릭했을 때 실행할 내용
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation else { return }
+        
+        if let cluster = annotation as? ClusterAnnotation {
+            
+            var zoomRect = MKMapRect.null
+            
+            for annotation in cluster.annotations {
+                let annotationPoint = MKMapPoint(annotation.coordinate)
+                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0, height: 0)
+                if zoomRect.isNull {
+                    zoomRect = pointRect
+                } else {
+                    zoomRect = zoomRect.union(pointRect)
+                }
+            }
+            
+            mapView.setVisibleMapRect(zoomRect, animated: true)
+        }
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        views.forEach { $0.alpha = 0 }
+        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
+            views.forEach { $0.alpha = 1 }
+        }, completion: nil)
+    }
+    
+}
+
+//MARK: - extension for MKMapView
+
+extension MKMapView {
+    func annotationView(selection: Selection, annotation: MKAnnotation?, reuseIdentifier: String) -> MKAnnotationView {
+        switch selection {
+        case .count:
+            let annotationView = self.annotationView(of: CountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
+            annotationView.countLabel.backgroundColor = .green
+            return annotationView
+        case .imageCount:
+            let annotationView = self.annotationView(of: ImageCountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
+            annotationView.countLabel.textColor = .green
+            annotationView.image = .pin2
+            return annotationView
+        case .image:
+            let annotationView = self.annotationView(of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
+            annotationView.image = .pin
+            return annotationView
+        }
+    }
 }
 
 class MeAnnotation: Annotation {}
