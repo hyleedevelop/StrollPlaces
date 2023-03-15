@@ -28,6 +28,7 @@ struct K {
         static let initialLocation = CLLocation(latitude: K.Map.defaultLatitude,
                                                 longitude: K.Map.defaultLongitude)
         static let southKoreaCenterLocation = CLLocation(latitude: 36.34, longitude: 127.77)
+        static let seoulLocation = CLLocation(latitude: 37.535545, longitude: 126.983683)
     }
     
     // CollectionView 관련

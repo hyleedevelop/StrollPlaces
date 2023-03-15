@@ -8,26 +8,23 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import CoreLocation
+import MapKit
 //import RealmSwift
 
-enum InfoType: String {
-    case park = "공원"
-    case walkingStreet = "산책로"
-    case tourSpot = "지역명소"
+enum InfoType: Int {
+    case marked = 0
+    case park
+    case walkingStreet
+    case tourSpot
 }
 
 final class MapViewModel {
     
     private var parkData = [Park]()
+    //private var walkingStreetData = [WalkingStreet]()
+    //private var tourSpotData = [TourSpot]()
     
-    //var walkingStreetData = [WalkingStreet]()
-    //var tourSpotData = [TourSpot]()
-    
-//    var parkSubject = PublishSubject<[Park]>()
-    
-//    init(_ park: [Park]) {
-//        self.park = park
-//    }
     
     //MARK: - 공원 정보 관련
     
@@ -119,28 +116,6 @@ final class MapViewModel {
     
     func cellData(at index: Int) -> ThemeCellViewModel {
         return self.themeCellViewModel[index]
-    }
-    
-}
-
-final class ThemeCellViewModel {
-    
-    let themeCellData: ThemeCellData
-    //let icon: UIImage
-    //let title: String
-    
-    var icon: Observable<UIImage> {
-        return Observable<UIImage>.just(themeCellData.icon)
-    }
-
-    var title: Observable<String> {
-        return Observable<String>.just(themeCellData.title)
-    }
-    
-    init(_ themeCellData: ThemeCellData) {
-        self.themeCellData = themeCellData
-        //self.icon = themeCell.icon
-        //self.title = themeCell.title
     }
     
 }

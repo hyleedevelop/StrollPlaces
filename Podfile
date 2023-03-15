@@ -6,15 +6,16 @@ target 'StrollPlaces' do
   use_frameworks!
 
   # Pods for StrollPlaces
+  pod 'AcknowList'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RealmSwift'
   pod 'SnapKit'
-  pod 'FirebaseAnalytics'
-  pod 'FirebaseCrashlytics'
-  pod 'FirebasePerformance'
+  #pod 'FirebaseAnalytics'
+  #pod 'FirebaseCrashlytics'
+  #pod 'FirebasePerformance'
   #pod 'Google-Mobile-Ads-SDK'
-  pod 'AcknowList'
+  pod 'Pulsator'
   pod 'Cluster'
 
   target 'StrollPlacesTests' do

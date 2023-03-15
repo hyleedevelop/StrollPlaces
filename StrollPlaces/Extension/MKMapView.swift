@@ -50,15 +50,45 @@ extension MKMapView {
     
     //MARK: - annotation 추가
     
-//    func addAnnotation(latitude: CLLocationDegrees, longitude: CLLocationDegrees,
-//                       title: String?, subtitle: String?) {
-//        self.removeAnnotations(self.annotations)
-//        let annotation = MKPointAnnotation()
-//        annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
-//        annotation.title = title
-//        annotation.subtitle = subtitle
-//        self.addAnnotation(annotation)
-//    }
+    /*
+    // 하나의 annotation 추가 시 (테스트용)
+    func markSingleAnnotation(latitude: CLLocationDegrees, longitude: CLLocationDegrees,
+                              title: String?, subtitle: String?) {
+        self.removeAnnotations(self.annotations)
+        
+        let annotation = MKPointAnnotation()
+        
+        annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        annotation.title = title
+        annotation.subtitle = subtitle
+        
+        self.addAnnotation(annotation)
+    }
+    
+    // 여러 개의 annotation 추가 시
+    func markMultipleAnnotation(annotations: [Annotation]) {
+        self.removeAnnotations(self.annotations)
+        
+        var annotationArray = [MKPointAnnotation]()
+        for i in 0..<annotations.count {
+            let annotation = MKPointAnnotation()
+            
+            annotation.coordinate = CLLocationCoordinate2DMake(annotations[i].latitude,
+                                                               annotations[i].longitude)
+            annotation.title = annotations[i].title
+            annotation.subtitle = annotations[i].subtitle
+            
+            annotationArray.append(annotation)
+        }
+        
+        self.addAnnotations(annotationArray)
+    }
+     */
+    
+    // 현재 표시되어 있는 모든 annotation 삭제
+    func removeAllAnnotation() {
+        self.removeAnnotations(self.annotations)
+    }
     
     
 }

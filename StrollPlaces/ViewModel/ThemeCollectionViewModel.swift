@@ -6,15 +6,26 @@
 //
 
 import UIKit
+import RxSwift
 
-final class ThemeCollectionViewModel {
+final class ThemeCellViewModel {
     
-    //MARK: - 속성
+    let themeCellData: ThemeCellData
+    //let icon: UIImage
+    //let title: String
     
+    var icon: Observable<UIImage> {
+        return Observable<UIImage>.just(themeCellData.icon)
+    }
+
+    var title: Observable<String> {
+        return Observable<String>.just(themeCellData.title)
+    }
     
-    
-    //MARK: - 메서드
-    
-    
+    init(_ themeCellData: ThemeCellData) {
+        self.themeCellData = themeCellData
+        //self.icon = themeCell.icon
+        //self.title = themeCell.title
+    }
     
 }

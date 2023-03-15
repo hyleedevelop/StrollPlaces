@@ -7,11 +7,11 @@
 
 import UIKit
 import SnapKit
-import CoreLocation
-import MapKit
-//import Cluster
 import RxSwift
 import RxCocoa
+import CoreLocation
+import MapKit
+import Cluster
 
 final class MapViewController: UIViewController {
 
@@ -27,7 +27,14 @@ final class MapViewController: UIViewController {
     // 인스턴스
     private var mapViewModel: MapViewModel!
     private var locationManager: CLLocationManager!
-    //private var clusterManager: ClusterManager!
+    private lazy var clusterManager: ClusterManager = {
+        let manager = ClusterManager()
+        manager.delegate = self
+        manager.maxZoomLevel = 17
+        manager.minCountForClustering = 3
+        manager.clusterPosition = .nearCenter
+        return manager
+    }()
     
     // Rx
     private let bag = DisposeBag()
@@ -55,6 +62,9 @@ final class MapViewController: UIViewController {
         return CLLocation(latitude: latitude, longitude: longitude)
     }
     
+    // 지도 관련
+    //var annotationArray = [Annotation]()
+    
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
@@ -66,21 +76,28 @@ final class MapViewController: UIViewController {
         setupCollectionView()
         setupMapControlButton()
         
-        //setupAnnotationCluster(type: .park)
+        moveToCurrentLocation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.AddAnnotationCluster(type: .park)
+        }
+        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-        self.locationManager.startUpdatingLocation()
-        self.locationManager.startUpdatingHeading()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(true)
+//        self.locationManager.startUpdatingLocation()
+//        self.locationManager.startUpdatingHeading()
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(true)
+//        self.locationManager.stopUpdatingLocation()
+//        self.locationManager.stopUpdatingHeading()
+//    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        
-        self.locationManager.stopUpdatingLocation()
-        self.locationManager.stopUpdatingHeading()
+    deinit {
+        self.mapView.delegate = nil
+        self.clusterManager.delegate = nil
     }
     
     //MARK: - method
@@ -88,21 +105,28 @@ final class MapViewController: UIViewController {
     // 지도 관련 설정
     private func setupMapView() {
         // 기본 옵션 설정
+        self.mapView.delegate = self
         self.mapView.isZoomEnabled = true
         self.mapView.isRotateEnabled = true
         self.mapView.isScrollEnabled = true
-        self.mapView.isPitchEnabled = true
+        self.mapView.isPitchEnabled = false
         self.mapView.isUserInteractionEnabled = true
         self.mapView.showsCompass = true
+        self.mapView.showsUserLocation = true
+
+//        let compass = MKCompassButton(mapView: self.mapView)
+//        compass.compassVisibility = .hidden
+//        self.view.addSubview(compass)
+        
         
         // 카메라 줌아웃 제한 설정
-        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 1500.km)
+        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 2000.km)
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // 지도 영역 제한 설정
         let region = MKCoordinateRegion(center: K.Map.southKoreaCenterLocation.coordinate,
-                                        latitudinalMeters: 500.km,
-                                        longitudinalMeters: 500.km)
+                                        latitudinalMeters: 700.km,
+                                        longitudinalMeters: 700.km)
         self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region),
                                        animated: false)
     
@@ -111,15 +135,8 @@ final class MapViewController: UIViewController {
 //                                   title: "Title",
 //                                   subtitle: "Subtitle")
         
-        // 앱 최초 실행 시, 남한 전체 영역을 2초간 보여주고, 그 후 사용자의 위치로 2초간 확대하는 애니메이션 실행
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) {
-                    self.mapView.centerToLocation(location: K.Map.southKoreaCenterLocation, regionRadius: 500.km)
-                    self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 1000.m)
-                }
-            }
-        }
+        
+
         
     }
     
@@ -140,8 +157,7 @@ final class MapViewController: UIViewController {
             ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
             ThemeCellData(icon: UIImage(systemName: "tree.fill")!, title: "공원"),
             ThemeCellData(icon: UIImage(systemName: "road.lanes")!, title: "산책로"),
-            ThemeCellData(icon: UIImage(systemName: "triangle.fill")!, title: "지역명소"),
-            ThemeCellData(icon: UIImage(systemName: "toilet.fill")!, title: "공중화장실")
+            ThemeCellData(icon: UIImage(systemName: "triangle.fill")!, title: "지역명소")
         ]
         
         self.mapViewModel = MapViewModel(themeCell)
@@ -169,47 +185,65 @@ final class MapViewController: UIViewController {
         self.currentLocationButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 1000.m)
+                self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 500.m)
             })
             .disposed(by: self.bag)
     }
     
+    // 현재 사용자의 위치로 지도 이동
+    private func moveToCurrentLocation() {
+        // 처음에는 남한 전체 영역을 2초간 보여주고, 그 후 사용자의 위치로 2초간 확대하는 애니메이션 실행
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) {
+                    self.mapView.centerToLocation(location: K.Map.southKoreaCenterLocation, regionRadius: 700.km)
+                    self.mapView.centerToLocation(location: K.Map.seoulLocation, regionRadius: 5.km)
+                    //self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 500.m)
+                }
+            }
+        }
+    }
+    
     // annotation cluster 설정
-    private func setupAnnotationCluster(type: InfoType) {
-        self.mapView.delegate = self
-        var coordinateArray = [CLLocationCoordinate2D]()
+    private func AddAnnotationCluster(type: InfoType) {
+        /*
+        var annotationArray = [MapItem]()
+        
+        mapView.removeAnnotations(mapView.annotations)
         
         switch type {
-            
         case .park:
             let parkArray = mapViewModel.getParkInfo()
             
-            DispatchQueue.global().async {
-                for index in 1..<parkArray.count-1 {  // for index in 1..<parkArray.count-1
+            //DispatchQueue.global().async {
+            for index in 1..<parkArray.count-1 {  // for index in 1..<parkArray.count-1
                     if let lat = parkArray[index].lat,
                        let lon = parkArray[index].lon {
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                         let annotation = MapItem(coordinate: coordinate)
-                        
-                        coordinateArray.append(coordinate)
-                        self.mapView.addAnnotation(annotation)
-                        print(index, coordinate, separator: " / ")
+                        annotationArray.append(annotation)
+                        //DispatchQueue.main.async {
+                            //self.mapView.addAnnotation(annotation)
+                        //}
                     }
                 }
-
-            }
-            
-        case .walkingStreet:
+            //}
+         
+        case .marked, .walkingStreet, .tourSpot:
             break
-            
-        case .tourSpot:
-            break
-            
         }
         
-//        for coordinate in coordinateArray {
-//
-//        }
+        self.mapView.addAnnotations(annotationArray)
+        */
+        
+        let clusterManager = ClusterManager()
+        let annotation = Annotation(
+            coordinate: CLLocationCoordinate2D(latitude: K.Map.defaultLatitude-0.03,
+                                               longitude: K.Map.defaultLongitude)
+        )
+        clusterManager.add(annotation)
+        
+        
     }
     
 }
@@ -249,35 +283,65 @@ extension MapViewController: CLLocationManagerDelegate {
     
 }
 
+//MARK: - extension for ClusterManagerDelegate
+
+extension MapViewController: ClusterManagerDelegate {
+    
+    func cellSize(for zoomLevel: Double) -> Double? {
+        return nil // default
+    }
+    
+    func shouldClusterAnnotation(_ annotation: MKAnnotation) -> Bool {
+        return !(annotation is MeAnnotation)
+    }
+    
+}
+
 //MARK: - extension for MKMapViewDelegate
 
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let item = annotation as? MapItem {
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "mapItem")
-                               ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "mapItem")
-            
-            annotationView.annotation = item
-            annotationView.image = UIImage(named: "star.fill")
-            annotationView.clusteringIdentifier = "mapItemClustered"
-            
-            return annotationView
-            
-        } else if let cluster = annotation as? MKClusterAnnotation {
-            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterView")
-            ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
-            
-            clusterView.annotation = cluster
-            clusterView.image = UIImage(named: "star.fill")
-            
-            return clusterView
-            
+        if let annotation = annotation as? ClusterAnnotation {
+            return CountClusterAnnotationView(annotation: annotation, reuseIdentifier: "cluster")
         } else {
-            return nil
-            
+            return MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
         }
+        
+//        // non-clustered annotation
+//        if let item = annotation as? MapItem {
+//            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "mapItem")
+//                               ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "mapItem")
+//
+//            annotationView.annotation = item
+//            annotationView.image = UIImage(named: "annotation")  // Assets에 있는 이미지
+//            annotationView.clusteringIdentifier = "mapItemClustered"
+//
+//            return annotationView
+//
+//        // clustered annotation
+//        } else if let cluster = annotation as? MKClusterAnnotation {
+//            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterView")
+//                            ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "clusterView")
+//
+//            clusterView.annotation = cluster
+//            clusterView.image = UIImage(named: "cluster")  // Assets에 있는 이미지
+//
+//            return nil
+//
+//        } else {
+//            return nil
+//
+//        }
+        
     }
+    
+    // annotation을 클릭했을 때 실행할 내용
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print(#function)
+        
+    }
+    
     
 }
 
@@ -319,9 +383,7 @@ extension MapViewController: UICollectionViewDataSource,
     }
     
     // 각 셀의 사이즈 설정
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: Double?
         
         self.mapViewModel.cellData(at: indexPath.row).title.asObservable()
@@ -340,22 +402,36 @@ extension MapViewController: UICollectionViewDataSource,
     
     // 셀이 선택되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function, "\(indexPath.row)", separator: ", ")
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return }
         
         cell.themeLabel.layer.borderColor = UIColor.black.cgColor
         cell.themeLabel.layer.borderWidth = 1.5
-        print(#function, "\(indexPath.row)", separator: ", ")
+        
+        switch InfoType(rawValue: indexPath.row) {
+        case .park:
+            self.mapView.removeAllAnnotation()
+            
+        case .marked, .walkingStreet, .tourSpot:
+            self.mapView.removeAllAnnotation()
+        case .none:
+            break
+        }
     }
     
     // 셀이 해제되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        print(#function, "\(indexPath.row)", separator: ", ")
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return }
         
         cell.themeLabel.layer.borderColor = UIColor.lightGray.cgColor
         cell.themeLabel.layer.borderWidth = 0.5
-        print(#function, "\(indexPath.row)", separator: ", ")
     }
     
 }
+
+class MeAnnotation: Annotation {}
