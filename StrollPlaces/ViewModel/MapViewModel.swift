@@ -12,13 +12,6 @@ import CoreLocation
 import MapKit
 //import RealmSwift
 
-enum InfoType: Int {
-    case marked = 0
-    case park
-    case walkingStreet
-    case tourSpot
-}
-
 final class MapViewModel {
     
     private var parkData = [Park]()
@@ -45,7 +38,7 @@ final class MapViewModel {
             if let lat = Double(dataArray[index][5]),
                let lon = Double(dataArray[index][6]) {
                 parkData.append(
-                    Park(name: dataArray[index][1], lat: lat, lon: lon)
+                    Park(name: dataArray[index][1], lat: lat, lon: lon, telephoneNumber: "123-456")
                 )
             }
         }

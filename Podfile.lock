@@ -1,6 +1,8 @@
 PODS:
   - AcknowList (3.0.0)
   - Cluster (3.0.3)
+  - "NSObject+Rx (5.2.2)":
+    - RxSwift (~> 6.2)
   - Pulsator (0.6.0)
   - Realm (10.35.0):
     - Realm/Headers (= 10.35.0)
@@ -18,6 +20,7 @@ PODS:
 DEPENDENCIES:
   - AcknowList
   - Cluster
+  - "NSObject+Rx"
   - Pulsator
   - RealmSwift
   - RxCocoa
@@ -28,6 +31,7 @@ SPEC REPOS:
   trunk:
     - AcknowList
     - Cluster
+    - "NSObject+Rx"
     - Pulsator
     - Realm
     - RealmSwift
@@ -39,6 +43,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AcknowList: 931531a3e9d66f202ae8e04819a62c50b818b03e
   Cluster: d72510594f60d901905953aafdc811d1888177ae
+  "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   Pulsator: eb5a9f9be4bdcbd19903984c65deca6aabe50a17
   Realm: e6b04f15a814cb22aae621e7e15f2ccb27ac8f95
   RealmSwift: b358779c10ba6d2648d541f8a1bcd671f73485c1
@@ -47,6 +52,6 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: b659d19325f2bc76caa47599d0404b80f8ff5a86
+PODFILE CHECKSUM: 60cbf7a36cc4f06ae9401b67f80734d5aa7bfa1c
 
 COCOAPODS: 1.11.3

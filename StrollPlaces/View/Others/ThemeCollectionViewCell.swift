@@ -29,7 +29,6 @@ class ThemeCollectionViewCell: UICollectionViewCell {
         backView.layer.shadowRadius = 1
         backView.layer.shadowOffset = CGSize(width: 0, height: 1)
         backView.layer.shadowOpacity = 0.3
-        
     }
 
 }

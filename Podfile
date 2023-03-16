@@ -9,6 +9,7 @@ target 'StrollPlaces' do
   pod 'AcknowList'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'NSObject+Rx'
   pod 'RealmSwift'
   pod 'SnapKit'
   #pod 'FirebaseAnalytics'

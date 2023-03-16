@@ -22,66 +22,67 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="OFK-8x-TzC">
-                                <rect key="frame" x="135.66666666666666" y="721" width="121.99999999999997" height="38"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="OFK-8x-TzC">
+                                <rect key="frame" x="343" y="344" width="40" height="140"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzX-wW-SHy">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="38"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="fi7-Bg-eR1"/>
+                                            <constraint firstAttribute="width" secondItem="mzX-wW-SHy" secondAttribute="height" multiplier="1:1" id="zKt-zu-c2T"/>
+                                        </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="+">
-                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
+                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="24"/>
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z23-BU-D22">
-                                        <rect key="frame" x="41" y="0.0" width="40" height="38"/>
+                                        <rect key="frame" x="0.0" y="50" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Z23-BU-D22" secondAttribute="height" multiplier="1:1" id="FdE-Jl-Qu5"/>
+                                            <constraint firstAttribute="width" constant="40" id="fD8-7k-eZg"/>
+                                        </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="-">
-                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
+                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="24"/>
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAh-NZ-ant">
-                                        <rect key="frame" x="82" y="0.0" width="40" height="38"/>
+                                        <rect key="frame" x="0.0" y="100" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="PAh-NZ-ant" secondAttribute="height" multiplier="1:1" id="JE9-bF-mM4"/>
+                                            <constraint firstAttribute="width" constant="40" id="MTJ-To-3gE"/>
+                                        </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="dot.circle.viewfinder" catalog="system" title=""/>
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="122" id="cOX-IL-wlb"/>
+                                    <constraint firstAttribute="width" constant="40" id="cOX-IL-wlb"/>
                                 </constraints>
                             </stackView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Crr-1z-Sm1">
-                                <rect key="frame" x="32" y="662" width="329" height="32"/>
-                                <segments>
-                                    <segment title="Count"/>
-                                    <segment title="Count + Image"/>
-                                    <segment title="Image"/>
-                                </segments>
-                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="OFK-8x-TzC" firstAttribute="top" secondItem="Crr-1z-Sm1" secondAttribute="bottom" constant="28" id="1P9-ZX-FWQ"/>
+                            <constraint firstItem="OFK-8x-TzC" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="6Qx-fK-3Hz"/>
                             <constraint firstItem="xB8-kg-qIR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="EsJ-K6-P8t"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xB8-kg-qIR" secondAttribute="trailing" id="Ntg-or-UcY"/>
-                            <constraint firstItem="Crr-1z-Sm1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O6P-o9-nfv"/>
                             <constraint firstItem="xB8-kg-qIR" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gWb-gA-zHt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xB8-kg-qIR" secondAttribute="bottom" id="i6P-jt-N40"/>
-                            <constraint firstItem="OFK-8x-TzC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uSn-CD-V95"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OFK-8x-TzC" secondAttribute="bottom" constant="10" id="y1U-eC-kDr"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OFK-8x-TzC" secondAttribute="trailing" constant="10" id="qZI-ZX-uSy"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="위치" image="location.magnifyingglass" catalog="system" id="WWD-gX-N9T"/>
                     <connections>
                         <outlet property="currentLocationButton" destination="PAh-NZ-ant" id="bUZ-B4-cfx"/>
                         <outlet property="mapView" destination="xB8-kg-qIR" id="Qfi-tl-0Lq"/>
-                        <outlet property="segmentedControl" destination="Crr-1z-Sm1" id="biZ-QQ-Q0A"/>
                         <outlet property="zoomInButton" destination="mzX-wW-SHy" id="hkK-ZQ-jlj"/>
                         <outlet property="zoomOutButton" destination="Z23-BU-D22" id="hSN-dW-X8T"/>
                     </connections>
@@ -89,6 +90,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="910.68702290076328" y="-687.32394366197184"/>
+        </scene>
+        <!--상세정보-->
+        <scene sceneID="4IT-a8-ndO">
+            <objects>
+                <viewController storyboardIdentifier="DetailModalViewController" id="EJA-4o-ZBp" customClass="DetailModalViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FjM-If-tf8">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6U-Oa-bFQ" userLabel="Name Label">
+                                <rect key="frame" x="179.33333333333334" y="414" width="34.666666666666657" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFS-gM-mXL">
+                                <rect key="frame" x="175.66666666666666" y="483.33333333333331" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QXh-ot-D41"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="IFS-gM-mXL" firstAttribute="centerX" secondItem="FjM-If-tf8" secondAttribute="centerX" id="W4h-vj-nQ1"/>
+                            <constraint firstItem="IFS-gM-mXL" firstAttribute="top" secondItem="G6U-Oa-bFQ" secondAttribute="bottom" constant="45.333333333333314" id="bcF-b0-JV2"/>
+                            <constraint firstItem="G6U-Oa-bFQ" firstAttribute="centerY" secondItem="FjM-If-tf8" secondAttribute="centerY" id="cM7-xn-6A5"/>
+                            <constraint firstItem="G6U-Oa-bFQ" firstAttribute="centerX" secondItem="FjM-If-tf8" secondAttribute="centerX" id="ocO-fB-eYK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="상세정보" id="z0J-tI-ZjC"/>
+                    <connections>
+                        <outlet property="nameLabel" destination="G6U-Oa-bFQ" id="u9d-dO-yAl"/>
+                        <outlet property="phoneNumberLabel" destination="IFS-gM-mXL" id="O9T-Z6-Gd9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vsf-E2-GbT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1837" y="-687"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Kir-PQ-QvM">
@@ -146,7 +187,9 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oa1-al-IFu">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="KpV-vH-dHh"/>

@@ -32,7 +32,7 @@ class TabBarController: UITabBarController {
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         }
         
-        tabBar.tintColor = .label
+        
         
         /*
         // 수익계산 탭 (홈)
