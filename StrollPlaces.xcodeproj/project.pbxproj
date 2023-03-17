@@ -26,14 +26,12 @@
 		0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCC929BF596E006AB70D /* MapViewController.swift */; };
 		0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */; };
 		0799CCCE29BF5980006AB70D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCCD29BF5980006AB70D /* SettingViewController.swift */; };
-		0799CCD329BF59C0006AB70D /* Park.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCD229BF59C0006AB70D /* Park.swift */; };
+		0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCD229BF59C0006AB70D /* PublicData.swift */; };
 		0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */; };
 		0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */; };
 		0799CCDB29BF5A6F006AB70D /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDA29BF5A6F006AB70D /* K.swift */; };
 		0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDC29BF5D02006AB70D /* MapViewModel.swift */; };
 		0799CCDF29BF5D5D006AB70D /* ThemeCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDE29BF5D5D006AB70D /* ThemeCollectionViewModel.swift */; };
-		0799CCE229BF61FC006AB70D /* WalkingSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE129BF61FC006AB70D /* WalkingSpot.swift */; };
-		0799CCE429BF6204006AB70D /* TourSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE329BF6204006AB70D /* TourSpot.swift */; };
 		0799CCE729BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */; };
 		0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */; };
 		0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE929BF65A9006AB70D /* MKMapView.swift */; };
@@ -88,14 +86,12 @@
 		0799CCC929BF596E006AB70D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceViewController.swift; sourceTree = "<group>"; };
 		0799CCCD29BF5980006AB70D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		0799CCD229BF59C0006AB70D /* Park.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Park.swift; sourceTree = "<group>"; };
+		0799CCD229BF59C0006AB70D /* PublicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicData.swift; sourceTree = "<group>"; };
 		0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCollectionViewCell.swift; sourceTree = "<group>"; };
 		0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeCollectionViewCell.xib; sourceTree = "<group>"; };
 		0799CCDA29BF5A6F006AB70D /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		0799CCDC29BF5D02006AB70D /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		0799CCDE29BF5D5D006AB70D /* ThemeCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCollectionViewModel.swift; sourceTree = "<group>"; };
-		0799CCE129BF61FC006AB70D /* WalkingSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkingSpot.swift; sourceTree = "<group>"; };
-		0799CCE329BF6204006AB70D /* TourSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSpot.swift; sourceTree = "<group>"; };
 		0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaTourSpotData_qc_20230312.csv; sourceTree = "<group>"; };
 		0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaParkData_qc_20230312.csv; sourceTree = "<group>"; };
 		0799CCE929BF65A9006AB70D /* MKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
@@ -170,9 +166,7 @@
 				0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */,
 				0799CC9529BF584B006AB70D /* AppDelegate.swift */,
 				0799CC9729BF584B006AB70D /* SceneDelegate.swift */,
-				0799CC9B29BF584B006AB70D /* Main.storyboard */,
 				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
-				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
 				0799CCA329BF584C006AB70D /* Info.plist */,
 				0799CCD929BF5A62006AB70D /* Extension */,
 				0799CCD829BF5A5E006AB70D /* Helper */,
@@ -203,6 +197,8 @@
 		0799CCC529BF5941006AB70D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0799CC9B29BF584B006AB70D /* Main.storyboard */,
+				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
 				0799CCC629BF5947006AB70D /* Controller */,
 				0799CCCF29BF5987006AB70D /* Others */,
 			);
@@ -245,9 +241,7 @@
 		0799CCD129BF59A0006AB70D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0799CCD229BF59C0006AB70D /* Park.swift */,
-				0799CCE129BF61FC006AB70D /* WalkingSpot.swift */,
-				0799CCE329BF6204006AB70D /* TourSpot.swift */,
+				0799CCD229BF59C0006AB70D /* PublicData.swift */,
 				07AFB59029C012A600DD1C34 /* SettingCellData.swift */,
 				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
 			);
@@ -544,9 +538,8 @@
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
 				072D5BBC29C301890024B938 /* DetailModalViewController.swift in Sources */,
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
-				0799CCE429BF6204006AB70D /* TourSpot.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
-				0799CCD329BF59C0006AB70D /* Park.swift in Sources */,
+				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				07987ED429C0B5BE004B87F0 /* MapItem.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
@@ -562,7 +555,6 @@
 				07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* SettingViewController.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,
-				0799CCE229BF61FC006AB70D /* WalkingSpot.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);

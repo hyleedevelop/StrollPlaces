@@ -82,12 +82,11 @@ extension MapViewController: UICollectionViewDataSource,
         switch InfoType(rawValue: indexPath.row) {
         case .park:
             if !self.isParkMapped {
-                self.mapView.removeAllAnnotation()
                 self.addAnnotations(with: .park)
             }
-        case .marked, .walkingStreet, .tourSpot:
-            self.mapView.removeAllAnnotation()
+        case .marked, .strollWay, .tourSpot:
             self.isParkMapped = false
+            self.removeAnnotations()
         case .none:
             break
         }
@@ -191,7 +190,11 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        if let location = locations.last {
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            print(#function, latitude, longitude, separator: ", ")
+        }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

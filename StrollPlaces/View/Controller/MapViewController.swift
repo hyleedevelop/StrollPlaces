@@ -73,7 +73,8 @@ final class MapViewController: UIViewController {
         return CLLocation(latitude: latitude, longitude: longitude)
     }
     
-    // 지도 관련
+    // 지도 및 CSV데이터 관련
+    var dataArray = [PublicData]()
     var annotationArray = [Annotation]()
     let region = (
         center: CLLocationCoordinate2D(latitude: K.Map.southKoreaCenterLatitude,
@@ -115,6 +116,8 @@ final class MapViewController: UIViewController {
         // 사용자 위치 표시 관련 설정
         self.mapView.showsUserLocation = true
         self.mapView.userTrackingMode = .follow
+        self.locationManager.allowsBackgroundLocationUpdates = true
+        self.locationManager.delegate = self
         
         // 컴퍼스 관련 설정
         self.mapView.showsCompass = false
@@ -246,37 +249,45 @@ final class MapViewController: UIViewController {
     
     // annotation cluster 설정
     internal func addAnnotations(with type: InfoType) {
-//        mapView.removeAnnotations(mapView.annotations)
-        var annotations = [Annotation]()
-
-        switch type {
-            
-        case .park:
-            let dataArray = mapViewModel.getParkInfo()
-            annotations = (1..<dataArray.count-1).map { index in
-                let annotation = Annotation()
-                if let lat = dataArray[index].lat,
-                   let lon = dataArray[index].lon {
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                    annotation.title = dataArray[index].name ?? "정보 없음"
-                    annotation.subtitle = dataArray[index].telephoneNumber ?? "정보 없음"
-                }
-                return annotation
+        // 이 함수를 최초로 호출할 때(앱 최초 실행 시)만 데이터 불러오기
+        if dataArray.count == 0 {
+            dataArray = mapViewModel.getPublicData()
+        }
+        
+        self.clusterManager.remove(annotationArray)
+        annotationArray.removeAll()
+        annotationArray = (0..<self.dataArray.count).map { index in
+            let annotation = Annotation()
+            if let lat = self.dataArray[index].lat,
+               let lon = self.dataArray[index].lon {
+                annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                annotation.title = self.dataArray[index].name
+                annotation.subtitle = "\(self.dataArray[index].infoType.rawValue)"
             }
+            return annotation
+        }
+        
+        print(self.dataArray.count)
+        switch type {
+        case .marked:
+            break
+        case .park:
             isParkMapped = true
-
-        case .marked, .walkingStreet, .tourSpot:
+            self.clusterManager.add(annotationArray.filter { $0.subtitle == "1" })
+        case .strollWay:
+            break
+        case .tourSpot:
             break
         }
         
-        clusterManager.add(annotations)
-        clusterManager.reload(mapView: self.mapView)
+        self.clusterManager.reload(mapView: self.mapView)
         
     }
     
     internal func removeAnnotations() {
-        clusterManager.removeAll()
-        clusterManager.reload(mapView: self.mapView)
+        self.clusterManager.remove(annotationArray)
+        self.clusterManager.reload(mapView: self.mapView)
+        self.annotationArray.removeAll()
     }
 
 }

@@ -12,6 +12,6 @@ enum Selection: Int {
 }
 
 enum InfoType: Int {
-    case marked, park, walkingStreet, tourSpot
+    case marked, park, strollWay, tourSpot
 }
 

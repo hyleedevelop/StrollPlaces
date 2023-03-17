@@ -33,6 +33,8 @@ struct K {
         static let southKoreaCenterLocation = CLLocation(latitude: southKoreaCenterLatitude,
                                                          longitude: southKoreaCenterLongitude)
         static let seoulLocation = CLLocation(latitude: 37.535545, longitude: 126.983683)
+    
+        static let noDataMessage: String = "정보없음"
     }
     
     // CollectionView 관련
