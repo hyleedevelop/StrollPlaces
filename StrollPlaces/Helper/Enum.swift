@@ -11,7 +11,7 @@ enum Selection: Int {
     case count, imageCount, image
 }
 
-enum InfoType: Int {
+enum InfoType: Int, CaseIterable {
     case marked, park, strollWay, tourSpot
 }
 

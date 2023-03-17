@@ -44,6 +44,7 @@ final class MapViewController: UIViewController {
     }()
     
     // Rx 관련
+    let annotationColorSubject = PublishSubject<UIColor>()
 //    internal let placeNameSubject = PublishSubject<String>()
 //    var placeName: Observable<String> {
 //        return placeNameSubject.asObservable()
@@ -81,9 +82,10 @@ final class MapViewController: UIViewController {
                                        longitude: K.Map.southKoreaCenterLongitude),
         delta: 2.0
     )
+    var annotationColor: UIColor!
     
     // 매핑 여부
-    var isParkMapped: Bool = false
+    var isMarked = [Bool](repeating: false, count: InfoType.allCases.count)
     
     //MARK: - drawing cycle
     
@@ -140,7 +142,7 @@ final class MapViewController: UIViewController {
         self.themeButtonCollectionView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(1)
             $0.left.right.equalTo(self.mapView.safeAreaLayoutGuide)
-            $0.height.equalTo(40)
+            $0.height.equalTo(50)
         }
         
         self.themeButtonCollectionView.delegate = self
@@ -267,21 +269,11 @@ final class MapViewController: UIViewController {
             return annotation
         }
         
-        print(self.dataArray.count)
-        switch type {
-        case .marked:
-            break
-        case .park:
-            isParkMapped = true
-            self.clusterManager.add(annotationArray.filter { $0.subtitle == "1" })
-        case .strollWay:
-            break
-        case .tourSpot:
-            break
-        }
+        //print(annotationArray.count)
         
+        self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
         self.clusterManager.reload(mapView: self.mapView)
-        
+        isMarked[type.rawValue] = true
     }
     
     internal func removeAnnotations() {

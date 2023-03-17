@@ -20,7 +20,7 @@ class CountClusterAnnotationView: ClusterAnnotationView {
         self.frame.size = CGSize(width: diameter, height: diameter)
         self.layer.cornerRadius = self.frame.width / 2
         self.layer.masksToBounds = true
-        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.borderColor = K.Map.themeColor[3].cgColor
         self.layer.borderWidth = 1.5
     }
 

@@ -11,7 +11,7 @@ import CoreLocation
 struct K {
     // CSV 파일 관련
     static let parkCSV: String = "SouthKoreaParkData_qc_20230312"
-    static let walkingStreetCSV: String = "SouthKoreaWalkingStreetData_qc_20230312"
+    static let strollWayCSV: String = "SouthKoreaStrollWayData_qc_20230312"
     static let tourSpotCSV: String = "SouthKoreaTourSpotData_qc_20230312"
     
     static let parkURL: String =
@@ -35,6 +35,8 @@ struct K {
         static let seoulLocation = CLLocation(latitude: 37.535545, longitude: 126.983683)
     
         static let noDataMessage: String = "정보없음"
+        
+        static var themeColor: [UIColor] = [#colorLiteral(red: 0.2846682966, green: 0.3880401254, blue: 0.336489141, alpha: 1), #colorLiteral(red: 0.3058823529, green: 0.4235294118, blue: 0.3137254902, alpha: 1), #colorLiteral(red: 0.6666666667, green: 0.5450980392, blue: 0.337254902, alpha: 1), #colorLiteral(red: 0.9411764706, green: 0.9215686275, blue: 0.8078431373, alpha: 1)]
     }
     
     // CollectionView 관련

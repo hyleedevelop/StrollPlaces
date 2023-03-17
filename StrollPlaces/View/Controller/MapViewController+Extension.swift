@@ -71,24 +71,20 @@ extension MapViewController: UICollectionViewDataSource,
     
     // 셀이 선택되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function, "\(indexPath.row)", separator: ", ")
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return }
         
         cell.themeLabel.layer.borderColor = UIColor.black.cgColor
         cell.themeLabel.layer.borderWidth = 1.5
         
-        switch InfoType(rawValue: indexPath.row) {
-        case .park:
-            if !self.isParkMapped {
-                self.addAnnotations(with: .park)
-            }
-        case .marked, .strollWay, .tourSpot:
-            self.isParkMapped = false
-            self.removeAnnotations()
-        case .none:
-            break
+        self.removeAnnotations()
+        isMarked[InfoType.marked.rawValue] = false
+        isMarked[InfoType.park.rawValue] = false
+        isMarked[InfoType.strollWay.rawValue] = false
+        isMarked[InfoType.tourSpot.rawValue] = false
+        
+        if !self.isMarked[indexPath.row] {
+            self.addAnnotations(with: InfoType(rawValue: indexPath.row)!)
         }
     }
     
@@ -179,7 +175,7 @@ extension MapViewController: MKMapViewDelegate {
         } else {
             let identifier = "Pin"
             let annotationView = mapView.annotationView(of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
-            annotationView.pinTintColor = UIColor.brown
+            annotationView.pinTintColor = K.Map.themeColor[1]
             return annotationView
             
         }
@@ -230,6 +226,13 @@ extension MapViewController: MKMapViewDelegate {
             // 데이터를 전달하고 화면을 전환시키기
             guard let modalVC = storyboard?.instantiateViewController(withIdentifier: "DetailModalViewController") as? DetailModalViewController else { return }
             
+            let latitude = annotation.coordinate.latitude
+            let longitude = annotation.coordinate.longitude
+            self.mapView.centerToLocation(
+                location: CLLocation(latitude: latitude, longitude: longitude),
+                regionRadius: 1.0.km
+            )
+            
             modalVC.name = annotation.title ?? "정보 없음"
             modalVC.phoneNumber = annotation.subtitle ?? "정보 없음"
             
@@ -246,13 +249,6 @@ extension MapViewController: MKMapViewDelegate {
                 sheet.preferredCornerRadius = 25
                 sheet.prefersGrabberVisible = true
             }
-            let latitude = annotation.coordinate.latitude
-            let longitude = annotation.coordinate.longitude
-            
-            self.mapView.centerToLocation(
-                location: CLLocation(latitude: latitude, longitude: longitude),
-                regionRadius: 1.0.km
-            )
             
             if annotation.title != "My Location" {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -264,10 +260,10 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-        views.forEach { $0.alpha = 0 }
-        UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
-            views.forEach { $0.alpha = 1 }
-        })
+//        views.forEach { $0.alpha = 0 }
+//        UIView.animate(withDuration: 0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
+//            views.forEach { $0.alpha = 1 }
+//        })
     }
     
 }
@@ -280,11 +276,11 @@ extension MKMapView {
         switch selection {
         case .count:
             let annotationView = self.annotationView(of: CountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView.countLabel.backgroundColor = UIColor.brown
+            annotationView.countLabel.backgroundColor = K.Map.themeColor[0]
             return annotationView
         case .imageCount:
             let annotationView = self.annotationView(of: ImageCountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView.countLabel.textColor = UIColor.brown
+            annotationView.countLabel.textColor = K.Map.themeColor[0]
             annotationView.image = .pin2
             return annotationView
         case .image:

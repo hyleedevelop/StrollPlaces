@@ -23,22 +23,14 @@ final class MapViewModel {
     
     func getPublicData() -> [PublicData] {
         loadParkData()
-        //loadStrollWayData()
-        //loadTourSpotData()
+        loadStrollWayData()
+        loadTourSpotData()
         return publicData
     }
     
     /* ViewController에게 공원 정보 넘겨주기 */
     private func loadParkData() {
-        // CSV 파일 위치 가져오기
-        guard let path = Bundle.main.path(forResource: K.parkCSV, ofType: "csv") else {
-            fatalError("[ERROR] Unable to find the path of csv file")
-        }
-
-        // CVS 파일에서 데이터 가져오기
-        guard let dataArray = fetchFromCSV(url: URL(fileURLWithPath: path)) else {
-            fatalError("[ERROR] Unable to fetch csv file")
-        }
+        guard let dataArray = openDataFile(file: K.parkCSV) else { return }
         
         // 데이터를 Park 구조체에 넣기
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
@@ -58,9 +50,9 @@ final class MapViewModel {
                     }
                 }
                 // 주변시설
-                #warning("코드 구현 필요")
                 var infra: String {
-                    let mergedString = dataArray[index][8]
+                    #warning("코드 구현 필요")
+                    //let mergedString = dataArray[index][8]
                     return K.Map.noDataMessage
                 }
                 // 관리기관
@@ -87,14 +79,105 @@ final class MapViewModel {
     //MARK: - 산책로 데이터 로드
     
     private func loadStrollWayData() {
-        
+        guard let dataArray = openDataFile(file: K.strollWayCSV) else { return }
+
+        // 데이터를 Park 구조체에 넣기
+        for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
+            if let latitude = Double(dataArray[index][14]),
+               let longitude = Double(dataArray[index][15]) {
+
+                // 이름
+                var name: String {
+                    if dataArray[index][1] == dataArray[index][2] {
+                        return dataArray[index][1]
+                    } else if (dataArray[index][1].count + dataArray[index][2].count) == 0 {
+                        return K.Map.noDataMessage
+                    } else {
+                        return "\(dataArray[index][1])(\(dataArray[index][2]))"
+                    }
+                }
+                #warning("여기까지 작업 완료")
+                // 카테고리
+                let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                // 주소(도로명주소 우선, 없을 시 지번주소, 둘다 없을 시 정보 없음)
+                var address: String {
+                    if (dataArray[index][3].count + dataArray[index][4].count) == 0 {
+                        return K.Map.noDataMessage
+                    } else {
+                        return dataArray[index][3].count != 0 ? dataArray[index][3] : dataArray[index][4]
+                    }
+                }
+                // 주변시설
+                var infra: String {
+                    //let mergedString = dataArray[index][8]
+                    return K.Map.noDataMessage
+                }
+                // 관리기관
+                let organization: String = dataArray[index][10].count != 0 ? dataArray[index][10] : K.Map.noDataMessage
+                // 관리기관 전화번호
+                let telephoneNumber: String = dataArray[index][11].count != 0 ? dataArray[index][11] : K.Map.noDataMessage
+
+                publicData.append(
+                    PublicData(infoType: .strollWay,
+                               name: name,
+                               category: category,
+                               address: address,
+                               lat: latitude,
+                               lon: longitude,
+                               infra: infra,
+                               organization: organization,
+                               telephoneNumber: telephoneNumber)
+                )
+            }
+        }
     }
     
     
     //MARK: - 지역명소 데이터 로드
 
     private func loadTourSpotData() {
-        
+        guard let dataArray = openDataFile(file: K.tourSpotCSV) else { return }
+
+        // 데이터를 Park 구조체에 넣기
+        for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
+            if let latitude = Double(dataArray[index][4]),
+               let longitude = Double(dataArray[index][5]) {
+                // 이름
+                let name: String = dataArray[index][0].count != 0 ? dataArray[index][0] : K.Map.noDataMessage
+                #warning("여기까지 작업 완료")
+                // 카테고리
+                let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                // 주소(도로명주소 우선, 없을 시 지번주소, 둘다 없을 시 정보 없음)
+                var address: String {
+                    if (dataArray[index][3].count + dataArray[index][4].count) == 0 {
+                        return K.Map.noDataMessage
+                    } else {
+                        return dataArray[index][3].count != 0 ? dataArray[index][3] : dataArray[index][4]
+                    }
+                }
+                // 주변시설
+                var infra: String {
+                    //let mergedString = dataArray[index][8]
+                    return K.Map.noDataMessage
+                }
+                // 관리기관
+                let organization: String = dataArray[index][10].count != 0 ? dataArray[index][10] : K.Map.noDataMessage
+                // 관리기관 전화번호
+                let telephoneNumber: String = dataArray[index][11].count != 0 ? dataArray[index][11] : K.Map.noDataMessage
+
+                publicData.append(
+                    PublicData(infoType: .tourSpot,
+                               name: name,
+                               category: category,
+                               address: address,
+                               lat: latitude,
+                               lon: longitude,
+                               infra: infra,
+                               organization: organization,
+                               telephoneNumber: telephoneNumber)
+                )
+            }
+        }
     }
     
     
@@ -106,7 +189,9 @@ final class MapViewModel {
             let data = try Data(contentsOf: url)
             let dataEncoded = String(data: data, encoding: .utf8)
             
-            if let dataArray = dataEncoded?.components(separatedBy: "\n").map({$0.components(separatedBy: ",")}) {
+            if let dataArray = dataEncoded?
+                .components(separatedBy: "\n")
+                .map({$0.components(separatedBy: ",")}) {
                 return dataArray
             } else {
                 return nil
@@ -115,6 +200,20 @@ final class MapViewModel {
             print("[ERROR] Unable to load csv file")
             return nil
         }
+    }
+    
+    private func openDataFile(file: String) -> [[String]]? {
+        // CSV 파일 위치 가져오기
+        guard let path = Bundle.main.path(forResource: file, ofType: "csv") else {
+            fatalError("[ERROR] Unable to find the path of csv file")
+        }
+
+        // CVS 파일에서 데이터 가져오기
+        guard let dataArray = fetchFromCSV(url: URL(fileURLWithPath: path)) else {
+            fatalError("[ERROR] Unable to fetch csv file")
+        }
+        
+        return dataArray
     }
     
     //MARK: - UICollectionView 관련

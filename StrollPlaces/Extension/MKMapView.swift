@@ -100,6 +100,4 @@ extension MKMapView {
         return annotationView
     }
     
-    
-    
 }
