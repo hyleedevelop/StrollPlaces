@@ -10,16 +10,12 @@ import CoreLocation
 
 struct K {
     // CSV 파일 관련
-    static let parkCSV: String = "SouthKoreaParkData_qc_20230312"
-    static let strollWayCSV: String = "SouthKoreaStrollWayData_qc_20230312"
-    static let tourSpotCSV: String = "SouthKoreaTourSpotData_qc_20230312"
-    
-    static let parkURL: String =
-    "http://api.data.go.kr/openapi/tn_pubr_public_cty_park_info_api" +
-    "?serviceKey=0cTu6h50N7kXJjKS32%2B%2FWwpVe4PvV%2FyNSrM6UlxNM7wi8RwY9y7YJzCPDnm47NWEaeo7mRB5z06vbNPIQ3qV0Q%3D%3D" +
-    "&pageNo=0&numOfRows=100&type=xml"
-    
-    static let streetURL: String = ""
+    struct CSV {
+        static let parkData: String = "SouthKoreaParkData_qc_20230312"
+        static let strollWayData: String = "SouthKoreaStrollWayData_qc_20230312"
+        static let recreationForestData: String = "SouthKoreaRecreationForestData_qc_20230312"
+        static let tourSpotData: String = "SouthKoreaTourSpotData_qc_20230312"
+    }
     
     // Mapkit, CoreLocation 관련
     struct Map {
@@ -42,13 +38,20 @@ struct K {
     // CollectionView 관련
     struct ThemeCV {
         static let cellName: String = "ThemeCollectionViewCell"
-        static let spacingWidth: CGFloat = 0
+        static let spacingWidth: CGFloat = 5
         static let spacingHeight: CGFloat = 0
         static let leadingSpacing: CGFloat = (spacingWidth + spacingHeight) * 2
         static let trailingSpacing: CGFloat = (spacingWidth + spacingHeight) * 2
         static let cellColumns: CGFloat = 3
         static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
-        static let cellHeight: CGFloat = 34
+        static let cellHeight: CGFloat = 35
+    }
+    
+    // DetailView 관련
+    struct DetailView {
+        static let slideViewHeight: CGFloat = 350
+        static let cornerRadiusOfSlideView: CGFloat = 20
+        static let animationTime: CGFloat = 0.3
     }
     
     // 메세지 관련

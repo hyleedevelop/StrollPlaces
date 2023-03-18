@@ -10,7 +10,11 @@ import UIKit
 class ThemeCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var themeIcon: UIImageView!
-    @IBOutlet weak var themeLabel: UILabel!
+    @IBOutlet weak var themeLabel: UILabel! {
+        didSet {
+            updateUI(with: themeLabel)
+        }
+    }
     @IBOutlet weak var backView: UIView!
     
     override func awakeFromNib() {
@@ -31,4 +35,8 @@ class ThemeCollectionViewCell: UICollectionViewCell {
         backView.layer.shadowOpacity = 0.3
     }
 
+    private func updateUI(with sender: AnyObject) {
+        
+    }
+    
 }

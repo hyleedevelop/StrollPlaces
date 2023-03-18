@@ -28,6 +28,8 @@ final class MapViewController: UIViewController {
                                         longitudinalMeters: region.delta)
         }
     }
+    internal let detailView = DetailView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    @IBOutlet weak var showDetailViewButton: UIButton!
     
     //MARK: - property
     
@@ -84,8 +86,14 @@ final class MapViewController: UIViewController {
     )
     var annotationColor: UIColor!
     
-    // 매핑 여부
-    var isMarked = [Bool](repeating: false, count: InfoType.allCases.count)
+    // annotation의 지도 표시 여부
+    var isAnnotationMarked = [Bool](repeating: false, count: InfoType.allCases.count)
+    
+    // DetailView 관련
+    let blackView = UIView()
+    let animationTime = K.DetailView.animationTime
+    var originalCenterOfslideUpView = CGFloat()
+    var totalDistance = CGFloat()
     
     //MARK: - drawing cycle
     
@@ -99,6 +107,8 @@ final class MapViewController: UIViewController {
         
         moveToCurrentLocation()
         addAnnotations(with: .park)
+        
+        setupDetailView()
     }
     
     //MARK: - method
@@ -140,22 +150,15 @@ final class MapViewController: UIViewController {
         self.mapView.addSubview(self.themeButtonCollectionView)
         
         self.themeButtonCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(1)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(0)
             $0.left.right.equalTo(self.mapView.safeAreaLayoutGuide)
-            $0.height.equalTo(50)
+            $0.height.equalTo(K.ThemeCV.cellHeight)
         }
         
         self.themeButtonCollectionView.delegate = self
         self.themeButtonCollectionView.dataSource = self
         
-        let themeCell: [ThemeCellData] = [
-            ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
-            ThemeCellData(icon: UIImage(systemName: "tree.fill")!, title: "공원"),
-            ThemeCellData(icon: UIImage(systemName: "road.lanes")!, title: "산책로"),
-            ThemeCellData(icon: UIImage(systemName: "triangle.fill")!, title: "지역명소")
-        ]
-        
-        self.mapViewModel = MapViewModel(themeCell)
+        self.mapViewModel = MapViewModel()  // 셀의 초기화가 진행되는 시점
     }
     
     // map controll button 설정
@@ -201,6 +204,7 @@ final class MapViewController: UIViewController {
         
         // "줌인" 버튼을 눌렀을 때
         self.zoomInButton.rx.controlEvent(.touchUpInside).asObservable()
+            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.mapView.zoomLevel += 1
@@ -209,6 +213,7 @@ final class MapViewController: UIViewController {
         
         // "줌아웃" 버튼을 눌렀을 때
         self.zoomOutButton.rx.controlEvent(.touchUpInside).asObservable()
+            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.mapView.zoomLevel -= 2
@@ -217,9 +222,10 @@ final class MapViewController: UIViewController {
         
         // "현재위치로 이동하기" 버튼을 눌렀을 때
         self.currentLocationButton.rx.controlEvent(.touchUpInside).asObservable()
+            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 500.m)
+                self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 1.km)
             })
             .disposed(by: rx.disposeBag)
     }
@@ -269,11 +275,9 @@ final class MapViewController: UIViewController {
             return annotation
         }
         
-        //print(annotationArray.count)
-        
         self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
         self.clusterManager.reload(mapView: self.mapView)
-        isMarked[type.rawValue] = true
+        isAnnotationMarked[type.rawValue] = true
     }
     
     internal func removeAnnotations() {
@@ -283,6 +287,5 @@ final class MapViewController: UIViewController {
     }
 
 }
-
 
 class MeAnnotation: Annotation {}

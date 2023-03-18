@@ -91,46 +91,6 @@
             </objects>
             <point key="canvasLocation" x="910.68702290076328" y="-687.32394366197184"/>
         </scene>
-        <!--상세정보-->
-        <scene sceneID="4IT-a8-ndO">
-            <objects>
-                <viewController storyboardIdentifier="DetailModalViewController" id="EJA-4o-ZBp" customClass="DetailModalViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="FjM-If-tf8">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6U-Oa-bFQ" userLabel="Name Label">
-                                <rect key="frame" x="179.33333333333334" y="414" width="34.666666666666657" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFS-gM-mXL">
-                                <rect key="frame" x="175.66666666666666" y="483.33333333333331" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="QXh-ot-D41"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="IFS-gM-mXL" firstAttribute="centerX" secondItem="FjM-If-tf8" secondAttribute="centerX" id="W4h-vj-nQ1"/>
-                            <constraint firstItem="IFS-gM-mXL" firstAttribute="top" secondItem="G6U-Oa-bFQ" secondAttribute="bottom" constant="45.333333333333314" id="bcF-b0-JV2"/>
-                            <constraint firstItem="G6U-Oa-bFQ" firstAttribute="centerY" secondItem="FjM-If-tf8" secondAttribute="centerY" id="cM7-xn-6A5"/>
-                            <constraint firstItem="G6U-Oa-bFQ" firstAttribute="centerX" secondItem="FjM-If-tf8" secondAttribute="centerX" id="ocO-fB-eYK"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="상세정보" id="z0J-tI-ZjC"/>
-                    <connections>
-                        <outlet property="nameLabel" destination="G6U-Oa-bFQ" id="u9d-dO-yAl"/>
-                        <outlet property="phoneNumberLabel" destination="IFS-gM-mXL" id="O9T-Z6-Gd9"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Vsf-E2-GbT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1837" y="-687"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="Kir-PQ-QvM">
             <objects>

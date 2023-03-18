@@ -15,22 +15,21 @@ import MapKit
 final class MapViewModel {
     
     private var publicData = [PublicData]()
-    //private var walkingStreetData = [WalkingStreet]()
-    //private var tourSpotData = [TourSpot]()
-    
     
     //MARK: - 공원 정보 관련
     
+    // PublicData 형식을 가진 데이터를 append
     func getPublicData() -> [PublicData] {
         loadParkData()
         loadStrollWayData()
+        loadRecreationForestData()
         loadTourSpotData()
         return publicData
     }
     
-    /* ViewController에게 공원 정보 넘겨주기 */
+    // 공원 데이터 로드
     private func loadParkData() {
-        guard let dataArray = openDataFile(file: K.parkCSV) else { return }
+        guard let dataArray = openDataFile(file: K.CSV.parkData) else { return }
         
         // 데이터를 Park 구조체에 넣기
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
@@ -76,10 +75,9 @@ final class MapViewModel {
         
     }
     
-    //MARK: - 산책로 데이터 로드
-    
+    // 산책로 데이터 로드
     private func loadStrollWayData() {
-        guard let dataArray = openDataFile(file: K.strollWayCSV) else { return }
+        guard let dataArray = openDataFile(file: K.CSV.strollWayData) else { return }
 
         // 데이터를 Park 구조체에 넣기
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
@@ -131,12 +129,46 @@ final class MapViewModel {
             }
         }
     }
-    
-    
-    //MARK: - 지역명소 데이터 로드
 
+    // 자연휴양림 데이터 로드
+    private func loadRecreationForestData() {
+        guard let dataArray = openDataFile(file: K.CSV.recreationForestData) else { return }
+
+        // 데이터 추가
+        for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
+            if let latitude = Double(dataArray[index][12]),
+               let longitude = Double(dataArray[index][13]) {
+                // 이름
+                let name: String = dataArray[index][0].count != 0 ? dataArray[index][0] : K.Map.noDataMessage
+                // 카테고리
+                let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                // 주소
+                var address: String = dataArray[index][8].count != 0 ? dataArray[index][8] : K.Map.noDataMessage
+                // 주변시설
+                var infra: String = dataArray[index][7].count != 0 ? dataArray[index][7] : K.Map.noDataMessage
+                // 관리기관
+                let organization: String = dataArray[index][9].count != 0 ? dataArray[index][9] : K.Map.noDataMessage
+                // 관리기관 전화번호
+                let telephoneNumber: String = dataArray[index][10].count != 0 ? dataArray[index][10] : K.Map.noDataMessage
+
+                publicData.append(
+                    PublicData(infoType: .recreationForest,
+                               name: name,
+                               category: category,
+                               address: address,
+                               lat: latitude,
+                               lon: longitude,
+                               infra: infra,
+                               organization: organization,
+                               telephoneNumber: telephoneNumber)
+                )
+            }
+        }
+    }
+    
+    // 지역명소 데이터 로드
     private func loadTourSpotData() {
-        guard let dataArray = openDataFile(file: K.tourSpotCSV) else { return }
+        guard let dataArray = openDataFile(file: K.CSV.tourSpotData) else { return }
 
         // 데이터를 Park 구조체에 넣기
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
@@ -180,11 +212,23 @@ final class MapViewModel {
         }
     }
     
+    // CSV 파일 위치 가져오기 및 데이터 담기
+    private func openDataFile(file: String) -> [[String]]? {
+        // CSV 파일 위치 가져오기
+        guard let path = Bundle.main.path(forResource: file, ofType: "csv") else {
+            fatalError("[ERROR] Unable to find the path of csv file")
+        }
+
+        // CVS 파일에서 데이터 가져오기
+        guard let dataArray = parseCSV(url: URL(fileURLWithPath: path)) else {
+            fatalError("[ERROR] Unable to fetch csv file")
+        }
+        
+        return dataArray
+    }
     
-    //MARK: - CSV 읽어오기
-    
-    /* 공원 정보 CSV 파일 로드 및 parsing 수행 */
-    private func fetchFromCSV(url: URL) -> [[String]]? {
+    // CSV parsing 수행
+    private func parseCSV(url: URL) -> [[String]]? {
         do {
             let data = try Data(contentsOf: url)
             let dataEncoded = String(data: data, encoding: .utf8)
@@ -202,27 +246,19 @@ final class MapViewModel {
         }
     }
     
-    private func openDataFile(file: String) -> [[String]]? {
-        // CSV 파일 위치 가져오기
-        guard let path = Bundle.main.path(forResource: file, ofType: "csv") else {
-            fatalError("[ERROR] Unable to find the path of csv file")
-        }
-
-        // CVS 파일에서 데이터 가져오기
-        guard let dataArray = fetchFromCSV(url: URL(fileURLWithPath: path)) else {
-            fatalError("[ERROR] Unable to fetch csv file")
-        }
-        
-        return dataArray
-    }
-    
     //MARK: - UICollectionView 관련
     
     let themeCellViewModel: [ThemeCellViewModel]
     
-    init(_ themeCellViewModel: [ThemeCellData]) {
-        //self.articleVM = articleVM
-        self.themeCellViewModel = themeCellViewModel.compactMap(ThemeCellViewModel.init)
+    init() {
+        let themeCell = [
+            ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
+            ThemeCellData(icon: UIImage(systemName: "tree.fill")!, title: "공원"),
+            ThemeCellData(icon: UIImage(systemName: "road.lanes")!, title: "산책로"),
+            ThemeCellData(icon: UIImage(systemName: "mountain.2.fill")!, title: "자연휴양림"),
+            ThemeCellData(icon: UIImage(systemName: "hand.thumbsup.fill")!, title: "지역명소")
+        ]
+        self.themeCellViewModel = themeCell.compactMap(ThemeCellViewModel.init)
     }
     
     func cellData(at index: Int) -> ThemeCellViewModel {

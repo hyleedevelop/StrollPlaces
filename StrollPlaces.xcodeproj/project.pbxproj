@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */; };
 		072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BB929C2E26A0024B938 /* Enum.swift */; };
-		072D5BBC29C301890024B938 /* DetailModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBB29C301890024B938 /* DetailModalViewController.swift */; };
-		072D5BBE29C304C60024B938 /* MapViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBD29C304C60024B938 /* MapViewController+Extension.swift */; };
+		072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */; };
 		072D5BE229C33B910024B938 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BE129C33B910024B938 /* AnnotationView.swift */; };
 		0751436829C201CD00109B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* UIImage.swift */; };
+		075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */; };
+		075FE43F29C5B56A00A5694C /* MapViewController+DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE43E29C5B56A00A5694C /* MapViewController+DetailView.swift */; };
+		075FE44129C5B63A00A5694C /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* UIView.swift */; };
+		075FE44329C5BD3A00A5694C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44229C5BD3A00A5694C /* DetailView.swift */; };
+		07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
 		0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9529BF584B006AB70D /* AppDelegate.swift */; };
 		0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9729BF584B006AB70D /* SceneDelegate.swift */; };
@@ -31,7 +35,7 @@
 		0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */; };
 		0799CCDB29BF5A6F006AB70D /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDA29BF5A6F006AB70D /* K.swift */; };
 		0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDC29BF5D02006AB70D /* MapViewModel.swift */; };
-		0799CCDF29BF5D5D006AB70D /* ThemeCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDE29BF5D5D006AB70D /* ThemeCollectionViewModel.swift */; };
+		0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */; };
 		0799CCE729BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */; };
 		0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */; };
 		0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE929BF65A9006AB70D /* MKMapView.swift */; };
@@ -65,10 +69,14 @@
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
 		0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230312.csv; sourceTree = "<group>"; };
 		072D5BB929C2E26A0024B938 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
-		072D5BBB29C301890024B938 /* DetailModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModalViewController.swift; sourceTree = "<group>"; };
-		072D5BBD29C304C60024B938 /* MapViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+Extension.swift"; sourceTree = "<group>"; };
+		072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		072D5BE129C33B910024B938 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+Annotation.swift"; sourceTree = "<group>"; };
+		075FE43E29C5B56A00A5694C /* MapViewController+DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+DetailView.swift"; sourceTree = "<group>"; };
+		075FE44029C5B63A00A5694C /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		075FE44229C5BD3A00A5694C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230312.csv; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
 		0799CC9229BF584B006AB70D /* StrollPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrollPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0799CC9529BF584B006AB70D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +99,7 @@
 		0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeCollectionViewCell.xib; sourceTree = "<group>"; };
 		0799CCDA29BF5A6F006AB70D /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		0799CCDC29BF5D02006AB70D /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		0799CCDE29BF5D5D006AB70D /* ThemeCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCollectionViewModel.swift; sourceTree = "<group>"; };
+		0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellViewModel.swift; sourceTree = "<group>"; };
 		0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaTourSpotData_qc_20230312.csv; sourceTree = "<group>"; };
 		0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaParkData_qc_20230312.csv; sourceTree = "<group>"; };
 		0799CCE929BF65A9006AB70D /* MKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
@@ -164,6 +172,7 @@
 			children = (
 				0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */,
 				0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */,
+				07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */,
 				0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */,
 				0799CC9529BF584B006AB70D /* AppDelegate.swift */,
 				0799CC9729BF584B006AB70D /* SceneDelegate.swift */,
@@ -211,8 +220,9 @@
 			children = (
 				0799CCC729BF595C006AB70D /* TabBarController.swift */,
 				0799CCC929BF596E006AB70D /* MapViewController.swift */,
-				072D5BBD29C304C60024B938 /* MapViewController+Extension.swift */,
-				072D5BBB29C301890024B938 /* DetailModalViewController.swift */,
+				072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */,
+				075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */,
+				075FE43E29C5B56A00A5694C /* MapViewController+DetailView.swift */,
 				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
 				0799CCCD29BF5980006AB70D /* SettingViewController.swift */,
 			);
@@ -222,6 +232,7 @@
 		0799CCCF29BF5987006AB70D /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				075FE44229C5BD3A00A5694C /* DetailView.swift */,
 				072D5BE129C33B910024B938 /* AnnotationView.swift */,
 				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
@@ -233,7 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
-				0799CCDE29BF5D5D006AB70D /* ThemeCollectionViewModel.swift */,
+				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
 				07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
@@ -265,6 +276,7 @@
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
 				0751436729C201CD00109B8E /* UIImage.swift */,
+				075FE44029C5B63A00A5694C /* UIView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -406,6 +418,7 @@
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
+				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
 				0799CCE729BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv in Resources */,
 			);
@@ -535,21 +548,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				072D5BBE29C304C60024B938 /* MapViewController+Extension.swift in Sources */,
+				072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */,
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
-				072D5BBC29C301890024B938 /* DetailModalViewController.swift in Sources */,
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
+				075FE43F29C5B56A00A5694C /* MapViewController+DetailView.swift in Sources */,
+				075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
+				075FE44329C5BD3A00A5694C /* DetailView.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
-				0799CCDF29BF5D5D006AB70D /* ThemeCollectionViewModel.swift in Sources */,
+				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
 				0751436829C201CD00109B8E /* UIImage.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
+				075FE44129C5B63A00A5694C /* UIView.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */,
 				072D5BE229C33B910024B938 /* AnnotationView.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */,
