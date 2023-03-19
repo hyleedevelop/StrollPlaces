@@ -2,7 +2,7 @@
 //  DetailView.swift
 //  StrollPlaces
 //
-//  Created by Eric on 2023/03/18.
+//  Created by Eric on 2023/03/19.
 //
 
 import UIKit
@@ -37,8 +37,6 @@ final class DetailView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.backgroundColor = UIColor.white
         
         setupGrabBar()
         setupLabel()
@@ -77,7 +75,7 @@ final class DetailView: UIView {
         tableView.dataSource = self
         
         self.addSubview(tableView)
-        
+
         tableView.snp.makeConstraints {
             $0.top.equalTo(nameLabel).offset(50)
             $0.left.right.equalTo(self.safeAreaLayoutGuide)
@@ -88,7 +86,6 @@ final class DetailView: UIView {
 }
 
 //MARK: - extension for
-
 extension DetailView: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -104,6 +101,7 @@ extension DetailView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         return UITableViewCell()
     }
     

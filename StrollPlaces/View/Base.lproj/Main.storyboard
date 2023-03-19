@@ -91,33 +91,57 @@
             </objects>
             <point key="canvasLocation" x="910.68702290076328" y="-687.32394366197184"/>
         </scene>
-        <!--View Controller-->
+        <!--Place Info View Controller-->
+        <scene sceneID="O7W-ot-PQs">
+            <objects>
+                <viewController storyboardIdentifier="PlaceInfoViewController" id="nUv-GW-jiY" customClass="PlaceInfoViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V1d-MD-r3s">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-w8-D2x" userLabel="containerView">
+                                <rect key="frame" x="0.0" y="109" width="393" height="743"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gQt-4M-YTo" userLabel="grabber">
+                                        <rect key="frame" x="184" y="5" width="25" height="3"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="OZx-nD-mLK"/>
+                                            <constraint firstAttribute="height" constant="3" id="Sgh-y4-r1j"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="gQt-4M-YTo" firstAttribute="top" secondItem="gzl-w8-D2x" secondAttribute="top" constant="5" id="3br-hb-MhV"/>
+                                    <constraint firstItem="gQt-4M-YTo" firstAttribute="centerX" secondItem="gzl-w8-D2x" secondAttribute="centerX" id="GyF-vO-zNz"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vqB-6l-HxY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="gzl-w8-D2x" id="swB-cY-HHF"/>
+                        <outlet property="grabber" destination="gQt-4M-YTo" id="XzN-2p-PFw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EC7-mN-PSk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1835.8778625954199" y="-687.32394366197184"/>
+        </scene>
+        <!--Login View Controller-->
         <scene sceneID="Kir-PQ-QvM">
             <objects>
-                <viewController id="vqc-G5-YU6" sceneMemberID="viewController">
+                <viewController id="vqc-G5-YU6" customClass="LoginViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rg1-AD-98e">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="로그인 화면" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPi-aj-hZT">
-                                <rect key="frame" x="157" y="218" width="78" height="21"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="strollingMan" translatesAutoresizingMaskIntoConstraints="NO" id="yHE-8S-tRA">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aAV-Wd-SAX">
-                                <rect key="frame" x="138" y="509" width="117" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="카카오 로그인"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yjo-HJ-fId">
-                                <rect key="frame" x="138" y="552" width="117" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="네이버 로그인"/>
-                            </button>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="94o-2s-XZo">
                                 <rect key="frame" x="146" y="595" width="102" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -130,26 +154,40 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="애플 로그인"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가벼운산책" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPi-aj-hZT">
+                                <rect key="frame" x="142.33333333333334" y="159" width="108.33333333333334" height="32.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
+                                <color key="textColor" red="0.11160476008197662" green="0.57796717171717171" blue="0.12771628634059518" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="va2-dy-Q4u"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="UPi-aj-hZT" firstAttribute="centerX" secondItem="rg1-AD-98e" secondAttribute="centerX" id="SVg-Bl-hJw"/>
+                            <constraint firstItem="UPi-aj-hZT" firstAttribute="top" secondItem="va2-dy-Q4u" secondAttribute="top" constant="100" id="rqb-lY-cmc"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G1h-x2-cGs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-985" y="-27"/>
+            <point key="canvasLocation" x="-985.49618320610682" y="-27.464788732394368"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="cFd-EL-QAg">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="bQ4-pL-CNo" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oa1-al-IFu">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                    <navigationItem key="navigationItem" id="ybz-ri-Za1"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oa1-al-IFu">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="83"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <tabBarAppearance key="scrollEdgeAppearance">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </tabBarAppearance>
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="KpV-vH-dHh"/>
@@ -170,7 +208,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLE-jA-rGI">
-                                <rect key="frame" x="172" y="414" width="49" height="24"/>
+                                <rect key="frame" x="172" y="645" width="49" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -179,8 +217,8 @@
                         <viewLayoutGuide key="safeArea" id="vmV-vO-e0W"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="uLE-jA-rGI" firstAttribute="centerY" secondItem="agH-6W-KwE" secondAttribute="centerY" id="DaU-7v-PJ8"/>
                             <constraint firstItem="uLE-jA-rGI" firstAttribute="centerX" secondItem="agH-6W-KwE" secondAttribute="centerX" id="Ncx-sh-ToP"/>
+                            <constraint firstItem="vmV-vO-e0W" firstAttribute="bottom" secondItem="uLE-jA-rGI" secondAttribute="bottom" constant="100" id="iJX-uM-ce4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="MY플레이스" id="bDX-om-cPj"/>
@@ -277,6 +315,7 @@
         <image name="figure.walk" catalog="system" width="95" height="128"/>
         <image name="gear" catalog="system" width="128" height="122"/>
         <image name="location.magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="strollingMan" width="1780.5" height="2671"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

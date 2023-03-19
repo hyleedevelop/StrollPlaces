@@ -2,7 +2,7 @@
 //  MapViewController+DetailView.swift
 //  StrollPlaces
 //
-//  Created by Eric on 2023/03/18.
+//  Created by Eric on 2023/03/19.
 //
 
 import UIKit
@@ -20,6 +20,7 @@ extension MapViewController {
                                        y: self.view.bounds.height,
                                        width: self.view.bounds.width,
                                        height: K.DetailView.slideViewHeight)
+        
         self.detailView.layoutIfNeeded()
         self.detailView.addDropShadow(cornerRadius: K.DetailView.cornerRadiusOfSlideView)
         
@@ -72,31 +73,10 @@ extension MapViewController {
             break
         }
         
-    }
-    
-    internal func showDetailView() {
-        print(#function)
-        self.totalDistance = 0
-        self.detailView.frame = CGRect(x: 0,
-                                       y: self.view.bounds.height,
-                                       width: self.view.bounds.width,
-                                       height: K.DetailView.slideViewHeight)
-        
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: self.animationTime, delay: 0.0, options: .curveEaseOut) {
-                //self.blackView.alpha = 0.0
-                self.detailView.backgroundColor = UIColor.white
-                self.detailView.layer.cornerRadius = K.DetailView.cornerRadiusOfSlideView
-                self.detailView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            }
-        }
-        
-        self.detailView.slideUpShow(animationTime)
-        originalCenterOfslideUpView = self.detailView.center.y
+        print(self.isDetailViewHidden ? "Hidden" : "Shown")
     }
     
     @objc private func handleDismiss() {
-        print(#function)
         DispatchQueue.main.async {
             UIView.animate(withDuration: TimeInterval(self.animationTime)) {
 //                self.blackView.alpha = 0
@@ -106,6 +86,30 @@ extension MapViewController {
         }
         
         self.detailView.slideDownHide(self.animationTime)
+        
+        self.isDetailViewHidden = true
+    }
+    
+    internal func showDetailView() {
+        self.totalDistance = 0
+        self.detailView.frame = CGRect(x: 0,
+                                       y: self.view.bounds.height - self.view.safeAreaInsets.bottom,
+                                       width: self.view.bounds.width,
+                                       height: K.DetailView.slideViewHeight)
+        
+        //DispatchQueue.main.async {
+            //UIView.animate(withDuration: self.animationTime, delay: 0.0, options: .curveEaseOut) {
+                //self.blackView.alpha = 0.0
+                self.detailView.backgroundColor = UIColor.white
+                self.detailView.layer.cornerRadius = K.DetailView.cornerRadiusOfSlideView
+                self.detailView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            //}
+        //}
+        
+        self.detailView.slideUpShow(animationTime)
+        originalCenterOfslideUpView = self.detailView.center.y
+        
+        self.isDetailViewHidden = false
     }
     
 }

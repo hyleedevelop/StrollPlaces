@@ -88,7 +88,12 @@ extension MapViewController: MKMapViewDelegate {
         } else {
             let identifier = "Pin"
             let annotationView = mapView.annotationView(of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
-            annotationView.pinTintColor = K.Map.themeColor[1]
+            
+            //annotationView.detailCalloutAccessoryView = self.tempView
+            //annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            //annotationView.canShowCallout = true
+            
+            annotationView.pinTintColor = K.Map.themeColor[2]
             return annotationView
             
         }
@@ -135,16 +140,27 @@ extension MapViewController: MKMapViewDelegate {
 //            print("현재 내 위치")
 //
         // 핀을 선택했을 때
-        } else {
-            //let latitude = annotation.coordinate.latitude
-            //let longitude = annotation.coordinate.longitude
-            //self.mapView.centerToLocation(
-            //    location: CLLocation(latitude: latitude, longitude: longitude),
-            //    regionRadius: 1.0.km
-            //)
+        } else if let pin = annotation as? Annotation {
+            let latitude = annotation.coordinate.latitude
+            let longitude = annotation.coordinate.longitude
+            self.mapView.centerToLocation(
+                location: CLLocation(latitude: latitude, longitude: longitude),
+                regionRadius: 1.0.km
+            )
             
-            self.detailView.nameLabel.text = annotation.title ?? "정보없음"
-            self.showDetailView()
+            print(pin.index)
+            
+            guard let placeInfoVC = storyboard?.instantiateViewController(withIdentifier: "PlaceInfoViewController") as? PlaceInfoViewController else { return }
+            placeInfoVC.modalPresentationStyle = .overCurrentContext
+            placeInfoVC.placeData = self.dataArray[pin.index]
+
+            // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
+            if annotation.title != "My Location",
+               self.isDetailViewHidden {
+                self.present(placeInfoVC, animated: false, completion: nil)
+            }
+            
+            print(self.isDetailViewHidden ? "Hidden" : "Shown")
         }
         
         

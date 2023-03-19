@@ -28,8 +28,6 @@ final class MapViewController: UIViewController {
                                         longitudinalMeters: region.delta)
         }
     }
-    internal let detailView = DetailView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    @IBOutlet weak var showDetailViewButton: UIButton!
     
     //MARK: - property
     
@@ -46,12 +44,13 @@ final class MapViewController: UIViewController {
     }()
     
     // Rx 관련
+    let titleSubject = PublishSubject<String>()
     let annotationColorSubject = PublishSubject<UIColor>()
 //    internal let placeNameSubject = PublishSubject<String>()
 //    var placeName: Observable<String> {
 //        return placeNameSubject.asObservable()
 //    }
-//    let stringRelay = BehaviorRelay<String?>(value: "정보없음")
+    let stringRelay = BehaviorRelay<String>(value: "정보없음")
     
     // collection view
     internal lazy var themeButtonCollectionView: UICollectionView = {
@@ -90,10 +89,12 @@ final class MapViewController: UIViewController {
     var isAnnotationMarked = [Bool](repeating: false, count: InfoType.allCases.count)
     
     // DetailView 관련
-    let blackView = UIView()
-    let animationTime = K.DetailView.animationTime
-    var originalCenterOfslideUpView = CGFloat()
-    var totalDistance = CGFloat()
+    internal let detailView = DetailView(frame: CGRect(x: 0, y: 100, width: 0, height: 0))
+    internal let blackView = UIView()
+    internal let animationTime = K.DetailView.animationTime
+    internal var originalCenterOfslideUpView = CGFloat()
+    internal var totalDistance = CGFloat()
+    internal var isDetailViewHidden = true
     
     //MARK: - drawing cycle
     
@@ -150,7 +151,7 @@ final class MapViewController: UIViewController {
         self.mapView.addSubview(self.themeButtonCollectionView)
         
         self.themeButtonCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(0)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(5)
             $0.left.right.equalTo(self.mapView.safeAreaLayoutGuide)
             $0.height.equalTo(K.ThemeCV.cellHeight)
         }
@@ -268,16 +269,23 @@ final class MapViewController: UIViewController {
             let annotation = Annotation()
             if let lat = self.dataArray[index].lat,
                let lon = self.dataArray[index].lon {
+                
                 annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                annotation.title = self.dataArray[index].name
+                //annotation.title = self.dataArray[index].name
+                annotation.title = "\(index)"
                 annotation.subtitle = "\(self.dataArray[index].infoType.rawValue)"
+                annotation.index = index
             }
             return annotation
         }
         
+        // 선택한 테마에 해당하는 annotation만 추가하기
         self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
         self.clusterManager.reload(mapView: self.mapView)
         isAnnotationMarked[type.rawValue] = true
+        
+        // PlaceInfoViewController에게 데이터 넘겨주기
+        
     }
     
     internal func removeAnnotations() {

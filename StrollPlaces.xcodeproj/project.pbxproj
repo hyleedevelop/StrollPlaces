@@ -8,14 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */; };
+		0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712E4AA29C6B3A000243DF8 /* PlaceInfoViewController.swift */; };
+		0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */; };
+		0712E4B129C6E8A700243DF8 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712E4B029C6E8A700243DF8 /* DetailView.swift */; };
+		0712E4B329C6E91600243DF8 /* MapViewController+DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712E4B229C6E91600243DF8 /* MapViewController+DetailView.swift */; };
 		072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BB929C2E26A0024B938 /* Enum.swift */; };
 		072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */; };
-		072D5BE229C33B910024B938 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BE129C33B910024B938 /* AnnotationView.swift */; };
+		072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */; };
 		0751436829C201CD00109B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* UIImage.swift */; };
 		075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */; };
-		075FE43F29C5B56A00A5694C /* MapViewController+DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE43E29C5B56A00A5694C /* MapViewController+DetailView.swift */; };
 		075FE44129C5B63A00A5694C /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* UIView.swift */; };
-		075FE44329C5BD3A00A5694C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44229C5BD3A00A5694C /* DetailView.swift */; };
 		07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
 		0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9529BF584B006AB70D /* AppDelegate.swift */; };
@@ -40,6 +42,8 @@
 		0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */; };
 		0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE929BF65A9006AB70D /* MKMapView.swift */; };
 		0799CCEC29BF6E10006AB70D /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCEB29BF6E10006AB70D /* Double.swift */; };
+		079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 079AF4EF29C74931006C365B /* strollingMan.jpeg */; };
+		079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* LoginViewController.swift */; };
 		07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* SettingCellData.swift */; };
 		07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSetting.swift */; };
@@ -68,14 +72,16 @@
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
 		0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230312.csv; sourceTree = "<group>"; };
+		0712E4AA29C6B3A000243DF8 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
+		0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
+		0712E4B029C6E8A700243DF8 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		0712E4B229C6E91600243DF8 /* MapViewController+DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+DetailView.swift"; sourceTree = "<group>"; };
 		072D5BB929C2E26A0024B938 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+CollectionView.swift"; sourceTree = "<group>"; };
-		072D5BE129C33B910024B938 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+Annotation.swift"; sourceTree = "<group>"; };
-		075FE43E29C5B56A00A5694C /* MapViewController+DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+DetailView.swift"; sourceTree = "<group>"; };
 		075FE44029C5B63A00A5694C /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		075FE44229C5BD3A00A5694C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230312.csv; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
 		0799CC9229BF584B006AB70D /* StrollPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrollPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +110,8 @@
 		0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaParkData_qc_20230312.csv; sourceTree = "<group>"; };
 		0799CCE929BF65A9006AB70D /* MKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
 		0799CCEB29BF6E10006AB70D /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		079AF4EF29C74931006C365B /* strollingMan.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = strollingMan.jpeg; sourceTree = "<group>"; };
+		079AF4F129C74C9D006C365B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* SettingCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellData.swift; sourceTree = "<group>"; };
 		07AFB59229C024BD00DD1C34 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
@@ -176,6 +184,8 @@
 				0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */,
 				0799CC9529BF584B006AB70D /* AppDelegate.swift */,
 				0799CC9729BF584B006AB70D /* SceneDelegate.swift */,
+				0712E4B229C6E91600243DF8 /* MapViewController+DetailView.swift */,
+				0712E4B029C6E8A700243DF8 /* DetailView.swift */,
 				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
 				0799CCA329BF584C006AB70D /* Info.plist */,
 				0799CCD929BF5A62006AB70D /* Extension */,
@@ -208,7 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CC9B29BF584B006AB70D /* Main.storyboard */,
-				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
+				079AF4EC29C74683006C365B /* Splash */,
 				0799CCC629BF5947006AB70D /* Controller */,
 				0799CCCF29BF5987006AB70D /* Others */,
 			);
@@ -218,11 +228,12 @@
 		0799CCC629BF5947006AB70D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				079AF4F129C74C9D006C365B /* LoginViewController.swift */,
 				0799CCC729BF595C006AB70D /* TabBarController.swift */,
 				0799CCC929BF596E006AB70D /* MapViewController.swift */,
 				072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */,
 				075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */,
-				075FE43E29C5B56A00A5694C /* MapViewController+DetailView.swift */,
+				0712E4AA29C6B3A000243DF8 /* PlaceInfoViewController.swift */,
 				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
 				0799CCCD29BF5980006AB70D /* SettingViewController.swift */,
 			);
@@ -232,8 +243,7 @@
 		0799CCCF29BF5987006AB70D /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				075FE44229C5BD3A00A5694C /* DetailView.swift */,
-				072D5BE129C33B910024B938 /* AnnotationView.swift */,
+				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
 				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 			);
@@ -266,6 +276,7 @@
 				0799CCDA29BF5A6F006AB70D /* K.swift */,
 				07AFB59229C024BD00DD1C34 /* AppSetting.swift */,
 				072D5BB929C2E26A0024B938 /* Enum.swift */,
+				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -279,6 +290,15 @@
 				075FE44029C5B63A00A5694C /* UIView.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		079AF4EC29C74683006C365B /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
+				079AF4EF29C74931006C365B /* strollingMan.jpeg */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		911A2571663AC9DCAF7EFE9B /* Frameworks */ = {
@@ -417,6 +437,7 @@
 				0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */,
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
+				079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
 				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
@@ -548,29 +569,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */,
 				072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */,
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
-				075FE43F29C5B56A00A5694C /* MapViewController+DetailView.swift in Sources */,
 				075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
-				075FE44329C5BD3A00A5694C /* DetailView.swift in Sources */,
+				0712E4B129C6E8A700243DF8 /* DetailView.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
 				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
 				0751436829C201CD00109B8E /* UIImage.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
+				0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
 				075FE44129C5B63A00A5694C /* UIView.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */,
-				072D5BE229C33B910024B938 /* AnnotationView.swift in Sources */,
+				0712E4B329C6E91600243DF8 /* MapViewController+DetailView.swift in Sources */,
+				072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* SettingViewController.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,
+				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);
@@ -748,17 +772,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운산책";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -782,17 +810,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운산책";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

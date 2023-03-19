@@ -20,9 +20,12 @@ class TabBarController: UITabBarController {
         if #available(iOS 15.0, *) {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithDefaultBackground()
-            tabBarAppearance.backgroundColor = UIColor(named: "IBColor")
+            tabBarAppearance.backgroundColor = UIColor.white
             UITabBar.appearance().standardAppearance = tabBarAppearance
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            //self.tabBar.layer.borderColor = UIColor.lightGray.cgColor
+            //self.tabBar.layer.borderWidth = 0.5
+            self.tabBar.isTranslucent = false
 
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithDefaultBackground()

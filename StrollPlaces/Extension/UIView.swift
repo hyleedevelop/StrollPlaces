@@ -16,8 +16,8 @@ extension UIView {
         layer.cornerRadius = cornerRadius
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = .zero
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: -2)
         layer.shadowRadius = 1.5
         
         //layer.shadowPath = UIBezierPath(rect: bounds).cgPath
@@ -28,12 +28,12 @@ extension UIView {
     
     // animate UIView expand from bottom to top and vice versa
     func slideUpShow(_ duration: CGFloat){
+        self.alpha = 1
         UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.curveEaseOut],
                        animations: {
                         self.center.y -= self.bounds.height
                         self.layoutIfNeeded()
         }, completion: nil)
-        //self.isHidden = false
     }
     
     func slideDownHide(_ duration: CGFloat){
@@ -43,8 +43,9 @@ extension UIView {
                         self.layoutIfNeeded()
                         
         },  completion: {(_ completed: Bool) -> Void in
-            //self.isHidden = true
+            self.alpha = 0
         })
+        
     }
 
 }

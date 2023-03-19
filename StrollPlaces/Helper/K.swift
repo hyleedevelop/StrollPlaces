@@ -49,7 +49,7 @@ struct K {
     
     // DetailView 관련
     struct DetailView {
-        static let slideViewHeight: CGFloat = 350
+        static let slideViewHeight: CGFloat = 300
         static let cornerRadiusOfSlideView: CGFloat = 20
         static let animationTime: CGFloat = 0.3
     }
