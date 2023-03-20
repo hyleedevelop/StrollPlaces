@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+//import ActivityKit
 
 class MyPlaceViewController: UIViewController {
 

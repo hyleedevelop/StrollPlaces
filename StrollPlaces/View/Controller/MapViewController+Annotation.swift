@@ -108,6 +108,18 @@ extension MapViewController: MKMapViewDelegate {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             print(#function, latitude, longitude, separator: ", ")
+            
+            
+            //let deltaLat = self.mapView.region.span.latitudeDelta.km
+            //let deltaLon = self.mapView.region.span.longitudeDelta.km
+            
+            // 사용자의 위치가 업데이트 될 때마다 지도 중심을 사용자의 위치로 변경
+            //self.mapView.centerToLocation(
+            //    location: CLLocation(latitude: latitude, longitude: longitude),
+            //    deltaLat: 750.m,
+            //    deltaLon: 750.m
+            //)
+            
         }
     }
     
@@ -145,32 +157,33 @@ extension MapViewController: MKMapViewDelegate {
             let longitude = annotation.coordinate.longitude
             self.mapView.centerToLocation(
                 location: CLLocation(latitude: latitude, longitude: longitude),
-                regionRadius: 1.0.km
+                deltaLat: 1.0.km,
+                deltaLon: 1.0.km
             )
             
-            print(pin.index)
+            print(#function, pin.index, separator: ", ")
             
-            guard let placeInfoVC = storyboard?.instantiateViewController(withIdentifier: "PlaceInfoViewController") as? PlaceInfoViewController else { return }
+            // 상세 정보 창 띄우기
+            let placeInfoVC = PlaceInfoViewController()
             placeInfoVC.modalPresentationStyle = .overCurrentContext
             placeInfoVC.placeData = self.dataArray[pin.index]
 
             // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
-            if annotation.title != "My Location",
-               self.isDetailViewHidden {
+            if annotation.title != "My Location" {
                 self.present(placeInfoVC, animated: false, completion: nil)
             }
             
-            print(self.isDetailViewHidden ? "Hidden" : "Shown")
+            // 선택된 annotation 해제
+            mapView.selectedAnnotations = []
         }
-        
-        
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print(#function)
     }
     
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-//        views.forEach { $0.alpha = 0 }
-//        UIView.animate(withDuration: 0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
-//            views.forEach { $0.alpha = 1 }
-//        })
+
     }
     
 }

@@ -88,14 +88,6 @@ final class MapViewController: UIViewController {
     // annotation의 지도 표시 여부
     var isAnnotationMarked = [Bool](repeating: false, count: InfoType.allCases.count)
     
-    // DetailView 관련
-    internal let detailView = DetailView(frame: CGRect(x: 0, y: 100, width: 0, height: 0))
-    internal let blackView = UIView()
-    internal let animationTime = K.DetailView.animationTime
-    internal var originalCenterOfslideUpView = CGFloat()
-    internal var totalDistance = CGFloat()
-    internal var isDetailViewHidden = true
-    
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
@@ -108,8 +100,6 @@ final class MapViewController: UIViewController {
         
         moveToCurrentLocation()
         addAnnotations(with: .park)
-        
-        setupDetailView()
     }
     
     //MARK: - method
@@ -128,7 +118,7 @@ final class MapViewController: UIViewController {
         
         // 사용자 위치 표시 관련 설정
         self.mapView.showsUserLocation = true
-        self.mapView.userTrackingMode = .follow
+        self.mapView.setUserTrackingMode(.follow, animated: true)
         self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.delegate = self
         
@@ -226,7 +216,11 @@ final class MapViewController: UIViewController {
             .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 1.km)
+                self.mapView.centerToLocation(
+                    location: self.currentLocation,
+                    deltaLat: 1.0.km,
+                    deltaLon: 1.0.km
+                )
             })
             .disposed(by: rx.disposeBag)
     }
@@ -237,7 +231,8 @@ final class MapViewController: UIViewController {
         let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
         self.mapView.centerToLocation(
             location: CLLocation(latitude: latitude, longitude: longitude),
-            regionRadius: 1.0.km
+            deltaLat: 1.0.km,
+            deltaLon: 1.0.km
         )
         
         //clusterManager.add(
@@ -258,7 +253,7 @@ final class MapViewController: UIViewController {
     
     // annotation cluster 설정
     internal func addAnnotations(with type: InfoType) {
-        // 이 함수를 최초로 호출할 때(앱 최초 실행 시)만 데이터 불러오기
+        // 앱을 최초로 실행할 때(dataArray가 비어있을 떄)만 데이터 불러오기
         if dataArray.count == 0 {
             dataArray = mapViewModel.getPublicData()
         }

@@ -7,49 +7,117 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class PlaceInfoViewController: UIViewController {
-
-    //MARK: - IB outlet & action
     
-    @IBOutlet weak var grabber: UIView!
-    @IBOutlet weak var containerView: UIView!
-    var placeData: PublicData?
+    //MARK: - UI property
     
-    //MARK: - property
-    
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textAlignment = .right
-        return label
-    }()
-    
-    private let addressLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textAlignment = .right
-        return label
-    }()
-    
-    let maxDimmedAlpha: CGFloat = 0.1
-    lazy var dimmedView: UIView = {
+    internal lazy var dimmedView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         view.alpha = maxDimmedAlpha
         return view
     }()
     
+    internal let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 0
+        view.clipsToBounds = true
+        view.layer.masksToBounds = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOffset = CGSize(width: 0, height: -3)
+        view.layer.shadowRadius = 3
+        return view
+    }()
+    
+    private let grabber: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        view.layer.cornerRadius = 1.5
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    private let subtitle: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    private let detailButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = K.Map.themeColor[0]
+        button.setTitle("세부사항 보기", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        button.tintColor = UIColor.white
+        button.layer.cornerRadius = 2
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private let navigateButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = K.Map.themeColor[2]
+        button.setTitle("길 안내", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        button.tintColor = UIColor.white
+        button.layer.cornerRadius = 2
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private lazy var buttonStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [detailButton, navigateButton])
+        sv.axis = .horizontal
+        sv.spacing = 30
+        sv.alignment = .fill
+        sv.distribution = .fillEqually
+        return sv
+    }()
+    
+    internal let tableView: UITableView = {
+        let tv = UITableView()
+        tv.allowsSelection = false
+        tv.separatorStyle = .none
+        tv.scrollsToTop = true
+        tv.showsVerticalScrollIndicator = false
+        return tv
+    }()
+    
+    //MARK: - normal property
+    
+    var placeData: PublicData?
+    var isDetailActivated = false
+    
     // Constants
-    let defaultHeight: CGFloat = 250
-    let dismissibleHeight: CGFloat = 200
-    let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 75
-    // keep current new height, initial is default height
-    var currentContainerHeight: CGFloat = 250
+    internal let maxDimmedAlpha: CGFloat = 0.15  // 값이 0이면 투명 -> 탭 해도 dismiss가 일어나지 않음
+    internal let defaultHeight: CGFloat = 190
+    internal let dismissibleHeight: CGFloat = 120
+    //internal let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 100
+    internal let maximumContainerHeight: CGFloat = 500
+    internal var currentContainerHeight: CGFloat = 190  // keep current new height, initial is default height
+    internal var maximumContainerHeightByButton: CGFloat = 500
     
     // Dynamic container constraint
-    var containerViewHeightConstraint: NSLayoutConstraint?
-    var containerViewBottomConstraint: NSLayoutConstraint?
+    internal var containerViewHeightRelay = BehaviorRelay<CGFloat>(value: 190)
+    internal var containerViewHeightConstraint: NSLayoutConstraint?
+    internal var containerViewBottomConstraint: NSLayoutConstraint?
     
     //MARK: - drawing cycle
     
@@ -57,207 +125,168 @@ class PlaceInfoViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
+        setupLabel()
+        setupButton()
+        //setupTableView()
         
         setupConstraints()
-        // tap gesture on dimmed view to dismiss
-        let tapGesture = UITapGestureRecognizer(
-            target: self, action: #selector(self.handleCloseAction)
-        )
-        dimmedView.addGestureRecognizer(tapGesture)
         
+        setupTapGesture()
         setupPanGesture()
         
-        setupLabel()
         bindUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         animateShowDimmedView()
         animatePresentContainer()
     }
     
     //MARK: - method
+
+    private func setupView() {
+        // view
+        view.backgroundColor = .clear
+        
+        // dimmed view
+        self.view.addSubview(dimmedView)
+        dimmedView.snp.makeConstraints {
+            $0.left.right.top.bottom.equalTo(self.view)
+        }
+                
+        // container view
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints {
+            $0.left.right.equalTo(self.view)
+        }
+        
+        // grabber
+        containerView.addSubview(grabber)
+        grabber.snp.makeConstraints {
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(5)
+            $0.height.equalTo(3)
+            $0.centerX.equalTo(self.containerView)
+            $0.width.equalTo(25)
+        }
+    }
+    
+    private func setupLabel() {
+        self.containerView.addSubview(self.nameLabel)
+        nameLabel.snp.makeConstraints {
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.height.equalTo(30)
+            $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+        }
+
+        self.containerView.addSubview(self.subtitle)
+        subtitle.snp.makeConstraints {
+            $0.top.equalTo(self.nameLabel.snp_bottomMargin).offset(15)
+            $0.height.equalTo(20)
+            $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+        }
+    }
+    
+    private func setupButton() {
+        self.containerView.addSubview(buttonStackView)
+        self.detailButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        self.navigateButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        buttonStackView.snp.makeConstraints {
+            $0.top.equalTo(self.subtitle.snp_bottomMargin).offset(30)
+            $0.height.equalTo(45)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+        }
+    }
+    
+    internal func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "PlaceInfoTableViewCell", bundle: nil),
+                           forCellReuseIdentifier: "PlaceInfoCell")
+        
+        containerView.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(self.buttonStackView.snp_bottomMargin).offset(20)
+            $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide)
+            $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(10)
+        }
+        
+//        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = 50
+    }
     
     private func bindUI() {
         guard let placeData = placeData else { return }
         nameLabel.text = placeData.name
-        addressLabel.text = placeData.address
+        subtitle.text = placeData.address
     }
+    
+    @objc private func buttonTapped(_ sender: UIButton) {
+        if sender == detailButton {
+            if !isDetailActivated {
+                print("세부사항 보기를 실행합니다...")
+                animateContainerHeight(maximumContainerHeightByButton)
+                self.detailButton.setTitle("세부사항 닫기", for: .normal)
+            } else {
+                print("세부사항 닫기를 실행합니다...")
+                self.detailButton.setTitle("세부사항 보기", for: .normal)
+                animateContainerHeight(defaultHeight)
+            }
+            isDetailActivated.toggle()
+        }
+        
+        if sender == navigateButton {
+            print("길 안내를 시작합니다...")
+        }
+    }
+    
+}
 
-    private func setupView() {
-        view.backgroundColor = .clear
-        
-        grabber.layer.cornerRadius = 1.5
-        grabber.clipsToBounds = true
-        
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 20
-        containerView.clipsToBounds = true
-        containerView.layer.masksToBounds = false
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.3
-        containerView.layer.shadowOffset = CGSize(width: 0, height: -2)
-        containerView.layer.shadowRadius = 1.5
+//MARK: - extension for UITableViewDelegate, UITableViewDataSource
+
+extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
-    private func setupLabel() {
-        self.view.addSubview(nameLabel)
-        self.view.addSubview(addressLabel)
-        
-        nameLabel.snp.makeConstraints {
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.height.equalTo(20)
-        }
-        
-        addressLabel.snp.makeConstraints {
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
-            $0.top.equalTo(self.nameLabel.snp_bottomMargin).offset(10)
-            $0.height.equalTo(20)
-        }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
     }
     
-    func setupConstraints() {
-        // Add subviews
-        view.addSubview(dimmedView)
-        view.addSubview(containerView)
-        dimmedView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Set static constraints
-        NSLayoutConstraint.activate([
-            // set dimmedView edges to superview
-            dimmedView.topAnchor.constraint(equalTo: view.topAnchor),
-            dimmedView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            dimmedView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // set container static constraint (trailing & leading)
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            // content stackView
-        ])
-        
-        // Set dynamic constraints
-        // First, set container to default height
-        // after panning, the height can expand
-        containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: defaultHeight)
-        
-        // By setting the height to default height, the container will be hide below the bottom anchor view
-        // Later, will bring it up by set it to 0
-        // set the constant to default height to bring it down again
-        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: defaultHeight)
-        // Activate constraints
-        containerViewHeightConstraint?.isActive = true
-        containerViewBottomConstraint?.isActive = true
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
-    func setupPanGesture() {
-        // add pan gesture recognizer to the view controller's view (the whole screen)
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(gesture:)))
-        // change to false to immediately listen on gesture movement
-        panGesture.delaysTouchesBegan = false
-        panGesture.delaysTouchesEnded = false
-        view.addGestureRecognizer(panGesture)
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//        //return 50
+//    }
     
-    // MARK: Pan gesture handler
-    @objc func handlePanGesture(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
-        // Drag to top will be minus value and vice versa
-//        print("Pan gesture y offset: \(translation.y)")
-        
-        // Get drag direction
-        let isDraggingDown = translation.y > 0
-//        print("Dragging direction: \(isDraggingDown ? "going down" : "going up")")
-        
-        // New height is based on value of dragging plus current container height
-        let newHeight = currentContainerHeight - translation.y
-        
-        // Handle based on gesture state
-        switch gesture.state {
-        case .changed:
-            // This state will occur when user is dragging
-            if newHeight < maximumContainerHeight {
-                // Keep updating the height constraint
-                containerViewHeightConstraint?.constant = newHeight
-                // refresh layout
-                view.layoutIfNeeded()
-            }
-        case .ended:
-            // This happens when user stop drag,
-            // so we will get the last height of container
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PlaceInfoCell", for: indexPath) as? PlaceInfoTableViewCell else { fatalError() }
             
-            // Condition 1: If new height is below min, dismiss controller
-            if newHeight < dismissibleHeight {
-                self.animateDismissView()
-            }
-            else if newHeight < defaultHeight {
-                // Condition 2: If new height is below default, animate back to default
-                animateContainerHeight(defaultHeight)
-            }
-            else if newHeight < maximumContainerHeight && isDraggingDown {
-                // Condition 3: If new height is below max and going down, set to default height
-                animateContainerHeight(defaultHeight)
-            }
-            else if newHeight > defaultHeight && !isDraggingDown {
-                // Condition 4: If new height is below max and going up, set to max height at top
-                animateContainerHeight(maximumContainerHeight)
-            }
+        switch indexPath.row {
+        case 0:
+            cell.titleLabel.text = "유형"
+            cell.descriptionLabel.text = self.placeData?.category
+        case 1:
+            cell.titleLabel.text = "주변시설"
+            //cell.descriptionLabel.text = self.placeData?.infra
+            cell.descriptionLabel.text = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
+        case 2:
+            cell.titleLabel.text = "관리기관명"
+            cell.descriptionLabel.text = self.placeData?.organization
+        case 3:
+            cell.titleLabel.text = "전화번호"
+            cell.descriptionLabel.text = self.placeData?.telephoneNumber
         default:
             break
         }
-    }
-    
-    @objc func handleCloseAction() {
-        animateDismissView()
-    }
-    
-    func animateContainerHeight(_ height: CGFloat) {
-        UIView.animate(withDuration: 0.4) {
-            // Update container height
-            self.containerViewHeightConstraint?.constant = height
-            // Call this to trigger refresh constraint
-            self.view.layoutIfNeeded()
-        }
-        // Save current height
-        currentContainerHeight = height
-    }
-    
-    // MARK: Present and dismiss animation
-    func animatePresentContainer() {
-        // update bottom constraint in animation block
-        UIView.animate(withDuration: 0.3) {
-            self.containerViewBottomConstraint?.constant = 0
-            // call this to trigger refresh constraint
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    func animateShowDimmedView() {
-        dimmedView.alpha = 0
-        UIView.animate(withDuration: 0.4) {
-            self.dimmedView.alpha = self.maxDimmedAlpha
-        }
-    }
-    
-    func animateDismissView() {
-        // hide blur view
-        dimmedView.alpha = maxDimmedAlpha
-        UIView.animate(withDuration: 0.4) {
-            self.dimmedView.alpha = 0
-        } completion: { _ in
-            // once done, dismiss without animation
-            self.dismiss(animated: false)
-        }
-        // hide main view by updating bottom constraint in animation block
-        UIView.animate(withDuration: 0.3) {
-            self.containerViewBottomConstraint?.constant = self.defaultHeight
-            // call this to trigger refresh constraint
-            self.view.layoutIfNeeded()
-        }
+        
+        return cell
     }
     
 }

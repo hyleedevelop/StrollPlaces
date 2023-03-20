@@ -91,45 +91,6 @@
             </objects>
             <point key="canvasLocation" x="910.68702290076328" y="-687.32394366197184"/>
         </scene>
-        <!--Place Info View Controller-->
-        <scene sceneID="O7W-ot-PQs">
-            <objects>
-                <viewController storyboardIdentifier="PlaceInfoViewController" id="nUv-GW-jiY" customClass="PlaceInfoViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V1d-MD-r3s">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-w8-D2x" userLabel="containerView">
-                                <rect key="frame" x="0.0" y="109" width="393" height="743"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gQt-4M-YTo" userLabel="grabber">
-                                        <rect key="frame" x="184" y="5" width="25" height="3"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="25" id="OZx-nD-mLK"/>
-                                            <constraint firstAttribute="height" constant="3" id="Sgh-y4-r1j"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="gQt-4M-YTo" firstAttribute="top" secondItem="gzl-w8-D2x" secondAttribute="top" constant="5" id="3br-hb-MhV"/>
-                                    <constraint firstItem="gQt-4M-YTo" firstAttribute="centerX" secondItem="gzl-w8-D2x" secondAttribute="centerX" id="GyF-vO-zNz"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="vqB-6l-HxY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <connections>
-                        <outlet property="containerView" destination="gzl-w8-D2x" id="swB-cY-HHF"/>
-                        <outlet property="grabber" destination="gQt-4M-YTo" id="XzN-2p-PFw"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EC7-mN-PSk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1835.8778625954199" y="-687.32394366197184"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="Kir-PQ-QvM">
             <objects>

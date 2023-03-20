@@ -38,13 +38,13 @@ extension MKMapView {
     
     //MARK: - 파라미터로 전달받은 위경도를 중심으로 일정 반경(m)만큼의 지도 범위 설정
 
-    func centerToLocation(location: CLLocation, regionRadius: CLLocationDistance) {
+    func centerToLocation(location: CLLocation, deltaLat: CLLocationDistance, deltaLon: CLLocationDistance) {
         let region = MKCoordinateRegion(
             center: location.coordinate,
-            latitudinalMeters: regionRadius,
-            longitudinalMeters: regionRadius
+            latitudinalMeters: deltaLat,
+            longitudinalMeters: deltaLon
         )
-        
+            
         self.setRegion(region, animated: true)
     }
     
