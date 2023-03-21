@@ -11,8 +11,6 @@ import RxSwift
 final class ThemeCellViewModel {
     
     let themeCellData: ThemeCellData
-    //let icon: UIImage
-    //let title: String
     
     var icon: Observable<UIImage> {
         return Observable<UIImage>.just(themeCellData.icon)
@@ -24,8 +22,6 @@ final class ThemeCellViewModel {
     
     init(_ themeCellData: ThemeCellData) {
         self.themeCellData = themeCellData
-        //self.icon = themeCell.icon
-        //self.title = themeCell.title
     }
     
 }

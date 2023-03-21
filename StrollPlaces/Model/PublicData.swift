@@ -9,8 +9,8 @@ import Foundation
 
 struct PublicData {
     let infoType: InfoType       // 데이터 타입(열거형)
-    let name: String             // 공원명
-    let category: String         // 공원구분
+    let name: String             // 명칭
+    let category: String         // 장소 구분
     let address: String          // 소재지 주소 (지번)
     let lat: Double?             // 위도
     let lon: Double?             // 경도

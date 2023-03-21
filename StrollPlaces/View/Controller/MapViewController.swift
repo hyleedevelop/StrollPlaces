@@ -32,7 +32,7 @@ final class MapViewController: UIViewController {
     //MARK: - property
     
     // 인스턴스
-    internal var mapViewModel: MapViewModel!
+    internal var viewModel: MapViewModel!
     internal let locationManager = CLLocationManager()
     internal lazy var clusterManager: ClusterManager = {
         let manager = ClusterManager()
@@ -137,7 +137,7 @@ final class MapViewController: UIViewController {
     }
     
     // CollectionView 설정
-    internal func setupCollectionView() {
+    private func setupCollectionView() {
         self.mapView.addSubview(self.themeButtonCollectionView)
         
         self.themeButtonCollectionView.snp.makeConstraints {
@@ -149,43 +149,21 @@ final class MapViewController: UIViewController {
         self.themeButtonCollectionView.delegate = self
         self.themeButtonCollectionView.dataSource = self
         
-        self.mapViewModel = MapViewModel()  // 셀의 초기화가 진행되는 시점
+        self.viewModel = MapViewModel()  // 셀의 초기화가 진행되는 시점
     }
     
     // map controll button 설정
-    internal func setupMapControlButton() {
-        // "줌인" 버튼 설정
-        zoomInButton.layer.cornerRadius = zoomInButton.frame.height / 2.0
-        zoomInButton.layer.masksToBounds = false
-        zoomInButton.layer.shadowColor = UIColor.black.cgColor
-        zoomInButton.layer.shadowRadius = 1
-        zoomInButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        zoomInButton.layer.shadowOpacity = 0.3
-        
-        // "줌아웃" 버튼 설정
-        zoomOutButton.layer.cornerRadius = zoomOutButton.frame.height / 2.0
-        zoomOutButton.layer.masksToBounds = false
-        zoomOutButton.layer.shadowColor = UIColor.black.cgColor
-        zoomOutButton.layer.shadowRadius = 1
-        zoomOutButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        zoomOutButton.layer.shadowOpacity = 0.3
-        
-        // "현재위치로 이동하기" 버튼 설정
-        currentLocationButton.layer.cornerRadius = currentLocationButton.frame.height / 2.0
-        currentLocationButton.layer.masksToBounds = false
-        currentLocationButton.layer.shadowColor = UIColor.black.cgColor
-        currentLocationButton.layer.shadowRadius = 1
-        currentLocationButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        currentLocationButton.layer.shadowOpacity = 0.3
-        
-        // 컴퍼스 버튼 커스텀으로 만들기
+    private func setupMapControlButton() {
+        // 각 버튼 및 컴퍼스의 UI 설정
         let compassButton = MKCompassButton(mapView: self.mapView)
-        compassButton.layer.cornerRadius = compassButton.frame.size.height / 2.0
-        compassButton.layer.masksToBounds = false
-        compassButton.layer.shadowColor = UIColor.black.cgColor
-        compassButton.layer.shadowRadius = 1
-        compassButton.layer.shadowOffset = CGSize(width: 0, height: 1)
-        compassButton.layer.shadowOpacity = 0.3
+        [zoomInButton, zoomOutButton, currentLocationButton, compassButton].forEach {
+            $0.layer.cornerRadius = $0.frame.height / 2.0
+            $0.layer.masksToBounds = false
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowRadius = 1
+            $0.layer.shadowOffset = CGSize(width: 0, height: 1)
+            $0.layer.shadowOpacity = 0.3
+        }
         
         self.view.addSubview(compassButton)
         compassButton.snp.makeConstraints {
@@ -195,7 +173,7 @@ final class MapViewController: UIViewController {
         
         // "줌인" 버튼을 눌렀을 때
         self.zoomInButton.rx.controlEvent(.touchUpInside).asObservable()
-            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.mapView.zoomLevel += 1
@@ -204,7 +182,7 @@ final class MapViewController: UIViewController {
         
         // "줌아웃" 버튼을 눌렀을 때
         self.zoomOutButton.rx.controlEvent(.touchUpInside).asObservable()
-            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.mapView.zoomLevel -= 2
@@ -213,7 +191,7 @@ final class MapViewController: UIViewController {
         
         // "현재위치로 이동하기" 버튼을 눌렀을 때
         self.currentLocationButton.rx.controlEvent(.touchUpInside).asObservable()
-            .debounce(.milliseconds(150), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.mapView.centerToLocation(
@@ -234,28 +212,13 @@ final class MapViewController: UIViewController {
             deltaLat: 1.0.km,
             deltaLon: 1.0.km
         )
-        
-        //clusterManager.add(
-        //    MeAnnotation(coordinate: CLLocationCoordinate2D(latitude: lat,
-        //                                                    longitude: lon))
-        //)
-        
-        // 처음에는 남한 전체 영역을 2초간 보여주고, 그 후 사용자의 위치로 2초간 확대하는 애니메이션 실행
-//        self.mapView.centerToLocation(location: K.Map.southKoreaCenterLocation, regionRadius: 700.km)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            DispatchQueue.main.async {
-//                UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) {
-//                    self.mapView.centerToLocation(location: self.currentLocation, regionRadius: 500.m)
-//                }
-//            }
-//        }
     }
     
     // annotation cluster 설정
     internal func addAnnotations(with type: InfoType) {
         // 앱을 최초로 실행할 때(dataArray가 비어있을 떄)만 데이터 불러오기
         if dataArray.count == 0 {
-            dataArray = mapViewModel.getPublicData()
+            dataArray = viewModel.getPublicData()
         }
         
         self.clusterManager.remove(annotationArray)
@@ -278,9 +241,6 @@ final class MapViewController: UIViewController {
         self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
         self.clusterManager.reload(mapView: self.mapView)
         isAnnotationMarked[type.rawValue] = true
-        
-        // PlaceInfoViewController에게 데이터 넘겨주기
-        
     }
     
     internal func removeAnnotations() {

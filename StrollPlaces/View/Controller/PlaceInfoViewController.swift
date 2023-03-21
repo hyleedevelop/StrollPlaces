@@ -44,7 +44,7 @@ class PlaceInfoViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 28, weight: .heavy)
+        label.font = UIFont.systemFont(ofSize: 26, weight: .heavy)
         label.textAlignment = .left
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -53,17 +53,17 @@ class PlaceInfoViewController: UIViewController {
     
     private let subtitle: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .left
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    private let detailButton: UIButton = {
+    internal let detailButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = K.Map.themeColor[0]
-        button.setTitle("세부사항 보기", for: .normal)
+        button.backgroundColor = K.Map.themeColor[2]
+        button.setTitle(K.DetailView.detailButtonNameSee, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.tintColor = UIColor.white
         button.layer.cornerRadius = 2
@@ -73,8 +73,8 @@ class PlaceInfoViewController: UIViewController {
     
     private let navigateButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = K.Map.themeColor[2]
-        button.setTitle("길 안내", for: .normal)
+        button.backgroundColor = K.Map.themeColor[0]
+        button.setTitle(K.DetailView.navigateButtonName, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.tintColor = UIColor.white
         button.layer.cornerRadius = 2
@@ -97,25 +97,28 @@ class PlaceInfoViewController: UIViewController {
         tv.separatorStyle = .none
         tv.scrollsToTop = true
         tv.showsVerticalScrollIndicator = false
+        tv.alpha = 0.0
         return tv
     }()
     
     //MARK: - normal property
+    
+    internal var viewModel: PlaceInfoViewModel!
     
     var placeData: PublicData?
     var isDetailActivated = false
     
     // Constants
     internal let maxDimmedAlpha: CGFloat = 0.15  // 값이 0이면 투명 -> 탭 해도 dismiss가 일어나지 않음
-    internal let defaultHeight: CGFloat = 190
-    internal let dismissibleHeight: CGFloat = 120
+    internal let defaultHeight: CGFloat = 175
+    internal let dismissibleHeight: CGFloat = 145
     //internal let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 100
     internal let maximumContainerHeight: CGFloat = 500
-    internal var currentContainerHeight: CGFloat = 190  // keep current new height, initial is default height
+    internal var currentContainerHeight: CGFloat = 175  // keep current new height, initial is default height
     internal var maximumContainerHeightByButton: CGFloat = 500
     
     // Dynamic container constraint
-    internal var containerViewHeightRelay = BehaviorRelay<CGFloat>(value: 190)
+    //internal var containerViewHeightRelay = BehaviorRelay<CGFloat>(value: 190)
     internal var containerViewHeightConstraint: NSLayoutConstraint?
     internal var containerViewBottomConstraint: NSLayoutConstraint?
     
@@ -176,14 +179,14 @@ class PlaceInfoViewController: UIViewController {
         self.containerView.addSubview(self.nameLabel)
         nameLabel.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.height.equalTo(30)
+            $0.height.equalTo(26)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
         }
 
         self.containerView.addSubview(self.subtitle)
         subtitle.snp.makeConstraints {
-            $0.top.equalTo(self.nameLabel.snp_bottomMargin).offset(15)
-            $0.height.equalTo(20)
+            $0.top.equalTo(self.nameLabel.snp_bottomMargin).offset(12)
+            $0.height.equalTo(18)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
         }
     }
@@ -210,7 +213,7 @@ class PlaceInfoViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.top.equalTo(self.buttonStackView.snp_bottomMargin).offset(20)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide)
-            $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(10)
+            $0.height.equalTo(300)
         }
         
 //        tableView.rowHeight = UITableView.automaticDimension
@@ -226,12 +229,13 @@ class PlaceInfoViewController: UIViewController {
     @objc private func buttonTapped(_ sender: UIButton) {
         if sender == detailButton {
             if !isDetailActivated {
-                print("세부사항 보기를 실행합니다...")
                 animateContainerHeight(maximumContainerHeightByButton)
-                self.detailButton.setTitle("세부사항 닫기", for: .normal)
+                self.detailButton.setTitle(K.DetailView.detailButtonNameClose, for: .normal)
             } else {
-                print("세부사항 닫기를 실행합니다...")
-                self.detailButton.setTitle("세부사항 보기", for: .normal)
+                UIView.animate(withDuration: 0.3) {
+                    self.tableView.alpha = 0.0  // TableView 넣기
+                }
+                self.detailButton.setTitle(K.DetailView.detailButtonNameSee, for: .normal)
                 animateContainerHeight(defaultHeight)
             }
             isDetailActivated.toggle()
@@ -253,6 +257,11 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //var number: Int
+        self.viewModel.getTitleInfo()
+            .map { $0.count }
+            .subscribe(onNext: { print($0) })
+            .disposed(by: rx.disposeBag)
         return 4
     }
     
@@ -267,24 +276,19 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PlaceInfoCell", for: indexPath) as? PlaceInfoTableViewCell else { fatalError() }
-            
-        switch indexPath.row {
-        case 0:
-            cell.titleLabel.text = "유형"
-            cell.descriptionLabel.text = self.placeData?.category
-        case 1:
-            cell.titleLabel.text = "주변시설"
-            //cell.descriptionLabel.text = self.placeData?.infra
-            cell.descriptionLabel.text = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
-        case 2:
-            cell.titleLabel.text = "관리기관명"
-            cell.descriptionLabel.text = self.placeData?.organization
-        case 3:
-            cell.titleLabel.text = "전화번호"
-            cell.descriptionLabel.text = self.placeData?.telephoneNumber
-        default:
-            break
-        }
+        
+        // 데이터 보내기 (3): PlaceVM -> PlaceVC(바인딩)
+        self.viewModel.getTitleInfo()
+            .asDriver(onErrorJustReturn: ["N/A"])
+            .map { $0[indexPath.row + 2] }
+            .drive(cell.titleLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.getPlaceInfo()
+            .asDriver(onErrorJustReturn: ["N/A"])
+            .map { $0[indexPath.row + 2] }
+            .drive(cell.descriptionLabel.rx.text)
+            .disposed(by: rx.disposeBag)
         
         return cell
     }

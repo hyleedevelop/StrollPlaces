@@ -15,8 +15,9 @@ import MapKit
 final class MapViewModel {
     
     private var publicData = [PublicData]()
+    var pinData: PublicData!
     
-    //MARK: - 공원 정보 관련
+    //MARK: - 지도의 데이터 표출 관련
     
     // PublicData 형식을 가진 데이터를 append
     func getPublicData() -> [PublicData] {
@@ -244,6 +245,13 @@ final class MapViewModel {
             print("[ERROR] Unable to load csv file")
             return nil
         }
+    }
+    
+    //MARK: - 상세정보를 PlaceInfoViewModel에 전달
+    
+    // 데이터 보내기 (2): MapVM -> PlaceVM (pinData로 초기화)
+    func getPlaceInfoViewModel() -> PlaceInfoViewModel {
+        return PlaceInfoViewModel(self.pinData)
     }
     
     //MARK: - UICollectionView 관련

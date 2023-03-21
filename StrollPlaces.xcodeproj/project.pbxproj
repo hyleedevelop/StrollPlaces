@@ -48,6 +48,7 @@
 		07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* SettingCellData.swift */; };
 		07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSetting.swift */; };
+		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
@@ -117,6 +118,7 @@
 		07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* SettingCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellData.swift; sourceTree = "<group>"; };
 		07AFB59229C024BD00DD1C34 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces_StrollPlacesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,6 +260,7 @@
 			children = (
 				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
 				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
+				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
 				07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
@@ -287,10 +290,10 @@
 		0799CCD929BF5A62006AB70D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
 				0751436729C201CD00109B8E /* UIImage.swift */,
 				075FE44029C5B63A00A5694C /* UIView.swift */,
+				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */,
 				072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */,
+				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* SettingViewController.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,

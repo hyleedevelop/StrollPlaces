@@ -32,7 +32,7 @@ extension MapViewController: UICollectionViewDataSource,
     
     // section 내 아이템의 개수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.mapViewModel.themeCellViewModel.count
+        return self.viewModel.themeCellViewModel.count
     }
     
     // 각 셀마다 실행할 내용
@@ -40,13 +40,12 @@ extension MapViewController: UICollectionViewDataSource,
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.ThemeCV.cellName, for: indexPath)
                 as? ThemeCollectionViewCell else { return UICollectionViewCell() }
 
-        // drive 연산자를 이용해 이미지를 바인딩
-        self.mapViewModel.cellData(at: indexPath.row).icon.asDriver(onErrorJustReturn: UIImage())
+        // 바인딩 수행
+        self.viewModel.cellData(at: indexPath.row).icon.asDriver(onErrorJustReturn: UIImage())
             .drive(cell.themeIcon.rx.image)
             .disposed(by: rx.disposeBag)
         
-        // drive 연산자를 이용해 텍스트를 바인딩
-        self.mapViewModel.cellData(at: indexPath.row).title.asDriver(onErrorJustReturn: "")
+        self.viewModel.cellData(at: indexPath.row).title.asDriver(onErrorJustReturn: "")
             .drive(cell.themeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
@@ -60,7 +59,7 @@ extension MapViewController: UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: Double?
         
-        self.mapViewModel.cellData(at: indexPath.row).title.asObservable()
+        self.viewModel.cellData(at: indexPath.row).title.asObservable()
             .map { $0.count }
             .subscribe(onNext: { value in
                 width = Double(value) * 15 + 40

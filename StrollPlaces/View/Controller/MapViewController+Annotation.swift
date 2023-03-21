@@ -161,16 +161,17 @@ extension MapViewController: MKMapViewDelegate {
                 deltaLon: 1.0.km
             )
             
-            print(#function, pin.index, separator: ", ")
+            // 데이터 보내기 (1): MapVC -> MapVM
+            self.viewModel.pinData = self.dataArray[pin.index]
+            let placeInfoViewController = PlaceInfoViewController()
+            placeInfoViewController.viewModel = self.viewModel.getPlaceInfoViewModel()
+            placeInfoViewController.modalPresentationStyle = .overCurrentContext
             
-            // 상세 정보 창 띄우기
-            let placeInfoVC = PlaceInfoViewController()
-            placeInfoVC.modalPresentationStyle = .overCurrentContext
-            placeInfoVC.placeData = self.dataArray[pin.index]
+            placeInfoViewController.placeData = self.dataArray[pin.index]
 
             // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
             if annotation.title != "My Location" {
-                self.present(placeInfoVC, animated: false, completion: nil)
+                self.present(placeInfoViewController, animated: false, completion: nil)
             }
             
             // 선택된 annotation 해제
