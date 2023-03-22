@@ -118,7 +118,8 @@ final class MapViewController: UIViewController {
         
         // 사용자 위치 표시 관련 설정
         self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(.follow, animated: true)
+        self.mapView.userTrackingMode = .follow
+        self.locationManager.showsBackgroundLocationIndicator = true
         self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.delegate = self
         
@@ -227,10 +228,9 @@ final class MapViewController: UIViewController {
             let annotation = Annotation()
             if let lat = self.dataArray[index].lat,
                let lon = self.dataArray[index].lon {
-                
                 annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                //annotation.title = self.dataArray[index].name
-                annotation.title = "\(index)"
+                annotation.title = self.dataArray[index].name
+//                annotation.title = "\(index)"
                 annotation.subtitle = "\(self.dataArray[index].infoType.rawValue)"
                 annotation.index = index
             }
@@ -249,6 +249,65 @@ final class MapViewController: UIViewController {
         self.annotationArray.removeAll()
     }
 
+    // 지도에 경로 표시하기
+    internal func fetchRoute(method: MKDirectionsTransportType,
+                             pickupCoordinate: CLLocationCoordinate2D,
+                             destinationCoordinate: CLLocationCoordinate2D,
+                             showOnMap: Bool) {
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(
+            placemark: MKPlacemark(coordinate: pickupCoordinate, addressDictionary: nil)
+        )
+        request.destination = MKMapItem(
+            placemark: MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
+        )
+        request.requestsAlternateRoutes = true
+        request.transportType = .walking
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { [unowned self] response, error in
+            //guard let self = self else { return }
+            guard let response = response else { return }
+            
+            //self.mapView.removeOverlays(self.mapView.overlays)
+            
+            //for getting just one route
+            if let route = response.routes.first {
+                //print(route.expectedTravelTime.minute, "분")
+                //print(route.distance/1000.0, "km")
+                
+                //show on map
+                if showOnMap {
+                    self.mapView.addOverlay(route.polyline)
+                    //set the map area to show the route
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.3) {
+                            self.moveToCurrentLocation()
+                        }
+                    }
+                } else {
+                    /* ⭐️ 이 부분 따로 떼어다가 pin annotation 선택 시 바로 실행되도록 구현하기 */
+                    let distance = Observable<String>.just("\(route.distance)")
+                    let expectedTime = Observable<String>.just("\(route.expectedTravelTime)")
+                    let placeInfoViewController = PlaceInfoViewController()
+                    distance.asDriver(onErrorJustReturn: "-")
+                        .map { "거리: " + $0 }
+                        .drive(placeInfoViewController.distanceLabel.rx.text)
+                        .disposed(by: rx.disposeBag)
+                    expectedTime.asDriver(onErrorJustReturn: "-")
+                        .map { "도착 예상 시간: " + $0 }
+                        .drive(placeInfoViewController.expectedTimeLabel.rx.text)
+                        .disposed(by: rx.disposeBag)
+                }
+                
+            }
+            
+            //if you want to show multiple routes then you can get all routes in a loop in the following statement
+            //for route in unwrappedResponse.routes {}
+        }
+    }
+    
 }
 
 class MeAnnotation: Annotation {}

@@ -1,8 +1,10 @@
 PODS:
   - AcknowList (3.0.0)
   - Cluster (3.0.3)
+  - DropDown (2.3.13)
   - "NSObject+Rx (5.2.2)":
     - RxSwift (~> 6.2)
+  - PopOverMenu (3.0.0)
   - Pulsator (0.6.0)
   - Realm (10.35.0):
     - Realm/Headers (= 10.35.0)
@@ -20,7 +22,9 @@ PODS:
 DEPENDENCIES:
   - AcknowList
   - Cluster
+  - DropDown
   - "NSObject+Rx"
+  - PopOverMenu (~> 3.0)
   - Pulsator
   - RealmSwift
   - RxCocoa
@@ -31,7 +35,9 @@ SPEC REPOS:
   trunk:
     - AcknowList
     - Cluster
+    - DropDown
     - "NSObject+Rx"
+    - PopOverMenu
     - Pulsator
     - Realm
     - RealmSwift
@@ -43,7 +49,9 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AcknowList: 931531a3e9d66f202ae8e04819a62c50b818b03e
   Cluster: d72510594f60d901905953aafdc811d1888177ae
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
+  PopOverMenu: 04e57f390bbdb6bd41cb6a5801fd3462e1ef0895
   Pulsator: eb5a9f9be4bdcbd19903984c65deca6aabe50a17
   Realm: e6b04f15a814cb22aae621e7e15f2ccb27ac8f95
   RealmSwift: b358779c10ba6d2648d541f8a1bcd671f73485c1
@@ -52,6 +60,6 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 60cbf7a36cc4f06ae9401b67f80734d5aa7bfa1c
+PODFILE CHECKSUM: ad0d6bf4dfa897ea886204df38e5904788f3b164
 
 COCOAPODS: 1.11.3

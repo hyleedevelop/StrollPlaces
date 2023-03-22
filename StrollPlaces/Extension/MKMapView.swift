@@ -44,7 +44,6 @@ extension MKMapView {
             latitudinalMeters: deltaLat,
             longitudinalMeters: deltaLon
         )
-            
         self.setRegion(region, animated: true)
     }
     

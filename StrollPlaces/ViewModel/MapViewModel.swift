@@ -250,9 +250,12 @@ final class MapViewModel {
     //MARK: - 상세정보를 PlaceInfoViewModel에 전달
     
     // 데이터 보내기 (2): MapVM -> PlaceVM (pinData로 초기화)
-    func getPlaceInfoViewModel() -> PlaceInfoViewModel {
+    func sendPinData() -> PlaceInfoViewModel {
         return PlaceInfoViewModel(self.pinData)
     }
+    
+    //MARK: - 경로 안내 관련
+    
     
     //MARK: - UICollectionView 관련
     

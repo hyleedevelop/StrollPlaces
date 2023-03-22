@@ -59,6 +59,7 @@ extension PlaceInfoViewController {
     
     internal func animateDismissView() {
         print(#function)
+        
         // hide blur view
         dimmedView.alpha = maxDimmedAlpha
         
@@ -163,7 +164,7 @@ extension PlaceInfoViewController {
                     self.tableView.alpha = 0.0  // TableView 넣기
                 }
                 
-                self.detailButton.setTitle(K.DetailView.detailButtonNameSee, for: .normal)
+                self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
                 isDetailActivated = false
             }
             else if newHeight > defaultHeight && !isDraggingDown {
@@ -171,7 +172,7 @@ extension PlaceInfoViewController {
                 // Condition 4: If new height is below max and going up, set to max height at top
                 animateContainerHeight(maximumContainerHeight)
                 
-                self.detailButton.setTitle(K.DetailView.detailButtonNameClose, for: .normal)
+                self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
                 isDetailActivated = true
             }
         default:

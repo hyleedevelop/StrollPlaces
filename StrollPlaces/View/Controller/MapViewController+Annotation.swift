@@ -89,10 +89,8 @@ extension MapViewController: MKMapViewDelegate {
             let identifier = "Pin"
             let annotationView = mapView.annotationView(of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
             
-            //annotationView.detailCalloutAccessoryView = self.tempView
-            //annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            //annotationView.canShowCallout = true
-            
+            annotationView.canShowCallout = true
+            annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
             annotationView.pinTintColor = K.Map.themeColor[2]
             return annotationView
             
@@ -164,27 +162,60 @@ extension MapViewController: MKMapViewDelegate {
             // 데이터 보내기 (1): MapVC -> MapVM
             self.viewModel.pinData = self.dataArray[pin.index]
             let placeInfoViewController = PlaceInfoViewController()
-            placeInfoViewController.viewModel = self.viewModel.getPlaceInfoViewModel()
-            placeInfoViewController.modalPresentationStyle = .overCurrentContext
-            
-            placeInfoViewController.placeData = self.dataArray[pin.index]
+            placeInfoViewController.viewModel = self.viewModel.sendPinData()
 
+            // 현재 사용자의 위치와 핀의 위치 가져오기
+            let startLocation = CLLocationCoordinate2D(
+                latitude: self.currentLocation.coordinate.latitude,
+                longitude: self.currentLocation.coordinate.longitude
+            )
+            let endLocation = CLLocationCoordinate2D(
+                latitude: latitude,
+                longitude: longitude
+            )
+            
             // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
             if annotation.title != "My Location" {
+                placeInfoViewController.modalPresentationStyle = .overCurrentContext
                 self.present(placeInfoViewController, animated: false, completion: nil)
             }
+             
+            // route 데이터 바인딩
+            self.fetchRoute(method: AppSetting.shared.navigationMode,
+                            pickupCoordinate: startLocation,
+                            destinationCoordinate: endLocation,
+                            showOnMap: false)
+            
+            // 기존에 경로를 표시하고 있었다면 제거
+            if !self.mapView.overlays.isEmpty {
+                self.mapView.removeOverlays(self.mapView.overlays)
+            }
+            
+            // 경로안내 버튼을 누르면 경로 표시
+            placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside)
+                .asObservable()
+                .subscribe(onNext: {[weak self] in
+                    guard let self = self else { return }
+                    self.fetchRoute(method: AppSetting.shared.navigationMode,
+                                    pickupCoordinate: startLocation,
+                                    destinationCoordinate: endLocation,
+                                    showOnMap: true)
+                    //self.mapView.userTrackingMode = .followWithHeading
+                })
+                .disposed(by: rx.disposeBag)
+            // RxSwift의 trigger와 관련된 연산자 활용 필요?
             
             // 선택된 annotation 해제
             mapView.selectedAnnotations = []
         }
     }
     
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print(#function)
+    // 경로 안내를 위한 polyline 렌더링 설정
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 4.0
+        return renderer
     }
-    
-    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-
-    }
-    
+     
 }

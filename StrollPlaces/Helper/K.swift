@@ -53,9 +53,8 @@ struct K {
         static let cornerRadiusOfSlideView: CGFloat = 20
         static let animationTime: CGFloat = 0.3
         
-        static let detailButtonNameSee = "상세정보 열기"
-        static let detailButtonNameClose = "상세정보 닫기"
-        static let navigateButtonName = "길 안내"
+        static let detailButtonName = "상세정보 보기"
+        static let navigateButtonName = "경로 보기"
     }
     
     // 메세지 관련

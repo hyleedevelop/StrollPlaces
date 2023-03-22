@@ -17,4 +17,8 @@ extension Double {
         return (self * 1000)
     }
     
+    var minute: Double {
+        return (self / 60.0)
+    }
+    
 }

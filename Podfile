@@ -18,6 +18,8 @@ target 'StrollPlaces' do
   #pod 'Google-Mobile-Ads-SDK'
   pod 'Pulsator'
   pod 'Cluster'
+  pod 'PopOverMenu', '~> 3.0'
+  pod 'DropDown'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths

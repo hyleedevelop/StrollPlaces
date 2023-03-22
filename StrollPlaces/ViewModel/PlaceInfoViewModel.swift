@@ -66,7 +66,12 @@ final class PlaceInfoViewModel {
         return Observable<[String]>.just(placeArray)
     }
     
+    func getPlaceType() -> Observable<InfoType> {
+        return Observable<InfoType>.just(pinData.infoType)
+    }
     
-    
+    func getNumberOfItems() -> Int {
+        return titleArray.count
+    }
     
 }
