@@ -158,11 +158,12 @@ extension PlaceInfoViewController {
             else if newHeight < maximumContainerHeight && isDraggingDown {
                 print(#function, "condition3", separator: ", ")
                 // Condition 3: If new height is below max and going down, set to default height
-                animateContainerHeight(defaultHeight)
                 
                 UIView.animate(withDuration: 0.3) {
                     self.tableView.alpha = 0.0  // TableView 넣기
                 }
+                
+                animateContainerHeight(defaultHeight)
                 
                 self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
                 isDetailActivated = false

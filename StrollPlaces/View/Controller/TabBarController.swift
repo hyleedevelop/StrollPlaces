@@ -9,6 +9,8 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+    @IBInspectable var initialIndex: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -16,16 +18,25 @@ class TabBarController: UITabBarController {
     }
     
     func setupTabBar() {
+        selectedIndex = initialIndex
+        
         // iOS 15 업데이트 이후 TabBar, NavigationBar가 보이지 않는 문제 해결
         if #available(iOS 15.0, *) {
+            tabBar.backgroundColor = UIColor.brown
+            tabBar.tintColor = UIColor.black
+            tabBar.layer.cornerRadius = tabBar.frame.height / 2.0
+            tabBar.isTranslucent = false
+
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithDefaultBackground()
             tabBarAppearance.backgroundColor = UIColor.white
             UITabBar.appearance().standardAppearance = tabBarAppearance
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            
+            
             //self.tabBar.layer.borderColor = UIColor.lightGray.cgColor
             //self.tabBar.layer.borderWidth = 0.5
-            self.tabBar.isTranslucent = false
+            
 
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithDefaultBackground()

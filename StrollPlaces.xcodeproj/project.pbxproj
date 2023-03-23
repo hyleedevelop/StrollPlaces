@@ -48,6 +48,9 @@
 		07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* SettingCellData.swift */; };
 		07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSetting.swift */; };
+		07BAE44329CBE70A0048CE89 /* FirstTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* FirstTab.storyboard */; };
+		07BAE44529CBE8D60048CE89 /* SecondTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44429CBE8D60048CE89 /* SecondTab.storyboard */; };
+		07BAE44729CBE8DE0048CE89 /* ThirdTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44629CBE8DE0048CE89 /* ThirdTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
@@ -118,6 +121,9 @@
 		07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* SettingCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellData.swift; sourceTree = "<group>"; };
 		07AFB59229C024BD00DD1C34 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		07BAE44229CBE70A0048CE89 /* FirstTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstTab.storyboard; sourceTree = "<group>"; };
+		07BAE44429CBE8D60048CE89 /* SecondTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SecondTab.storyboard; sourceTree = "<group>"; };
+		07BAE44629CBE8DE0048CE89 /* ThirdTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ThirdTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,9 +226,12 @@
 			isa = PBXGroup;
 			children = (
 				0799CC9B29BF584B006AB70D /* Main.storyboard */,
+				07BAE44229CBE70A0048CE89 /* FirstTab.storyboard */,
+				07BAE44429CBE8D60048CE89 /* SecondTab.storyboard */,
+				07BAE44629CBE8DE0048CE89 /* ThirdTab.storyboard */,
 				079AF4EC29C74683006C365B /* Splash */,
 				0799CCC629BF5947006AB70D /* Controller */,
-				0799CCCF29BF5987006AB70D /* Others */,
+				0799CCCF29BF5987006AB70D /* Other */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -243,7 +252,7 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		0799CCCF29BF5987006AB70D /* Others */ = {
+		0799CCCF29BF5987006AB70D /* Other */ = {
 			isa = PBXGroup;
 			children = (
 				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
@@ -252,7 +261,7 @@
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
 				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
 			);
-			path = Others;
+			path = Other;
 			sourceTree = "<group>";
 		};
 		0799CCD029BF5996006AB70D /* ViewModel */ = {
@@ -439,6 +448,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07BAE44729CBE8DE0048CE89 /* ThirdTab.storyboard in Resources */,
 				0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */,
 				0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */,
 				0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */,
@@ -446,8 +456,10 @@
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
 				079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
+				07BAE44329CBE70A0048CE89 /* FirstTab.storyboard in Resources */,
 				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
+				07BAE44529CBE8D60048CE89 /* SecondTab.storyboard in Resources */,
 				0799CCE729BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -163,7 +163,7 @@ extension MapViewController: MKMapViewDelegate {
             self.viewModel.pinData = self.dataArray[pin.index]
             let placeInfoViewController = PlaceInfoViewController()
             placeInfoViewController.viewModel = self.viewModel.sendPinData()
-
+            
             // 현재 사용자의 위치와 핀의 위치 가져오기
             let startLocation = CLLocationCoordinate2D(
                 latitude: self.currentLocation.coordinate.latitude,
@@ -174,17 +174,20 @@ extension MapViewController: MKMapViewDelegate {
                 longitude: longitude
             )
             
-            // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
-            if annotation.title != "My Location" {
-                placeInfoViewController.modalPresentationStyle = .overCurrentContext
-                self.present(placeInfoViewController, animated: false, completion: nil)
-            }
-             
-            // route 데이터 바인딩
+            // 경로 계산하여 예상 거리 및 소요시간 데이터 넘겨주기
             self.fetchRoute(method: AppSetting.shared.navigationMode,
                             pickupCoordinate: startLocation,
                             destinationCoordinate: endLocation,
-                            showOnMap: false)
+                            draw: false) { distance, time in
+                placeInfoViewController.viewModel.distance = distance
+                placeInfoViewController.viewModel.time = time
+            }
+            
+            // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
+            if annotation.title != "My Location" {
+                placeInfoViewController.modalPresentationStyle = .overCurrentContext
+                self.present(placeInfoViewController, animated: false, completion: nil)  // ⭐️
+            }
             
             // 기존에 경로를 표시하고 있었다면 제거
             if !self.mapView.overlays.isEmpty {
@@ -199,8 +202,7 @@ extension MapViewController: MKMapViewDelegate {
                     self.fetchRoute(method: AppSetting.shared.navigationMode,
                                     pickupCoordinate: startLocation,
                                     destinationCoordinate: endLocation,
-                                    showOnMap: true)
-                    //self.mapView.userTrackingMode = .followWithHeading
+                                    draw: true) { _, _ in }
                 })
                 .disposed(by: rx.disposeBag)
             // RxSwift의 trigger와 관련된 연산자 활용 필요?

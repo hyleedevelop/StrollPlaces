@@ -248,12 +248,13 @@ final class MapViewController: UIViewController {
         self.clusterManager.reload(mapView: self.mapView)
         self.annotationArray.removeAll()
     }
-
+    
     // 지도에 경로 표시하기
     internal func fetchRoute(method: MKDirectionsTransportType,
                              pickupCoordinate: CLLocationCoordinate2D,
                              destinationCoordinate: CLLocationCoordinate2D,
-                             showOnMap: Bool) {
+                             draw: Bool,
+                             completion: @escaping ((Double, Double) -> Void)) {
         
         let request = MKDirections.Request()
         request.source = MKMapItem(
@@ -263,7 +264,7 @@ final class MapViewController: UIViewController {
             placemark: MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
         )
         request.requestsAlternateRoutes = true
-        request.transportType = .walking
+        request.transportType = method
         
         let directions = MKDirections(request: request)
         directions.calculate { [unowned self] response, error in
@@ -274,33 +275,22 @@ final class MapViewController: UIViewController {
             
             //for getting just one route
             if let route = response.routes.first {
-                //print(route.expectedTravelTime.minute, "분")
-                //print(route.distance/1000.0, "km")
-                
-                //show on map
-                if showOnMap {
+                if draw {  // route를 그려야 하는 경우
+                    // 출발지-도착지 경로를 보여줄 지도 영역을 맞추고 경로 그리기
+                    let rect = route.polyline.boundingMapRect
+                    self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
                     self.mapView.addOverlay(route.polyline)
-                    //set the map area to show the route
-                    DispatchQueue.main.async {
-                        UIView.animate(withDuration: 0.3) {
-                            self.moveToCurrentLocation()
-                        }
-                    }
-                } else {
-                    /* ⭐️ 이 부분 따로 떼어다가 pin annotation 선택 시 바로 실행되도록 구현하기 */
-                    let distance = Observable<String>.just("\(route.distance)")
-                    let expectedTime = Observable<String>.just("\(route.expectedTravelTime)")
-                    let placeInfoViewController = PlaceInfoViewController()
-                    distance.asDriver(onErrorJustReturn: "-")
-                        .map { "거리: " + $0 }
-                        .drive(placeInfoViewController.distanceLabel.rx.text)
-                        .disposed(by: rx.disposeBag)
-                    expectedTime.asDriver(onErrorJustReturn: "-")
-                        .map { "도착 예상 시간: " + $0 }
-                        .drive(placeInfoViewController.expectedTimeLabel.rx.text)
-                        .disposed(by: rx.disposeBag)
+                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                        DispatchQueue.main.async {
+//                            UIView.animate(withDuration: 0.3) {
+//                                self.moveToCurrentLocation()
+//                            }
+//                        }
+//                    }
+                } else {  // 단순히 route 정보만 필요한 경우
+                    completion(route.distance, route.expectedTravelTime)
                 }
-                
             }
             
             //if you want to show multiple routes then you can get all routes in a loop in the following statement

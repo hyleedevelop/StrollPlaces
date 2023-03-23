@@ -28,6 +28,7 @@ class PlaceInfoViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 20
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.clipsToBounds = true
         view.layer.masksToBounds = false
         view.layer.shadowColor = UIColor.black.cgColor
@@ -68,7 +69,7 @@ class PlaceInfoViewController: UIViewController {
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         button.backgroundColor = UIColor.systemGray6
         button.tintColor = UIColor.black
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 15
         button.clipsToBounds = true
         return button
     }()
@@ -91,6 +92,15 @@ class PlaceInfoViewController: UIViewController {
         return label
     }()
     
+    private lazy var labelStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [distanceLabel, expectedTimeLabel])
+        sv.axis = .horizontal
+        sv.spacing = 10
+        sv.alignment = .fill
+        sv.distribution = .fillProportionally
+        return sv
+    }()
+    
     public let navigateButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = K.Map.themeColor[0]
@@ -100,15 +110,6 @@ class PlaceInfoViewController: UIViewController {
         button.layer.cornerRadius = 2
         button.clipsToBounds = true
         return button
-    }()
-    
-    private lazy var labelStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [distanceLabel, expectedTimeLabel])
-        sv.axis = .horizontal
-        sv.spacing = 15
-        sv.alignment = .fill
-        sv.distribution = .fill
-        return sv
     }()
     
     internal let tableView: UITableView = {
@@ -126,13 +127,15 @@ class PlaceInfoViewController: UIViewController {
     internal var viewModel: PlaceInfoViewModel!
     var isDetailActivated = false
     
-    // Constants
     internal let maxDimmedAlpha: CGFloat = 0.15  // 값이 0이면 투명 -> 탭 해도 dismiss가 일어나지 않음
-    internal let defaultHeight: CGFloat = 175
+    //internal let defaultHeight: CGFloat = 150 + (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0)
+
+    private let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    
     internal let dismissibleHeight: CGFloat = 135
-    //internal let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 100
+    internal lazy var defaultHeight: CGFloat = 155 + (scene?.windows.first?.safeAreaInsets.bottom ?? 0)
+    internal lazy var currentContainerHeight: CGFloat = 155 + (scene?.windows.first?.safeAreaInsets.bottom ?? 0)
     internal let maximumContainerHeight: CGFloat = 500
-    internal var currentContainerHeight: CGFloat = 175  // keep current new height, initial is default height
     internal var maximumContainerHeightByButton: CGFloat = 500
     
     // Dynamic container constraint
@@ -156,7 +159,7 @@ class PlaceInfoViewController: UIViewController {
         setupTapGesture()
         setupPanGesture()
         
-        bindUI()
+        setupBinding()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -191,7 +194,7 @@ class PlaceInfoViewController: UIViewController {
         self.iconBackView.addSubview(self.iconImage)
         self.iconBackView.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.height.equalTo(26)
             $0.width.equalTo(26)
         }
@@ -204,16 +207,16 @@ class PlaceInfoViewController: UIViewController {
         self.disclosureButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         self.disclosureButton.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.width.height.equalTo(26)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+            $0.width.height.equalTo(30)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
         }
         
         // name label
         self.containerView.addSubview(self.nameLabel)
         self.nameLabel.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.left.equalTo(self.iconBackView.snp_rightMargin).offset(20)
-            $0.right.equalTo(self.disclosureButton.snp_leftMargin).offset(-10)
+            $0.left.equalTo(self.iconBackView.snp.right).offset(10)
+            $0.right.equalTo(self.disclosureButton.snp_leftMargin).offset(-20)
             $0.height.equalTo(26)
         }
     }
@@ -221,10 +224,18 @@ class PlaceInfoViewController: UIViewController {
     private func setupMiddleUI() {
         self.containerView.addSubview(self.labelStackView)
         self.labelStackView.snp.makeConstraints {
-            $0.top.equalTo(self.iconBackView.snp_bottomMargin).offset(20)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+            $0.top.equalTo(self.iconBackView.snp.bottom).offset(15)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.height.equalTo(18)
+            $0.width.equalTo(260)
+        }
+        
+        self.distanceLabel.snp.makeConstraints {
+            $0.width.equalTo(100)
+        }
+        
+        self.expectedTimeLabel.snp.makeConstraints {
+            $0.width.equalTo(150)
         }
     }
     
@@ -232,9 +243,9 @@ class PlaceInfoViewController: UIViewController {
         containerView.addSubview(navigateButton)
         navigateButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         navigateButton.snp.makeConstraints {
-            $0.top.equalTo(self.labelStackView.snp_bottomMargin).offset(20)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+            $0.top.equalTo(self.labelStackView.snp.bottom).offset(15)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
             $0.height.equalTo(45)
         }
     }
@@ -247,19 +258,21 @@ class PlaceInfoViewController: UIViewController {
         
         containerView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.equalTo(self.navigateButton.snp_bottomMargin).offset(30)
+            $0.top.equalTo(self.navigateButton.snp_bottomMargin).offset(20)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide)
             //$0.height.equalTo(300)
-            $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(10)
+            $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
         }
         
 //        tableView.rowHeight = UITableView.automaticDimension
 //        tableView.estimatedRowHeight = 50
     }
     
-    private func bindUI() {
+    private func setupBinding() {
         let placeType = self.viewModel.getPlaceType().asDriver(onErrorJustReturn: .marked)
-        let placeName = self.viewModel.getPlaceInfo().asDriver(onErrorJustReturn: ["N/A"])
+        let placeName = self.viewModel.getPlaceInfo().asDriver(onErrorJustReturn: ["알수없음"])
+        let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
+        let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
         
         placeType.map { type -> UIImage in
             switch type {
@@ -285,15 +298,13 @@ class PlaceInfoViewController: UIViewController {
             .drive(nameLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        distanceLabel.text = "거리: 1.23 km"
-        expectedTimeLabel.text = "도착 예상 시간: 7분"
-//        routeDriver.map {  }
-//            .drive(distanceLabel.rx.text)
-//            .disposed(by: rx.disposeBag)
-//
-//        routeDriver.map {  }
-//            .drive(expectedTimeLabel.rx.text)
-//            .disposed(by: rx.disposeBag)
+        //distanceLabel.text = "거리: 1.23 km"
+        //expectedTimeLabel.text = "도착 예상 시간: 7분"
+        distance.drive(distanceLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+
+        time.drive(expectedTimeLabel.rx.text)
+            .disposed(by: rx.disposeBag)
     }
     
     @objc private func buttonTapped(_ sender: UIButton) {

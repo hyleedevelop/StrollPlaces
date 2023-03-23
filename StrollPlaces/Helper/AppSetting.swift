@@ -15,7 +15,7 @@ final class AppSetting {
     static let shared = AppSetting()
     private init() {}
     
-    var navigationMode: MKDirectionsTransportType = .walking
+    var navigationMode: MKDirectionsTransportType = .automobile
     
 }
 

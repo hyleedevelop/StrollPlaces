@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iGx-ha-8on">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--위치-->
+        <scene sceneID="Fvc-jB-ceG">
+            <objects>
+                <viewController id="iGx-ha-8on" customClass="MapViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7am-6D-p6S">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Hg-yH-Sbi">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DVW-Jq-0Vi">
+                                <rect key="frame" x="343" y="344" width="40" height="140"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y6Z-jt-Rzf">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="y6Z-jt-Rzf" secondAttribute="height" multiplier="1:1" id="Gtn-rT-rA6"/>
+                                            <constraint firstAttribute="width" constant="40" id="Hpl-1H-DL5"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="+">
+                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="24"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRp-HF-kmI">
+                                        <rect key="frame" x="0.0" y="50" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="eRp-HF-kmI" secondAttribute="height" multiplier="1:1" id="4hK-KV-hAo"/>
+                                            <constraint firstAttribute="width" constant="40" id="zQL-fE-GdM"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="-">
+                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="24"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cHI-fa-qdc">
+                                        <rect key="frame" x="0.0" y="100" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="Ya2-t3-uBO"/>
+                                            <constraint firstAttribute="width" secondItem="cHI-fa-qdc" secondAttribute="height" multiplier="1:1" id="plh-nb-CFD"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="dot.circle.viewfinder" catalog="system" title=""/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="egM-vY-eED"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ynA-1x-k5u"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="9Hg-yH-Sbi" secondAttribute="trailing" id="5d1-Wu-H4U"/>
+                            <constraint firstItem="ynA-1x-k5u" firstAttribute="bottom" secondItem="9Hg-yH-Sbi" secondAttribute="bottom" id="84f-RR-2l6"/>
+                            <constraint firstItem="9Hg-yH-Sbi" firstAttribute="leading" secondItem="ynA-1x-k5u" secondAttribute="leading" id="DJe-cw-NlZ"/>
+                            <constraint firstItem="9Hg-yH-Sbi" firstAttribute="top" secondItem="7am-6D-p6S" secondAttribute="top" id="QMf-qE-BLG"/>
+                            <constraint firstItem="DVW-Jq-0Vi" firstAttribute="centerY" secondItem="ynA-1x-k5u" secondAttribute="centerY" id="nXH-SZ-TYW"/>
+                            <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="DVW-Jq-0Vi" secondAttribute="trailing" constant="10" id="scg-yz-Loc"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="위치" image="location.magnifyingglass" catalog="system" id="ceh-kC-frY"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="currentLocationButton" destination="cHI-fa-qdc" id="oIl-O5-Ugf"/>
+                        <outlet property="mapView" destination="9Hg-yH-Sbi" id="eCD-i7-dre"/>
+                        <outlet property="zoomInButton" destination="y6Z-jt-Rzf" id="yA4-hd-eYN"/>
+                        <outlet property="zoomOutButton" destination="eRp-HF-kmI" id="W5S-xU-nFb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2hm-Ua-MfL" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="69" y="-226"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="dot.circle.viewfinder" catalog="system" width="128" height="115"/>
+        <image name="location.magnifyingglass" catalog="system" width="128" height="117"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
