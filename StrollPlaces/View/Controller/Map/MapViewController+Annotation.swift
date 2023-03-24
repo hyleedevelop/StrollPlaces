@@ -21,7 +21,8 @@ extension MapViewController: CLLocationManagerDelegate {
     // 1. 사용자 위치 관련 설정
     func setupUserLocation() {
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        //self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.getLocationUsagePermission()
     }
     
@@ -84,6 +85,25 @@ extension MapViewController: MKMapViewDelegate {
         } else if annotation is MKUserLocation {
             let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "UserLocationAnnotationView")
             return annotationView
+            //return nil
+            
+//        } else if annotation is RouteAnnotation {
+//            let annotationView = mapView.dequeueReusableAnnotationView(
+//                withIdentifier: RouteAnnotationView.identifier)
+//            mapView.register(RouteAnnotationView.self,
+//                             forAnnotationViewWithReuseIdentifier: RouteAnnotationView.identifier)
+//            annotationView?.canShowCallout = true
+//
+//            let customImage: UIImage!
+//            let size = CGSize(width: 15, height: 25)
+//            UIGraphicsBeginImageContext(size)
+//
+//            customImage = UIImage(named: "pin")
+//            customImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+//            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+//            annotationView?.image = resizedImage
+//
+//            return annotationView
             
         } else {
             let identifier = "Pin"
@@ -153,10 +173,11 @@ extension MapViewController: MKMapViewDelegate {
         } else if let pin = annotation as? Annotation {
             let latitude = annotation.coordinate.latitude
             let longitude = annotation.coordinate.longitude
+            
             self.mapView.centerToLocation(
                 location: CLLocation(latitude: latitude, longitude: longitude),
-                deltaLat: 1.0.km,
-                deltaLon: 1.0.km
+                deltaLat: 0.5.km,
+                deltaLon: 0.5.km
             )
             
             // 데이터 보내기 (1): MapVC -> MapVM

@@ -16,6 +16,7 @@ final class PlaceInfoViewModel {
     let pinData: PublicData
     private var titleArray = [String]()
     private var placeArray = [String]()
+    let numberOfItems = BehaviorSubject<Int>(value: 5)
     
     var estimatedDistance = PublishRelay<String>()
     var estimatedTime = PublishRelay<String>()
@@ -76,20 +77,22 @@ final class PlaceInfoViewModel {
     
     //MARK: - 메서드
 
+    @discardableResult
     func getTitleInfo() -> Observable<[String]> {
         switch pinData.infoType {
         case .park:
-            titleArray = ["명칭", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         case .strollWay:
-            titleArray = ["명칭", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         case .recreationForest:
-            titleArray = ["명칭", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         case .tourSpot:
-            titleArray = ["명칭", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         case .marked:
-            titleArray = ["명칭", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         }
         
+        self.numberOfItems.onNext(titleArray.count)
         return Observable<[String]>.just(titleArray)
     }
     
@@ -122,10 +125,6 @@ final class PlaceInfoViewModel {
     
     func getPlaceType() -> Observable<InfoType> {
         return Observable<InfoType>.just(pinData.infoType)
-    }
-    
-    func getNumberOfItems() -> Int {
-        return titleArray.count
     }
     
 }

@@ -151,6 +151,13 @@ final class MapViewController: UIViewController {
         self.themeButtonCollectionView.dataSource = self
         
         self.viewModel = MapViewModel()  // 셀의 초기화가 진행되는 시점
+        
+        // 초기화 시 선택되어 있을 셀(공원) 지정하기
+        self.themeButtonCollectionView.selectItem(
+            at: NSIndexPath(item: 1, section: 0) as IndexPath,
+            animated: false,
+            scrollPosition: .centeredHorizontally
+        )
     }
     
     // map controll button 설정
@@ -197,8 +204,8 @@ final class MapViewController: UIViewController {
                 guard let self = self else { return }
                 self.mapView.centerToLocation(
                     location: self.currentLocation,
-                    deltaLat: 1.0.km,
-                    deltaLon: 1.0.km
+                    deltaLat: 0.5.km,
+                    deltaLon: 0.5.km
                 )
             })
             .disposed(by: rx.disposeBag)
@@ -276,18 +283,36 @@ final class MapViewController: UIViewController {
             //for getting just one route
             if let route = response.routes.first {
                 if draw {  // route를 그려야 하는 경우
-                    // 출발지-도착지 경로를 보여줄 지도 영역을 맞추고 경로 그리기
-                    let rect = route.polyline.boundingMapRect
-                    self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+                    // 출발지-도착지 경로를 보여줄 지도 영역 설정
+                    // (출발지-도착지 간 위경도 차이의 1.5배 크기의 영역을 보여주기)
+                    var rect = MKCoordinateRegion(route.polyline.boundingMapRect)
+                    rect.span.latitudeDelta = abs(pickupCoordinate.latitude -
+                                                  destinationCoordinate.latitude) * 1.5
+                    rect.span.longitudeDelta = abs(pickupCoordinate.longitude -
+                                                   destinationCoordinate.longitude) * 1.5
+                    self.mapView.setRegion(rect, animated: true)
+                    
+                    // 경로 그리기
                     self.mapView.addOverlay(route.polyline)
                     
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                        DispatchQueue.main.async {
-//                            UIView.animate(withDuration: 0.3) {
-//                                self.moveToCurrentLocation()
-//                            }
-//                        }
-//                    }
+                    // 출발지와 도착지 오버레이 표시하기
+                    /*
+                    let startOfRouteAnnotation = RouteAnnotation(
+                        coordinate: CLLocationCoordinate2D(
+                            latitude: pickupCoordinate.latitude,
+                            longitude: pickupCoordinate.longitude),
+                        title: "출발",
+                        type: .startOfRoute)
+                    let endOfRouteAnnotation = RouteAnnotation(
+                        coordinate: CLLocationCoordinate2D(
+                            latitude: destinationCoordinate.latitude,
+                            longitude: destinationCoordinate.longitude),
+                        title: "도착",
+                        type: .endOfRoute)
+                    self.mapView.addAnnotation(startOfRouteAnnotation)
+                    self.mapView.addAnnotation(endOfRouteAnnotation)
+                     */
+                    
                 } else {  // 단순히 route 정보만 필요한 경우
                     completion(route.distance, route.expectedTravelTime)
                 }

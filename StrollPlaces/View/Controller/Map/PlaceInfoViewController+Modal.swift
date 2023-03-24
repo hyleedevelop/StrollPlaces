@@ -165,7 +165,7 @@ extension PlaceInfoViewController {
                 
                 animateContainerHeight(defaultHeight)
                 
-                self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+                self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
                 isDetailActivated = false
             }
             else if newHeight > defaultHeight && !isDraggingDown {
@@ -173,7 +173,7 @@ extension PlaceInfoViewController {
                 // Condition 4: If new height is below max and going up, set to max height at top
                 animateContainerHeight(maximumContainerHeight)
                 
-                self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+                self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
                 isDetailActivated = true
             }
         default:

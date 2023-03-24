@@ -44,7 +44,7 @@ struct K {
         static let trailingSpacing: CGFloat = (spacingWidth + spacingHeight) * 2
         static let cellColumns: CGFloat = 3
         static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
-        static let cellHeight: CGFloat = 35
+        static let cellHeight: CGFloat = 40
     }
     
     // DetailView 관련

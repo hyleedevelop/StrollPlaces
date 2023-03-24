@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+
 import NSObject_Rx
 import CoreLocation
 import DropDown
@@ -57,7 +58,7 @@ class PlaceInfoViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 26, weight: .heavy)
+        label.font = UIFont.systemFont(ofSize: 26, weight: .bold)
         label.textAlignment = .left
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -66,7 +67,7 @@ class PlaceInfoViewController: UIViewController {
     
     internal let disclosureButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.setImage(UIImage(systemName: "chevron.up"), for: .normal)
         button.backgroundColor = UIColor.systemGray6
         button.tintColor = UIColor.black
         button.layer.cornerRadius = 15
@@ -77,6 +78,7 @@ class PlaceInfoViewController: UIViewController {
     public let distanceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        label.textColor = UIColor.darkGray
         label.textAlignment = .left
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -86,6 +88,7 @@ class PlaceInfoViewController: UIViewController {
     public let expectedTimeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        label.textColor = UIColor.darkGray
         label.textAlignment = .left
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -117,7 +120,7 @@ class PlaceInfoViewController: UIViewController {
         tv.allowsSelection = false
         tv.separatorStyle = .none
         tv.scrollsToTop = true
-        tv.showsVerticalScrollIndicator = false
+        tv.showsVerticalScrollIndicator = true
         tv.alpha = 0.0
         return tv
     }()
@@ -258,7 +261,7 @@ class PlaceInfoViewController: UIViewController {
         
         containerView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.equalTo(self.navigateButton.snp_bottomMargin).offset(20)
+            $0.top.equalTo(self.navigateButton.snp_bottomMargin).offset(25)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide)
             //$0.height.equalTo(300)
             $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
@@ -311,12 +314,12 @@ class PlaceInfoViewController: UIViewController {
         if sender == self.disclosureButton {
             if !isDetailActivated {
                 animateContainerHeight(maximumContainerHeightByButton)
-                self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+                self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
             } else {
                 UIView.animate(withDuration: 0.3) {
                     self.tableView.alpha = 0.0  // TableView 넣기
                 }
-                self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+                self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
                 animateContainerHeight(defaultHeight)
             }
             isDetailActivated.toggle()
@@ -339,7 +342,14 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        self.viewModel.getTitleInfo()
+        var numberOfRows = 0
+        self.viewModel.numberOfItems
+            .subscribe { num in
+                numberOfRows = num
+            }
+            .disposed(by: rx.disposeBag)
+        return numberOfRows
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -356,14 +366,14 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
         
         // 데이터 보내기 (3): PlaceVM -> PlaceVC(바인딩)
         self.viewModel.getTitleInfo()
-            .asDriver(onErrorJustReturn: ["N/A"])
-            .map { $0[indexPath.row + 1] }
+            .asDriver(onErrorJustReturn: ["알수없음"])
+            .map { $0[indexPath.row ] }
             .drive(cell.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         self.viewModel.getPlaceInfo()
-            .asDriver(onErrorJustReturn: ["N/A"])
-            .map { $0[indexPath.row + 1] }
+            .asDriver(onErrorJustReturn: ["알수없음"])
+            .map { $0[indexPath.row ] }
             .drive(cell.descriptionLabel.rx.text)
             .disposed(by: rx.disposeBag)
         

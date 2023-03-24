@@ -17,6 +17,15 @@
 		075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */; };
 		075FE44129C5B63A00A5694C /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* UIView.swift */; };
 		07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */; };
+		077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */; };
+		077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */; };
+		077C1BE429CDEAC200DA3218 /* NewsTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 077C1BE329CDEAC200DA3218 /* NewsTab.storyboard */; };
+		077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BE929CDEC7800DA3218 /* NewsViewController.swift */; };
+		077C1BEC29CDEDC100DA3218 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BEB29CDEDC100DA3218 /* URLRequest.swift */; };
+		077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */; };
+		077C1BF029CDEEC600DA3218 /* NewsCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */; };
+		077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */; };
+		077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */; };
 		0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */; };
 		0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */; };
 		0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */; };
@@ -48,9 +57,9 @@
 		07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* SettingCellData.swift */; };
 		07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSetting.swift */; };
-		07BAE44329CBE70A0048CE89 /* FirstTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* FirstTab.storyboard */; };
-		07BAE44529CBE8D60048CE89 /* SecondTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44429CBE8D60048CE89 /* SecondTab.storyboard */; };
-		07BAE44729CBE8DE0048CE89 /* ThirdTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44629CBE8DE0048CE89 /* ThirdTab.storyboard */; };
+		07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* MapTab.storyboard */; };
+		07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */; };
+		07BAE44729CBE8DE0048CE89 /* SettingTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44629CBE8DE0048CE89 /* SettingTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
@@ -86,6 +95,15 @@
 		075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+Annotation.swift"; sourceTree = "<group>"; };
 		075FE44029C5B63A00A5694C /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230312.csv; sourceTree = "<group>"; };
+		077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAnnotation.swift; sourceTree = "<group>"; };
+		077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAnnotationView.swift; sourceTree = "<group>"; };
+		077C1BE329CDEAC200DA3218 /* NewsTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsTab.storyboard; sourceTree = "<group>"; };
+		077C1BE929CDEC7800DA3218 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		077C1BEB29CDEDC100DA3218 /* URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
+		077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
+		077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellData.swift; sourceTree = "<group>"; };
+		077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
 		0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceInfoViewController+Modal.swift"; sourceTree = "<group>"; };
@@ -121,9 +139,9 @@
 		07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* SettingCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellData.swift; sourceTree = "<group>"; };
 		07AFB59229C024BD00DD1C34 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
-		07BAE44229CBE70A0048CE89 /* FirstTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstTab.storyboard; sourceTree = "<group>"; };
-		07BAE44429CBE8D60048CE89 /* SecondTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SecondTab.storyboard; sourceTree = "<group>"; };
-		07BAE44629CBE8DE0048CE89 /* ThirdTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ThirdTab.storyboard; sourceTree = "<group>"; };
+		07BAE44229CBE70A0048CE89 /* MapTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapTab.storyboard; sourceTree = "<group>"; };
+		07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyPlaceTab.storyboard; sourceTree = "<group>"; };
+		07BAE44629CBE8DE0048CE89 /* SettingTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +181,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		077C1BE529CDEBE700DA3218 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCC929BF596E006AB70D /* MapViewController.swift */,
+				072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */,
+				075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */,
+				0712E4AA29C6B3A000243DF8 /* PlaceInfoViewController.swift */,
+				0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		077C1BE629CDEBF900DA3218 /* MyPlace */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
+			);
+			path = MyPlace;
+			sourceTree = "<group>";
+		};
+		077C1BE729CDEC5500DA3218 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		077C1BE829CDEC6300DA3218 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCCD29BF5980006AB70D /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		0799CC8929BF584B006AB70D = {
 			isa = PBXGroup;
 			children = (
@@ -225,11 +279,7 @@
 		0799CCC529BF5941006AB70D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0799CC9B29BF584B006AB70D /* Main.storyboard */,
-				07BAE44229CBE70A0048CE89 /* FirstTab.storyboard */,
-				07BAE44429CBE8D60048CE89 /* SecondTab.storyboard */,
-				07BAE44629CBE8DE0048CE89 /* ThirdTab.storyboard */,
-				079AF4EC29C74683006C365B /* Splash */,
+				079AF4EC29C74683006C365B /* Storyboard */,
 				0799CCC629BF5947006AB70D /* Controller */,
 				0799CCCF29BF5987006AB70D /* Other */,
 			);
@@ -239,15 +289,12 @@
 		0799CCC629BF5947006AB70D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				079AF4F129C74C9D006C365B /* LoginViewController.swift */,
 				0799CCC729BF595C006AB70D /* TabBarController.swift */,
-				0799CCC929BF596E006AB70D /* MapViewController.swift */,
-				072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */,
-				075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */,
-				0712E4AA29C6B3A000243DF8 /* PlaceInfoViewController.swift */,
-				0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */,
-				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
-				0799CCCD29BF5980006AB70D /* SettingViewController.swift */,
+				079AF4F129C74C9D006C365B /* LoginViewController.swift */,
+				077C1BE529CDEBE700DA3218 /* Map */,
+				077C1BE629CDEBF900DA3218 /* MyPlace */,
+				077C1BE729CDEC5500DA3218 /* News */,
+				077C1BE829CDEC6300DA3218 /* Setting */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -260,6 +307,8 @@
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
 				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
+				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
+				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -270,6 +319,7 @@
 				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
 				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
 				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
+				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
 				07AFB58E29C011DD00DD1C34 /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
@@ -279,8 +329,9 @@
 			isa = PBXGroup;
 			children = (
 				0799CCD229BF59C0006AB70D /* PublicData.swift */,
-				07AFB59029C012A600DD1C34 /* SettingCellData.swift */,
 				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
+				077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */,
+				07AFB59029C012A600DD1C34 /* SettingCellData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -292,6 +343,8 @@
 				07AFB59229C024BD00DD1C34 /* AppSetting.swift */,
 				072D5BB929C2E26A0024B938 /* Enum.swift */,
 				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
+				077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */,
+				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -303,17 +356,23 @@
 				0751436729C201CD00109B8E /* UIImage.swift */,
 				075FE44029C5B63A00A5694C /* UIView.swift */,
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
+				077C1BEB29CDEDC100DA3218 /* URLRequest.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		079AF4EC29C74683006C365B /* Splash */ = {
+		079AF4EC29C74683006C365B /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				0799CC9B29BF584B006AB70D /* Main.storyboard */,
+				07BAE44229CBE70A0048CE89 /* MapTab.storyboard */,
+				07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */,
+				077C1BE329CDEAC200DA3218 /* NewsTab.storyboard */,
+				07BAE44629CBE8DE0048CE89 /* SettingTab.storyboard */,
 				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
 				079AF4EF29C74931006C365B /* strollingMan.jpeg */,
 			);
-			path = Splash;
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 		911A2571663AC9DCAF7EFE9B /* Frameworks */ = {
@@ -448,18 +507,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07BAE44729CBE8DE0048CE89 /* ThirdTab.storyboard in Resources */,
+				07BAE44729CBE8DE0048CE89 /* SettingTab.storyboard in Resources */,
 				0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */,
 				0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */,
 				0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */,
+				077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */,
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
+				077C1BE429CDEAC200DA3218 /* NewsTab.storyboard in Resources */,
 				079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
-				07BAE44329CBE70A0048CE89 /* FirstTab.storyboard in Resources */,
+				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
-				07BAE44529CBE8D60048CE89 /* SecondTab.storyboard in Resources */,
+				07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */,
 				0799CCE729BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,24 +658,31 @@
 				075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
+				077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
 				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
 				0751436829C201CD00109B8E /* UIImage.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
+				077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */,
 				0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */,
+				077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
+				077C1BEC29CDEDC100DA3218 /* URLRequest.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
 				075FE44129C5B63A00A5694C /* UIView.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* SettingViewModel.swift in Sources */,
 				072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */,
+				077C1BF029CDEEC600DA3218 /* NewsCellData.swift in Sources */,
+				077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */,
 				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* SettingViewController.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
+				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);

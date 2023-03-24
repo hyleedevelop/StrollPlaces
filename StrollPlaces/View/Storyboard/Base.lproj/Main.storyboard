@@ -49,15 +49,15 @@
             </objects>
             <point key="canvasLocation" x="-985.49618320610682" y="-27.464788732394368"/>
         </scene>
-        <!--FirstTab-->
+        <!--MapTab-->
         <scene sceneID="yXO-JC-SZg">
             <objects>
-                <viewControllerPlaceholder storyboardName="FirstTab" id="uhN-hB-hgv" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="MapTab" id="uhN-hB-hgv" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="8nP-rc-xhe"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u0w-h6-jFT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="734" y="-93"/>
+            <point key="canvasLocation" x="639" y="-118"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="cFd-EL-QAg">
@@ -83,6 +83,7 @@
                     <connections>
                         <segue destination="uhN-hB-hgv" kind="relationship" relationship="viewControllers" id="PKg-pr-NmE"/>
                         <segue destination="Rr7-EA-fsG" kind="relationship" relationship="viewControllers" id="nuV-gB-Ps2"/>
+                        <segue destination="spe-7Z-faM" kind="relationship" relationship="viewControllers" id="y8E-CH-xWz"/>
                         <segue destination="dyP-US-esK" kind="relationship" relationship="viewControllers" id="FrY-aW-x8h"/>
                     </connections>
                 </tabBarController>
@@ -90,25 +91,35 @@
             </objects>
             <point key="canvasLocation" x="-21" y="-27"/>
         </scene>
-        <!--SecondTab-->
+        <!--MyPlaceTab-->
         <scene sceneID="bhj-QA-mnZ">
             <objects>
-                <viewControllerPlaceholder storyboardName="SecondTab" id="Rr7-EA-fsG" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="MyPlaceTab" id="Rr7-EA-fsG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="0xb-hj-lo1"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W2a-ZY-BxJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="747" y="-27"/>
+            <point key="canvasLocation" x="657" y="-58"/>
         </scene>
-        <!--ThirdTab-->
+        <!--SettingTab-->
         <scene sceneID="cvO-Io-YbO">
             <objects>
-                <viewControllerPlaceholder storyboardName="ThirdTab" id="dyP-US-esK" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="SettingTab" id="dyP-US-esK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="dlo-M3-zsy"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z2a-CZ-js4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="737" y="39"/>
+            <point key="canvasLocation" x="651" y="46"/>
+        </scene>
+        <!--NewsTab-->
+        <scene sceneID="s1i-Af-P9R">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewsTab" id="spe-7Z-faM" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="gqp-P8-OZw"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fED-H0-JY0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="644" y="-4"/>
         </scene>
     </scenes>
     <resources>

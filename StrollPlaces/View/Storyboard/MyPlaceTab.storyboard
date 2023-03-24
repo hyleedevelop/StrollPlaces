@@ -32,7 +32,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="MY플레이스" image="figure.walk" catalog="system" id="Q2D-1V-q9f"/>
-                    <navigationItem key="navigationItem" title="MY플레이스" id="F9N-nl-Ib8"/>
+                    <navigationItem key="navigationItem" title="MY플레이스" id="F9N-nl-Ib8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="r1q-vY-6t8"/>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="currentLocationLabel" destination="GGS-im-53S" id="Exa-8r-OpR"/>

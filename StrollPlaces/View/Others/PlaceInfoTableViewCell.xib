@@ -10,37 +10,40 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="42" id="KGk-i7-Jjw" customClass="PlaceInfoTableViewCell" customModule="StrollPlaces" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="PlaceInfoTableViewCell" customModule="StrollPlaces" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="98"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="98"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LL6-aN-Z0X">
-                        <rect key="frame" x="20" y="5" width="280" height="20"/>
+                        <rect key="frame" x="30" y="5" width="260" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="JTb-XU-TdH"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u3R-wM-yKc">
-                        <rect key="frame" x="20" y="28" width="280" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <rect key="frame" x="30" y="30" width="260" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Kqm-mN-pRj"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="u3R-wM-yKc" secondAttribute="trailing" constant="20" id="9cF-Tg-Rwl"/>
+                    <constraint firstAttribute="trailing" secondItem="u3R-wM-yKc" secondAttribute="trailing" constant="30" id="9cF-Tg-Rwl"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="u3R-wM-yKc" secondAttribute="bottom" constant="5" id="Ozd-zr-NVQ"/>
-                    <constraint firstItem="LL6-aN-Z0X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="aOJ-R8-LrA"/>
+                    <constraint firstItem="LL6-aN-Z0X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="aOJ-R8-LrA"/>
                     <constraint firstItem="LL6-aN-Z0X" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="c6R-Rf-3VK"/>
-                    <constraint firstItem="u3R-wM-yKc" firstAttribute="top" secondItem="LL6-aN-Z0X" secondAttribute="bottom" constant="3" id="kP0-Gc-xBM"/>
-                    <constraint firstAttribute="trailing" secondItem="LL6-aN-Z0X" secondAttribute="trailing" constant="20" id="s3s-CW-r54"/>
-                    <constraint firstItem="u3R-wM-yKc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="uEG-bM-iQ6"/>
+                    <constraint firstItem="u3R-wM-yKc" firstAttribute="top" secondItem="LL6-aN-Z0X" secondAttribute="bottom" constant="5" id="kP0-Gc-xBM"/>
+                    <constraint firstAttribute="trailing" secondItem="LL6-aN-Z0X" secondAttribute="trailing" constant="30" id="s3s-CW-r54"/>
+                    <constraint firstItem="u3R-wM-yKc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="uEG-bM-iQ6"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -49,7 +52,7 @@
                 <outlet property="descriptionLabel" destination="u3R-wM-yKc" id="dIa-qZ-abg"/>
                 <outlet property="titleLabel" destination="LL6-aN-Z0X" id="IOK-zS-gNG"/>
             </connections>
-            <point key="canvasLocation" x="88.549618320610676" y="0.0"/>
+            <point key="canvasLocation" x="88.549618320610676" y="6.3380281690140849"/>
         </tableViewCell>
     </objects>
 </document>
