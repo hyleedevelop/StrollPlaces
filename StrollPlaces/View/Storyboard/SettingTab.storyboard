@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LlH-2f-a1z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="i2B-3Q-diD">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -9,73 +9,71 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--설정-->
-        <scene sceneID="mDl-eO-31R">
+        <!--더보기-->
+        <scene sceneID="pC9-bd-Oi4">
             <objects>
-                <viewController id="4vs-6V-a66" customClass="SettingViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ujn-5w-Thy">
+                <viewController id="qVy-gx-ht7" customClass="SettingViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7hW-ya-mI4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WXM-Aw-jGv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="PtN-hb-tPl">
                                 <rect key="frame" x="0.0" y="103" width="393" height="616"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gnj-XC-wAY">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0WD-q2-cQ8">
                                 <rect key="frame" x="0.0" y="719" width="393" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="otE-Fp-cnA"/>
+                                    <constraint firstAttribute="height" constant="50" id="bOu-8F-R3b"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="9Du-M4-OHN"/>
+                        <viewLayoutGuide key="safeArea" id="vRS-wh-Ho9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Gnj-XC-wAY" firstAttribute="top" secondItem="WXM-Aw-jGv" secondAttribute="bottom" id="Ble-gD-unl"/>
-                            <constraint firstItem="9Du-M4-OHN" firstAttribute="trailing" secondItem="Gnj-XC-wAY" secondAttribute="trailing" id="GTD-Mq-y1a"/>
-                            <constraint firstItem="Gnj-XC-wAY" firstAttribute="leading" secondItem="9Du-M4-OHN" secondAttribute="leading" id="SC5-nX-3eO"/>
-                            <constraint firstItem="WXM-Aw-jGv" firstAttribute="top" secondItem="9Du-M4-OHN" secondAttribute="top" id="cVy-DF-jsI"/>
-                            <constraint firstItem="9Du-M4-OHN" firstAttribute="trailing" secondItem="WXM-Aw-jGv" secondAttribute="trailing" id="cx5-n3-mWn"/>
-                            <constraint firstItem="9Du-M4-OHN" firstAttribute="bottom" secondItem="Gnj-XC-wAY" secondAttribute="bottom" id="fq2-ia-QfP"/>
-                            <constraint firstItem="WXM-Aw-jGv" firstAttribute="leading" secondItem="9Du-M4-OHN" secondAttribute="leading" id="nbB-We-JGD"/>
+                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="0WD-q2-cQ8" secondAttribute="trailing" id="0y6-MX-j4r"/>
+                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="bottom" secondItem="0WD-q2-cQ8" secondAttribute="bottom" id="682-fk-MBB"/>
+                            <constraint firstItem="PtN-hb-tPl" firstAttribute="top" secondItem="vRS-wh-Ho9" secondAttribute="top" id="EsE-EW-hiy"/>
+                            <constraint firstItem="0WD-q2-cQ8" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="aDt-QX-UDU"/>
+                            <constraint firstItem="0WD-q2-cQ8" firstAttribute="top" secondItem="PtN-hb-tPl" secondAttribute="bottom" id="bhB-T3-mU8"/>
+                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="PtN-hb-tPl" secondAttribute="trailing" id="cQ2-oy-xzJ"/>
+                            <constraint firstItem="PtN-hb-tPl" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="kd5-yE-dcf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="설정" image="gear" catalog="system" id="nTS-S9-Ava"/>
-                    <navigationItem key="navigationItem" title="설정" id="2RN-ai-lkX"/>
+                    <tabBarItem key="tabBarItem" title="더보기" image="ellipsis" catalog="system" id="xGL-mj-etE"/>
+                    <navigationItem key="navigationItem" title="더보기" id="wiu-Wk-RP1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="WXM-Aw-jGv" id="zkt-1J-qFb"/>
+                        <outlet property="tableView" destination="PtN-hb-tPl" id="WDv-6l-XVn"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="12Q-MJ-xba" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tyq-OG-jNB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1837.4045801526718" y="635.91549295774655"/>
+            <point key="canvasLocation" x="2764.1221374045799" y="635.91549295774655"/>
         </scene>
-        <!--설정-->
-        <scene sceneID="pzl-dt-oqu">
+        <!--더보기-->
+        <scene sceneID="yFM-5O-kux">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LlH-2f-a1z" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="설정" image="gear" catalog="system" id="jka-ed-xUg"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i2B-3Q-diD" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="더보기" image="ellipsis" catalog="system" id="HhD-KD-cHO"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2DN-EZ-W6A">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5gg-YB-raA">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <navigationBarAppearance key="standardAppearance"/>
-                        <navigationBarAppearance key="scrollEdgeAppearance"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="4vs-6V-a66" kind="relationship" relationship="rootViewController" id="PkV-2H-fKd"/>
+                        <segue destination="qVy-gx-ht7" kind="relationship" relationship="rootViewController" id="aoh-nS-6Yw"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W02-0k-au5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NGH-kd-L3T" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="910.68702290076328" y="635.91549295774655"/>
+            <point key="canvasLocation" x="1837.4045801526718" y="635.91549295774655"/>
         </scene>
     </scenes>
     <resources>
-        <image name="gear" catalog="system" width="128" height="122"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

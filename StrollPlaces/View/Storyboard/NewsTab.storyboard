@@ -9,19 +9,35 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--산책뉴스-->
+        <!--산책길 소식-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController id="Y6W-OH-hqX" customClass="NewsViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fFp-rl-hP3">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fFp-rl-hP3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="17y-fj-Y0p"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fFp-rl-hP3" secondAttribute="trailing" id="cIS-WD-TvX"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="fFp-rl-hP3" secondAttribute="bottom" id="dzR-nO-qwm"/>
+                            <constraint firstItem="fFp-rl-hP3" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="evQ-0F-LYh"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="산책뉴스" image="newspaper.fill" catalog="system" id="XPQ-wJ-Aef"/>
-                    <navigationItem key="navigationItem" title="산책뉴스" id="nKQ-Q0-zze"/>
+                    <tabBarItem key="tabBarItem" title="소식" image="newspaper.fill" catalog="system" id="XPQ-wJ-Aef"/>
+                    <navigationItem key="navigationItem" title="산책길 소식" id="nKQ-Q0-zze"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="fFp-rl-hP3" id="i6b-sS-mcY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -35,6 +51,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nRW-dC-6gi">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <navigationBarAppearance key="standardAppearance"/>
+                        <navigationBarAppearance key="scrollEdgeAppearance"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

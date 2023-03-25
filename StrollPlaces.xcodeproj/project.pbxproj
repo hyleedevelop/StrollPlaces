@@ -59,7 +59,9 @@
 		07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSetting.swift */; };
 		07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* MapTab.storyboard */; };
 		07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */; };
-		07BAE44729CBE8DE0048CE89 /* SettingTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44629CBE8DE0048CE89 /* SettingTab.storyboard */; };
+		07CDB0A429CF068D00F139BB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CDB0A329CF068D00F139BB /* String.swift */; };
+		07CDB0A629CF11BD00F139BB /* SettingTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07CDB0A529CF11BD00F139BB /* SettingTab.storyboard */; };
+		07CDB0A829CF289200F139BB /* NewsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CDB0A729CF289200F139BB /* NewsWebViewController.swift */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
@@ -141,7 +143,9 @@
 		07AFB59229C024BD00DD1C34 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
 		07BAE44229CBE70A0048CE89 /* MapTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapTab.storyboard; sourceTree = "<group>"; };
 		07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyPlaceTab.storyboard; sourceTree = "<group>"; };
-		07BAE44629CBE8DE0048CE89 /* SettingTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingTab.storyboard; sourceTree = "<group>"; };
+		07CDB0A329CF068D00F139BB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		07CDB0A529CF11BD00F139BB /* SettingTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingTab.storyboard; sourceTree = "<group>"; };
+		07CDB0A729CF289200F139BB /* NewsWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWebViewController.swift; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
+				07CDB0A729CF289200F139BB /* NewsWebViewController.swift */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
+				07CDB0A329CF068D00F139BB /* String.swift */,
 				0751436729C201CD00109B8E /* UIImage.swift */,
 				075FE44029C5B63A00A5694C /* UIView.swift */,
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
@@ -364,12 +370,12 @@
 		079AF4EC29C74683006C365B /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
 				0799CC9B29BF584B006AB70D /* Main.storyboard */,
 				07BAE44229CBE70A0048CE89 /* MapTab.storyboard */,
 				07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */,
 				077C1BE329CDEAC200DA3218 /* NewsTab.storyboard */,
-				07BAE44629CBE8DE0048CE89 /* SettingTab.storyboard */,
-				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
+				07CDB0A529CF11BD00F139BB /* SettingTab.storyboard */,
 				079AF4EF29C74931006C365B /* strollingMan.jpeg */,
 			);
 			path = Storyboard;
@@ -507,7 +513,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07BAE44729CBE8DE0048CE89 /* SettingTab.storyboard in Resources */,
+				07CDB0A629CF11BD00F139BB /* SettingTab.storyboard in Resources */,
 				0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */,
 				0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */,
 				0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */,
@@ -676,8 +682,10 @@
 				072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */,
 				077C1BF029CDEEC600DA3218 /* NewsCellData.swift in Sources */,
 				077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */,
+				07CDB0A429CF068D00F139BB /* String.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* SettingCellData.swift in Sources */,
 				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
+				07CDB0A829CF289200F139BB /* NewsWebViewController.swift in Sources */,
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* SettingViewController.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,

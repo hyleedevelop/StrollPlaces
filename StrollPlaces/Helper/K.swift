@@ -35,7 +35,7 @@ struct K {
         static var themeColor: [UIColor] = [#colorLiteral(red: 0.2846682966, green: 0.3880401254, blue: 0.336489141, alpha: 1), #colorLiteral(red: 0.3058823529, green: 0.4235294118, blue: 0.3137254902, alpha: 1), #colorLiteral(red: 0.7137254902, green: 0.6392156863, blue: 0.4509803922, alpha: 1), #colorLiteral(red: 0.9411764706, green: 0.9215686275, blue: 0.8078431373, alpha: 1)]
     }
     
-    // CollectionView 관련
+    // Theme CollectionView 관련
     struct ThemeCV {
         static let cellName: String = "ThemeCollectionViewCell"
         static let spacingWidth: CGFloat = 5
@@ -46,13 +46,20 @@ struct K {
         static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
         static let cellHeight: CGFloat = 40
     }
+
+    // News TableView 관련
+    struct News {
+        static let naverClientID = "wWtKBkZLX3epsO5GoY2I"
+        static let naverClientKEY = "OPGXmkEsDn"
+        static let keyword = "산책길"
+        static let cellName: String = "NewsTableViewCell"
+    }
     
     // DetailView 관련
     struct DetailView {
         static let slideViewHeight: CGFloat = 300
         static let cornerRadiusOfSlideView: CGFloat = 20
         static let animationTime: CGFloat = 0.3
-        
         static let detailButtonName = "상세정보 보기"
         static let navigateButtonName = "경로 보기"
     }
@@ -60,7 +67,6 @@ struct K {
     // 메세지 관련
     struct Message {
         static let errorTitle = "Error"
-        
         static let resetMessage = "Are you sure you want to reset all input?"
         static let exportAsImageMessage = "Do you want to export the result as an image?"
         static let sendEmailErrorMessage = "Check your e-mail settings."

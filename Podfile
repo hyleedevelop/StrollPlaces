@@ -16,7 +16,7 @@ target 'StrollPlaces' do
   #pod 'FirebaseCrashlytics'
   #pod 'FirebasePerformance'
   #pod 'Google-Mobile-Ads-SDK'
-  pod 'Pulsator'
+  pod 'NVActivityIndicatorView'
   pod 'Cluster'
   pod 'PopOverMenu', '~> 3.0'
   pod 'DropDown'
