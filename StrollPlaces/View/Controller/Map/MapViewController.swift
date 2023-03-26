@@ -13,6 +13,7 @@ import NSObject_Rx
 import CoreLocation
 import MapKit
 import Cluster
+import ViewAnimator
 
 final class MapViewController: UIViewController {
 

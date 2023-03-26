@@ -13,6 +13,7 @@ import NSObject_Rx
 import CoreLocation
 import MapKit
 import Cluster
+import SPIndicator
 
 //MARK: - Extension for CLLocationManagerDelegate
 
@@ -111,7 +112,7 @@ extension MapViewController: MKMapViewDelegate {
             
             annotationView.canShowCallout = true
             annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            annotationView.pinTintColor = K.Map.themeColor[2]
+            annotationView.pinTintColor = K.Color.mainColor
             return annotationView
             
         }
@@ -216,15 +217,27 @@ extension MapViewController: MKMapViewDelegate {
             }
             
             // 경로안내 버튼을 누르면 경로 표시
-            placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside)
-                .asObservable()
-                .subscribe(onNext: {[weak self] in
-                    guard let self = self else { return }
-                    self.fetchRoute(method: AppSetting.shared.navigationMode,
-                                    pickupCoordinate: startLocation,
-                                    destinationCoordinate: endLocation,
-                                    draw: true) { _, _ in }
-                })
+            placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside).asObservable()
+                .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
+                .subscribe(
+                    onNext: {[weak self] in
+                        guard let self = self else { return }
+                        self.fetchRoute(method: AppSetting.shared.navigationMode,
+                                        pickupCoordinate: startLocation,
+                                        destinationCoordinate: endLocation,
+                                        draw: true) { _, _ in }
+                        placeInfoViewController.animateDismissView()
+                        let indicatorView = SPIndicatorView(
+                            title: "완료", message: "경로를 찾았습니다.", preset: .done
+                        )
+                        indicatorView.present(duration: 2.0, haptic: .success)
+                    }, onError: { _ in
+                        let indicatorView = SPIndicatorView(
+                            title: "오류", message: "경로를 찾을 수 없습니다.", preset: .error
+                        )
+                        indicatorView.present(duration: 2.0, haptic: .error)
+                    }
+                )
                 .disposed(by: rx.disposeBag)
             // RxSwift의 trigger와 관련된 연산자 활용 필요?
             
@@ -236,7 +249,7 @@ extension MapViewController: MKMapViewDelegate {
     // 경로 안내를 위한 polyline 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue
+        renderer.strokeColor = K.Color.lightOrange
         renderer.lineWidth = 4.0
         return renderer
     }

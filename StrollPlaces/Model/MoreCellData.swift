@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum SettingCellData {
+enum MoreCellData {
     case appSettings([AppSettingsModel])
     case feedback([FeedbackModel])
     case aboutTheApp([AboutTheAppModel])

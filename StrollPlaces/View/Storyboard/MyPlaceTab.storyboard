@@ -23,15 +23,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demure-young-woman-walking" translatesAutoresizingMaskIntoConstraints="NO" id="j3e-TI-1QP">
+                                <rect key="frame" x="132.66666666666666" y="153.00000000000003" width="127.99999999999997" height="322.66666666666674"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tmQ-s7-aN3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="j3e-TI-1QP" firstAttribute="top" secondItem="tmQ-s7-aN3" secondAttribute="top" constant="50" id="1gA-Yt-f33"/>
+                            <constraint firstItem="j3e-TI-1QP" firstAttribute="centerX" secondItem="Qgd-b7-JqP" secondAttribute="centerX" id="6v8-ED-xdO"/>
                             <constraint firstItem="GGS-im-53S" firstAttribute="centerX" secondItem="Qgd-b7-JqP" secondAttribute="centerX" id="BOR-o7-v0F"/>
                             <constraint firstItem="tmQ-s7-aN3" firstAttribute="bottom" secondItem="GGS-im-53S" secondAttribute="bottom" constant="100" id="MLk-X5-rwG"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="MY플레이스" image="figure.walk" catalog="system" id="Q2D-1V-q9f"/>
+                    <tabBarItem key="tabBarItem" title="" image="icons8-journey-50" id="Q2D-1V-q9f"/>
                     <navigationItem key="navigationItem" title="MY플레이스" id="F9N-nl-Ib8">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="r1q-vY-6t8"/>
                     </navigationItem>
@@ -64,7 +69,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="figure.walk" catalog="system" width="95" height="128"/>
+        <image name="demure-young-woman-walking" width="128" height="322.5"/>
+        <image name="icons8-journey-50" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

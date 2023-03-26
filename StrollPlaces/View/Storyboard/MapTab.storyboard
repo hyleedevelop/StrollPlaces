@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--위치-->
+        <!--Map View Controller-->
         <scene sceneID="Fvc-jB-ceG">
             <objects>
                 <viewController id="iGx-ha-8on" customClass="MapViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -79,7 +79,7 @@
                             <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="DVW-Jq-0Vi" secondAttribute="trailing" constant="10" id="scg-yz-Loc"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="위치" image="location.magnifyingglass" catalog="system" id="ceh-kC-frY"/>
+                    <tabBarItem key="tabBarItem" title="" image="TabBarIcon1" id="ceh-kC-frY"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="currentLocationButton" destination="cHI-fa-qdc" id="oIl-O5-Ugf"/>
@@ -94,8 +94,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="TabBarIcon1" width="24" height="24"/>
         <image name="dot.circle.viewfinder" catalog="system" width="128" height="115"/>
-        <image name="location.magnifyingglass" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

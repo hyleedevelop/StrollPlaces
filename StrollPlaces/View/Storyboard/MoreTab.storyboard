@@ -12,36 +12,26 @@
         <!--더보기-->
         <scene sceneID="pC9-bd-Oi4">
             <objects>
-                <viewController id="qVy-gx-ht7" customClass="SettingViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="qVy-gx-ht7" customClass="MoreViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7hW-ya-mI4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="PtN-hb-tPl">
-                                <rect key="frame" x="0.0" y="103" width="393" height="616"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0WD-q2-cQ8">
-                                <rect key="frame" x="0.0" y="719" width="393" height="50"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="bOu-8F-R3b"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vRS-wh-Ho9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="0WD-q2-cQ8" secondAttribute="trailing" id="0y6-MX-j4r"/>
-                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="bottom" secondItem="0WD-q2-cQ8" secondAttribute="bottom" id="682-fk-MBB"/>
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="top" secondItem="vRS-wh-Ho9" secondAttribute="top" id="EsE-EW-hiy"/>
-                            <constraint firstItem="0WD-q2-cQ8" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="aDt-QX-UDU"/>
-                            <constraint firstItem="0WD-q2-cQ8" firstAttribute="top" secondItem="PtN-hb-tPl" secondAttribute="bottom" id="bhB-T3-mU8"/>
+                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="bottom" secondItem="PtN-hb-tPl" secondAttribute="bottom" id="a2B-dy-2bn"/>
                             <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="PtN-hb-tPl" secondAttribute="trailing" id="cQ2-oy-xzJ"/>
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="kd5-yE-dcf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="더보기" image="ellipsis" catalog="system" id="xGL-mj-etE"/>
+                    <tabBarItem key="tabBarItem" title="" image="icons8-ellipsis-50" id="xGL-mj-etE"/>
                     <navigationItem key="navigationItem" title="더보기" id="wiu-Wk-RP1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -52,11 +42,10 @@
             </objects>
             <point key="canvasLocation" x="2764.1221374045799" y="635.91549295774655"/>
         </scene>
-        <!--더보기-->
+        <!--Navigation Controller-->
         <scene sceneID="yFM-5O-kux">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i2B-3Q-diD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="더보기" image="ellipsis" catalog="system" id="HhD-KD-cHO"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5gg-YB-raA">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -73,7 +62,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="icons8-ellipsis-50" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

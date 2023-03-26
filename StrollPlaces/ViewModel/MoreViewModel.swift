@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SettingViewModel {
+final class MoreViewModel {
     
     private var appSettingsModel = [
         AppSettingsModel(icon: UIImage(systemName: "paintbrush"), title: "Theme Color", value: nil),
@@ -31,16 +31,16 @@ final class SettingViewModel {
 
     //MARK: - 메서드 정의
 
-    func appSettingData() -> SettingCellData {
-        return SettingCellData.appSettings(appSettingsModel)
+    func appSettingData() -> MoreCellData {
+        return MoreCellData.appSettings(appSettingsModel)
     }
 
-    func feedbackData() -> SettingCellData {
-        return SettingCellData.feedback(feedbackModel)
+    func feedbackData() -> MoreCellData {
+        return MoreCellData.feedback(feedbackModel)
     }
 
-    func aboutTheAppData() -> SettingCellData {
-        return SettingCellData.aboutTheApp(aboutTheAppModel)
+    func aboutTheAppData() -> MoreCellData {
+        return MoreCellData.aboutTheApp(aboutTheAppModel)
     }
 
     func updateAboutTheAppData(index: Int, newValue: String?) {

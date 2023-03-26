@@ -9,10 +9,9 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
-
 import NSObject_Rx
 import CoreLocation
-import DropDown
+import SPIndicator
 
 class PlaceInfoViewController: UIViewController {
     
@@ -44,7 +43,7 @@ class PlaceInfoViewController: UIViewController {
         view.backgroundColor = UIColor.white
         view.layer.borderColor = UIColor.black.cgColor
         view.layer.borderWidth = 1.0
-        view.layer.cornerRadius = 2
+        view.layer.cornerRadius = 13
         view.clipsToBounds = true
         return view
     }()
@@ -106,13 +105,33 @@ class PlaceInfoViewController: UIViewController {
     
     public let navigateButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = K.Map.themeColor[0]
+        button.backgroundColor = K.Color.mainColor
         button.setTitle(K.DetailView.navigateButtonName, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.tintColor = UIColor.white
-        button.layer.cornerRadius = 2
+        button.layer.cornerRadius = 22.5
         button.clipsToBounds = true
         return button
+    }()
+    
+    public let bookmarkButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = K.Color.lightOrange
+        button.setTitle(K.DetailView.bookmarkButtonName, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        button.tintColor = UIColor.white
+        button.layer.cornerRadius = 22.5
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private lazy var buttonStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [navigateButton, bookmarkButton])
+        sv.axis = .horizontal
+        sv.spacing = 20
+        sv.alignment = .fill
+        sv.distribution = .fillEqually
+        return sv
     }()
     
     internal let tableView: UITableView = {
@@ -172,7 +191,7 @@ class PlaceInfoViewController: UIViewController {
         animatePresentContainer()
     }
     
-    //MARK: - method
+    //MARK: - directly called method
 
     private func setupView() {
         // view
@@ -207,7 +226,6 @@ class PlaceInfoViewController: UIViewController {
         
         // disclosure button
         self.containerView.addSubview(self.disclosureButton)
-        self.disclosureButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         self.disclosureButton.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.width.height.equalTo(30)
@@ -243,9 +261,8 @@ class PlaceInfoViewController: UIViewController {
     }
     
     private func setupBottomUI() {
-        containerView.addSubview(navigateButton)
-        navigateButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        navigateButton.snp.makeConstraints {
+        self.containerView.addSubview(self.buttonStackView)
+        buttonStackView.snp.makeConstraints {
             $0.top.equalTo(self.labelStackView.snp.bottom).offset(15)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
@@ -266,9 +283,6 @@ class PlaceInfoViewController: UIViewController {
             //$0.height.equalTo(300)
             $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
         }
-        
-//        tableView.rowHeight = UITableView.automaticDimension
-//        tableView.estimatedRowHeight = 50
     }
     
     private func setupBinding() {
@@ -277,6 +291,7 @@ class PlaceInfoViewController: UIViewController {
         let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
         let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
         
+        // 장소 유형
         placeType.map { type -> UIImage in
             switch type {
             case .marked:
@@ -290,6 +305,7 @@ class PlaceInfoViewController: UIViewController {
             case .tourSpot:
                 return UIImage(systemName: "hand.thumbsup.fill") ?? UIImage()
             }
+            //return UIImage(systemName: "star") ?? UIImage()
         }
         .map { $0.withAlignmentRectInsets(
             UIEdgeInsets(top: -4, left: -4, bottom: -4, right: -4)
@@ -297,39 +313,62 @@ class PlaceInfoViewController: UIViewController {
         .drive(iconImage.rx.image)
         .disposed(by: rx.disposeBag)
         
+        // 장소명
         placeName.map { $0[0] }
             .drive(nameLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        //distanceLabel.text = "거리: 1.23 km"
-        //expectedTimeLabel.text = "도착 예상 시간: 7분"
+        // 거리
         distance.drive(distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
 
+        // 소요시간
         time.drive(expectedTimeLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        // "chevron" 버튼을 눌렀을 때 실행할 이벤트
+        self.disclosureButton.rx.controlEvent(.touchUpInside).asObservable()
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                if !self.isDetailActivated {
+                    self.animateContainerHeight(self.maximumContainerHeightByButton)
+                    self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+                } else {
+                    UIView.animate(withDuration: 0.3) {
+                        self.tableView.alpha = 0.0  // TableView 넣기
+                    }
+                    self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+                    self.animateContainerHeight(self.defaultHeight)
+                }
+                
+                self.isDetailActivated.toggle()
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // "경로 보기" 버튼을 눌렀을 때 실행할 이벤트
+        // -> MapViewController+Annotation.swift에 구현되어 있음
+        
+        // "즐겨찾기 등록" 버튼을 눌렀을 때 실행할 이벤트
+        self.bookmarkButton.rx.controlEvent(.touchUpInside).asObservable()
+            .throttle(.seconds(2), scheduler: MainScheduler.instance)
+            .subscribe(
+                onNext: {
+                    let indicatorView = SPIndicatorView(
+                        title: "완료", message: "즐겨찾기에 등록했습니다.", preset: .done
+                    )
+                    indicatorView.present(duration: 2.0, haptic: .success)
+                }, onError: { _ in
+                    let indicatorView = SPIndicatorView(
+                        title: "오류", message: "즐겨찾기에 등록할 수 없습니다.", preset: .error
+                    )
+                    indicatorView.present(duration: 2.0, haptic: .error)
+                })
             .disposed(by: rx.disposeBag)
     }
     
-    @objc private func buttonTapped(_ sender: UIButton) {
-        if sender == self.disclosureButton {
-            if !isDetailActivated {
-                animateContainerHeight(maximumContainerHeightByButton)
-                self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-            } else {
-                UIView.animate(withDuration: 0.3) {
-                    self.tableView.alpha = 0.0  // TableView 넣기
-                }
-                self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
-                animateContainerHeight(defaultHeight)
-            }
-            isDetailActivated.toggle()
-        }
-        
-        if sender == navigateButton {
-            // bottom sheet 닫기
-            self.animateDismissView()
-        }
-    }
+    //MARK: - indirectly called method
     
 }
 
@@ -355,11 +394,6 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-    
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//        //return 50
-//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PlaceInfoCell", for: indexPath) as? PlaceInfoTableViewCell else { fatalError() }

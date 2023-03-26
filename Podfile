@@ -9,6 +9,7 @@ target 'StrollPlaces' do
   pod 'AcknowList'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxDataSources'
   pod 'NSObject+Rx'
   pod 'RealmSwift'
   pod 'SnapKit'
@@ -20,6 +21,8 @@ target 'StrollPlaces' do
   pod 'Cluster'
   pod 'PopOverMenu', '~> 3.0'
   pod 'DropDown'
+  pod 'ViewAnimator'
+  pod 'SPIndicator'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths

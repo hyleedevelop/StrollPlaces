@@ -23,8 +23,8 @@ class ThemeCollectionViewCell: UICollectionViewCell {
         backView.clipsToBounds = true
         backView.layer.masksToBounds = false
         backView.layer.cornerRadius = (K.ThemeCV.cellHeight / 2.0) - 2
-        backView.layer.borderColor = UIColor.lightGray.cgColor
-        backView.layer.borderWidth = 0.5
+        backView.layer.borderColor = UIColor.black.cgColor
+        backView.layer.borderWidth = 0.0
         backView.layer.shadowColor = UIColor.black.cgColor
         backView.layer.shadowRadius = 1
         backView.layer.shadowOffset = CGSize(width: 0, height: 1)

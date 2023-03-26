@@ -9,6 +9,20 @@ import UIKit
 import CoreLocation
 
 struct K {
+    struct Color {
+        static let transparentOrange = #colorLiteral(red: 0.9921568627, green: 0.9568627451, blue: 0.8941176471, alpha: 1)
+        static let transparentGreen = #colorLiteral(red: 0.9333333333, green: 0.9647058824, blue: 0.8980392157, alpha: 1)
+        static let transparentPurple = #colorLiteral(red: 0.8156862745, green: 0.8, blue: 0.9294117647, alpha: 1)
+        
+        static let lightOrange = #colorLiteral(red: 0.9568627451, green: 0.6431372549, blue: 0.2666666667, alpha: 1)
+        static let lightGreen = #colorLiteral(red: 0.5764705882, green: 0.7568627451, blue: 0.431372549, alpha: 1)
+        static let lightPurple = #colorLiteral(red: 0.3725490196, green: 0.3333333333, blue: 0.6823529412, alpha: 1)
+        
+        static let darkGray = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
+        
+        static let mainColor = #colorLiteral(red: 0.1647058824, green: 0.6549019608, blue: 0.4588235294, alpha: 1)
+    }
+    
     // CSV 파일 관련
     struct CSV {
         static let parkData: String = "SouthKoreaParkData_qc_20230312"
@@ -62,6 +76,7 @@ struct K {
         static let animationTime: CGFloat = 0.3
         static let detailButtonName = "상세정보 보기"
         static let navigateButtonName = "경로 보기"
+        static let bookmarkButtonName = "즐겨찾기 등록"
     }
     
     // 메세지 관련

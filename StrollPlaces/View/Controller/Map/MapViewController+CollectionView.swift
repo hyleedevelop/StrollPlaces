@@ -42,18 +42,15 @@ extension MapViewController: UICollectionViewDataSource,
         
         // 기본 선택값 = 공원
         if indexPath.item == 1 {
-            cell.themeIcon.tintColor = K.Map.themeColor[1]
-            cell.themeLabel.textColor = K.Map.themeColor[1]
-            cell.themeLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            cell.backView.layer.borderColor = K.Map.themeColor[1].cgColor
+            cell.backView.layer.shadowColor = K.Color.mainColor.cgColor
+            cell.backView.layer.borderColor = K.Color.mainColor.cgColor
             cell.backView.layer.borderWidth = 2.0
         } else {
-            cell.themeIcon.tintColor = UIColor.darkGray
-            cell.themeLabel.textColor = UIColor.darkGray
-            cell.themeLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            cell.backView.layer.borderColor = UIColor.darkGray.cgColor
-            cell.backView.layer.borderWidth = 0.5
+            cell.backView.layer.shadowColor = UIColor.black.cgColor
+            cell.backView.layer.borderColor = UIColor.black.cgColor
+            cell.backView.layer.borderWidth = 0.0
         }
+        cell.themeLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
         return cell
     }
@@ -72,20 +69,18 @@ extension MapViewController: UICollectionViewDataSource,
             self.addAnnotations(with: InfoType(rawValue: indexPath.row)!)
         }
         
-        cell.themeIcon.tintColor = K.Map.themeColor[1]
-        cell.themeLabel.textColor = K.Map.themeColor[1]
-        cell.backView.layer.borderColor = K.Map.themeColor[1].cgColor
+        cell.backView.layer.shadowColor = K.Color.mainColor.cgColor
+        cell.backView.layer.borderColor = K.Color.mainColor.cgColor
         cell.backView.layer.borderWidth = 2.0
     }
     
     // 셀이 해제되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ThemeCollectionViewCell
-        
-        cell.themeIcon.tintColor = UIColor.darkGray
-        cell.themeLabel.textColor = UIColor.darkGray
-        cell.backView.layer.borderColor = UIColor.darkGray.cgColor
-        cell.backView.layer.borderWidth = 0.5
+
+        cell.backView.layer.shadowColor = UIColor.black.cgColor
+        cell.backView.layer.borderColor = UIColor.black.cgColor
+        cell.backView.layer.borderWidth = 0.0
     }
     
 }

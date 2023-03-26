@@ -18,8 +18,11 @@ final class PlaceInfoViewModel {
     private var placeArray = [String]()
     let numberOfItems = BehaviorSubject<Int>(value: 5)
     
-    var estimatedDistance = PublishRelay<String>()
-    var estimatedTime = PublishRelay<String>()
+    // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
+    // -> 결과가 나오기 전까지 기본값을 먼저 label에 표출
+    // -> 계산이 끝나면 didSet을 통해 새로운 label 업데이트
+    var estimatedDistance = BehaviorRelay<String>(value: "거리: 계산중...")
+    var estimatedTime = BehaviorRelay<String>(value: "소요시간: 계산중...")
     
     //MARK: - 계산속성
     
