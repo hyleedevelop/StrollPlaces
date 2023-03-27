@@ -3,6 +3,7 @@ PODS:
   - Cluster (3.0.3)
   - Differentiator (5.0.0)
   - DropDown (2.3.13)
+  - lottie-ios (4.1.3)
   - "NSObject+Rx (5.2.2)":
     - RxSwift (~> 6.2)
   - NVActivityIndicatorView (5.1.1):
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - AcknowList
   - Cluster
   - DropDown
+  - lottie-ios
   - "NSObject+Rx"
   - NVActivityIndicatorView
   - PopOverMenu (~> 3.0)
@@ -49,6 +51,7 @@ SPEC REPOS:
     - Cluster
     - Differentiator
     - DropDown
+    - lottie-ios
     - "NSObject+Rx"
     - NVActivityIndicatorView
     - PopOverMenu
@@ -67,6 +70,7 @@ SPEC CHECKSUMS:
   Cluster: d72510594f60d901905953aafdc811d1888177ae
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  lottie-ios: d0954d3150061f662ed0adf96ef98d7421864c47
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   PopOverMenu: 04e57f390bbdb6bd41cb6a5801fd3462e1ef0895
@@ -80,6 +84,6 @@ SPEC CHECKSUMS:
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: 348ef2f9790e567878031969604766c163fb13fa
+PODFILE CHECKSUM: a744f74a552b86404ce6d8b49317d14b67da6466
 
 COCOAPODS: 1.11.3

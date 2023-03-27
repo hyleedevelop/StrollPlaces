@@ -7,25 +7,13 @@
 
 import UIKit
 
-enum MoreCellData {
-    case appSettings([AppSettingsModel])
-    case feedback([FeedbackModel])
-    case aboutTheApp([AboutTheAppModel])
+enum MoreCellSection: Int, CaseIterable {
+    case appSettings = 0
+    case feedback
+    case aboutTheApp
 }
 
-struct AppSettingsModel {
-    let icon: UIImage?
-    let title: String?
-    var value: String?
-}
-
-struct FeedbackModel {
-    let icon: UIImage?
-    let title: String?
-    var value: String?
-}
-
-struct AboutTheAppModel {
+struct MoreCellData {
     let icon: UIImage?
     let title: String?
     var value: String?

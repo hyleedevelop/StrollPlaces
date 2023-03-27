@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import SnapKit
 import CoreLocation
 //import ActivityKit
+import Lottie
 
 class MyPlaceViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
+    @IBOutlet weak var animationView: LottieAnimationView!
     @IBOutlet weak var currentLocationLabel: UILabel!
     
     //MARK: - property
@@ -25,6 +28,7 @@ class MyPlaceViewController: UIViewController {
         super.viewDidLoad()
 
         setupNavigationBar()
+        setupLottieAnimation()
         
         self.locationManager = CLLocationManager()
         self.locationManager.startUpdatingLocation()
@@ -57,6 +61,12 @@ class MyPlaceViewController: UIViewController {
         self.extendedLayoutIncludesOpaqueBars = true
     }
 
+    private func setupLottieAnimation() {
+        self.animationView.loopMode = .loop
+        self.animationView.animationSpeed = 1.0
+        self.animationView.play()
+    }
+    
     //MARK: - indirectly called method
     
 }
@@ -66,10 +76,10 @@ class MyPlaceViewController: UIViewController {
 extension MyPlaceViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
-            currentLocationLabel.text = "위도: \(location.coordinate.latitude)°" + "\n" +
-                                        "경도: \(location.coordinate.longitude)°"
-        }
+//        if let location = locations.last {
+//            currentLocationLabel.text = "위도: \(location.coordinate.latitude)°" + "\n" +
+//                                        "경도: \(location.coordinate.longitude)°"
+//        }
     }
     
 }

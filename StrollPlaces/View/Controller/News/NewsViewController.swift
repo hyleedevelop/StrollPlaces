@@ -114,13 +114,11 @@ final class NewsViewController: UIViewController {
         self.refreshControl.rx.controlEvent(.valueChanged)
             .bind(onNext: { [weak self] in
                 guard let self = self else { return }
-                
                 // 로딩 표시
                 refreshLoading.accept(true)
-                
                 // 뉴스 다시 불러오기
                 self.fetchNews(searchKeyword: K.News.keyword)
-                
+                // 로딩 숨기기
                 refreshLoading.accept(false)
             })
             .disposed(by: rx.disposeBag)
@@ -180,7 +178,7 @@ final class NewsViewController: UIViewController {
                 let news = newsResponse.items
                 self.viewModel = NewsViewModel(news)
                 
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     // TableView 갱신
                     self.tableView.reloadData()
                     
@@ -193,7 +191,7 @@ final class NewsViewController: UIViewController {
                     
                     // indicator 비활성화
                     self.activityIndicator.stopAnimating()
-                //}
+                }
             })
             .disposed(by: rx.disposeBag)
     }

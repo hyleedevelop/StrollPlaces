@@ -23,6 +23,7 @@ target 'StrollPlaces' do
   pod 'DropDown'
   pod 'ViewAnimator'
   pod 'SPIndicator'
+  pod 'lottie-ios'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths

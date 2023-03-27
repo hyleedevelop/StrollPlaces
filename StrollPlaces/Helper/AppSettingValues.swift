@@ -10,9 +10,9 @@ import MapKit
 
 //MARK: - class
 
-final class AppSetting {
+final class AppSettingValues {
     
-    static let shared = AppSetting()
+    static let shared = AppSettingValues()
     private init() {}
     
     var navigationMode: MKDirectionsTransportType = .automobile

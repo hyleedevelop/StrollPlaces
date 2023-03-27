@@ -13,6 +13,7 @@ struct K {
         static let transparentOrange = #colorLiteral(red: 0.9921568627, green: 0.9568627451, blue: 0.8941176471, alpha: 1)
         static let transparentGreen = #colorLiteral(red: 0.9333333333, green: 0.9647058824, blue: 0.8980392157, alpha: 1)
         static let transparentPurple = #colorLiteral(red: 0.8156862745, green: 0.8, blue: 0.9294117647, alpha: 1)
+        static let transparentGray = #colorLiteral(red: 0.9594197869, green: 0.9599153399, blue: 0.975127399, alpha: 1)
         
         static let lightOrange = #colorLiteral(red: 0.9568627451, green: 0.6431372549, blue: 0.2666666667, alpha: 1)
         static let lightGreen = #colorLiteral(red: 0.5764705882, green: 0.7568627451, blue: 0.431372549, alpha: 1)
@@ -61,14 +62,6 @@ struct K {
         static let cellHeight: CGFloat = 40
     }
 
-    // News TableView 관련
-    struct News {
-        static let naverClientID = "wWtKBkZLX3epsO5GoY2I"
-        static let naverClientKEY = "OPGXmkEsDn"
-        static let keyword = "산책길"
-        static let cellName: String = "NewsTableViewCell"
-    }
-    
     // DetailView 관련
     struct DetailView {
         static let slideViewHeight: CGFloat = 300
@@ -79,6 +72,19 @@ struct K {
         static let bookmarkButtonName = "즐겨찾기 등록"
     }
     
+    // MY플레이스 관련
+    struct MyPlace {
+        
+    }
+    
+    // News TableView 관련
+    struct News {
+        static let naverClientID = "wWtKBkZLX3epsO5GoY2I"
+        static let naverClientKEY = "OPGXmkEsDn"
+        static let keyword = "산책길"
+        static let cellName: String = "NewsTableViewCell"
+    }
+    
     // 메세지 관련
     struct Message {
         static let errorTitle = "Error"
@@ -86,5 +92,24 @@ struct K {
         static let exportAsImageMessage = "Do you want to export the result as an image?"
         static let sendEmailErrorMessage = "Check your e-mail settings."
         static let notifyLaterUpdate = "This will be updated soon."
+    }
+    
+    // 더보기 탭 관련
+    struct More {
+        static let appSettingsTitle = "설정"
+        static let feedbackTitle = "피드백"
+        static let aboutTheAppTitle = "정보"
+        
+        static let helpURL =
+        "https://hyleenote.notion.site/Crypto-Calculator-5f6ae38726dd400c8b3a91a24da06795"
+        static let privacyPolicyURL =
+        "https://hyleenote.notion.site/Privacy-Policy-98bd35e6626c4accbd609616553b071e"
+        static let termsAndConditionsURL =
+        "https://hyleenote.notion.site/Terms-Conditions-037cf1cf478f4925bdc69f5404091242"
+        static let writeReviewURL =
+        "https://apps.apple.com/app/id1668703292?action=write-review"
+        
+        static let sorryTitle = "죄송합니다."
+        static let notifyLaterUpdateMessage = "곧 업데이트 예정입니다."
     }
 }

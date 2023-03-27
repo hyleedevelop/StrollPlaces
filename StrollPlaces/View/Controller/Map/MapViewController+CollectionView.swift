@@ -32,11 +32,11 @@ extension MapViewController: UICollectionViewDataSource,
                 as? ThemeCollectionViewCell else { return UICollectionViewCell() }
 
         // 바인딩 수행
-        self.viewModel.cellData(at: indexPath.row).icon.asDriver(onErrorJustReturn: UIImage())
+        self.viewModel.themeCellData(at: indexPath.row).icon.asDriver(onErrorJustReturn: UIImage())
             .drive(cell.themeIcon.rx.image)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.cellData(at: indexPath.row).title.asDriver(onErrorJustReturn: "")
+        self.viewModel.themeCellData(at: indexPath.row).title.asDriver(onErrorJustReturn: "")
             .drive(cell.themeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
@@ -101,7 +101,7 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var width: Double?
         
-        self.viewModel.cellData(at: indexPath.row).title.asObservable()
+        self.viewModel.themeCellData(at: indexPath.row).title.asObservable()
             .map { $0.count }
             .subscribe(onNext: { value in
                 width = Double(value) * 15 + 40

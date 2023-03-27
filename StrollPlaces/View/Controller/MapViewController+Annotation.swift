@@ -13,7 +13,6 @@ import NSObject_Rx
 import CoreLocation
 import MapKit
 import Cluster
-import SPIndicator
 
 //MARK: - Extension for CLLocationManagerDelegate
 
@@ -22,8 +21,7 @@ extension MapViewController: CLLocationManagerDelegate {
     // 1. 사용자 위치 관련 설정
     func setupUserLocation() {
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        //self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.getLocationUsagePermission()
     }
     
@@ -86,25 +84,6 @@ extension MapViewController: MKMapViewDelegate {
         } else if annotation is MKUserLocation {
             let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "UserLocationAnnotationView")
             return annotationView
-            //return nil
-            
-//        } else if annotation is RouteAnnotation {
-//            let annotationView = mapView.dequeueReusableAnnotationView(
-//                withIdentifier: RouteAnnotationView.identifier)
-//            mapView.register(RouteAnnotationView.self,
-//                             forAnnotationViewWithReuseIdentifier: RouteAnnotationView.identifier)
-//            annotationView?.canShowCallout = true
-//
-//            let customImage: UIImage!
-//            let size = CGSize(width: 15, height: 25)
-//            UIGraphicsBeginImageContext(size)
-//
-//            customImage = UIImage(named: "pin")
-//            customImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-//            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-//            annotationView?.image = resizedImage
-//
-//            return annotationView
             
         } else {
             let identifier = "Pin"
@@ -112,7 +91,7 @@ extension MapViewController: MKMapViewDelegate {
             
             annotationView.canShowCallout = true
             annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            annotationView.pinTintColor = K.Color.mainColor
+            annotationView.pinTintColor = K.Map.themeColor[2]
             return annotationView
             
         }
@@ -174,11 +153,10 @@ extension MapViewController: MKMapViewDelegate {
         } else if let pin = annotation as? Annotation {
             let latitude = annotation.coordinate.latitude
             let longitude = annotation.coordinate.longitude
-            
             self.mapView.centerToLocation(
                 location: CLLocation(latitude: latitude, longitude: longitude),
-                deltaLat: 0.5.km,
-                deltaLon: 0.5.km
+                deltaLat: 1.0.km,
+                deltaLon: 1.0.km
             )
             
             // 데이터 보내기 (1): MapVC -> MapVM
@@ -197,7 +175,7 @@ extension MapViewController: MKMapViewDelegate {
             )
             
             // 경로 계산하여 예상 거리 및 소요시간 데이터 넘겨주기
-            self.fetchRoute(method: AppSettingValues.shared.navigationMode,
+            self.fetchRoute(method: AppSetting.shared.navigationMode,
                             pickupCoordinate: startLocation,
                             destinationCoordinate: endLocation,
                             draw: false) { distance, time in
@@ -217,27 +195,15 @@ extension MapViewController: MKMapViewDelegate {
             }
             
             // 경로안내 버튼을 누르면 경로 표시
-            placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside).asObservable()
-                .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
-                .subscribe(
-                    onNext: {[weak self] in
-                        guard let self = self else { return }
-                        self.fetchRoute(method: AppSettingValues.shared.navigationMode,
-                                        pickupCoordinate: startLocation,
-                                        destinationCoordinate: endLocation,
-                                        draw: true) { _, _ in }
-                        placeInfoViewController.animateDismissView()
-                        let indicatorView = SPIndicatorView(
-                            title: "완료", message: "경로를 찾았습니다.", preset: .done
-                        )
-                        indicatorView.present(duration: 2.0, haptic: .success)
-                    }, onError: { _ in
-                        let indicatorView = SPIndicatorView(
-                            title: "오류", message: "경로를 찾을 수 없습니다.", preset: .error
-                        )
-                        indicatorView.present(duration: 2.0, haptic: .error)
-                    }
-                )
+            placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside)
+                .asObservable()
+                .subscribe(onNext: {[weak self] in
+                    guard let self = self else { return }
+                    self.fetchRoute(method: AppSetting.shared.navigationMode,
+                                    pickupCoordinate: startLocation,
+                                    destinationCoordinate: endLocation,
+                                    draw: true) { _, _ in }
+                })
                 .disposed(by: rx.disposeBag)
             // RxSwift의 trigger와 관련된 연산자 활용 필요?
             
@@ -249,7 +215,7 @@ extension MapViewController: MKMapViewDelegate {
     // 경로 안내를 위한 polyline 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = K.Color.lightOrange
+        renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 4.0
         return renderer
     }

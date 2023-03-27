@@ -57,12 +57,15 @@
 		079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* LoginViewController.swift */; };
 		07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* MoreCellData.swift */; };
-		07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSetting.swift */; };
+		07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */; };
+		07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B2E3E429D156D300210207 /* MoreTableViewCell.swift */; };
+		07B2E3E729D156D300210207 /* MoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07B2E3E529D156D300210207 /* MoreTableViewCell.xib */; };
 		07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* MapTab.storyboard */; };
 		07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */; };
 		07CDB0A429CF068D00F139BB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CDB0A329CF068D00F139BB /* String.swift */; };
 		07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
+		07DEF5CF29D1E1F100CBAD60 /* MyPlaceOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DEF5CE29D1E1F100CBAD60 /* MyPlaceOnboardingViewController.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
@@ -141,12 +144,15 @@
 		079AF4F129C74C9D006C365B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* MoreCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCellData.swift; sourceTree = "<group>"; };
-		07AFB59229C024BD00DD1C34 /* AppSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetting.swift; sourceTree = "<group>"; };
+		07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingValues.swift; sourceTree = "<group>"; };
+		07B2E3E429D156D300210207 /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
+		07B2E3E529D156D300210207 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
 		07BAE44229CBE70A0048CE89 /* MapTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapTab.storyboard; sourceTree = "<group>"; };
 		07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyPlaceTab.storyboard; sourceTree = "<group>"; };
 		07CDB0A329CF068D00F139BB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
+		07DEF5CE29D1E1F100CBAD60 /* MyPlaceOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceOnboardingViewController.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces_StrollPlacesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
+				07DEF5CE29D1E1F100CBAD60 /* MyPlaceOnboardingViewController.swift */,
 			);
 			path = MyPlace;
 			sourceTree = "<group>";
@@ -286,7 +293,7 @@
 			children = (
 				079AF4EC29C74683006C365B /* Storyboard */,
 				0799CCC629BF5947006AB70D /* Controller */,
-				0799CCCF29BF5987006AB70D /* Other */,
+				0799CCCF29BF5987006AB70D /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -304,18 +311,19 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		0799CCCF29BF5987006AB70D /* Other */ = {
+		0799CCCF29BF5987006AB70D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
 				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
 				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
 				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
 				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
+				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
+				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
 			);
-			path = Other;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		0799CCD029BF5996006AB70D /* ViewModel */ = {
@@ -345,11 +353,12 @@
 			isa = PBXGroup;
 			children = (
 				0799CCDA29BF5A6F006AB70D /* K.swift */,
-				07AFB59229C024BD00DD1C34 /* AppSetting.swift */,
+				07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */,
 				072D5BB929C2E26A0024B938 /* Enum.swift */,
 				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
 				077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */,
 				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
+				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -525,6 +534,7 @@
 				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
+				07B2E3E729D156D300210207 /* MoreTableViewCell.xib in Resources */,
 				0718B96229D08F7500D5CDDE /* NewsTab.storyboard in Resources */,
 				07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */,
 				0799CCE729BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv in Resources */,
@@ -686,11 +696,13 @@
 				07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */,
 				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,
+				07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */,
 				0718B96429D0940F00D5CDDE /* MoreViewController+TableView.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
-				07AFB59329C024BD00DD1C34 /* AppSetting.swift in Sources */,
+				07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
+				07DEF5CF29D1E1F100CBAD60 /* MyPlaceOnboardingViewController.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);

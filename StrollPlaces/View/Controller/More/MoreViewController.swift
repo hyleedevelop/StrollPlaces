@@ -32,6 +32,7 @@ class MoreViewController: UIViewController {
         super.viewDidLoad()
 
         setupNavigationBar()
+        setupTableView()
     }
     
     //MARK: - directly called method
@@ -63,11 +64,29 @@ class MoreViewController: UIViewController {
     private func setupTableView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.tableView.register(UINib(nibName: "MoreTableViewCell", bundle: nil),
+                                forCellReuseIdentifier: "MoreCell")
+        self.tableView.backgroundColor = UIColor.white
+        //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
     
     //MARK: - indirectly called method
     
+    internal func showSafariView(urlString: String) {
+        let websiteURL = NSURL(string: urlString)
+        let webView = SFSafariViewController(url: websiteURL! as URL)
+        self.present(webView, animated: true, completion: nil)
+    }
     
+    // 추후 업데이트 예정이라는 Alert Message 출력하기
+    internal func showWillBeUpdatedMessage() {
+        let alert = UIAlertController(title: K.More.sorryTitle,
+                                      message: K.More.notifyLaterUpdateMessage,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }
 

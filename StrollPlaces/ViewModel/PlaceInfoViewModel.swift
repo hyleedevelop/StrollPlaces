@@ -19,7 +19,7 @@ final class PlaceInfoViewModel {
     let numberOfItems = BehaviorSubject<Int>(value: 5)
     
     // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
-    // -> 결과가 나오기 전까지 기본값을 먼저 label에 표출
+    // -> 경로 계산 결과가 나오기 전까지 기본값을 먼저 label에 표출
     // -> 계산이 끝나면 didSet을 통해 새로운 label 업데이트
     var estimatedDistance = BehaviorRelay<String>(value: "거리: 계산중...")
     var estimatedTime = BehaviorRelay<String>(value: "소요시간: 계산중...")
@@ -29,14 +29,14 @@ final class PlaceInfoViewModel {
     var distance: Double = -1 {
         didSet {
             if (1...) ~= self.distance {
-                estimatedDistance.accept("거리: " +
-                                         String(format: "%.1f", self.distance/1000.0) +
-                                         "km")
+                estimatedDistance.accept(
+                    "거리: " + String(format: "%.1f", self.distance/1000.0) + "km"
+                )
             }
             else if (0..<1) ~= self.distance {
-                estimatedDistance.accept("거리: " +
-                                         String(format: "%.1f", self.distance) +
-                                         "m")
+                estimatedDistance.accept(
+                    "거리: " + String(format: "%.1f", self.distance) + "m"
+                )
             } else {
                 estimatedDistance.accept("알수없음")
             }
@@ -50,16 +50,15 @@ final class PlaceInfoViewModel {
             if (3600...) ~= self.time {
                 let hours = self.time / 3600
                 let minutes = self.time.truncatingRemainder(dividingBy: 3600) / 60
-                estimatedTime.accept("소요시간: " +
-                                     String(format: "%.0f", hours) +
-                                     "시간 " +
-                                     String(format: "%.0f", minutes) +
-                                     "분")
+                estimatedTime.accept(
+                    "소요시간: " + String(format: "%.0f", hours) + "시간 " +
+                    String(format: "%.0f", minutes) + "분"
+                )
             } else if (60..<3600) ~= self.time {
                 let minutes = self.time / 60
-                estimatedTime.accept("소요시간: " +
-                                     String(format: "%.0f", minutes) +
-                                     "분")
+                estimatedTime.accept(
+                    "소요시간: " + String(format: "%.0f", minutes) + "분"
+                )
             } else if (0..<60) ~= self.time {
                 estimatedTime.accept("소요시간: 1분 미만")
             } else {

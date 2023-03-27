@@ -272,7 +272,7 @@ final class MapViewModel {
         self.themeCellViewModel = themeCell.compactMap(ThemeCellViewModel.init)
     }
     
-    func cellData(at index: Int) -> ThemeCellViewModel {
+    func themeCellData(at index: Int) -> ThemeCellViewModel {
         return self.themeCellViewModel[index]
     }
     
