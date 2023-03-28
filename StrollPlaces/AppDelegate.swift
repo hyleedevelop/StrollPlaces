@@ -12,7 +12,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        //sleep(2)
+        // 앱 첫 실행 시 나만의 산책로 목록이 비어있는지 여부 설정
+//        let defaults = UserDefaults.standard
+//        defaults.set(true, forKey: "testSwitchState")
+//        defaults.synchronize()
+//        NotificationCenter.default.post(name: Notification.Name("isListEmpty"),
+//                                        object: nil)
         
         return true
     }

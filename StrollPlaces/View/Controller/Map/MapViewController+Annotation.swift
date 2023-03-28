@@ -19,26 +19,17 @@ import SPIndicator
 
 extension MapViewController: CLLocationManagerDelegate {
     
-    // 1. 사용자 위치 관련 설정
-    func setupUserLocation() {
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        //self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.getLocationUsagePermission()
-    }
-    
-    // 2. 위치 추적 권한 요청 실행
-    private func getLocationUsagePermission() {
+    // 위치 추적 권한 요청 실행
+    internal func getLocationUsagePermission() {
         self.locationManager.requestWhenInUseAuthorization()
     }
     
-    // 3. 위치 추적 권한 요청 결과에 따른 처리
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    // 위치 추적 권한 요청 결과에 따른 처리
+    internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 추적 권한 허용됨")
             self.locationManager.startUpdatingLocation()
-            self.locationManager.startUpdatingHeading()
         case .restricted, .notDetermined:
             print("위치 추적 권한 미설정")
         case .denied:
@@ -118,10 +109,6 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             let latitude = location.coordinate.latitude
@@ -129,15 +116,6 @@ extension MapViewController: MKMapViewDelegate {
             print(#function, latitude, longitude, separator: ", ")
             
             
-            //let deltaLat = self.mapView.region.span.latitudeDelta.km
-            //let deltaLon = self.mapView.region.span.longitudeDelta.km
-            
-            // 사용자의 위치가 업데이트 될 때마다 지도 중심을 사용자의 위치로 변경
-            //self.mapView.centerToLocation(
-            //    location: CLLocation(latitude: latitude, longitude: longitude),
-            //    deltaLat: 750.m,
-            //    deltaLon: 750.m
-            //)
             
         }
     }

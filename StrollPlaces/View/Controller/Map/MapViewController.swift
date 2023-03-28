@@ -22,19 +22,27 @@ final class MapViewController: UIViewController {
     @IBOutlet weak var zoomInButton: UIButton!
     @IBOutlet weak var zoomOutButton: UIButton!
     @IBOutlet weak var currentLocationButton: UIButton!
-    @IBOutlet weak var mapView: MKMapView! {
-        didSet {
-            self.mapView.region = .init(center: region.center,
-                                        latitudinalMeters: region.delta,
-                                        longitudinalMeters: region.delta)
-        }
-    }
+    @IBOutlet weak var mapView: MKMapView! //{
+//        didSet {
+//            self.mapView.region = .init(center: region.center,
+//                                        latitudinalMeters: region.delta,
+//                                        longitudinalMeters: region.delta)
+//        }
+//    }
     
     //MARK: - property
     
     // 인스턴스
     internal var viewModel: MapViewModel!
-    internal let locationManager = CLLocationManager()
+    
+    internal lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.startUpdatingLocation()
+        manager.delegate = self
+        return manager
+    }()
+    
     internal lazy var clusterManager: ClusterManager = {
         let manager = ClusterManager()
         manager.delegate = self
@@ -47,10 +55,6 @@ final class MapViewController: UIViewController {
     // Rx 관련
     let titleSubject = PublishSubject<String>()
     let annotationColorSubject = PublishSubject<UIColor>()
-//    internal let placeNameSubject = PublishSubject<String>()
-//    var placeName: Observable<String> {
-//        return placeNameSubject.asObservable()
-//    }
     let stringRelay = BehaviorRelay<String>(value: "정보없음")
     
     // collection view
@@ -94,7 +98,7 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUserLocation()
+        getLocationUsagePermission()
         setupMapView()
         setupCollectionView()
         setupMapControlButton()
@@ -103,39 +107,38 @@ final class MapViewController: UIViewController {
         addAnnotations(with: .park)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.locationManager.stopUpdatingLocation()
+    }
+    
     //MARK: - method
     
     // 지도 관련 설정
     private func setupMapView() {
         // 델리게이트 설정
         self.mapView.delegate = self
-        
-        // 제스처 관련 설정
         self.mapView.isZoomEnabled = true
         self.mapView.isRotateEnabled = true
         self.mapView.isScrollEnabled = true
         self.mapView.isPitchEnabled = false
         self.mapView.isUserInteractionEnabled = true
-        
-        // 사용자 위치 표시 관련 설정
-        self.mapView.showsUserLocation = true
-        self.mapView.userTrackingMode = .follow
-        self.locationManager.showsBackgroundLocationIndicator = true
-        self.locationManager.allowsBackgroundLocationUpdates = true
-        self.locationManager.delegate = self
-        
-        // 컴퍼스 관련 설정
         self.mapView.showsCompass = false
+        self.mapView.showsUserLocation = true
+        self.mapView.setUserTrackingMode(.follow, animated: true)
+        
+//        self.locationManager.showsBackgroundLocationIndicator = true
+//        self.locationManager.allowsBackgroundLocationUpdates = true
+        self.locationManager.startUpdatingLocation()
         
         // 카메라 줌아웃 제한 설정
         let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 2000.km)
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // 지도 영역 제한 설정
-        let region = MKCoordinateRegion(center: K.Map.southKoreaCenterLocation.coordinate,
-                                        latitudinalMeters: 750.km,
-                                        longitudinalMeters: 750.km)
-        self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region), animated: false)
+//        let region = MKCoordinateRegion(center: K.Map.southKoreaCenterLocation.coordinate,
+//                                        latitudinalMeters: 750.km,
+//                                        longitudinalMeters: 750.km)
+//        self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region), animated: false)
     }
     
     // CollectionView 설정
