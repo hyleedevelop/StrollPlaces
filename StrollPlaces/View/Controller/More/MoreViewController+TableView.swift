@@ -32,10 +32,10 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        title.textColor = UIColor.white
+        title.textColor = UIColor.black
 
         let backView = UIView()
-        backView.backgroundColor = K.Color.mainColor
+        backView.backgroundColor = K.Color.mainColorLight
         
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
         header.textLabel!.font = title.font

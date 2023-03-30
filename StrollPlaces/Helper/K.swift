@@ -21,7 +21,8 @@ struct K {
         
         static let darkGray = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
         
-        static let mainColor = #colorLiteral(red: 0.1647058824, green: 0.6549019608, blue: 0.4588235294, alpha: 1)
+        static let mainColor = #colorLiteral(red: 0.9137254902, green: 0.2352941176, blue: 0.1843137255, alpha: 1)
+        static let mainColorLight = #colorLiteral(red: 0.9960784314, green: 0.9098039216, blue: 0.9058823529, alpha: 1)
     }
     
     // CSV 파일 관련

@@ -107,7 +107,6 @@ class MyPlaceViewController: UIViewController {
     
     // 나만의 산책로 리스트가 없는 경우 표시할 View 설정
     private func setupInitialView() {
-        print(#function)
         let isListExist = self.userDefaults.bool(forKey: "testSwitchValue")
         print("MyPlaceViewController", isListExist, separator: ", ")
         
@@ -124,7 +123,6 @@ class MyPlaceViewController: UIViewController {
     
     // initial view 추가
     private func showInitialView() {
-        print(#function)
         self.view.addSubview(self.initialView)
         self.initialView.addSubview(initialAnimationView)
         self.initialView.addSubview(initialTitleLabel)
@@ -158,7 +156,6 @@ class MyPlaceViewController: UIViewController {
     
     // initial view 삭제
     private func hideInitialView() {
-        print(#function)
         self.initialView.removeFromSuperview()
     }
     

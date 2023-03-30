@@ -24,6 +24,7 @@ target 'StrollPlaces' do
   pod 'ViewAnimator'
   pod 'SPIndicator'
   pod 'lottie-ios'
+  pod 'IQKeyboardManagerSwift', '6.5.10'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths
