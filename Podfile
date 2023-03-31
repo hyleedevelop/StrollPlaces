@@ -25,6 +25,8 @@ target 'StrollPlaces' do
   pod 'SPIndicator'
   pod 'lottie-ios'
   pod 'IQKeyboardManagerSwift', '6.5.10'
+  pod 'TransitionableTab', '~> 0.2.0'
+  pod 'SkyFloatingLabelTextField', '~> 3.0'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths

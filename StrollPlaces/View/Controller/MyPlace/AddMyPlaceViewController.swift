@@ -13,20 +13,24 @@ import NSObject_Rx
 import CoreLocation
 import MapKit
 import RealmSwift
+import SkyFloatingLabelTextField
 
 class AddMyPlaceViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
-    @IBOutlet weak var testSwitch: UISwitch!
-    
-    @IBAction func switchValueChanged(_ sender: UISwitch) {
-        // 스위치의 값을 UserDefaults에 저장 후
-        self.userDefaults.set(sender.isOn, forKey: "testSwitchValue")
-    }
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var routeInfoBackView: UIView!
+    @IBOutlet weak var nameField: SkyFloatingLabelTextField!
+    @IBOutlet weak var introField: SkyFloatingLabelTextField!
+    @IBOutlet weak var featureField: SkyFloatingLabelTextField!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var saveButton: UIButton!
     
     @IBAction func saveButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+        // 나만의 산책길 탭 메인화면으로 돌아가기
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     //MARK: - normal property
@@ -39,12 +43,19 @@ class AddMyPlaceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // 스위치의 값을 UserDefaults에 저장
+        self.userDefaults.set(false, forKey: "testSwitchValue")
+        
         setupNavigationBar()
         setupLocationManager()
+        
+        setupBackView()
+        setupTextField()
+        setupSaveButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.testSwitch.isOn = self.userDefaults.bool(forKey: "testSwitchValue")
+        
     }
 
     //MARK: - directly called method
@@ -73,6 +84,43 @@ class AddMyPlaceViewController: UIViewController {
         self.locationManager.startUpdatingLocation()
         self.locationManager.delegate = self
         self.locationManager.allowsBackgroundLocationUpdates = true
+    }
+    
+    // 경로정보 영역의 Back View 설정
+    private func setupBackView() {
+        self.mapView.layer.cornerRadius = 5
+        self.mapView.clipsToBounds = true
+        
+        self.routeInfoBackView.backgroundColor = K.Color.mainColorLight
+        self.routeInfoBackView.layer.cornerRadius = 0
+        self.routeInfoBackView.clipsToBounds = true
+        self.routeInfoBackView.layer.masksToBounds = false
+        self.routeInfoBackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        self.routeInfoBackView.layer.shadowColor = UIColor.black.cgColor
+        self.routeInfoBackView.layer.shadowRadius = 3
+        self.routeInfoBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.routeInfoBackView.layer.shadowOpacity = 0.3
+        self.routeInfoBackView.layer.borderColor = K.Color.mainColor.cgColor
+        self.routeInfoBackView.layer.borderWidth = 0
+    }
+    
+    // TextField 및 TextView 설정
+    private func setupTextField() {
+        self.nameField.errorColor = UIColor.red
+        self.nameField.returnKeyType = .default
+    }
+    
+    private func setupSaveButton() {
+        self.saveButton.layer.cornerRadius = self.saveButton.frame.height / 2.0
+        self.saveButton.clipsToBounds = true
+        
+        self.saveButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                // 나만의 산책길 탭 메인화면으로 돌아가기
+                self.navigationController?.popToRootViewController(animated: true)
+            })
+            .disposed(by: rx.disposeBag)
     }
     
 }

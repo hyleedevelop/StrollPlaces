@@ -104,9 +104,11 @@ final class TrackingViewController: UIViewController {
                 guard let self = self else { return }
                 self.deactivateButton(button: self.trackStopButton)
                 self.indicateSelectedButton(button: self.trackStopButton)
-                self.showAlertMessageForRegistration { shouldTimerStop in
+                
+                self.pauseTimer()
+                self.showAlertMessageForRegistration { timerShouldBeStopped in
                     // alert action에서 "네"를 클릭한 경우 타이머 기록 초기화
-                    if shouldTimerStop { self.stopTimer() }
+                    if timerShouldBeStopped { self.stopTimer() }
                 }
                 
                 /* 지도에 경로 표시하고 Realm DB에 기록하기 */

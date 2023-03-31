@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import TransitionableTab
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
 
     @IBInspectable var initialIndex: Int = 0
     
@@ -18,6 +19,7 @@ class TabBarController: UITabBarController {
     }
     
     func setupTabBar() {
+        self.delegate = self
         selectedIndex = initialIndex
         
         // iOS 15 업데이트 이후 TabBar, NavigationBar가 보이지 않는 문제 해결
@@ -46,24 +48,16 @@ class TabBarController: UITabBarController {
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         }
         
-        
-        
-        /*
-        // 수익계산 탭 (홈)
-        let vc1 = UINavigationController(rootViewController: MapViewController())
-        vc1.tabBarItem.title = "홈"
-        vc1.tabBarItem.image = UIImage(systemName: "square.and.pencil")
-        
-        // 설정 탭
-        let vc2 = UINavigationController(rootViewController: SettingViewController())
-        vc2.tabBarItem.title = "설정"
-        vc2.tabBarItem.image = UIImage(systemName: "ellipsis")
-        
-        viewControllers = [vc1, vc2]
-        
-        // 앱을 처음 실행했을 때 화면에 보여줄 탭 설정 (Index = 0, 1)
-        self.selectedIndex = 0
-         */
     }
 
+}
+
+//MARK: - extension for TransitionableTab
+
+extension TabBarController: TransitionableTab {
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        return animateTransition(tabBarController, shouldSelect: viewController)
+    }
+    
 }
