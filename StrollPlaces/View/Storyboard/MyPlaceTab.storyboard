@@ -7,11 +7,10 @@
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--나만의 산책길-->
+        <!--산책길 보관함-->
         <scene sceneID="jX7-15-0Db">
             <objects>
                 <viewController storyboardIdentifier="MyPlaceViewController" id="bgb-MP-ou8" customClass="MyPlaceViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,38 +18,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="f8R-C2-RXm">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Vii-i7-hh9">
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pTo-iL-YpO">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="3Zd-yw-VHw">
-                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="oR8-WL-m2a">
-                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tmQ-s7-aN3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="f8R-C2-RXm" firstAttribute="leading" secondItem="tmQ-s7-aN3" secondAttribute="leading" id="2zA-Ee-Mt8"/>
-                            <constraint firstItem="tmQ-s7-aN3" firstAttribute="bottom" secondItem="f8R-C2-RXm" secondAttribute="bottom" id="36o-9M-WbR"/>
-                            <constraint firstItem="tmQ-s7-aN3" firstAttribute="trailing" secondItem="f8R-C2-RXm" secondAttribute="trailing" id="6sR-VW-epd"/>
-                            <constraint firstItem="f8R-C2-RXm" firstAttribute="top" secondItem="tmQ-s7-aN3" secondAttribute="top" id="oy0-UF-E03"/>
+                            <constraint firstItem="Vii-i7-hh9" firstAttribute="leading" secondItem="tmQ-s7-aN3" secondAttribute="leading" id="Fdn-gH-JqC"/>
+                            <constraint firstItem="tmQ-s7-aN3" firstAttribute="bottom" secondItem="Vii-i7-hh9" secondAttribute="bottom" id="UOF-0P-7vD"/>
+                            <constraint firstItem="Vii-i7-hh9" firstAttribute="top" secondItem="tmQ-s7-aN3" secondAttribute="top" id="bTF-du-yGb"/>
+                            <constraint firstItem="tmQ-s7-aN3" firstAttribute="trailing" secondItem="Vii-i7-hh9" secondAttribute="trailing" id="hAd-2T-U1Y"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="icons8-journey-50" id="Q2D-1V-q9f"/>
-                    <navigationItem key="navigationItem" title="나만의 산책길" id="F9N-nl-Ib8">
+                    <navigationItem key="navigationItem" title="산책길 보관함" id="F9N-nl-Ib8">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="lightbulb" catalog="system" id="RSZ-5r-6iV">
                             <color key="tintColor" red="0.91372549020000005" green="0.23529411759999999" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -66,7 +49,7 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="myPlaceCollectionView" destination="f8R-C2-RXm" id="VDX-Bg-Wim"/>
+                        <outlet property="myPlaceTableView" destination="Vii-i7-hh9" id="0Jk-On-m5h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pa8-wf-nsZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -240,7 +223,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="clock.arrow.circlepath" catalog="system" id="cpa-vn-Pve">
                             <color key="tintColor" red="0.91372549020000005" green="0.23529411759999999" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <segue destination="TU5-fa-ZCD" kind="show" identifier="ToAddMyPlaceViewController" id="M9X-hv-S2j"/>
+                                <action selector="resetTrack" destination="FTs-Cr-XRN" id="bhV-eq-TuB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -261,29 +244,29 @@
         <!--상세정보 입력-->
         <scene sceneID="yY7-pv-35Y">
             <objects>
-                <viewController id="TU5-fa-ZCD" customClass="AddMyPlaceViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddMyPlaceViewController" id="TU5-fa-ZCD" customClass="AddMyPlaceViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yB9-gH-8F2">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="1600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="1400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQp-KV-YEJ">
-                                <rect key="frame" x="0.0" y="103" width="393" height="1414"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="1307"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFP-ef-nwz">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1141"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1235"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lVN-DW-65q" userLabel="경로정보 BackView">
-                                                <rect key="frame" x="0.0" y="0.0" width="393" height="395.33333333333331"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="393" height="439.33333333333331"/>
                                                 <subviews>
                                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q5l-jV-Glv" userLabel="이동경로">
-                                                        <rect key="frame" x="20" y="20" width="353" height="198.66666666666666"/>
+                                                        <rect key="frame" x="20" y="63.999999999999986" width="353" height="198.66666666666663"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="q5l-jV-Glv" secondAttribute="height" multiplier="16:9" id="ZkT-fs-Zdb"/>
                                                         </constraints>
                                                         <standardMapConfiguration key="preferredConfiguration"/>
                                                     </mapView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kDB-rq-cxi" userLabel="이동경로 SV">
-                                                        <rect key="frame" x="20" y="238.66666666666669" width="353" height="136.66666666666669"/>
+                                                        <rect key="frame" x="20" y="282.66666666666669" width="353" height="136.66666666666669"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="160" translatesAutoresizingMaskIntoConstraints="NO" id="fXR-jV-whg" userLabel="산책날짜 SV">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="19.333333333333332"/>
@@ -384,20 +367,29 @@
                                                             <constraint firstAttribute="trailing" secondItem="fXR-jV-whg" secondAttribute="trailing" id="wRw-KB-yVY"/>
                                                         </constraints>
                                                     </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이동경로 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDt-oe-CBb">
+                                                        <rect key="frame" x="20" y="20" width="353" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="q5l-jV-Glv" firstAttribute="top" secondItem="lVN-DW-65q" secondAttribute="top" constant="20" id="GBH-vG-G5O"/>
+                                                    <constraint firstAttribute="trailing" secondItem="QDt-oe-CBb" secondAttribute="trailing" constant="20" id="4mH-jo-ncA"/>
+                                                    <constraint firstItem="QDt-oe-CBb" firstAttribute="top" secondItem="lVN-DW-65q" secondAttribute="top" constant="20" id="AeE-Uo-Egf"/>
+                                                    <constraint firstItem="q5l-jV-Glv" firstAttribute="top" secondItem="QDt-oe-CBb" secondAttribute="bottom" constant="20" id="GBH-vG-G5O"/>
                                                     <constraint firstItem="kDB-rq-cxi" firstAttribute="top" secondItem="q5l-jV-Glv" secondAttribute="bottom" constant="20" id="QFM-qN-W6u"/>
                                                     <constraint firstAttribute="trailing" secondItem="kDB-rq-cxi" secondAttribute="trailing" constant="20" id="SX8-ea-4q4"/>
                                                     <constraint firstItem="kDB-rq-cxi" firstAttribute="leading" secondItem="lVN-DW-65q" secondAttribute="leading" constant="20" id="ZKX-Uy-bLV"/>
+                                                    <constraint firstItem="QDt-oe-CBb" firstAttribute="leading" secondItem="lVN-DW-65q" secondAttribute="leading" constant="20" id="bBn-hQ-dr5"/>
                                                     <constraint firstItem="q5l-jV-Glv" firstAttribute="leading" secondItem="lVN-DW-65q" secondAttribute="leading" constant="20" id="eev-tB-Qf5"/>
                                                     <constraint firstAttribute="bottom" secondItem="kDB-rq-cxi" secondAttribute="bottom" constant="20" id="m2q-Er-CdB"/>
                                                     <constraint firstAttribute="trailing" secondItem="q5l-jV-Glv" secondAttribute="trailing" constant="20" id="xWG-f5-r0F"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="e4G-Kd-TFF" userLabel="입력 SV">
-                                                <rect key="frame" x="20" y="435.33333333333343" width="353" height="535.66666666666652"/>
+                                                <rect key="frame" x="20" y="479.33333333333343" width="353" height="535.66666666666652"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="uFq-9U-JBW" userLabel="이름 SV">
                                                         <rect key="frame" x="0.0" y="0.0" width="353" height="60.666666666666664"/>
@@ -467,7 +459,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G87-VJ-LA6">
-                                                <rect key="frame" x="20" y="1011" width="353" height="50"/>
+                                                <rect key="frame" x="20" y="1055" width="353" height="50"/>
                                                 <color key="backgroundColor" red="0.99607843139999996" green="0.90980392160000001" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="2YO-8x-Ltt"/>
@@ -478,18 +470,33 @@
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
                                                 </buttonConfiguration>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-ob-ryp">
+                                                <rect key="frame" x="20" y="1125" width="353" height="50"/>
+                                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="9cA-hb-H4r"/>
+                                                </constraints>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="취소">
+                                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
+                                                </buttonConfiguration>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="G87-VJ-LA6" firstAttribute="leading" secondItem="AFP-ef-nwz" secondAttribute="leading" constant="20" id="84z-L4-llJ"/>
-                                            <constraint firstAttribute="bottom" secondItem="G87-VJ-LA6" secondAttribute="bottom" constant="80" id="G1H-J1-mdm"/>
                                             <constraint firstItem="G87-VJ-LA6" firstAttribute="top" secondItem="e4G-Kd-TFF" secondAttribute="bottom" constant="40" id="Gwn-6m-1hE"/>
                                             <constraint firstItem="e4G-Kd-TFF" firstAttribute="top" secondItem="lVN-DW-65q" secondAttribute="bottom" constant="40" id="In6-7Q-ouZ"/>
                                             <constraint firstItem="lVN-DW-65q" firstAttribute="top" secondItem="AFP-ef-nwz" secondAttribute="top" id="Lfu-Oi-w4e"/>
+                                            <constraint firstAttribute="bottom" secondItem="a5o-ob-ryp" secondAttribute="bottom" constant="60" id="OLh-0V-dsX"/>
+                                            <constraint firstItem="a5o-ob-ryp" firstAttribute="leading" secondItem="AFP-ef-nwz" secondAttribute="leading" constant="20" id="USh-5a-lD0"/>
                                             <constraint firstAttribute="trailing" secondItem="e4G-Kd-TFF" secondAttribute="trailing" constant="20" id="XOy-gi-Mac"/>
                                             <constraint firstAttribute="trailing" secondItem="lVN-DW-65q" secondAttribute="trailing" id="Zpw-h0-ORn"/>
                                             <constraint firstItem="e4G-Kd-TFF" firstAttribute="leading" secondItem="AFP-ef-nwz" secondAttribute="leading" constant="20" id="nyD-kP-QeF"/>
+                                            <constraint firstAttribute="trailing" secondItem="a5o-ob-ryp" secondAttribute="trailing" constant="20" id="peu-Op-U7G"/>
                                             <constraint firstItem="lVN-DW-65q" firstAttribute="leading" secondItem="AFP-ef-nwz" secondAttribute="leading" id="r9X-6y-9r2"/>
+                                            <constraint firstItem="a5o-ob-ryp" firstAttribute="top" secondItem="G87-VJ-LA6" secondAttribute="bottom" constant="20" id="tbA-e5-lVj"/>
                                             <constraint firstAttribute="trailing" secondItem="G87-VJ-LA6" secondAttribute="trailing" constant="20" id="zV2-qp-bAg"/>
                                         </constraints>
                                     </view>
@@ -516,8 +523,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상세정보 입력" style="editor" id="z9T-Pt-usn"/>
-                    <size key="freeformSize" width="393" height="1600"/>
+                    <size key="freeformSize" width="393" height="1400"/>
                     <connections>
+                        <outlet property="cancelButton" destination="a5o-ob-ryp" id="9ya-8C-OU7"/>
                         <outlet property="featureField" destination="iuH-n7-whr" id="A3j-1D-F2E"/>
                         <outlet property="imageView" destination="LGF-7Q-Npa" id="C6s-oB-OYm"/>
                         <outlet property="introField" destination="TKx-fS-SEM" id="knd-Lk-5AA"/>
@@ -529,7 +537,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iS6-AU-zmX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4415" y="524"/>
+            <point key="canvasLocation" x="4414.5038167938928" y="523.94366197183103"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="6Cx-6c-WyX">
@@ -544,7 +552,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tgf-rp-3qX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5234" y="332"/>
+            <point key="canvasLocation" x="2764" y="661"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hSl-dM-f8q">

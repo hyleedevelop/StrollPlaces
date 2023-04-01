@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        defaults.synchronize()
 //        NotificationCenter.default.post(name: Notification.Name("isListEmpty"),
 //                                        object: nil)
+        
+        // IQKeyboard 사용 가능 여부
+        IQKeyboardManager.shared.enable = true
+        // 자동 ToolBar 설정 여부
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        // 키보드 바깥을 터치했을 때 Resign 여부
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        // Toolbar 버튼 설정
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Close"
+        // IQKeyboard의 이전/이후 버튼 조절이 허용된 View
+        // (해당 View 내의 TextField끼리는 이전/이후 버튼을 통해 상호 간편이동이 가능해짐)
+        //IQKeyboardManager.shared.toolbarPreviousNextAllowedClasses = [AddMyPlaceViewController.self]
         
         return true
     }

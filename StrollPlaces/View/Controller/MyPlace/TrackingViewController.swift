@@ -11,6 +11,7 @@ import CoreLocation
 import MapKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 final class TrackingViewController: UIViewController {
 
@@ -24,11 +25,27 @@ final class TrackingViewController: UIViewController {
     @IBOutlet weak var trackPauseButton: UIButton!
     @IBOutlet weak var trackStopButton: UIButton!
     
+    @IBAction func resetTrack() {
+        self.stopTimer()
+    }
+    
     //MARK: - normal property
     private var hours: Int = 0
     private var minutes: Int = 0
     private var seconds: Int = 0
     private var timer: Timer? = nil
+    
+    internal lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.startUpdatingLocation()
+        manager.delegate = self
+        return manager
+    }()
+    
+    internal var previousCoordinate: CLLocationCoordinate2D?
+    internal var trackData = TrackData()
+    internal var isTrackingAllowed = false
     
     //MARK: - UI property
     
@@ -37,21 +54,39 @@ final class TrackingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupMapView()
+        setupRealm()
+        
+        getLocationUsagePermission()
+        setupMapAndTrack()
         
         setupPlayButton()
         setupPauseButton()
         setupStopButton()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.locationManager.stopUpdatingLocation()
+    }
+    
     //MARK: - directly called method
     
-    // 지도 설정
-    private func setupMapView() {
+    // RealmDB 설정
+    private func setupRealm() {
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
+    }
+    
+    // 지도 및 경로 관련 설정
+    private func setupMapAndTrack() {
         self.mapView.layer.cornerRadius = 20
         self.mapView.clipsToBounds = true
-    
+        self.mapView.showsUserLocation = true
+        self.mapView.setUserTrackingMode(.follow, animated: true)
+        self.mapView.isZoomEnabled = true
+        self.mapView.delegate = self
+        
+        // 경로 저장 날짜 = 현재 날짜
+        self.trackData.date = Date()
+        self.isTrackingAllowed = false
     }
     
     // 타이머 시작 버튼 설정
@@ -64,12 +99,14 @@ final class TrackingViewController: UIViewController {
             //.debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
+                // 버튼 활성화 여부 및 UI 업데이트
                 self.deactivateButton(button: self.trackStartButton)
                 self.indicateSelectedButton(button: self.trackStartButton)
                 
-                /* 지도에 경로 표시하고 Realm DB에 기록하기 */
-                
+                // 타이머 재생, 사용자 위치 업데이트 시작
+                self.isTrackingAllowed = true
                 self.startTimer()
+                self.locationManager.startUpdatingLocation()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -84,10 +121,14 @@ final class TrackingViewController: UIViewController {
             //.debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
+                // 버튼 활성화 여부 및 UI 업데이트
                 self.deactivateButton(button: self.trackPauseButton)
                 self.indicateSelectedButton(button: self.trackPauseButton)
                 
+                // 타이머 일시정지, 사용자 위치 업데이트 중지
+                self.isTrackingAllowed = false
                 self.pauseTimer()
+                self.locationManager.stopUpdatingLocation()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -102,17 +143,24 @@ final class TrackingViewController: UIViewController {
             //.debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
+                // 버튼 활성화 여부 및 UI 업데이트
                 self.deactivateButton(button: self.trackStopButton)
                 self.indicateSelectedButton(button: self.trackStopButton)
                 
+                // 타이머 일시정지, 사용자 위치 업데이트 중지
                 self.pauseTimer()
+                self.locationManager.stopUpdatingLocation()
+                
+                // alert message 보여주기
                 self.showAlertMessageForRegistration { timerShouldBeStopped in
-                    // alert action에서 "네"를 클릭한 경우 타이머 기록 초기화
-                    if timerShouldBeStopped { self.stopTimer() }
+                    // alert action에서 "네"를 클릭한 경우
+                    if timerShouldBeStopped {
+                        // 타이머를 종료하고 Realm DB에 경로 기록하기
+                        self.isTrackingAllowed = false
+                        self.stopTimer()
+                        RealmService.shared.create(self.trackData)
+                    }
                 }
-                
-                /* 지도에 경로 표시하고 Realm DB에 기록하기 */
-                
             })
             .disposed(by: rx.disposeBag)
         
@@ -120,10 +168,10 @@ final class TrackingViewController: UIViewController {
     
     //MARK: - indirectly called method
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let addMyPlaceViewController = segue.destination as? AddMyPlaceViewController else { return }
-        //addMyPlaceViewController.xxx = xxx
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard let addMyPlaceViewController = segue.destination as? AddMyPlaceViewController else { return }
+//        //addMyPlaceViewController.xxx = xxx
+//    }
     
     // 선택된 버튼은 테두리를 표시하고, 선택되지 않은 버튼은 테두리를 없애도록 설정
     private func indicateSelectedButton(button: UIButton) {
@@ -221,7 +269,10 @@ final class TrackingViewController: UIViewController {
         }
         let okAction = UIAlertAction(title: "네", style: .default) { [weak self] _ in
             guard let self = self else { return }
-            self.performSegue(withIdentifier: "ToAddMyPlaceViewController", sender: nil)
+            guard let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController")
+                    as? AddMyPlaceViewController else { return }
+            nextViewController.modalPresentationStyle = .overFullScreen
+            self.present(nextViewController, animated: true, completion: nil)
             completion(true)
         }
         

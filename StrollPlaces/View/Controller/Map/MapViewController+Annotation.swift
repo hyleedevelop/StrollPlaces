@@ -25,7 +25,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     // 위치 추적 권한 요청 결과에 따른 처리
-    internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 추적 권한 허용됨")
@@ -109,14 +109,12 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
+    // 사용자의 위치가 업데이트 될 때 수행할 내용
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             print(#function, latitude, longitude, separator: ", ")
-            
-            
-            
         }
     }
     
@@ -227,8 +225,11 @@ extension MapViewController: MKMapViewDelegate {
     // 경로 안내를 위한 polyline 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
+        
         renderer.strokeColor = K.Color.lightOrange
         renderer.lineWidth = 4.0
+        renderer.alpha = 1.0
+        
         return renderer
     }
      

@@ -26,12 +26,7 @@ class AddMyPlaceViewController: UIViewController {
     @IBOutlet weak var featureField: SkyFloatingLabelTextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var saveButton: UIButton!
-    
-    @IBAction func saveButtonTapped() {
-        //self.navigationController?.popViewController(animated: true)
-        // 나만의 산책길 탭 메인화면으로 돌아가기
-        self.navigationController?.popToRootViewController(animated: true)
-    }
+    @IBOutlet weak var cancelButton: UIButton!
     
     //MARK: - normal property
     
@@ -51,7 +46,7 @@ class AddMyPlaceViewController: UIViewController {
         
         setupBackView()
         setupTextField()
-        setupSaveButton()
+        setupButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,7 +105,8 @@ class AddMyPlaceViewController: UIViewController {
         self.nameField.returnKeyType = .default
     }
     
-    private func setupSaveButton() {
+    private func setupButton() {
+        // (1) 저장 버튼
         self.saveButton.layer.cornerRadius = self.saveButton.frame.height / 2.0
         self.saveButton.clipsToBounds = true
         
@@ -121,6 +117,19 @@ class AddMyPlaceViewController: UIViewController {
                 self.navigationController?.popToRootViewController(animated: true)
             })
             .disposed(by: rx.disposeBag)
+        
+        // (2) 취소 버튼
+        self.cancelButton.layer.cornerRadius = self.saveButton.frame.height / 2.0
+        self.cancelButton.clipsToBounds = true
+        
+        self.cancelButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                // 이전화면(경로만들기)로 돌아가기
+                self.dismiss(animated: true)
+            })
+            .disposed(by: rx.disposeBag)
+        
     }
     
 }

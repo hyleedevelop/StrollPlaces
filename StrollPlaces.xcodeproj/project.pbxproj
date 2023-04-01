@@ -37,6 +37,10 @@
 		0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */; };
 		0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */; };
 		0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */; };
+		0790A42429D83161008C3923 /* TrackPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42329D83161008C3923 /* TrackPoint.swift */; };
+		0790A42629D83208008C3923 /* TrackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42529D83208008C3923 /* TrackData.swift */; };
+		0790A42929D85DFD008C3923 /* MyPlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */; };
+		0790A42A29D85DFD008C3923 /* MyPlaceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
 		0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9529BF584B006AB70D /* AppDelegate.swift */; };
 		0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9729BF584B006AB70D /* SceneDelegate.swift */; };
@@ -126,6 +130,10 @@
 		0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceInfoViewController+Modal.swift"; sourceTree = "<group>"; };
+		0790A42329D83161008C3923 /* TrackPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPoint.swift; sourceTree = "<group>"; };
+		0790A42529D83208008C3923 /* TrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackData.swift; sourceTree = "<group>"; };
+		0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceTableViewCell.swift; sourceTree = "<group>"; };
+		0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPlaceTableViewCell.xib; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
 		0799CC9229BF584B006AB70D /* StrollPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrollPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0799CC9529BF584B006AB70D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -343,6 +351,8 @@
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
 				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
+				0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */,
+				0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */,
 				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
 				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
@@ -371,6 +381,8 @@
 				0760D51E29D32ED100796D73 /* MyPlaceData.swift */,
 				077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */,
 				07AFB59029C012A600DD1C34 /* MoreCellData.swift */,
+				0790A42329D83161008C3923 /* TrackPoint.swift */,
+				0790A42529D83208008C3923 /* TrackData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -557,6 +569,7 @@
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
 				079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
+				0790A42A29D85DFD008C3923 /* MyPlaceTableViewCell.xib in Resources */,
 				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
@@ -709,8 +722,10 @@
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
 				077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */,
 				0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */,
+				0790A42429D83161008C3923 /* TrackPoint.swift in Sources */,
 				077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
+				0790A42629D83208008C3923 /* TrackData.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
 				077C1BEC29CDEDC100DA3218 /* URLRequest.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
@@ -732,6 +747,7 @@
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				070FFB0029D56B4900987285 /* AlertService.swift in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
+				0790A42929D85DFD008C3923 /* MyPlaceTableViewCell.swift in Sources */,
 				070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */,
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,

@@ -13,17 +13,23 @@ import NSObject_Rx
 import CoreLocation
 //import ActivityKit
 import Lottie
+import RealmSwift
 
 class MyPlaceViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
     @IBOutlet weak var currentLocationLabel: UILabel!
-    @IBOutlet weak var myPlaceCollectionView: UICollectionView!
+    @IBOutlet weak var myPlaceTableView: UITableView!
     
     //MARK: - normal property
 
     private let userDefaults = UserDefaults.standard
+    
+    // TrackPoint를 DB로부터 Read하여 담을 변수
+    var TrackDatas: Results<TrackData>!
+    // TrackPoint 업데이트 시 사용할 변수
+    var notificationToken: NotificationToken?
     
     //MARK: - UI property
     
@@ -70,8 +76,9 @@ class MyPlaceViewController: UIViewController {
 
         setupNavigationBar()
         setupInitialView()
-        setupCollectionView()
-        
+        setupTableView()
+
+        setupRealm()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,8 +122,19 @@ class MyPlaceViewController: UIViewController {
     }
     
     // CollectionView 설정
-    private func setupCollectionView() {
+    private func setupTableView() {
+        self.myPlaceTableView.delegate = self
+        self.myPlaceTableView.dataSource = self
+    }
+    
+    // Realm DB 설정
+    private func setupRealm() {
+        let realm = RealmService.shared.realm
+        self.TrackDatas = realm.objects(TrackData.self)
         
+        notificationToken = TrackDatas.observe { (changes) in
+            self.myPlaceTableView.reloadData()
+        }
     }
     
     //MARK: - indirectly called method
@@ -158,6 +176,26 @@ class MyPlaceViewController: UIViewController {
     private func hideInitialView() {
         self.initialView.removeFromSuperview()
     }
+    
+}
+
+//MARK: - extension for UITableViewDelegate, UITableViewDataSource
+
+extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    
     
 }
 
