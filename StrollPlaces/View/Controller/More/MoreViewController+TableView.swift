@@ -8,6 +8,7 @@
 import UIKit
 import SafariServices
 import AcknowList
+import SPIndicator
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
 
@@ -79,6 +80,25 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
             print("appSettings")
+            if indexPath.row == 2 {
+                // 진짜로 취소할 것인지 alert message 보여주고 확인받기
+                let alert = UIAlertController(title: "확인",
+                                              message: "즐겨찾기와 나만의 산책길에 관련된\n모든 데이터를 삭제할까요?",
+                                              preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "아니요", style: .default)
+                let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
+                    self.viewModel.clearRealmDB()
+                    let indicatorView = SPIndicatorView(
+                        title: "완료", message: "앱 데이터를 삭제했습니다.", preset: .done
+                    )
+                    indicatorView.present(duration: 2.0, haptic: .success)
+                }
+                alert.addAction(okAction)
+                alert.addAction(cancelAction)
+                
+                // 메세지 보여주기
+                self.present(alert, animated: true, completion: nil)
+            }
         case .feedback:
             print("feedback")
         case .aboutTheApp:

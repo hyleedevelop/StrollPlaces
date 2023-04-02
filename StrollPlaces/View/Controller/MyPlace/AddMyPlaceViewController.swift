@@ -33,11 +33,18 @@ class AddMyPlaceViewController: UIViewController {
     private let userDefaults = UserDefaults.standard
     private var locationManager: CLLocationManager!
     
+    internal var trackData = TrackData()
+    internal var trackPoint = TrackPoint()
+    internal var track: Results<TrackData>!
+    internal var point: Results<TrackPoint>!
+    
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupRealm()
+        
         // 스위치의 값을 UserDefaults에 저장
         self.userDefaults.set(false, forKey: "testSwitchValue")
         
@@ -50,10 +57,22 @@ class AddMyPlaceViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
+        self.navigationItem.hidesBackButton = true
     }
 
     //MARK: - directly called method
+    
+    // Realm DB 설정
+    private func setupRealm() {
+//        self.track = RealmService.shared.realm.objects(TrackData.self)
+//        guard let latestData = self.track?.last else { return }
+//        print(latestData.date)
+//        print(latestData.points.last?.latitude as? Double,
+//              latestData.points.last?.longitude as? Double)
+//
+//        calculateDistanceBetweenTrackPoints()
+    }
     
     // NavigationBar 설정
     private func setupNavigationBar() {
@@ -113,8 +132,10 @@ class AddMyPlaceViewController: UIViewController {
         self.saveButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
+                
                 // 나만의 산책길 탭 메인화면으로 돌아가기
                 self.navigationController?.popToRootViewController(animated: true)
+//                self.dismiss(animated: true)
             })
             .disposed(by: rx.disposeBag)
         
@@ -125,11 +146,42 @@ class AddMyPlaceViewController: UIViewController {
         self.cancelButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                // 이전화면(경로만들기)로 돌아가기
-                self.dismiss(animated: true)
+                self.showAlertMessageForReturn()
             })
             .disposed(by: rx.disposeBag)
         
+    }
+    
+    //MARK: - indirectly called method
+    
+    private func calculateDistanceBetweenTrackPoints() {
+        
+    }
+    
+    private func showAlertMessageForReturn() {
+        // 진짜로 취소할 것인지 alert message 보여주고 확인받기
+        let alert = UIAlertController(title: "확인",
+                                      message: "지금까지 작성한 내용을\n모두 삭제할까요?",
+                                      preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "아니요", style: .default)
+        let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
+            // Realm DB에 저장했던 경로 삭제하기
+            self.track = RealmService.shared.realm.objects(TrackData.self)
+            self.point = RealmService.shared.realm.objects(TrackPoint.self)
+            guard let latestTrackData = self.track?.last else { return }
+            //guard let latestPointData = self.point else { return }
+            RealmService.shared.delete(latestTrackData)
+            
+            
+            // 이전화면(경로만들기)로 돌아가기
+            self.navigationController?.popToRootViewController(animated: true)
+            //self.dismiss(animated: true)
+        }
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        // 메세지 보여주기
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

@@ -19,6 +19,7 @@ final class RealmService {
     
     // T는 Generic이다.
     // T는 typename의 약어이며, 모든 Object를 받을 수 있음을 의미한다.
+    // CRUD의 'C'
     func create<T: Object>(_ object: T) {
         do {
             // realm에 object를 추가.
@@ -29,6 +30,12 @@ final class RealmService {
             post(error)
         }
     }
+    
+    // CRUD의 'R'
+    // realm은 읽어낸 data 컬렉션을 memory에 올리지 않고 정보를 얻기 때문에
+    // 다른 DB 라이브러리보다 훨씬 효율적이다.
+    // let realm = RealmService.shared.realm
+    // self.model = realm.objects(Model.self)
     
     // CRUD의 'U'
     func update<T: Object>(_ object: T, with dictionary: [String: Any?]) {
@@ -48,6 +55,17 @@ final class RealmService {
         do {
             try realm.write {
                 realm.delete(object)
+            }
+        } catch {
+            post(error)
+        }
+    }
+    
+    // 전체 삭제
+    func deleteAll<T: Object>(_ object: T) {
+        do {
+            try realm.write {
+                realm.deleteAll()
             }
         } catch {
             post(error)

@@ -26,6 +26,9 @@
 		0760D51D29D3296600796D73 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0760D51C29D3296600796D73 /* RealmService.swift */; };
 		0760D51F29D32ED100796D73 /* MyPlaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0760D51E29D32ED100796D73 /* MyPlaceData.swift */; };
 		07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */; };
+		0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */; };
+		0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */; };
+		0774AA8729D97CEF0048C781 /* MyPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */; };
 		077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */; };
 		077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */; };
 		077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BE929CDEC7800DA3218 /* NewsViewController.swift */; };
@@ -119,6 +122,9 @@
 		0760D51C29D3296600796D73 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		0760D51E29D32ED100796D73 /* MyPlaceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceData.swift; sourceTree = "<group>"; };
 		07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230312.csv; sourceTree = "<group>"; };
+		0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewModel.swift; sourceTree = "<group>"; };
+		0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewModel.swift; sourceTree = "<group>"; };
+		0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceViewModel.swift; sourceTree = "<group>"; };
 		077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAnnotation.swift; sourceTree = "<group>"; };
 		077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAnnotationView.swift; sourceTree = "<group>"; };
 		077C1BE929CDEC7800DA3218 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -218,6 +224,15 @@
 				070FFAFF29D56B4900987285 /* AlertService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		0774AA8129D94C790048C781 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				0790A42329D83161008C3923 /* TrackPoint.swift */,
+				0790A42529D83208008C3923 /* TrackData.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		077C1BE529CDEBE700DA3218 /* Map */ = {
@@ -367,6 +382,9 @@
 				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
 				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
 				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
+				0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */,
+				0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */,
+				0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */,
 				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
 				07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */,
 			);
@@ -381,8 +399,7 @@
 				0760D51E29D32ED100796D73 /* MyPlaceData.swift */,
 				077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */,
 				07AFB59029C012A600DD1C34 /* MoreCellData.swift */,
-				0790A42329D83161008C3923 /* TrackPoint.swift */,
-				0790A42529D83208008C3923 /* TrackData.swift */,
+				0774AA8129D94C790048C781 /* Realm */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -720,6 +737,7 @@
 				0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */,
 				0751436829C201CD00109B8E /* UIImage.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
+				0774AA8729D97CEF0048C781 /* MyPlaceViewModel.swift in Sources */,
 				077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */,
 				0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */,
 				0790A42429D83161008C3923 /* TrackPoint.swift in Sources */,
@@ -743,6 +761,7 @@
 				07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */,
 				0718B96429D0940F00D5CDDE /* MoreViewController+TableView.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
+				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				070FFB0029D56B4900987285 /* AlertService.swift in Sources */,
@@ -751,6 +770,7 @@
 				070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */,
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
+				0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */,
 				0709557529D2B29200068C91 /* TipViewController.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);

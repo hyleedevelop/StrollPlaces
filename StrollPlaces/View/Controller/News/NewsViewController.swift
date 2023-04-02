@@ -178,7 +178,7 @@ final class NewsViewController: UIViewController {
                 let news = newsResponse.items
                 self.viewModel = NewsViewModel(news)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     // TableView 갱신
                     self.tableView.reloadData()
                     
@@ -191,7 +191,7 @@ final class NewsViewController: UIViewController {
                     
                     // indicator 비활성화
                     self.activityIndicator.stopAnimating()
-                }
+                //}
             })
             .disposed(by: rx.disposeBag)
     }

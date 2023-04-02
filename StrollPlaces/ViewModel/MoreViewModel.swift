@@ -8,23 +8,24 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 final class MoreViewModel {
     
-    //MARK: - 모델 값 설정
+    //MARK: - property
+    
     private let appSettings: [MoreCellData]!
     private let feedback: [MoreCellData]!
     private let aboutTheApp: [MoreCellData]!
     let moreCellData: [[MoreCellData]]!
-
-    //MARK: - 계산속성
     
+    //MARK: - initializer
     
-    //MARK: - 생성자
     init() {
         appSettings = [
             MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "지도", value: nil),
             MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "경로안내", value: nil),
+            MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "앱 데이터 삭제", value: nil),
         ]
 
         feedback = [
@@ -43,7 +44,7 @@ final class MoreViewModel {
         moreCellData = [appSettings, feedback, aboutTheApp]
     }
     
-    //MARK: - 직접 메서드
+    //MARK: - directly called method
 
 //    func moreCellData(at index: Int) -> ThemeCellViewModel {
 //        return self.themeCellViewModel[index]
@@ -86,6 +87,11 @@ final class MoreViewModel {
             return buildNumber
         }
         return "nil"
+    }
+    
+    func clearRealmDB() {
+        let trackPoint = TrackPoint()
+        RealmService.shared.deleteAll(trackPoint)
     }
     
 }
