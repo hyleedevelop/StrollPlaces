@@ -19,17 +19,18 @@ class MyPlaceViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
-    @IBOutlet weak var currentLocationLabel: UILabel!
     @IBOutlet weak var myPlaceTableView: UITableView!
     
     //MARK: - normal property
 
+    private let viewModel = MyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
     
     // TrackPoint를 DB로부터 Read하여 담을 변수
     var TrackDatas: Results<TrackData>!
     // TrackPoint 업데이트 시 사용할 변수
     var notificationToken: NotificationToken?
+    
     
     //MARK: - UI property
     
@@ -125,6 +126,9 @@ class MyPlaceViewController: UIViewController {
     private func setupTableView() {
         self.myPlaceTableView.delegate = self
         self.myPlaceTableView.dataSource = self
+        self.myPlaceTableView.register(UINib(nibName: K.MyPlace.cellName, bundle: nil),
+                                       forCellReuseIdentifier: K.MyPlace.cellName)
+        self.myPlaceTableView.backgroundColor = UIColor.white
     }
     
     // Realm DB 설정
@@ -184,18 +188,43 @@ class MyPlaceViewController: UIViewController {
 extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.viewModel.getNumberOfMyPlaces()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.MyPlace.cellName,
+                                                       for: indexPath) as? MyPlaceTableViewCell else { fatalError("MyPlaceTableViewCell is not found")}
+        
+        // viewModel의 Relay에서 요소 방출
+        self.viewModel.loadTableViewCell(at: indexPath.row)
+        
+        // 바인딩
+        self.viewModel.mainImageRelay.asDriver(onErrorJustReturn: UIImage())
+            .drive(cell.mainImage.rx.image)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.nameRelay.asDriver(onErrorJustReturn: "N/A")
+            .drive(cell.nameLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "N/A")
+            .drive(cell.timeLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "N/A")
+            .drive(cell.distanceLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "N/A")
+            .drive(cell.dateLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+                
+        return cell
     }
-    
-    
     
 }
 

@@ -25,6 +25,7 @@ class MoreViewController: UIViewController {
     //MARK: - property
     
     internal let viewModel = MoreViewModel()
+    internal let userDefaults = UserDefaults.standard
     
     //MARK: - drawing cycle
     

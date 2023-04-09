@@ -75,7 +75,7 @@ struct K {
     
     // MY플레이스 관련
     struct MyPlace {
-        
+        static let cellName: String = "MyPlaceTableViewCell"
     }
     
     // News TableView 관련

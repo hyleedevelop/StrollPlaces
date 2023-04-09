@@ -20,6 +20,7 @@
 		072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */; };
 		072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */; };
 		0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0731E1CD29D430AF0057E12B /* TrackingViewController.swift */; };
+		073AA2C129DBC18600398F9A /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AA2C029DBC18600398F9A /* Date.swift */; };
 		0751436829C201CD00109B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* UIImage.swift */; };
 		075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */; };
 		075FE44129C5B63A00A5694C /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* UIView.swift */; };
@@ -116,6 +117,7 @@
 		072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		0731E1CD29D430AF0057E12B /* TrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
+		073AA2C029DBC18600398F9A /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+Annotation.swift"; sourceTree = "<group>"; };
 		075FE44029C5B63A00A5694C /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 			children = (
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
 				07CDB0A329CF068D00F139BB /* String.swift */,
+				073AA2C029DBC18600398F9A /* Date.swift */,
 				0751436729C201CD00109B8E /* UIImage.swift */,
 				075FE44029C5B63A00A5694C /* UIView.swift */,
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
@@ -741,6 +744,7 @@
 				077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */,
 				0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */,
 				0790A42429D83161008C3923 /* TrackPoint.swift in Sources */,
+				073AA2C129DBC18600398F9A /* Date.swift in Sources */,
 				077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
 				0790A42629D83208008C3923 /* TrackData.swift in Sources */,

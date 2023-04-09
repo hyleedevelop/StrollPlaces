@@ -83,13 +83,14 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 2 {
                 // 진짜로 취소할 것인지 alert message 보여주고 확인받기
                 let alert = UIAlertController(title: "확인",
-                                              message: "즐겨찾기와 나만의 산책길에 관련된\n모든 데이터를 삭제할까요?",
+                                              message: "산책길 보관함을 초기화할까요?\n모든 산책길 데이터가 삭제됩니다.",
                                               preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "아니요", style: .default)
                 let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
                     self.viewModel.clearRealmDB()
+                    
                     let indicatorView = SPIndicatorView(
-                        title: "완료", message: "앱 데이터를 삭제했습니다.", preset: .done
+                        title: "완료", message: "산책길 데이터를 삭제했습니다.", preset: .done
                     )
                     indicatorView.present(duration: 2.0, haptic: .success)
                 }
@@ -98,6 +99,9 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 // 메세지 보여주기
                 self.present(alert, animated: true, completion: nil)
+                
+                //
+                self.userDefaults.set(false, forKey: "testSwitchValue")
             }
         case .feedback:
             print("feedback")

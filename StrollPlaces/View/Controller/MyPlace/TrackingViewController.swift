@@ -191,9 +191,8 @@ final class TrackingViewController: UIViewController {
                 self.isTrackingAllowed = false
                 self.viewModel.stopTimer()
                 
-                // Realm DB에 track 데이터 저장
-                print("self.viewModel.createTrackData()")
-                self.viewModel.createTrackData()
+//                // Realm DB에 track 데이터 저장
+//                self.viewModel.createTrackData()
             }
         }
     }
@@ -209,6 +208,9 @@ final class TrackingViewController: UIViewController {
         }
         let okAction = UIAlertAction(title: "네", style: .default) { [weak self] _ in
             guard let self = self else { return }
+            
+            // Realm DB에 track 데이터 저장
+            self.viewModel.createTrackData()
             
             guard let nextViewController =
                     self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController") as? AddMyPlaceViewController else { return }

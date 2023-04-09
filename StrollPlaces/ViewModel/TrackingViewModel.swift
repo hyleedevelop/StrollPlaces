@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import NSObject_Rx
 import RealmSwift
 
 final class TrackingViewModel {
@@ -21,13 +20,18 @@ final class TrackingViewModel {
     private var timer: Timer? = nil
     
     var trackData = TrackData()
+    var id: String = ""
+    var timeString: String = ""
     
     var timeRelay = BehaviorRelay<String>(value: "00:00:00")
-    var distanceRelay = BehaviorRelay<String>(value: "0m")
+    var distanceRelay = BehaviorRelay<String>(value: "0 m")
     var locationRelay = BehaviorRelay<String>(value: "위치 측정 중")
     
     //MARK: - initializer
     
+    init() {
+        
+    }
     
     //MARK: - directly called method
     
@@ -49,9 +53,8 @@ final class TrackingViewModel {
                 self.seconds += 1
             }
             
-            let timeString = String(format: "%02i:%02i:%02i", self.hours, self.minutes, self.seconds)
-            self.timeRelay.accept(timeString)
-            self.trackData.time = timeString
+            self.timeString = String(format: "%02i:%02i:%02i", self.hours, self.minutes, self.seconds)
+            self.timeRelay.accept(self.timeString)
         }
     }
     
@@ -75,22 +78,28 @@ final class TrackingViewModel {
     
     // Realm DB에 경로 데이터 저장하기
     func createTrackData() {
-        // 경로 저장 날짜 = 현재 날짜
-        self.trackData.date = Date()
-        //self.trackData.time = ""
-        self.trackData.distance = ""
-        self.trackData.firstLocation = ""
-        self.trackData.name = ""
-        self.trackData.explanation = ""
-        self.trackData.feature = ""
-        //self.trackData.image = UIImage()
+        let dataToAppend = TrackData(
+            points: self.trackData.points,
+            date: Date(),
+            time: self.timeString,
+            distance: 0.0,
+            firstLocation: nil,
+            lastLocation: nil,
+            name: nil,
+            explanation: nil,
+            feature: nil)
         
-        RealmService.shared.create(self.trackData)
+        print(self.trackData.points)
+        RealmService.shared.create(dataToAppend)
     }
     
     // trackData 배열 초기화
     func clearTrackDataArray() {
         self.trackData = TrackData()
+    }
+    
+    func appendTrackPoint(newTrackPoint: TrackPoint) {
+        self.trackData.appendTrackPoint(point: newTrackPoint)
     }
     
     //MARK: - indirectly called method

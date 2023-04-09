@@ -25,7 +25,7 @@ final class MoreViewModel {
         appSettings = [
             MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "지도", value: nil),
             MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "경로안내", value: nil),
-            MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "앱 데이터 삭제", value: nil),
+            MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "산책길 보관함 비우기", value: nil),
         ]
 
         feedback = [

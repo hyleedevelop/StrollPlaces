@@ -10,24 +10,32 @@ import RealmSwift
 
 final class TrackData: Object {  // Object 상속 필수 ⭐️
     
-    @objc dynamic var date: Date? = nil
+    //MARK: - property
     
-    @objc dynamic var time: String?
-    @objc dynamic var distance: String?
-    @objc dynamic var firstLocation: String?
-    @objc dynamic var lastLocation: String?
+    @Persisted(primaryKey: true) var _id: ObjectId
     
-    @objc dynamic var name: String?
-    @objc dynamic var explanation: String?
-    @objc dynamic var feature: String? = nil
-    //@objc dynamic var image: UIImage? = nil
+    @Persisted var points: List<TrackPoint>
+    @Persisted var date: Date
+    @Persisted var time: String
+    @Persisted var distance: Double
+    @Persisted var firstLocation: String?
+    @Persisted var lastLocation: String?
     
-    let points = List<TrackPoint>()
+    @Persisted var name: String?
+    @Persisted var explanation: String? = nil
+    @Persisted var feature: String? = nil
+    //@Persisted var image: UIImage? = nil
+    
+    
+    //let points = List<TrackPoint>()
+    
+    //MARK: - initializer
     
     convenience init(
-        date: Date?,
-        time: String?,
-        distance: String?,
+        points: List<TrackPoint>,
+        date: Date,
+        time: String,
+        distance: Double,
         firstLocation: String?,
         lastLocation: String?,
         name: String?,
@@ -36,6 +44,7 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         //image: UIImage?
     ) {
         self.init()
+        self.points = points
         self.date = date
         self.time = time
         self.distance = distance
@@ -47,20 +56,24 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         //self.image = image
     }
     
+    //MARK: - directly called method
+    
     func appendTrackPoint(point: TrackPoint) {
         self.points.append(point)
     }
     
-    func dateToFormattedString() -> String {
-        if let date = self.date {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .medium
-            dateFormatter.locale = Locale(identifier: "ko_KR")
-            return dateFormatter.string(from: date)
-        } else {
-            return ""
-        }
-    }
+    //MARK: - indirectly called method
+    
+//    private func dateToFormattedString(date: Date) -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm:ss"
+//        dateFormatter.locale = Locale(identifier: "ko_KR")
+//
+//        if let date = self.currentDate {
+//            return dateFormatter.string(from: date)
+//        } else {
+//            return ""
+//        }
+//    }
     
 }

@@ -21,37 +21,42 @@ class AddMyPlaceViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var routeInfoBackView: UIView!
+    
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var startLocationLabel: UILabel!
+    @IBOutlet weak var endLocationLabel: UILabel!
+    
     @IBOutlet weak var nameField: SkyFloatingLabelTextField!
-    @IBOutlet weak var introField: SkyFloatingLabelTextField!
+    @IBOutlet weak var explanationField: SkyFloatingLabelTextField!
     @IBOutlet weak var featureField: SkyFloatingLabelTextField!
     @IBOutlet weak var imageView: UIImageView!
+    
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
     //MARK: - normal property
     
+    private let viewModel = AddMyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
     private var locationManager: CLLocationManager!
-    
-    internal var trackData = TrackData()
-    internal var trackPoint = TrackPoint()
-    internal var track: Results<TrackData>!
-    internal var point: Results<TrackPoint>!
     
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupRealm()
         
         // 스위치의 값을 UserDefaults에 저장
-        self.userDefaults.set(false, forKey: "testSwitchValue")
+        self.userDefaults.set(true, forKey: "testSwitchValue")
+        
+        // Realm DB에서 데이터 가져오기
+        self.viewModel.getTrackDataFromRealmDB()
         
         setupNavigationBar()
         setupLocationManager()
-        
         setupBackView()
+        setupLabel()
         setupTextField()
         setupButton()
     }
@@ -62,17 +67,6 @@ class AddMyPlaceViewController: UIViewController {
     }
 
     //MARK: - directly called method
-    
-    // Realm DB 설정
-    private func setupRealm() {
-//        self.track = RealmService.shared.realm.objects(TrackData.self)
-//        guard let latestData = self.track?.last else { return }
-//        print(latestData.date)
-//        print(latestData.points.last?.latitude as? Double,
-//              latestData.points.last?.longitude as? Double)
-//
-//        calculateDistanceBetweenTrackPoints()
-    }
     
     // NavigationBar 설정
     private func setupNavigationBar() {
@@ -106,7 +100,7 @@ class AddMyPlaceViewController: UIViewController {
         self.mapView.clipsToBounds = true
         
         self.routeInfoBackView.backgroundColor = K.Color.mainColorLight
-        self.routeInfoBackView.layer.cornerRadius = 0
+        self.routeInfoBackView.layer.cornerRadius = 20
         self.routeInfoBackView.clipsToBounds = true
         self.routeInfoBackView.layer.masksToBounds = false
         self.routeInfoBackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -116,6 +110,29 @@ class AddMyPlaceViewController: UIViewController {
         self.routeInfoBackView.layer.shadowOpacity = 0.3
         self.routeInfoBackView.layer.borderColor = K.Color.mainColor.cgColor
         self.routeInfoBackView.layer.borderWidth = 0
+    }
+    
+    // Realm DB 설정
+    private func setupLabel() {
+        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "dateRealy error")
+            .drive(self.dateLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "timeRealy error")
+            .drive(self.timeLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "distanceRelay error")
+            .drive(self.distanceLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.firstLocationRelay.asDriver(onErrorJustReturn: "firstLocationRelay error")
+            .drive(self.startLocationLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.lastLocationRelay.asDriver(onErrorJustReturn: "lastLocationRelay error")
+            .drive(self.endLocationLabel.rx.text)
+            .disposed(by: rx.disposeBag)
     }
     
     // TextField 및 TextView 설정
@@ -133,6 +150,16 @@ class AddMyPlaceViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
+                if self.nameField.text != nil {
+                    self.viewModel.updateTrackData(
+                        name: self.nameField.text!,
+                        explanation: self.explanationField.text,
+                        feature: self.featureField.text
+                    )
+                } else {
+                    print("산책길 이름을 입력하세요")
+                }
+                
                 // 나만의 산책길 탭 메인화면으로 돌아가기
                 self.navigationController?.popToRootViewController(animated: true)
 //                self.dismiss(animated: true)
@@ -149,7 +176,6 @@ class AddMyPlaceViewController: UIViewController {
                 self.showAlertMessageForReturn()
             })
             .disposed(by: rx.disposeBag)
-        
     }
     
     //MARK: - indirectly called method
@@ -165,17 +191,10 @@ class AddMyPlaceViewController: UIViewController {
                                       preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "아니요", style: .default)
         let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
-            // Realm DB에 저장했던 경로 삭제하기
-            self.track = RealmService.shared.realm.objects(TrackData.self)
-            self.point = RealmService.shared.realm.objects(TrackPoint.self)
-            guard let latestTrackData = self.track?.last else { return }
-            //guard let latestPointData = self.point else { return }
-            RealmService.shared.delete(latestTrackData)
-            
-            
+            // Realm DB에 임시로 저장했던 경로 삭제하기
+            self.viewModel.clearTemporaryTrackData()
             // 이전화면(경로만들기)로 돌아가기
             self.navigationController?.popToRootViewController(animated: true)
-            //self.dismiss(animated: true)
         }
         alert.addAction(okAction)
         alert.addAction(cancelAction)
