@@ -178,7 +178,7 @@
                                         <color key="backgroundColor" red="0.86399149710000001" green="0.86399149710000001" blue="0.86399149710000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="초기화">
+                                        <buttonConfiguration key="configuration" style="plain" title="취소">
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
                                         </buttonConfiguration>
                                     </button>
@@ -237,7 +237,7 @@
                                 <rect key="frame" x="0.0" y="103" width="393" height="1314"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFP-ef-nwz">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1232.3333333333333"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1255"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lVN-DW-65q" userLabel="경로정보 BackView">
                                                 <rect key="frame" x="0.0" y="0.0" width="393" height="439.33333333333331"/>
@@ -373,10 +373,10 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="e4G-Kd-TFF" userLabel="입력 SV">
-                                                <rect key="frame" x="20" y="479.33333333333337" width="353" height="513"/>
+                                                <rect key="frame" x="20" y="479.33333333333343" width="353" height="535.66666666666652"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="uFq-9U-JBW" userLabel="이름 SV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="53"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="60.666666666666664"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="산책로 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpI-hS-vcD">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -385,14 +385,14 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="예) 강화도일몰맛집길" textAlignment="natural" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="sre-Px-x8q" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="19" width="353" height="34"/>
+                                                                <rect key="frame" x="0.0" y="18.999999999999996" width="353" height="41.666666666666657"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="Ht7-Uf-ctK" userLabel="소개 SV">
-                                                        <rect key="frame" x="0.0" y="93" width="353" height="53"/>
+                                                        <rect key="frame" x="0.0" y="100.66666666666661" width="353" height="60.333333333333329"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="간단한 소개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xzW-OV-1UU">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -401,14 +401,14 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="예) 뷰가 좋고 한적한 산책길" textAlignment="natural" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TKx-fS-SEM" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="19" width="353" height="34"/>
+                                                                <rect key="frame" x="0.0" y="19.000000000000004" width="353" height="41.333333333333343"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="DcT-QM-5YD" userLabel="특이사항 SV">
-                                                        <rect key="frame" x="0.0" y="186" width="353" height="53"/>
+                                                        <rect key="frame" x="0.0" y="201" width="353" height="60.666666666666686"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="특이사항" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sU-wB-px7">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -417,14 +417,14 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="예) 걷기 편한 나무데크길, 주변 화장실 없음" textAlignment="natural" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iuH-n7-whr" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="19" width="353" height="34"/>
+                                                                <rect key="frame" x="0.0" y="18.999999999999996" width="353" height="41.666666666666657"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="oAs-pO-Xdb" userLabel="사진 SV">
-                                                        <rect key="frame" x="0.0" y="279" width="353" height="234"/>
+                                                        <rect key="frame" x="0.0" y="301.66666666666663" width="353" height="234"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사진" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29Z-IL-rWd">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -443,7 +443,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G87-VJ-LA6">
-                                                <rect key="frame" x="20" y="1032.3333333333333" width="353" height="50"/>
+                                                <rect key="frame" x="20" y="1055" width="353" height="50"/>
                                                 <color key="backgroundColor" red="0.99607843139999996" green="0.90980392160000001" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="2YO-8x-Ltt"/>
@@ -455,7 +455,7 @@
                                                 </buttonConfiguration>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-ob-ryp">
-                                                <rect key="frame" x="20" y="1102.3333333333333" width="353" height="50"/>
+                                                <rect key="frame" x="20" y="1125" width="353" height="50"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="9cA-hb-H4r"/>
@@ -550,13 +550,13 @@
     </scenes>
     <designables>
         <designable name="TKx-fS-SEM">
-            <size key="intrinsicContentSize" width="203" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="41.607421875"/>
         </designable>
         <designable name="iuH-n7-whr">
-            <size key="intrinsicContentSize" width="298.66666666666669" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="41.607421875"/>
         </designable>
         <designable name="sre-Px-x8q">
-            <size key="intrinsicContentSize" width="162.66666666666666" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="41.607421875"/>
         </designable>
     </designables>
     <resources>

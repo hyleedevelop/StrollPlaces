@@ -70,6 +70,19 @@
 		0799CCEC29BF6E10006AB70D /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCEB29BF6E10006AB70D /* Double.swift */; };
 		079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 079AF4EF29C74931006C365B /* strollingMan.jpeg */; };
 		079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* LoginViewController.swift */; };
+		07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */; };
+		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
+		07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */; };
+		07AC1ECC29E3D526006BEA03 /* TrackingLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */; };
+		07AC1ECE29E3D526006BEA03 /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECD29E3D526006BEA03 /* Tracking.swift */; };
+		07AC1ED129E3D527006BEA03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AC1ED029E3D527006BEA03 /* Assets.xcassets */; };
+		07AC1ED329E3D527006BEA03 /* Tracking.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */; };
+		07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */; };
+		07AC1ED729E3D527006BEA03 /* TrackingExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		07AC1EE129E3E3FC006BEA03 /* LiveActivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */; };
+		07AC1EE229E3E3FC006BEA03 /* LiveActivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */; };
+		07AC1EE329E3E412006BEA03 /* TrackingLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */; };
+		07AC1EE429E415C9006BEA03 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDA29BF5A6F006AB70D /* K.swift */; };
 		07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* MoreCellData.swift */; };
 		07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */; };
@@ -100,7 +113,28 @@
 			remoteGlobalIDString = 0799CC9129BF584B006AB70D;
 			remoteInfo = StrollPlaces;
 		};
+		07AC1ED529E3D527006BEA03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0799CC8A29BF584B006AB70D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07AC1EC429E3D525006BEA03;
+			remoteInfo = TrackingExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		07AC1EBF29E3D3EC006BEA03 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				07AC1ED729E3D527006BEA03 /* TrackingExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
@@ -171,6 +205,16 @@
 		0799CCEB29BF6E10006AB70D /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		079AF4EF29C74931006C365B /* strollingMan.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = strollingMan.jpeg; sourceTree = "<group>"; };
 		079AF4F129C74C9D006C365B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingBundle.swift; sourceTree = "<group>"; };
+		07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingLiveActivity.swift; sourceTree = "<group>"; };
+		07AC1ECD29E3D526006BEA03 /* Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracking.swift; sourceTree = "<group>"; };
+		07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Tracking.intentdefinition; sourceTree = "<group>"; };
+		07AC1ED029E3D527006BEA03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		07AC1ED229E3D527006BEA03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityService.swift; sourceTree = "<group>"; };
 		07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* MoreCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCellData.swift; sourceTree = "<group>"; };
 		07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingValues.swift; sourceTree = "<group>"; };
@@ -213,6 +257,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07AC1EC229E3D525006BEA03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */,
+				07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CC9429BF584B006AB70D /* StrollPlaces */,
+				07AC1EC829E3D526006BEA03 /* Tracking */,
 				0799CCAB29BF584C006AB70D /* StrollPlacesTests */,
 				0799CCB529BF584C006AB70D /* StrollPlacesUITests */,
 				0799CC9329BF584B006AB70D /* Products */,
@@ -296,6 +350,7 @@
 				0799CC9229BF584B006AB70D /* StrollPlaces.app */,
 				0799CCA829BF584C006AB70D /* StrollPlacesTests.xctest */,
 				0799CCB229BF584C006AB70D /* StrollPlacesUITests.xctest */,
+				07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -448,12 +503,28 @@
 			path = Storyboard;
 			sourceTree = "<group>";
 		};
+		07AC1EC829E3D526006BEA03 /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */,
+				07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */,
+				07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */,
+				07AC1ECD29E3D526006BEA03 /* Tracking.swift */,
+				07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */,
+				07AC1ED029E3D527006BEA03 /* Assets.xcassets */,
+				07AC1ED229E3D527006BEA03 /* Info.plist */,
+			);
+			path = Tracking;
+			sourceTree = "<group>";
+		};
 		911A2571663AC9DCAF7EFE9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */,
 				397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */,
 				67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */,
+				07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */,
+				07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -483,10 +554,12 @@
 				0799CC8F29BF584B006AB70D /* Frameworks */,
 				0799CC9029BF584B006AB70D /* Resources */,
 				4DF3F305FB9B617114A5E612 /* [CP] Embed Pods Frameworks */,
+				07AC1EBF29E3D3EC006BEA03 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				07AC1ED629E3D527006BEA03 /* PBXTargetDependency */,
 			);
 			name = StrollPlaces;
 			productName = StrollPlaces;
@@ -532,6 +605,23 @@
 			productReference = 0799CCB229BF584C006AB70D /* StrollPlacesUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		07AC1EC429E3D525006BEA03 /* TrackingExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07AC1ED829E3D527006BEA03 /* Build configuration list for PBXNativeTarget "TrackingExtension" */;
+			buildPhases = (
+				07AC1EC129E3D525006BEA03 /* Sources */,
+				07AC1EC229E3D525006BEA03 /* Frameworks */,
+				07AC1EC329E3D525006BEA03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TrackingExtension;
+			productName = TrackingExtension;
+			productReference = 07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -539,7 +629,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					0799CC9129BF584B006AB70D = {
@@ -552,6 +642,9 @@
 					0799CCB129BF584C006AB70D = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 0799CC9129BF584B006AB70D;
+					};
+					07AC1EC429E3D525006BEA03 = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -571,6 +664,7 @@
 				0799CC9129BF584B006AB70D /* StrollPlaces */,
 				0799CCA729BF584C006AB70D /* StrollPlacesTests */,
 				0799CCB129BF584C006AB70D /* StrollPlacesUITests */,
+				07AC1EC429E3D525006BEA03 /* TrackingExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -611,6 +705,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07AC1EC329E3D525006BEA03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07AC1ED129E3D527006BEA03 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +834,7 @@
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
 				075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */,
+				07AC1EE129E3E3FC006BEA03 /* LiveActivityService.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
 				077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */,
@@ -769,12 +872,14 @@
 				07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				070FFB0029D56B4900987285 /* AlertService.swift in Sources */,
+				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
 				0790A42929D85DFD008C3923 /* MyPlaceTableViewCell.swift in Sources */,
 				070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */,
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
 				0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */,
+				07AC1EE329E3E412006BEA03 /* TrackingLiveActivity.swift in Sources */,
 				0709557529D2B29200068C91 /* TipViewController.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);
@@ -797,6 +902,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		07AC1EC129E3D525006BEA03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07AC1ECE29E3D526006BEA03 /* Tracking.swift in Sources */,
+				07AC1ED329E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
+				07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */,
+				07AC1EE429E415C9006BEA03 /* K.swift in Sources */,
+				07AC1EE229E3E3FC006BEA03 /* LiveActivityService.swift in Sources */,
+				07AC1ECC29E3D526006BEA03 /* TrackingLiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -809,6 +927,11 @@
 			isa = PBXTargetDependency;
 			target = 0799CC9129BF584B006AB70D /* StrollPlaces */;
 			targetProxy = 0799CCB329BF584C006AB70D /* PBXContainerItemProxy */;
+		};
+		07AC1ED629E3D527006BEA03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07AC1EC429E3D525006BEA03 /* TrackingExtension */;
+			targetProxy = 07AC1ED529E3D527006BEA03 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -882,7 +1005,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -936,7 +1059,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -950,6 +1073,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DAE6C4FAFD8200F2BA532A6A /* Pods-StrollPlaces.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -959,15 +1083,16 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운산책";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -988,6 +1113,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -997,15 +1123,16 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운산책";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1102,6 +1229,62 @@
 			};
 			name = Release;
 		};
+		07AC1ED929E3D527006BEA03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YJF2RZ2K47;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracking/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tracking;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces.Tracking;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		07AC1EDA29E3D527006BEA03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YJF2RZ2K47;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tracking/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tracking;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces.Tracking;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1137,6 +1320,15 @@
 			buildConfigurations = (
 				0799CCC329BF584C006AB70D /* Debug */,
 				0799CCC429BF584C006AB70D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07AC1ED829E3D527006BEA03 /* Build configuration list for PBXNativeTarget "TrackingExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07AC1ED929E3D527006BEA03 /* Debug */,
+				07AC1EDA29E3D527006BEA03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 
-final class TrackingViewModel {
+final class TrackingViewModel: ObservableObject {
     
     //MARK: - property
     
@@ -55,6 +55,7 @@ final class TrackingViewModel {
             
             self.timeString = String(format: "%02i:%02i:%02i", self.hours, self.minutes, self.seconds)
             self.timeRelay.accept(self.timeString)
+            UserDefaults.standard.set(self.timeString, forKey: "trackingTime")
         }
     }
     
@@ -93,11 +94,12 @@ final class TrackingViewModel {
         RealmService.shared.create(dataToAppend)
     }
     
-    // trackData 배열 초기화
+    // 경로 데이터 배열 초기화
     func clearTrackDataArray() {
         self.trackData = TrackData()
     }
     
+    // 경로 추가
     func appendTrackPoint(newTrackPoint: TrackPoint) {
         self.trackData.appendTrackPoint(point: newTrackPoint)
     }

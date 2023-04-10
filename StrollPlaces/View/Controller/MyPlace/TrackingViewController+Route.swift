@@ -15,7 +15,8 @@ extension TrackingViewController: CLLocationManagerDelegate {
     
     // 위치 추적 권한 요청 실행
     internal func getLocationUsagePermission() {
-        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.allowsBackgroundLocationUpdates = true  // 백그라운드에서도 위치 업데이트 필요
     }
     
     // 위치 추적 권한 요청 결과에 따른 처리

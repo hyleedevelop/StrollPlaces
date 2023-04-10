@@ -14,6 +14,7 @@ import RxCocoa
 import NSObject_Rx
 import RealmSwift
 
+
 final class TrackingViewController: UIViewController {
 
     //MARK: - IB outlet & action
@@ -53,7 +54,7 @@ final class TrackingViewController: UIViewController {
         setupMapView()
         setupLabel()
         setupTimerButton()
-        setupResetButton()
+        setupCancelButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -92,7 +93,7 @@ final class TrackingViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    // 타이머 버튼 설정
+    // 산책길 등록 시작/종료 버튼 설정
     private func setupTimerButton() {
         self.isTrackingAllowed = false
         
@@ -107,34 +108,44 @@ final class TrackingViewController: UIViewController {
                 guard let self = self else { return }
                 
                 if self.isTrackingAllowed {
-                    print("추적중입니다.")
+                    // 타이머 비활성화
                     self.deactivateTimer()
+                    
+                    // 버튼 UI 변경
                     DispatchQueue.main.async {
-                        //self.timerButton.setTitle("시작", for: .normal)
                         let attributedText = NSAttributedString(
                             string: "시작",
                             attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold)]
                         )
                         self.timerButton.setAttributedTitle(attributedText, for: .normal)
                     }
+                    
+                    // 잠금화면의 live activity 중단
+                    LiveActivityService.shared.stop()
+                    
                 } else {
-                    print("추적중이 아닙니다.")
+                    // 타이머 활성화
                     self.activateTimer()
+                    
+                    // 버튼 UI 변경
                     DispatchQueue.main.async {
-                        //self.timerButton.setTitle("종료", for: .normal)
+                        let attributedText = NSAttributedString(
+                            string: "종료",
+                            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold)]
+                        )
+                        self.timerButton.setAttributedTitle(attributedText, for: .normal)
                     }
-                    let attributedText = NSAttributedString(
-                        string: "종료",
-                        attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold)]
-                    )
-                    self.timerButton.setAttributedTitle(attributedText, for: .normal)
-
+                    
+                    // 잠금화면의 live activity 시작
+                    LiveActivityService.shared.start()
+                    
                 }
             })
             .disposed(by: rx.disposeBag)
     }
     
-    private func setupResetButton() {
+    // 산책길 등록 취소 버튼 설정
+    private func setupCancelButton() {
         self.resetButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
         self.resetButton.clipsToBounds = true
 //        self.timerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20,
@@ -152,9 +163,16 @@ final class TrackingViewController: UIViewController {
                                               preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "아니요", style: .default)
                 let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
+                    // 타이머 중단
                     self.viewModel.stopTimer()
+                    // 경로 데이터 초기화
                     self.viewModel.clearTrackDataArray()
+                    // 지도 위의 경로 표시 제거
+                    self.mapView.removeOverlays(self.mapView.overlays)
+                    // 추적 모드 해제
                     self.isTrackingAllowed = false
+                    // 이전 화면으로 돌아가기
+                    self.navigationController?.popViewController(animated: true)
                 }
                 alert.addAction(okAction)
                 alert.addAction(cancelAction)
@@ -190,9 +208,6 @@ final class TrackingViewController: UIViewController {
                 // 타이머를 종료하고 Realm DB에 경로 기록하기
                 self.isTrackingAllowed = false
                 self.viewModel.stopTimer()
-                
-//                // Realm DB에 track 데이터 저장
-//                self.viewModel.createTrackData()
             }
         }
     }
