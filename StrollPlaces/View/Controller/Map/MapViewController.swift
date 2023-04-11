@@ -52,11 +52,6 @@ final class MapViewController: UIViewController {
         return manager
     }()
     
-    // Rx 관련
-    let titleSubject = PublishSubject<String>()
-    let annotationColorSubject = PublishSubject<UIColor>()
-    let stringRelay = BehaviorRelay<String>(value: "정보없음")
-    
     // collection view
     internal lazy var themeButtonCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()

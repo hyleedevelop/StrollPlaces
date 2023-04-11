@@ -83,49 +83,66 @@ struct LockScreenLiveActivityView: View {
     //let trackingTime = UserDefaults.standard.object(forKey: "trackingTime") as! String
     
     var body: some View {
-        VStack {
-            Spacer()
-            Text("나만의 산책길을 만드는 중")
-                .fontWeight(.bold)
-                .font(.title2)
-                .foregroundColor(.white)
-            Spacer()
-            HStack {
+        ZStack {
+            
+            VStack {
                 Spacer()
-                Label {
-                    //Text(trackingTime)
-                    Text("00:12:34")
-                        .lineLimit(1)
-                        .multilineTextAlignment(.center)
-                        .frame(width: 100)
-                        .foregroundColor(.white)
-                } icon: {
-                    Image(systemName: "timer")
-                        .foregroundColor(.red)
-                }
-                .font(.title3)
+                
+                Text("나만의 산책길을 만드는 중")
+                    .fontWeight(.bold)
+                    .font(.title2)
+                    .foregroundColor(.white)
+                
                 Spacer()
-                Label {
-                    Text("937 m")
-                        .lineLimit(1)
-                        .multilineTextAlignment(.center)
-                        .frame(width: 100)
-                        .foregroundColor(.white)
-                } icon: {
-                    Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
-                        .foregroundColor(.red)
+                
+                HStack {
+                    Spacer()
+                    
+                    Label {
+                        //Text(trackingTime)
+                        Text("00:12:34")
+                            .lineLimit(1)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 100)
+                            .foregroundColor(.white)
+                    } icon: {
+                        Image(systemName: "timer")
+                            .foregroundColor(.red)
+                    }
+                    .font(.title3)
+                    
+                    Spacer()
+                    
+                    Label {
+                        Text("937 m")
+                            .lineLimit(1)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 100)
+                            .foregroundColor(.white)
+                    } icon: {
+                        Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
+                            .foregroundColor(.red)
+                    }
+                    .font(.title3)
+                    
+                    Spacer()
                 }
-                .font(.title3)
+                
                 Spacer()
             }
-            Spacer()
+            .frame(height: 100)
+            .background(.black)
+            
+            
         }
-        .frame(height: 100)
+        
+        //.background(.regularMaterial)
         //.tint(.white)
         //.foregroundColor(.black)
-        .activitySystemActionForegroundColor(.white)
-        .activityBackgroundTint(.black)
-        
+        //.activitySystemActionForegroundColor(.white)
+        //.activityBackgroundTint(.black)
+        //.background(.black)
+        //.opacity(0.7)
     }
 }
 

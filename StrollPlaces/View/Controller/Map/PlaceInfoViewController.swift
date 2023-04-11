@@ -355,14 +355,10 @@ class PlaceInfoViewController: UIViewController {
             .throttle(.seconds(2), scheduler: MainScheduler.instance)
             .subscribe(
                 onNext: {
-                    let indicatorView = SPIndicatorView(
-                        title: "완료", message: "즐겨찾기에 등록했습니다.", preset: .done
-                    )
+                    let indicatorView = SPIndicatorView(title: "등록 완료", preset: .done)
                     indicatorView.present(duration: 2.0, haptic: .success)
                 }, onError: { _ in
-                    let indicatorView = SPIndicatorView(
-                        title: "오류", message: "즐겨찾기에 등록할 수 없습니다.", preset: .error
-                    )
+                    let indicatorView = SPIndicatorView(title: "등록 실패", preset: .error)
                     indicatorView.present(duration: 2.0, haptic: .error)
                 })
             .disposed(by: rx.disposeBag)

@@ -11,7 +11,6 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import CoreLocation
-//import ActivityKit
 import Lottie
 import RealmSwift
 

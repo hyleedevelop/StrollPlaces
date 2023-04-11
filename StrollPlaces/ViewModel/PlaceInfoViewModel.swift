@@ -29,16 +29,16 @@ final class PlaceInfoViewModel {
     var distance: Double = -1 {
         didSet {
             if (1...) ~= self.distance {
-                estimatedDistance.accept(
+                self.estimatedDistance.accept(
                     "거리: " + String(format: "%.1f", self.distance/1000.0) + "km"
                 )
             }
             else if (0..<1) ~= self.distance {
-                estimatedDistance.accept(
+                self.estimatedDistance.accept(
                     "거리: " + String(format: "%.1f", self.distance) + "m"
                 )
             } else {
-                estimatedDistance.accept("알수없음")
+                self.estimatedDistance.accept("알수없음")
             }
         }
     }

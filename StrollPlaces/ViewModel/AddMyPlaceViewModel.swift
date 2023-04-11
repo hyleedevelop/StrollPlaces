@@ -38,14 +38,29 @@ final class AddMyPlaceViewModel {
     func getTrackDataFromRealmDB() {
         self.primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
         
-        let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
-        self.dateRelay.accept("\(date)")
+        var dateString: String {
+            let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+            return dateFormatter.string(from: date)
+        }
+        self.dateRelay.accept(dateString)
         
-        let time = RealmService.shared.realm.objects(TrackData.self).last?.time ?? "알수없음"
-        self.timeRelay.accept(time)
+        var timeString: String {
+            let time = RealmService.shared.realm.objects(TrackData.self).last?.time ?? "알수없음"
+            return "\(time)"
+        }
+        self.timeRelay.accept(timeString)
         
-        let distance = RealmService.shared.realm.objects(TrackData.self).last?.distance ?? 0.0
-        self.distanceRelay.accept("\(distance) km")
+        var distanceString: String {
+            let distance = RealmService.shared.realm.objects(TrackData.self).last?.distance ?? 0.0
+            if (..<1000) ~= distance {
+                return String(format: "%.1f", distance) + " m"
+            } else {
+                return String(format: "%.2f", distance/1000.0) + " km"
+            }
+        }
+        self.distanceRelay.accept(distanceString)
         
         let startPoint = RealmService.shared.realm.objects(TrackData.self).last?.firstLocation ?? "알수없음"
         self.firstLocationRelay.accept(startPoint)
@@ -73,7 +88,6 @@ final class AddMyPlaceViewModel {
         self.track = RealmService.shared.realm.objects(TrackData.self)
         self.point = RealmService.shared.realm.objects(TrackPoint.self)
         guard let latestTrackData = self.track?.last else { return }
-        //guard let latestPointData = self.point else { return }
         RealmService.shared.delete(latestTrackData)
     }
     

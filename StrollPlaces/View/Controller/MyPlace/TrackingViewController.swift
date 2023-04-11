@@ -171,6 +171,8 @@ final class TrackingViewController: UIViewController {
                     self.mapView.removeOverlays(self.mapView.overlays)
                     // 추적 모드 해제
                     self.isTrackingAllowed = false
+                    // 잠금화면의 live activity 중단
+                    LiveActivityService.shared.stop()
                     // 이전 화면으로 돌아가기
                     self.navigationController?.popViewController(animated: true)
                 }

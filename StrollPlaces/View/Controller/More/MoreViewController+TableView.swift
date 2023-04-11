@@ -89,9 +89,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
                     self.viewModel.clearRealmDB()
                     
-                    let indicatorView = SPIndicatorView(
-                        title: "완료", message: "산책길 데이터를 삭제했습니다.", preset: .done
-                    )
+                    let indicatorView = SPIndicatorView(title: "삭제 완료", preset: .done)
                     indicatorView.present(duration: 2.0, haptic: .success)
                 }
                 alert.addAction(okAction)

@@ -203,19 +203,14 @@ extension MapViewController: MKMapViewDelegate {
                                         destinationCoordinate: endLocation,
                                         draw: true) { _, _ in }
                         placeInfoViewController.animateDismissView()
-                        let indicatorView = SPIndicatorView(
-                            title: "완료", message: "경로를 찾았습니다.", preset: .done
-                        )
+                        let indicatorView = SPIndicatorView(title: "경로 탐색 완료", preset: .done)
                         indicatorView.present(duration: 2.0, haptic: .success)
                     }, onError: { _ in
-                        let indicatorView = SPIndicatorView(
-                            title: "오류", message: "경로를 찾을 수 없습니다.", preset: .error
-                        )
+                        let indicatorView = SPIndicatorView(title: "경로 탐색 실패", preset: .error)
                         indicatorView.present(duration: 2.0, haptic: .error)
                     }
                 )
                 .disposed(by: rx.disposeBag)
-            // RxSwift의 trigger와 관련된 연산자 활용 필요?
             
             // 선택된 annotation 해제
             mapView.selectedAnnotations = []
