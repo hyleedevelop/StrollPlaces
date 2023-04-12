@@ -146,7 +146,7 @@ struct LockScreenLiveActivityView: View {
     }
 }
 
-//struct TrackingLiveActivity_Previews: PreviewProvider {
+//struct LockScreenLiveActivityView_Previews: PreviewProvider {
 //    static let attributes = TrackingAttributes(name: "새로운 나만의 산책길")
 //    static let contentState = TrackingAttributes.ContentState(time: "00:00:00", distance: "0 m")
 //

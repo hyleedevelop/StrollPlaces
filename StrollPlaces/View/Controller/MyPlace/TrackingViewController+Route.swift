@@ -69,7 +69,6 @@ extension TrackingViewController: CLLocationManagerDelegate {
             self.viewModel.appendTrackPoint(
                 newTrackPoint: newTrackPoint, currentLatitude: latitude, currentLongitude: longitude
             )
-            //print(newTrackPoint)
         }
         
     }
@@ -83,9 +82,9 @@ extension TrackingViewController: MKMapViewDelegate {
     // 경로를 표시하기 위한 polyline의 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
-        
         let renderer = MKPolylineRenderer(polyline: routeLine)
-        renderer.strokeColor = K.Color.lightOrange
+        
+        renderer.strokeColor = K.Color.themeBlack
         renderer.lineWidth = 4.0
         renderer.alpha = 1.0
         

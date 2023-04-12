@@ -27,6 +27,7 @@ target 'StrollPlaces' do
   pod 'IQKeyboardManagerSwift', '6.5.10'
   pod 'TransitionableTab', '~> 0.2.0'
   pod 'SkyFloatingLabelTextField', '~> 3.0'
+  pod 'FaveButton'
 
   target 'StrollPlacesTests' do
     inherit! :search_paths

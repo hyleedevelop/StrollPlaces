@@ -116,7 +116,7 @@ class PlaceInfoViewController: UIViewController {
     
     public let bookmarkButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = K.Color.lightOrange
+        button.backgroundColor = K.Color.themeYellow
         button.setTitle(K.DetailView.bookmarkButtonName, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.tintColor = UIColor.white

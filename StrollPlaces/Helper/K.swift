@@ -10,16 +10,11 @@ import CoreLocation
 
 struct K {
     struct Color {
-        static let transparentOrange = #colorLiteral(red: 0.9921568627, green: 0.9568627451, blue: 0.8941176471, alpha: 1)
-        static let transparentGreen = #colorLiteral(red: 0.9333333333, green: 0.9647058824, blue: 0.8980392157, alpha: 1)
-        static let transparentPurple = #colorLiteral(red: 0.8156862745, green: 0.8, blue: 0.9294117647, alpha: 1)
-        static let transparentGray = #colorLiteral(red: 0.9594197869, green: 0.9599153399, blue: 0.975127399, alpha: 1)
-        
-        static let lightOrange = #colorLiteral(red: 0.9568627451, green: 0.6431372549, blue: 0.2666666667, alpha: 1)
-        static let lightGreen = #colorLiteral(red: 0.5764705882, green: 0.7568627451, blue: 0.431372549, alpha: 1)
-        static let lightPurple = #colorLiteral(red: 0.3725490196, green: 0.3333333333, blue: 0.6823529412, alpha: 1)
-        
-        static let darkGray = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
+        static let themeBlack = #colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.2039215686, alpha: 1)
+        static let themeGray = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
+        static let themeYellow = #colorLiteral(red: 0.9882352941, green: 0.6156862745, blue: 0.1764705882, alpha: 1)
+        static let themeWhite = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        static let backgroundGray = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
         static let mainColor = #colorLiteral(red: 0.9137254902, green: 0.2352941176, blue: 0.1843137255, alpha: 1)
         static let mainColorLight = #colorLiteral(red: 0.9960784314, green: 0.9098039216, blue: 0.9058823529, alpha: 1)

@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import RealmSwift
-
+import SwiftUI
 
 final class TrackingViewController: UIViewController {
 
@@ -39,10 +39,8 @@ final class TrackingViewController: UIViewController {
     internal let viewModel = TrackingViewModel()
     internal var previousCoordinate: CLLocationCoordinate2D?
     internal var isTrackingAllowed = false
+    private var isCountdownOngoing = false
     private let isTrackButtonTapped = PublishSubject<Bool>()
-    
-    //MARK: - UI property
-    
     
     //MARK: - drawing cycle
     
@@ -57,7 +55,13 @@ final class TrackingViewController: UIViewController {
         setupCancelButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.hidesBackButton = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.viewModel.clearTrackDataArray()
     }
     
@@ -91,6 +95,11 @@ final class TrackingViewController: UIViewController {
         self.viewModel.locationRelay.asDriver(onErrorJustReturn: "locationRelay error")
             .drive(self.locationLabel.rx.text)
             .disposed(by: rx.disposeBag)
+        
+        // 글자 하나하나가 일정한 간격을 가지도록 monospaced digit 적용
+        self.timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
+        self.distanceLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
+        self.locationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
     }
     
     // 산책길 등록 시작/종료 버튼 설정
@@ -99,10 +108,11 @@ final class TrackingViewController: UIViewController {
         
         self.timerButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
         self.timerButton.clipsToBounds = true
-//        self.timerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20,
-//                                                              weight: .bold)
+        self.timerButton.backgroundColor = K.Color.themeYellow
+        self.changeButtonUI(buttonTitle: "시작")
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
+            //.skip(until: self.isCountdownOngoing)
             .debug("타이머 버튼 클릭")
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
@@ -110,35 +120,26 @@ final class TrackingViewController: UIViewController {
                 if self.isTrackingAllowed {
                     // 타이머 비활성화
                     self.deactivateTimer()
-                    
-                    // 버튼 UI 변경
-                    DispatchQueue.main.async {
-                        let attributedText = NSAttributedString(
-                            string: "시작",
-                            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold)]
-                        )
-                        self.timerButton.setAttributedTitle(attributedText, for: .normal)
-                    }
-                    
+                    // 시작/종료 버튼 UI 변경
+                    self.changeButtonUI(buttonTitle: "저장")
                     // 잠금화면의 live activity 중단
                     LiveActivityService.shared.stop()
-                    
                 } else {
-                    // 타이머 활성화
-                    self.activateTimer()
+                    // 카운트다운이 진행되는 동안 타이머 버튼을 작동할 수 없도록 설정
+                    //self.timerButton.isEnabled = false
                     
-                    // 버튼 UI 변경
-                    DispatchQueue.main.async {
-                        let attributedText = NSAttributedString(
-                            string: "종료",
-                            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold)]
-                        )
-                        self.timerButton.setAttributedTitle(attributedText, for: .normal)
+                    // 카운트다운 시작 (SwiftUI 기반의 view 활용)
+                    guard !self.isCountdownOngoing else { return }
+                    self.showCountdownView {
+                        // 타이머 활성화
+                        self.activateTimer()
+                        // 시작/종료 버튼 UI 변경
+                        self.changeButtonUI(buttonTitle: "종료")
+                        // 잠금화면의 live activity 시작
+                        LiveActivityService.shared.start()
                     }
-                    
-                    // 잠금화면의 live activity 시작
-                    LiveActivityService.shared.start()
-                    
+                    // 카운트다운 종료 이후부터 타이머 버튼을 작동할 수 있도록 설정
+                    //self.timerButton.isEnabled = true
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -148,18 +149,23 @@ final class TrackingViewController: UIViewController {
     private func setupCancelButton() {
         self.resetButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
         self.resetButton.clipsToBounds = true
-//        self.timerButton.titleLabel?.font = UIFont.systemFont(ofSize: 20,
-//                                                              weight: .bold)
+        self.resetButton.backgroundColor = K.Color.themeGray
+        let attributedText = NSAttributedString(
+            string: "취소",
+            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold),
+                         NSAttributedString.Key.foregroundColor: K.Color.themeWhite]
+        )
+        self.resetButton.setAttributedTitle(attributedText, for: .normal)
         
         self.resetButton.rx.controlEvent(.touchUpInside).asObservable()
-            .skip(until: self.isTrackButtonTapped)
+            //.skip(until: self.isTrackButtonTapped)
             .debug("초기화 버튼 클릭")
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
                 // 진짜로 리셋할 것인지 alert message 보여주고 확인받기
                 let alert = UIAlertController(title: "확인",
-                                              message: "지금까지 측정한 내용을\n모두 초기화 할까요?",
+                                              message: "경로 생성을 중단할까요?\n지금까지 기록한 경로는 삭제됩니다.",
                                               preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "아니요", style: .default)
                 let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
@@ -188,6 +194,60 @@ final class TrackingViewController: UIViewController {
     
     //MARK: - indirectly called method
     
+    // 타이머 활성화 시작 전, 카운트다운 보여주기
+    private func showCountdownView(completion: @escaping () -> Void) {
+        self.isCountdownOngoing = true
+        
+        // 참고: countdownView는 SwiftUI로 만들어졌음
+        let countdownViewController = UIHostingController(rootView: AnimatedCountdownView())
+        let countdownView = countdownViewController.view!
+        let animatedCountdownView = countdownViewController.rootView
+        
+        self.view.addSubview(countdownView)
+        
+        countdownView.clipsToBounds = true
+        countdownView.layer.cornerRadius = 75
+        
+        countdownView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(150)
+        }
+            
+        animatedCountdownView.countdownValue
+            .debug("카운트다운")
+            //.throttle(.seconds(5), latest: false, scheduler: MainScheduler.instance)
+            .subscribe(on: MainScheduler.instance)
+            .subscribe(onNext: { count in
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+                
+                if count == 0.0 {
+                    UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseIn) {
+                        countdownView.alpha = 0.0
+                    } completion: { _ in
+                        countdownView.removeFromSuperview()
+                    }
+                    
+                    completion()
+                }
+            })
+            .disposed(by: rx.disposeBag)
+    }
+    
+    // 시작/종료 버튼 UI 변경
+    private func changeButtonUI(buttonTitle: String) {
+        DispatchQueue.main.async {
+            let attributedText = NSAttributedString(
+                string: buttonTitle,
+                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold),
+                             NSAttributedString.Key.foregroundColor: K.Color.themeWhite]
+            )
+            self.timerButton.setAttributedTitle(attributedText, for: .normal)
+        }
+    }
+    
+    // 타이머 활성화
     private func activateTimer() {
         // 타이머 재생, 사용자 위치 업데이트 시작
         self.isTrackingAllowed = true
@@ -198,6 +258,7 @@ final class TrackingViewController: UIViewController {
         self.isTrackButtonTapped.onNext(true)
     }
     
+    // 타이머 비활성화
     private func deactivateTimer() {
         // 타이머 일시정지, 사용자 위치 업데이트 중지
         self.viewModel.pauseTimer()
@@ -218,7 +279,7 @@ final class TrackingViewController: UIViewController {
     private func showAlertMessageForRegistration(completion: @escaping (Bool) -> Void) {
         // alert 메세지 설정
         let alert = UIAlertController(title: "확인",
-                                      message: "지금까지의 이동 경로를\n나만의 산책길로 등록할까요?",
+                                      message: "지금까지 생성한 경로를\n나만의 산책길로 저장할까요?",
                                       preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "아니요", style: .default) { _ in
             completion(false)

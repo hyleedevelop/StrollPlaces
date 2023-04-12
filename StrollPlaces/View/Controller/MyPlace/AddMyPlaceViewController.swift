@@ -99,17 +99,17 @@ class AddMyPlaceViewController: UIViewController {
         self.mapView.layer.cornerRadius = 5
         self.mapView.clipsToBounds = true
         
-        self.routeInfoBackView.backgroundColor = K.Color.mainColorLight
+        self.routeInfoBackView.backgroundColor = K.Color.themeWhite
         self.routeInfoBackView.layer.cornerRadius = 20
         self.routeInfoBackView.clipsToBounds = true
         self.routeInfoBackView.layer.masksToBounds = false
-        self.routeInfoBackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        //self.routeInfoBackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         self.routeInfoBackView.layer.shadowColor = UIColor.black.cgColor
         self.routeInfoBackView.layer.shadowRadius = 3
         self.routeInfoBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         self.routeInfoBackView.layer.shadowOpacity = 0.3
-        self.routeInfoBackView.layer.borderColor = K.Color.mainColor.cgColor
-        self.routeInfoBackView.layer.borderWidth = 0
+        self.routeInfoBackView.layer.borderColor = K.Color.themeBlack.cgColor
+        self.routeInfoBackView.layer.borderWidth = 1
     }
     
     // Realm DB 설정

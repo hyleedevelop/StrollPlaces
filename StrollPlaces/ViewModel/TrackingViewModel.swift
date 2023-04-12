@@ -31,11 +31,11 @@ final class TrackingViewModel: ObservableObject {
         didSet {
             if (..<1000) ~= self.distance {
                 self.distanceRelay.accept(
-                    String(format: "%.1f", self.distance) + " m"
+                    String(format: "%.1f", self.distance) + "m"
                 )
             } else {
                 self.distanceRelay.accept(
-                    String(format: "%.2f", self.distance/1000.0) + " km"
+                    String(format: "%.2f", self.distance/1000.0) + "km"
                 )
             }
         }
@@ -46,8 +46,8 @@ final class TrackingViewModel: ObservableObject {
     private var newLongitude: Double = 0.0
     
     var timeRelay = BehaviorRelay<String>(value: "0초")
-    var distanceRelay = BehaviorRelay<String>(value: "0.0 m")
-    var locationRelay = BehaviorRelay<String>(value: "위치 측정 중")
+    var distanceRelay = BehaviorRelay<String>(value: "0.0m")
+    var locationRelay = BehaviorRelay<String>(value: "-")
     
     //MARK: - initializer
     
@@ -108,9 +108,9 @@ final class TrackingViewModel: ObservableObject {
         self.minutes = 0
         self.hours = 0
         
-        self.timeRelay.accept(
-            String(format: "%02i시간 %02i분 %02i초", self.hours, self.minutes, self.seconds)
-        )
+        self.timeRelay.accept("0초")
+        self.distanceRelay.accept("0.0m")
+        self.locationRelay.accept("-")
     }
     
     // Realm DB에 경로 데이터 저장하기
@@ -137,14 +137,14 @@ final class TrackingViewModel: ObservableObject {
         self.count = 0
     }
     
-    // 경로 추가 및 누적 이동거리 계산
+    // 경로 추가 및 이동거리(현재 지점 <-> 이전 지점) 누적 계산
     func appendTrackPoint(newTrackPoint: TrackPoint,
                           currentLatitude: Double,
                           currentLongitude: Double) {
         // 신규 위치 추가
         self.trackData.appendTrackPoint(point: newTrackPoint)
         
-        if self.count == 0 {
+        if self.count == 0 {  // 사용자의 위치가 처음 기록되었을 때
             self.oldLatitude = currentLatitude
             self.oldLongitude = currentLongitude
         } else {
@@ -157,6 +157,13 @@ final class TrackingViewModel: ObservableObject {
                 endLat: newLatitude, endLon: newLongitude
             ) as Double)
 
+            // 현재 위치의 주소를 역지오코딩으로 가져오기
+            let location = CLLocation(latitude: newLatitude, longitude: newLongitude)
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+                self.processResponse(withPlacemarks: placemarks, error: error)
+            }
+            
             // 다음번 거리 계산 시, 현재 위치의 값은 이전 위치의 값이 됨
             self.oldLatitude = self.newLatitude
             self.oldLongitude = self.newLongitude
@@ -180,6 +187,19 @@ final class TrackingViewModel: ObservableObject {
         let startPoint = CLLocation(latitude: startLat, longitude: startLon)
         let endPoint = CLLocation(latitude: endLat, longitude: endLon)
         return endPoint.distance(from: startPoint)
+    }
+    
+    private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
+        if error != nil {
+            locationRelay.accept("위치 파악 불가")
+        } else {
+            if let placemarks = placemarks,
+               let placemark = placemarks.first {
+                locationRelay.accept(placemark.compactAddress)
+            } else {
+                locationRelay.accept("위치 파악 불가")
+            }
+        }
     }
     
 }

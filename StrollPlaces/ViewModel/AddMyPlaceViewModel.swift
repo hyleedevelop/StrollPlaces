@@ -55,9 +55,9 @@ final class AddMyPlaceViewModel {
         var distanceString: String {
             let distance = RealmService.shared.realm.objects(TrackData.self).last?.distance ?? 0.0
             if (..<1000) ~= distance {
-                return String(format: "%.1f", distance) + " m"
+                return String(format: "%.1f", distance) + "m"
             } else {
-                return String(format: "%.2f", distance/1000.0) + " km"
+                return String(format: "%.2f", distance/1000.0) + "km"
             }
         }
         self.distanceRelay.accept(distanceString)
@@ -87,8 +87,12 @@ final class AddMyPlaceViewModel {
     func clearTemporaryTrackData() {
         self.track = RealmService.shared.realm.objects(TrackData.self)
         self.point = RealmService.shared.realm.objects(TrackPoint.self)
+        
         guard let latestTrackData = self.track?.last else { return }
         RealmService.shared.delete(latestTrackData)
+        
+        guard let latestPointData = self.point.last else { return }
+        RealmService.shared.delete(latestPointData)
     }
     
     //MARK: - indirectly called method

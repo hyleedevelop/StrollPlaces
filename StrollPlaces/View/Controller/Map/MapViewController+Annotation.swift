@@ -103,7 +103,7 @@ extension MapViewController: MKMapViewDelegate {
             
             annotationView.canShowCallout = true
             annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            annotationView.pinTintColor = K.Color.mainColor
+            annotationView.pinTintColor = K.Color.themeYellow
             return annotationView
             
         }
@@ -221,7 +221,7 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         
-        renderer.strokeColor = K.Color.lightOrange
+        renderer.strokeColor = K.Color.themeYellow
         renderer.lineWidth = 4.0
         renderer.alpha = 1.0
         
