@@ -42,6 +42,8 @@
 		0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */; };
 		0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */; };
 		0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */; };
+		07866FA029E7E4180001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
+		07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
 		0790A42429D83161008C3923 /* TrackPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42329D83161008C3923 /* TrackPoint.swift */; };
 		0790A42629D83208008C3923 /* TrackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42529D83208008C3923 /* TrackData.swift */; };
 		0790A42929D85DFD008C3923 /* MyPlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */; };
@@ -175,6 +177,7 @@
 		0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceInfoViewController+Modal.swift"; sourceTree = "<group>"; };
+		07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAttributes.swift; sourceTree = "<group>"; };
 		0790A42329D83161008C3923 /* TrackPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPoint.swift; sourceTree = "<group>"; };
 		0790A42529D83208008C3923 /* TrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackData.swift; sourceTree = "<group>"; };
 		0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceTableViewCell.swift; sourceTree = "<group>"; };
@@ -235,6 +238,7 @@
 		67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlacesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8330C6868F35B7508B9C8311 /* Pods-StrollPlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-StrollPlacesTests/Pods-StrollPlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D3C143F3D4DD06B08B673BF /* Pods-StrollPlaces-StrollPlacesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.debug.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B4FA036BC92CCE9C73082360 /* Pods_StrollPlaces_TrackingExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces_TrackingExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE6C4FAFD8200F2BA532A6A /* Pods-StrollPlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.debug.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.debug.xcconfig"; sourceTree = "<group>"; };
 		E8C17C7780C6F44B5BE228BC /* Pods-StrollPlacesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlacesTests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlacesTests/Pods-StrollPlacesTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -514,6 +518,7 @@
 			children = (
 				07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */,
 				07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */,
+				07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */,
 				07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */,
 				07AC1ECD29E3D526006BEA03 /* Tracking.swift */,
 				07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */,
@@ -531,6 +536,7 @@
 				67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */,
 				07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */,
 				07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */,
+				B4FA036BC92CCE9C73082360 /* Pods_StrollPlaces_TrackingExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -859,6 +865,7 @@
 				0790A42629D83208008C3923 /* TrackData.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
 				077C1BEC29CDEDC100DA3218 /* URLRequest.swift in Sources */,
+				07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
 				075FE44129C5B63A00A5694C /* UIView.swift in Sources */,
@@ -916,6 +923,7 @@
 			files = (
 				07AC1ECE29E3D526006BEA03 /* Tracking.swift in Sources */,
 				07AC1ED329E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
+				07866FA029E7E4180001F1EF /* TrackingAttributes.swift in Sources */,
 				07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */,
 				07AC1EE429E415C9006BEA03 /* K.swift in Sources */,
 				07AC1EE229E3E3FC006BEA03 /* LiveActivityService.swift in Sources */,

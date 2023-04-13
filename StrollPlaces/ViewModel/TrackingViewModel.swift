@@ -10,6 +10,8 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import CoreLocation
+import SwiftUI
+//import WidgetKit
 
 final class TrackingViewModel: ObservableObject {
     
@@ -45,9 +47,12 @@ final class TrackingViewModel: ObservableObject {
     private var newLatitude: Double = 0.0
     private var newLongitude: Double = 0.0
     
+    // SwiftUI에서도 사용할 변수들
     var timeRelay = BehaviorRelay<String>(value: "0초")
     var distanceRelay = BehaviorRelay<String>(value: "0.0m")
     var locationRelay = BehaviorRelay<String>(value: "-")
+    
+    @Published var timeSubject = BehaviorSubject<String>(value: "0초")
     
     //MARK: - initializer
     
@@ -89,9 +94,16 @@ final class TrackingViewModel: ObservableObject {
                 self.timeString = "\(self.hours)시간 \(self.minutes)분 \(self.seconds)초"
             }
             
+            let widgetData = WidgetData()
+            widgetData.time = self.timeString
+            let activityView = LockScreenLiveActivityView()
+            let VC = UIHostingController(rootView: activityView.environmentObject(widgetData))
+            
+            
+            
             // label text 바인딩을 위한 시간 문자열 방출
             self.timeRelay.accept(self.timeString)
-            UserDefaults.standard.set(self.timeString, forKey: "trackingTime")
+            //UserDefaults.standard.set(self.timeString, forKey: "trackingTime")
         }
     }
     

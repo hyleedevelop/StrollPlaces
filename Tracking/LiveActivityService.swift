@@ -19,7 +19,7 @@ final class LiveActivityService: ObservableObject {
         guard activity == nil else { return }
         
         let attributes = TrackingAttributes(name: "새로운 나만의 산책길")
-        let contentState = TrackingAttributes.ContentState(time: "00:00:00", distance: "0 m")
+        let contentState = TrackingAttributes.ContentState()
         
         do {
             let activity = try Activity<TrackingAttributes>.request(
@@ -34,8 +34,10 @@ final class LiveActivityService: ObservableObject {
     }
     
     func update(state: TrackingAttributes.ContentState) {
+        //let timeString = "0초"
+        //let distanceString = "0.0m"
         Task {
-            let updateContentState = TrackingAttributes.ContentState(time: "00:01:00", distance: "937 m")
+            let updateContentState = TrackingAttributes.ContentState()
             for activity in Activity<TrackingAttributes>.activities {
                 await activity.update(using: updateContentState)
             }

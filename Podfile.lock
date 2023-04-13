@@ -3,6 +3,7 @@ PODS:
   - Cluster (3.0.3)
   - Differentiator (5.0.0)
   - DropDown (2.3.13)
+  - FaveButton (3.2.1)
   - IQKeyboardManagerSwift (6.5.10)
   - lottie-ios (4.1.3)
   - "NSObject+Rx (5.2.2)":
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - AcknowList
   - Cluster
   - DropDown
+  - FaveButton
   - IQKeyboardManagerSwift (= 6.5.10)
   - lottie-ios
   - "NSObject+Rx"
@@ -57,6 +59,7 @@ SPEC REPOS:
     - Cluster
     - Differentiator
     - DropDown
+    - FaveButton
     - IQKeyboardManagerSwift
     - lottie-ios
     - "NSObject+Rx"
@@ -79,6 +82,7 @@ SPEC CHECKSUMS:
   Cluster: d72510594f60d901905953aafdc811d1888177ae
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  FaveButton: 93cfebf6030336fa7653fad2068c3152ed668b39
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   lottie-ios: d0954d3150061f662ed0adf96ef98d7421864c47
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
@@ -96,6 +100,6 @@ SPEC CHECKSUMS:
   TransitionableTab: 54a5d0af475033bdb83959fde4e5d6201af7e2ab
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: 44221dfcc5fb48768172c9107aac14fd16fad743
+PODFILE CHECKSUM: 4c416850ed66555ed8fe5e8bd1773adff92483e8
 
 COCOAPODS: 1.11.3

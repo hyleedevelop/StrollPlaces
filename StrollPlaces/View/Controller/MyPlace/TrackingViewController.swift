@@ -137,6 +137,8 @@ final class TrackingViewController: UIViewController {
                         self.changeButtonUI(buttonTitle: "종료")
                         // 잠금화면의 live activity 시작
                         LiveActivityService.shared.start()
+                        LiveActivityService.shared.update(state: TrackingAttributes.ContentState())
+                        
                     }
                     // 카운트다운 종료 이후부터 타이머 버튼을 작동할 수 있도록 설정
                     //self.timerButton.isEnabled = true

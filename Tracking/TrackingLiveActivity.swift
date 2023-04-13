@@ -9,43 +9,18 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
-// 잠금화면에 보여줄 데이터
-struct TrackingAttributes: ActivityAttributes {
-    //public typealias TrackingTimerData = ContentState
-    
-    public struct ContentState: Codable, Hashable {
-        // Dynamic stateful properties
-        var time: String
-        var distance: String
-    }
-    
-    // Fixed non-changing properties
-    var name: String
+// TrackingViewModel에서 받아와 화면에 표출할 데이터
+class WidgetData: ObservableObject {
+    @Published var time: String = ""
+    @Published var distance: String = ""
 }
 
 // 잠금화면에서 보여줄 위젯
 struct TrackingLiveActivity: Widget {
     
     var body: some WidgetConfiguration {
-        
         ActivityConfiguration(for: TrackingAttributes.self) { context in
-//            // Lock screen/banner UI goes here
-//            VStack {
-//                Text("나만의 산책길 만들기")
-//                HStack {
-//                    Button("시작") {
-//                        print("경로 추적 시작")
-//                    }
-//                    Button("종료") {
-//                        print("경로 추적 종료")
-//                    }
-//                }
-//
-//            }
-//            .activityBackgroundTint(Color.black)
-//            .activitySystemActionForegroundColor(Color.white)
-            LockScreenLiveActivityView(context: context)
-            
+            LockScreenLiveActivityView()
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
@@ -77,10 +52,10 @@ struct TrackingLiveActivity: Widget {
 }
 
 struct LockScreenLiveActivityView: View {
-    let context: ActivityViewContext<TrackingAttributes>
-    @AppStorage("trackingTime") var trackingTime: String!  // UserDefault 데이터 가져오기
-    //@AppStorage("trackingTime", store: UserDefaults(suiteName: "trackingTime"))
-    //let trackingTime = UserDefaults.standard.object(forKey: "trackingTime") as! String
+    //let context: ActivityViewContext<TrackingAttributes>
+    //@AppStorage("trackingTime") var trackingTime: String!  // UserDefault 데이터 가져오기
+    //@EnvironmentObject var widgetData: WidgetData
+    @ObservedObject var widgetData = WidgetData()
     
     var body: some View {
         ZStack {
@@ -100,7 +75,8 @@ struct LockScreenLiveActivityView: View {
                     
                     Label {
                         //Text(trackingTime)
-                        Text("00:12:34")
+                        Text(widgetData.time)
+                        //Text("12분 34초")
                             .lineLimit(1)
                             .multilineTextAlignment(.center)
                             .frame(width: 100)
@@ -114,7 +90,7 @@ struct LockScreenLiveActivityView: View {
                     Spacer()
                     
                     Label {
-                        Text("937 m")
+                        Text("537.1m")
                             .lineLimit(1)
                             .multilineTextAlignment(.center)
                             .frame(width: 100)
@@ -135,14 +111,7 @@ struct LockScreenLiveActivityView: View {
             
             
         }
-        
-        //.background(.regularMaterial)
-        //.tint(.white)
-        //.foregroundColor(.black)
-        //.activitySystemActionForegroundColor(.white)
-        //.activityBackgroundTint(.black)
-        //.background(.black)
-        //.opacity(0.7)
+
     }
 }
 
