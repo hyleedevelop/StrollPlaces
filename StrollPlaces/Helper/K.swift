@@ -10,11 +10,13 @@ import CoreLocation
 
 struct K {
     struct Color {
-        static let themeBlack = #colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.2039215686, alpha: 1)
-        static let themeGray = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
-        static let themeYellow = #colorLiteral(red: 0.9882352941, green: 0.6156862745, blue: 0.1764705882, alpha: 1)
-        static let themeWhite = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        static let backgroundGray = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        static let themeBlack: UIColor = #colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.2039215686, alpha: 1)
+        static let themeGray: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
+        static let themeYellow: UIColor = #colorLiteral(red: 0.9882352941, green: 0.6156862745, blue: 0.1764705882, alpha: 1)
+        static let themeWhite: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        static let backgroundGray: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        
+        //static let themeYellow: Color
         
         static let mainColor = #colorLiteral(red: 0.9137254902, green: 0.2352941176, blue: 0.1843137255, alpha: 1)
         static let mainColorLight = #colorLiteral(red: 0.9960784314, green: 0.9098039216, blue: 0.9058823529, alpha: 1)
@@ -55,7 +57,7 @@ struct K {
         static let trailingSpacing: CGFloat = (spacingWidth + spacingHeight) * 2
         static let cellColumns: CGFloat = 3
         static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
-        static let cellHeight: CGFloat = 40
+        static let cellHeight: CGFloat = 45
     }
 
     // DetailView 관련

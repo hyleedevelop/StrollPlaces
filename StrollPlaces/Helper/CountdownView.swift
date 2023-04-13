@@ -13,19 +13,27 @@ struct CountdownView: View {
     
     var body: some View {
         ZStack {
+            Circle()
+                .frame(width: 150, height: 150)
+                .background(Color.init(uiColor: K.Color.themeBlack))
             if countdown >= 0.0 {
                 Text("\(String(format: "%.0f", abs(min(3, ceil(countdown + 0.01))) ))")
-                    .font(Font.system(.largeTitle).monospacedDigit())
+                    .font(Font.system(size: 36))
+                    .fontWeight(.bold)
+                    .monospacedDigit()
                     .foregroundColor(Color(.white))
             } else {
-                Text("시작!")
-                    .font(Font.system(.largeTitle).monospacedDigit())
+                Text("시작")
+                    .font(Font.system(size: 36))
+                    .monospacedDigit()
+                    .fontWeight(.bold)
                     .foregroundColor(Color(.white))
             }
             Circle()
                 .stroke(lineWidth: 15)
                 .foregroundColor(Color(.darkGray))
                 .padding(5)
+                .shadow(radius: 5)
             Circle()
                 .trim(from: 0, to: countdown / 3.0)
                 .stroke(style: StrokeStyle(lineWidth: 15, lineCap: .round, lineJoin: .round))
@@ -34,8 +42,9 @@ struct CountdownView: View {
                 .foregroundColor(Color(.green))
                 .padding(5)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.black))
+        .frame(maxWidth: 150, maxHeight: 150)
+        .cornerRadius(75)
+        //.background(Color(.black))
     }
 }
 

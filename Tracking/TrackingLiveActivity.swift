@@ -7,55 +7,68 @@
 
 import ActivityKit
 import WidgetKit
+import UIKit
 import SwiftUI
-
-// TrackingViewModel에서 받아와 화면에 표출할 데이터
-class WidgetData: ObservableObject {
-    @Published var time: String = ""
-    @Published var distance: String = ""
-}
+import Lottie
 
 // 잠금화면에서 보여줄 위젯
 struct TrackingLiveActivity: Widget {
     
+    let lottieAnimationView = LottieAnimationView()
+    
     var body: some WidgetConfiguration {
+        
         ActivityConfiguration(for: TrackingAttributes.self) { context in
-            LockScreenLiveActivityView()
+            LockScreenLiveActivityView(context: context)
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded UI goes here.  Compose the expanded UI through
-                // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    Image(systemName: "figure.walk")
+                        //.resizable()
+                        //.frame(width: 20.0, height: 30.0)
+                        .foregroundColor(Color.init(uiColor: K.Color.themeYellow))
+                        .padding(.leading, 5)
+                        //.padding(.top, 18)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    Text("산책중")
+                        .font(Font.system(.body).monospacedDigit())
+                        .padding(.trailing, 5)
+                        //.padding(.top, 18)
+                }
+                DynamicIslandExpandedRegion(.center) {
+                    VStack(alignment: .center) {
+                        Text("시간: " + context.state.time)
+                            .monospacedDigit()
+                        Text("거리: " + context.state.distance)
+                            .monospacedDigit()
+                    }
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom")
-                    // more content
+                    
                 }
             } compactLeading: {
-                
-                Text("산책길")
+                VStack(alignment: .center) {
+                    Image(systemName: "figure.walk")
+                        .foregroundColor(Color.init(uiColor: K.Color.themeYellow))
+                }
             } compactTrailing: {
-                Text("생성중")
-//                let trackingViewModel = TrackingViewModel()
-//                Text(trackingViewModel.timeString)
+                VStack(alignment: .center) {
+                    Text("산책중")
+                        .frame(alignment: .center)
+                }
             } minimal: {
-                Text("Min")
+                Image(systemName: "figure.walk")
+                    .foregroundColor(Color.init(uiColor: K.Color.themeYellow))
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
-            .keylineTint(Color.red)
         }
     }
+    
 }
 
+// 크기가 4kb 이상인 요소는 표시할 수 없음
 struct LockScreenLiveActivityView: View {
-    //let context: ActivityViewContext<TrackingAttributes>
-    //@AppStorage("trackingTime") var trackingTime: String!  // UserDefault 데이터 가져오기
-    //@EnvironmentObject var widgetData: WidgetData
-    @ObservedObject var widgetData = WidgetData()
+    let context: ActivityViewContext<TrackingAttributes>
     
     var body: some View {
         ZStack {
@@ -63,10 +76,12 @@ struct LockScreenLiveActivityView: View {
             VStack {
                 Spacer()
                 
-                Text("나만의 산책길을 만드는 중")
-                    .fontWeight(.bold)
-                    .font(.title2)
-                    .foregroundColor(.white)
+                HStack(alignment: .center) {
+                    Text("나만의 산책길을 만들고 있어요")
+                        .fontWeight(.bold)
+                        .font(.title2)
+                        .foregroundColor(.primary)
+                }
                 
                 Spacer()
                 
@@ -74,30 +89,30 @@ struct LockScreenLiveActivityView: View {
                     Spacer()
                     
                     Label {
-                        //Text(trackingTime)
-                        Text(widgetData.time)
-                        //Text("12분 34초")
+                        Text(context.state.time)
+                            .monospacedDigit()
                             .lineLimit(1)
                             .multilineTextAlignment(.center)
                             .frame(width: 100)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     } icon: {
                         Image(systemName: "timer")
-                            .foregroundColor(.red)
+                            .foregroundColor(Color.orange)
                     }
                     .font(.title3)
                     
                     Spacer()
                     
                     Label {
-                        Text("537.1m")
+                        Text(context.state.distance)
+                            .monospacedDigit()
                             .lineLimit(1)
                             .multilineTextAlignment(.center)
                             .frame(width: 100)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     } icon: {
                         Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
-                            .foregroundColor(.red)
+                            .foregroundColor(Color.orange)
                     }
                     .font(.title3)
                     
@@ -107,30 +122,9 @@ struct LockScreenLiveActivityView: View {
                 Spacer()
             }
             .frame(height: 100)
-            .background(.black)
-            
+            //.background(.black)
             
         }
 
     }
 }
-
-//struct LockScreenLiveActivityView_Previews: PreviewProvider {
-//    static let attributes = TrackingAttributes(name: "새로운 나만의 산책길")
-//    static let contentState = TrackingAttributes.ContentState(time: "00:00:00", distance: "0 m")
-//
-//    static var previews: some View {
-//        attributes
-//            .previewContext(contentState, viewKind: .dynamicIsland(.compact))
-//            .previewDisplayName("Island Compact")
-//        attributes
-//            .previewContext(contentState, viewKind: .dynamicIsland(.expanded))
-//            .previewDisplayName("Island Expanded")
-//        attributes
-//            .previewContext(contentState, viewKind: .dynamicIsland(.minimal))
-//            .previewDisplayName("Minimal")
-//        attributes
-//            .previewContext(contentState, viewKind: .content)
-//            .previewDisplayName("Notification")
-//    }
-//}

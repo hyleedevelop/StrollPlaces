@@ -13,7 +13,7 @@ import CoreLocation
 import SwiftUI
 //import WidgetKit
 
-final class TrackingViewModel: ObservableObject {
+final class TrackingViewModel {
     
     //MARK: - property
     
@@ -26,33 +26,36 @@ final class TrackingViewModel: ObservableObject {
     var trackPoint = TrackPoint()
     var timeString: String = ""
     
-    // 경로 포인트 카운트
+    // 경로 포인트 갯수 카운트
     private var count: Int = 0
     // 경로 거리 누적값 (m)
     private var distance: Double = 0.0 {
         didSet {
+            var distanceString: String!
+            
             if (..<1000) ~= self.distance {
-                self.distanceRelay.accept(
-                    String(format: "%.1f", self.distance) + "m"
-                )
+                distanceString = String(format: "%.1f", self.distance) + "m"
+                self.distanceRelay.accept(distanceString)
             } else {
-                self.distanceRelay.accept(
-                    String(format: "%.2f", self.distance/1000.0) + "km"
-                )
+                distanceString = String(format: "%.2f", self.distance/1000.0) + "km"
+                self.distanceRelay.accept(distanceString)
             }
+            
+            // live widget에 표출할 시간 문자열 전달 및 업데이트
+            LiveActivityService.shared.distanceString = distanceString
         }
     }
+    
+    // 경로 거리 계산에 사용할 변수
     private var oldLatitude: Double = 0.0
     private var oldLongitude: Double = 0.0
     private var newLatitude: Double = 0.0
     private var newLongitude: Double = 0.0
     
-    // SwiftUI에서도 사용할 변수들
-    var timeRelay = BehaviorRelay<String>(value: "0초")
+    // UI 바인딩을 위한 Relay
+    var timeRelay = BehaviorRelay<String>(value: "00:00:00")
     var distanceRelay = BehaviorRelay<String>(value: "0.0m")
     var locationRelay = BehaviorRelay<String>(value: "-")
-    
-    @Published var timeSubject = BehaviorSubject<String>(value: "0초")
     
     //MARK: - initializer
     
@@ -81,29 +84,14 @@ final class TrackingViewModel: ObservableObject {
             }
             
             // 화면에 표출할 시간 문자열 설정
-            if self.hours == 0 {
-                if self.minutes == 0 {
-                    // 0시간 0분 x초
-                    self.timeString = "\(self.seconds)초"
-                } else {
-                    // 0시간 x분 x초
-                    self.timeString = "\(self.minutes)분 \(self.seconds)초"
-                }
-            } else {
-                // x시간 x분 x초
-                self.timeString = "\(self.hours)시간 \(self.minutes)분 \(self.seconds)초"
-            }
-            
-            let widgetData = WidgetData()
-            widgetData.time = self.timeString
-            let activityView = LockScreenLiveActivityView()
-            let VC = UIHostingController(rootView: activityView.environmentObject(widgetData))
-            
-            
+            self.timeString = String(format: "%02i:%02i:%02i", self.hours, self.minutes, self.seconds)
             
             // label text 바인딩을 위한 시간 문자열 방출
             self.timeRelay.accept(self.timeString)
-            //UserDefaults.standard.set(self.timeString, forKey: "trackingTime")
+            
+            // live widget에 표출할 시간 문자열 전달 및 업데이트
+            LiveActivityService.shared.timeString = self.timeString
+            LiveActivityService.shared.update()
         }
     }
     
@@ -120,7 +108,7 @@ final class TrackingViewModel: ObservableObject {
         self.minutes = 0
         self.hours = 0
         
-        self.timeRelay.accept("0초")
+        self.timeRelay.accept("00:00:00")
         self.distanceRelay.accept("0.0m")
         self.locationRelay.accept("-")
     }

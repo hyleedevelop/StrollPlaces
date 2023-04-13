@@ -42,15 +42,21 @@ extension MapViewController: UICollectionViewDataSource,
         
         // 기본 선택값 = 공원
         if indexPath.item == 1 {
-            cell.backView.layer.shadowColor = K.Color.mainColor.cgColor
-            cell.backView.layer.borderColor = K.Color.mainColor.cgColor
-            cell.backView.layer.borderWidth = 2.0
+            cell.backView.layer.shadowColor = UIColor.black.cgColor
+            //cell.backView.layer.borderColor = K.Color.mainColor.cgColor
+            //cell.backView.layer.borderWidth = 0.0
+            cell.backView.backgroundColor = K.Color.themeYellow
+            cell.themeLabel.textColor = K.Color.themeWhite
+            cell.themeIcon.tintColor = K.Color.themeWhite
         } else {
             cell.backView.layer.shadowColor = UIColor.black.cgColor
-            cell.backView.layer.borderColor = UIColor.black.cgColor
-            cell.backView.layer.borderWidth = 0.0
+            //cell.backView.layer.borderColor = UIColor.black.cgColor
+            //cell.backView.layer.borderWidth = 0.0
+            cell.backView.backgroundColor = K.Color.themeWhite
+            cell.themeLabel.textColor = K.Color.themeBlack
+            cell.themeIcon.tintColor = K.Color.themeBlack
         }
-        cell.themeLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        cell.themeLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         
         return cell
     }
@@ -70,8 +76,11 @@ extension MapViewController: UICollectionViewDataSource,
         }
         
         cell.backView.layer.shadowColor = K.Color.mainColor.cgColor
-        cell.backView.layer.borderColor = K.Color.mainColor.cgColor
-        cell.backView.layer.borderWidth = 2.0
+        //cell.backView.layer.borderColor = K.Color.mainColor.cgColor
+        //cell.backView.layer.borderWidth = 2.0
+        cell.backView.backgroundColor = K.Color.themeYellow
+        cell.themeLabel.textColor = K.Color.themeWhite
+        cell.themeIcon.tintColor = K.Color.themeWhite
     }
     
     // 셀이 해제되었을 때 실행할 내용
@@ -79,8 +88,11 @@ extension MapViewController: UICollectionViewDataSource,
         let cell = collectionView.cellForItem(at: indexPath) as! ThemeCollectionViewCell
 
         cell.backView.layer.shadowColor = UIColor.black.cgColor
-        cell.backView.layer.borderColor = UIColor.black.cgColor
-        cell.backView.layer.borderWidth = 0.0
+        //cell.backView.layer.borderColor = UIColor.black.cgColor
+        //cell.backView.layer.borderWidth = 0.0
+        cell.backView.backgroundColor = K.Color.themeWhite
+        cell.themeLabel.textColor = K.Color.themeBlack
+        cell.themeIcon.tintColor = K.Color.themeBlack
     }
     
 }
@@ -104,7 +116,7 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
         self.viewModel.themeCellData(at: indexPath.row).title.asObservable()
             .map { $0.count }
             .subscribe(onNext: { value in
-                width = Double(value) * 15 + 40
+                width = Double(value) * 17 + 40
             })
             .disposed(by: rx.disposeBag)
             

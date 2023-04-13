@@ -123,7 +123,7 @@ final class TrackingViewController: UIViewController {
                     // 시작/종료 버튼 UI 변경
                     self.changeButtonUI(buttonTitle: "저장")
                     // 잠금화면의 live activity 중단
-                    LiveActivityService.shared.stop()
+                    LiveActivityService.shared.deactivate()
                 } else {
                     // 카운트다운이 진행되는 동안 타이머 버튼을 작동할 수 없도록 설정
                     //self.timerButton.isEnabled = false
@@ -136,9 +136,7 @@ final class TrackingViewController: UIViewController {
                         // 시작/종료 버튼 UI 변경
                         self.changeButtonUI(buttonTitle: "종료")
                         // 잠금화면의 live activity 시작
-                        LiveActivityService.shared.start()
-                        LiveActivityService.shared.update(state: TrackingAttributes.ContentState())
-                        
+                        LiveActivityService.shared.activate()
                     }
                     // 카운트다운 종료 이후부터 타이머 버튼을 작동할 수 있도록 설정
                     //self.timerButton.isEnabled = true
@@ -180,7 +178,7 @@ final class TrackingViewController: UIViewController {
                     // 추적 모드 해제
                     self.isTrackingAllowed = false
                     // 잠금화면의 live activity 중단
-                    LiveActivityService.shared.stop()
+                    LiveActivityService.shared.deactivate()
                     // 이전 화면으로 돌아가기
                     self.navigationController?.popViewController(animated: true)
                 }
@@ -207,8 +205,13 @@ final class TrackingViewController: UIViewController {
         
         self.view.addSubview(countdownView)
         
-        countdownView.clipsToBounds = true
         countdownView.layer.cornerRadius = 75
+        countdownView.clipsToBounds = true
+        countdownView.layer.masksToBounds = false
+        countdownView.layer.shadowColor = UIColor.black.cgColor
+        countdownView.layer.shadowOpacity = 0.8
+        countdownView.layer.shadowRadius = 10
+        countdownView.layer.shadowOffset = CGSize(width: 0, height: 5)
         
         countdownView.snp.makeConstraints {
             $0.centerX.equalToSuperview()

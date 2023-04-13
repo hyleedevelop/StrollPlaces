@@ -5,6 +5,8 @@
 //  Created by Eric on 2023/04/10.
 //
 
+// ⭐️ StrollPlaces와 TrackingExtension에서 공통적으로 사용할 수 있는 싱글톤 객체
+
 import SwiftUI
 import ActivityKit
 
@@ -15,16 +17,19 @@ final class LiveActivityService: ObservableObject {
     
     private init() {}
 
-    func start() {
+    var timeString: String = ""
+    var distanceString: String = ""
+    
+    func activate() {
         guard activity == nil else { return }
         
-        let attributes = TrackingAttributes(name: "새로운 나만의 산책길")
-        let contentState = TrackingAttributes.ContentState()
+        let attributes = TrackingAttributes(name: "new track")
+        let state = TrackingAttributes.TrackingStatus(time: "00:00:00", distance: "0.0m")
         
         do {
             let activity = try Activity<TrackingAttributes>.request(
                 attributes: attributes,
-                contentState: contentState,
+                contentState: state,
                 pushType: nil
             )
             print(activity)
@@ -33,18 +38,16 @@ final class LiveActivityService: ObservableObject {
         }
     }
     
-    func update(state: TrackingAttributes.ContentState) {
-        //let timeString = "0초"
-        //let distanceString = "0.0m"
+    func update() {
         Task {
-            let updateContentState = TrackingAttributes.ContentState()
+            let state = TrackingAttributes.TrackingStatus(time: self.timeString, distance: self.distanceString)
             for activity in Activity<TrackingAttributes>.activities {
-                await activity.update(using: updateContentState)
+                await activity.update(using: state)
             }
         }
     }
     
-    func stop() {
+    func deactivate() {
         Task {
             for activity in Activity<TrackingAttributes>.activities {
                 await activity.end(dismissalPolicy: .immediate)

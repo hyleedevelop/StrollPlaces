@@ -68,11 +68,11 @@ extension MKMapView {
         switch selection {
         case .count:
             let annotationView = self.annotationView(of: CountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView.countLabel.backgroundColor = K.Color.mainColor
+            annotationView.countLabel.backgroundColor = K.Color.themeYellow
             return annotationView
         case .imageCount:
             let annotationView = self.annotationView(of: ImageCountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView.countLabel.textColor = K.Color.mainColor
+            annotationView.countLabel.textColor = K.Color.themeYellow
             annotationView.image = .pin2
             return annotationView
         case .image:

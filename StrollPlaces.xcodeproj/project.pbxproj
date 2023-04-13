@@ -77,7 +77,6 @@
 		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
 		07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */; };
 		07AC1ECC29E3D526006BEA03 /* TrackingLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */; };
-		07AC1ECE29E3D526006BEA03 /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECD29E3D526006BEA03 /* Tracking.swift */; };
 		07AC1ED129E3D527006BEA03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AC1ED029E3D527006BEA03 /* Assets.xcassets */; };
 		07AC1ED329E3D527006BEA03 /* Tracking.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */; };
 		07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */; };
@@ -99,6 +98,7 @@
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
+		B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -216,7 +216,6 @@
 		07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingBundle.swift; sourceTree = "<group>"; };
 		07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingLiveActivity.swift; sourceTree = "<group>"; };
-		07AC1ECD29E3D526006BEA03 /* Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracking.swift; sourceTree = "<group>"; };
 		07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Tracking.intentdefinition; sourceTree = "<group>"; };
 		07AC1ED029E3D527006BEA03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07AC1ED229E3D527006BEA03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -233,12 +232,15 @@
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		07D01A2129E65AAC00FE85D4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
+		23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackingExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3248728FE58600DA8548F940 /* Pods-TrackingExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingExtension.debug.xcconfig"; path = "Target Support Files/Pods-TrackingExtension/Pods-TrackingExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces_StrollPlacesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlacesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8330C6868F35B7508B9C8311 /* Pods-StrollPlacesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlacesTests.debug.xcconfig"; path = "Target Support Files/Pods-StrollPlacesTests/Pods-StrollPlacesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D3C143F3D4DD06B08B673BF /* Pods-StrollPlaces-StrollPlacesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.debug.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B4FA036BC92CCE9C73082360 /* Pods_StrollPlaces_TrackingExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StrollPlaces_TrackingExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFBB2B28F8E64E9FDB0059CA /* Pods-TrackingExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingExtension.release.xcconfig"; path = "Target Support Files/Pods-TrackingExtension/Pods-TrackingExtension.release.xcconfig"; sourceTree = "<group>"; };
 		DAE6C4FAFD8200F2BA532A6A /* Pods-StrollPlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.debug.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.debug.xcconfig"; sourceTree = "<group>"; };
 		E8C17C7780C6F44B5BE228BC /* Pods-StrollPlacesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlacesTests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlacesTests/Pods-StrollPlacesTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -274,6 +276,7 @@
 			files = (
 				07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */,
 				07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */,
+				B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,7 +523,6 @@
 				07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */,
 				07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */,
 				07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */,
-				07AC1ECD29E3D526006BEA03 /* Tracking.swift */,
 				07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */,
 				07AC1ED029E3D527006BEA03 /* Assets.xcassets */,
 				07AC1ED229E3D527006BEA03 /* Info.plist */,
@@ -537,6 +539,7 @@
 				07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */,
 				07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */,
 				B4FA036BC92CCE9C73082360 /* Pods_StrollPlaces_TrackingExtension.framework */,
+				23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -550,6 +553,8 @@
 				16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */,
 				8330C6868F35B7508B9C8311 /* Pods-StrollPlacesTests.debug.xcconfig */,
 				E8C17C7780C6F44B5BE228BC /* Pods-StrollPlacesTests.release.xcconfig */,
+				3248728FE58600DA8548F940 /* Pods-TrackingExtension.debug.xcconfig */,
+				CFBB2B28F8E64E9FDB0059CA /* Pods-TrackingExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -621,6 +626,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 07AC1ED829E3D527006BEA03 /* Build configuration list for PBXNativeTarget "TrackingExtension" */;
 			buildPhases = (
+				AB30B666AF790D8C3DDB9035 /* [CP] Check Pods Manifest.lock */,
 				07AC1EC129E3D525006BEA03 /* Sources */,
 				07AC1EC229E3D525006BEA03 /* Frameworks */,
 				07AC1EC329E3D525006BEA03 /* Resources */,
@@ -787,6 +793,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		AB30B666AF790D8C3DDB9035 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TrackingExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CDD8A230717A1A4BB31506A5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -921,7 +949,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07AC1ECE29E3D526006BEA03 /* Tracking.swift in Sources */,
 				07AC1ED329E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
 				07866FA029E7E4180001F1EF /* TrackingAttributes.swift in Sources */,
 				07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */,
@@ -1247,6 +1274,7 @@
 		};
 		07AC1ED929E3D527006BEA03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3248728FE58600DA8548F940 /* Pods-TrackingExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -1275,6 +1303,7 @@
 		};
 		07AC1EDA29E3D527006BEA03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFBB2B28F8E64E9FDB0059CA /* Pods-TrackingExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
