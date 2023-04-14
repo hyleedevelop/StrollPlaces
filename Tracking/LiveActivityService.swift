@@ -5,7 +5,7 @@
 //  Created by Eric on 2023/04/10.
 //
 
-// ⭐️ StrollPlaces와 TrackingExtension에서 공통적으로 사용할 수 있는 싱글톤 객체
+// ⭐️ StrollPlaces와 TrackingExtension에서 모두 접근 가능한 싱글톤 객체
 
 import SwiftUI
 import ActivityKit

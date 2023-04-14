@@ -10,8 +10,6 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import CoreLocation
-import SwiftUI
-//import WidgetKit
 
 final class TrackingViewModel {
     

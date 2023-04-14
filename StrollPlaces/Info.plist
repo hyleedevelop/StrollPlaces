@@ -4,6 +4,10 @@
 <dict>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>사진 접근 허용 권한이 필요합니다.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라 접근 허용 권한이 필요합니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

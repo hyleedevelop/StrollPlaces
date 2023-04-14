@@ -96,8 +96,9 @@
 		07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
+		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
+		07ED15A629E979A700A158A4 /* Pods_StrollPlaces.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
-		47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
 		B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
 /* End PBXBuildFile section */
@@ -136,6 +137,17 @@
 				07AC1ED729E3D527006BEA03 /* TrackingExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07ED15A729E979A700A158A4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				07ED15A629E979A700A158A4 /* Pods_StrollPlaces.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -250,7 +262,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47C285DB61BA24413BB8DB41 /* Pods_StrollPlaces.framework in Frameworks */,
+				07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,14 +443,14 @@
 			isa = PBXGroup;
 			children = (
 				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
-				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
-				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
 				0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */,
-				0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */,
 				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
-				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
+				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
+				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
+				0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */,
+				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
 			);
 			path = Cell;
@@ -572,6 +584,7 @@
 				0799CC9029BF584B006AB70D /* Resources */,
 				4DF3F305FB9B617114A5E612 /* [CP] Embed Pods Frameworks */,
 				07AC1EBF29E3D3EC006BEA03 /* Embed Foundation Extensions */,
+				07ED15A729E979A700A158A4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

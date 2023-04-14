@@ -14,6 +14,7 @@ import CoreLocation
 import MapKit
 import RealmSwift
 import SkyFloatingLabelTextField
+import PhotosUI
 
 class AddMyPlaceViewController: UIViewController {
 
@@ -59,6 +60,7 @@ class AddMyPlaceViewController: UIViewController {
         setupLabel()
         setupTextField()
         setupButton()
+        setupTapGestureOnImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -178,11 +180,13 @@ class AddMyPlaceViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - indirectly called method
-    
-    private func calculateDistanceBetweenTrackPoints() {
-        
+    private func setupTapGestureOnImage() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
+        self.imageView.addGestureRecognizer(tapGesture)
+        self.imageView.isUserInteractionEnabled = true
     }
+    
+    //MARK: - indirectly called method
     
     private func showAlertMessageForReturn() {
         // 진짜로 취소할 것인지 alert message 보여주고 확인받기
@@ -202,6 +206,18 @@ class AddMyPlaceViewController: UIViewController {
         // 메세지 보여주기
         self.present(alert, animated: true, completion: nil)
     }
+ 
+    @objc private func imageViewTapped() {
+        // 기본설정 셋팅
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images])
+        
+        // 피커뷰 컨트롤러 설정 및 이미지 선택 창 띄우기
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        self.present(picker, animated: true, completion: nil)
+    }
     
 }
 
@@ -210,5 +226,29 @@ class AddMyPlaceViewController: UIViewController {
 extension AddMyPlaceViewController: CLLocationManagerDelegate {
     
     
+    
+}
+
+//MARK: - extension for PHPickerViewControllerDelegate
+
+extension AddMyPlaceViewController: PHPickerViewControllerDelegate {
+    
+    // 사진 선택이 완료된 후 호출되는 메서드
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        let itemProvider = results.first?.itemProvider
+        guard let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else {
+            fatalError("대표사진 로드 실패")
+        }
+        
+        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+            guard let self = self,
+                  let image = image as? UIImage else { return }
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
+    }
     
 }
