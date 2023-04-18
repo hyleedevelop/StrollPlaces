@@ -25,12 +25,6 @@ class MyPlaceViewController: UIViewController {
     private let viewModel = MyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
     
-    // TrackPoint를 DB로부터 Read하여 담을 변수
-    var TrackDatas: Results<TrackData>!
-    // TrackPoint 업데이트 시 사용할 변수
-    var notificationToken: NotificationToken?
-    
-    
     //MARK: - UI property
     
     private let initialView: UIView = {
@@ -77,18 +71,17 @@ class MyPlaceViewController: UIViewController {
         setupNavigationBar()
         setupInitialView()
         setupTableView()
-
-        setupRealm()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let isListEmpty = !self.userDefaults.bool(forKey: "testSwitchValue")
+        let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
-    }
-    
-    deinit {
-        // notification을 받는 쪽에서 observer 제거
-        NotificationCenter.default.removeObserver(self)
+        
+        if !isListEmpty {
+            DispatchQueue.main.async {
+                self.myPlaceTableView.reloadData()
+            }
+        }
     }
     
     //MARK: - directly called method
@@ -114,10 +107,8 @@ class MyPlaceViewController: UIViewController {
     
     // 나만의 산책로 리스트가 없는 경우 표시할 View 설정
     private func setupInitialView() {
-        let isListExist = self.userDefaults.bool(forKey: "testSwitchValue")
-        print("MyPlaceViewController", isListExist, separator: ", ")
-        
         // UserDefaults에 저장되어있는 값이 참이면 초기화면 표출
+        let isListExist = self.userDefaults.bool(forKey: "myPlaceExist")
         _  = isListExist ? self.hideInitialView() : self.showInitialView()
     }
     
@@ -128,16 +119,6 @@ class MyPlaceViewController: UIViewController {
         self.myPlaceTableView.register(UINib(nibName: K.MyPlace.cellName, bundle: nil),
                                        forCellReuseIdentifier: K.MyPlace.cellName)
         self.myPlaceTableView.backgroundColor = UIColor.white
-    }
-    
-    // Realm DB 설정
-    private func setupRealm() {
-        let realm = RealmService.shared.realm
-        self.TrackDatas = realm.objects(TrackData.self)
-        
-        notificationToken = TrackDatas.observe { (changes) in
-            self.myPlaceTableView.reloadData()
-        }
     }
     
     //MARK: - indirectly called method
@@ -196,46 +177,21 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: K.MyPlace.cellName,
-                                                       for: indexPath) as? MyPlaceTableViewCell else { fatalError("MyPlaceTableViewCell is not found")}
+                                                       for: indexPath) as? MyPlaceTableViewCell
+        else { fatalError("MyPlaceTableViewCell is not found") }
         
-        // viewModel의 Relay에서 요소 방출
-        self.viewModel.loadTableViewCell(at: indexPath.row)
+        //self.viewModel.getDataSource(at: indexPath.row)
         
-        // 바인딩
-        self.viewModel.mainImageRelay.asDriver(onErrorJustReturn: UIImage())
-            .drive(cell.mainImage.rx.image)
-            .disposed(by: rx.disposeBag)
+        let dataSource = self.viewModel.itemViewModel.trackData[indexPath.row]
+
+        cell.nameLabel.text = dataSource.name.count == 0 ? "제목없음" : dataSource.name
+        cell.timeLabel.text = "⏱️ \(dataSource.time)"
+        cell.distanceLabel.text = dataSource.distance < 1000.0
+        ? "📍 " + String(format: "%.1f", dataSource.distance) + "m"
+        : "📍 " + String(format: "%.2f", dataSource.distance) + "km"
+        cell.dateLabel.text = "📆 \(dataSource.date)"
         
-        self.viewModel.nameRelay.asDriver(onErrorJustReturn: "N/A")
-            .drive(cell.nameLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "N/A")
-            .drive(cell.timeLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "N/A")
-            .drive(cell.distanceLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "N/A")
-            .drive(cell.dateLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-                
         return cell
-    }
-    
-}
-
-//MARK: - extension for CLLocationManagerDelegate
-
-extension MyPlaceViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if let location = locations.last {
-//            currentLocationLabel.text = "위도: \(location.coordinate.latitude)°" + "\n" +
-//                                        "경도: \(location.coordinate.longitude)°"
-//        }
     }
     
 }

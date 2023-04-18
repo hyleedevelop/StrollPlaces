@@ -15,6 +15,7 @@ import MapKit
 import RealmSwift
 import SkyFloatingLabelTextField
 import PhotosUI
+import SPIndicator
 
 class AddMyPlaceViewController: UIViewController {
 
@@ -32,7 +33,10 @@ class AddMyPlaceViewController: UIViewController {
     @IBOutlet weak var nameField: SkyFloatingLabelTextField!
     @IBOutlet weak var explanationField: SkyFloatingLabelTextField!
     @IBOutlet weak var featureField: SkyFloatingLabelTextField!
-    @IBOutlet weak var imageView: UIImageView!
+    
+    @IBOutlet weak var nameCheckLabel: UILabel!
+    @IBOutlet weak var explanationCheckLabel: UILabel!
+    @IBOutlet weak var featureCheckLabel: UILabel!
     
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -49,7 +53,7 @@ class AddMyPlaceViewController: UIViewController {
         super.viewDidLoad()
         
         // 스위치의 값을 UserDefaults에 저장
-        self.userDefaults.set(true, forKey: "testSwitchValue")
+        //self.userDefaults.set(true, forKey: "myPlaceExist")
         
         // Realm DB에서 데이터 가져오기
         self.viewModel.getTrackDataFromRealmDB()
@@ -60,7 +64,6 @@ class AddMyPlaceViewController: UIViewController {
         setupLabel()
         setupTextField()
         setupButton()
-        setupTapGestureOnImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,6 +144,77 @@ class AddMyPlaceViewController: UIViewController {
     private func setupTextField() {
         self.nameField.errorColor = UIColor.red
         self.nameField.returnKeyType = .default
+        
+        let nameObservable = nameField.rx.text.orEmpty
+        let explanationObservable = explanationField.rx.text.orEmpty
+        let featureObservable = featureField.rx.text.orEmpty
+        
+        // TextField 입력값이 유효해지면 체크 표시 나타내기
+        // orEmpty: String? -> String
+//        nameObservable
+//            .skip(1)
+//            .map { (1...10) ~= $0.count }
+//            .asSignal(onErrorJustReturn: false)
+//            .emit(onNext: { [weak self] isValid in
+//                guard let self = self else { return }
+//                if !isValid {
+//                    self.nameField.text = String(self.nameField.text?.dropLast() ?? "")
+//                }
+//                self.nameCheckLabel.text = isValid ? "✅" : ""
+//            })
+//            .disposed(by: rx.disposeBag)
+        
+        nameObservable
+            .skip(1)
+            .asSignal(onErrorJustReturn: "없음")
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let str = self.limitTextFieldLength($0, self.nameField)
+                let isValid = self.checkTextFieldIsValid(str, self.nameField)
+                self.nameCheckLabel.text = isValid ? "✅" : ""
+            })
+            .disposed(by: rx.disposeBag)
+        
+        explanationObservable
+            .skip(1)
+            .asSignal(onErrorJustReturn: "없음")
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let str = self.limitTextFieldLength($0, self.explanationField)
+                let isValid = self.checkTextFieldIsValid(str, self.explanationField)
+                self.explanationCheckLabel.text = isValid ? "✅" : ""
+            })
+            .disposed(by: rx.disposeBag)
+        
+        featureObservable
+            .skip(1)
+            .asSignal(onErrorJustReturn: "없음")
+            .emit(onNext: { [weak self] in
+                guard let self = self else { return }
+                let str = self.limitTextFieldLength($0, self.featureField)
+                let isValid = self.checkTextFieldIsValid(str, self.featureField)
+                self.featureCheckLabel.text = isValid ? "✅" : ""
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // 산책길 이름, 간단한 소개, 특이사항의 모든 TextField가 유효해지면
+        // 저장 버튼을 클릭할 수 있도록 활성화
+        Observable
+            .combineLatest(
+                nameObservable
+                    .map({ self.checkTextFieldIsValid($0, self.nameField) }),
+                explanationObservable
+                    .map({ self.checkTextFieldIsValid($0, self.explanationField) }),
+                featureObservable
+                    .map({ self.checkTextFieldIsValid($0, self.featureField) }),
+                resultSelector: { s1, s2, s3 in
+                    s1 && s2 && s3  // Bool
+                })
+            .subscribe(onNext: { [weak self] isGoodToActivate in
+                guard let self = self else { return }
+                self.saveButton.isEnabled = isGoodToActivate
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     private func setupButton() {
@@ -158,13 +232,18 @@ class AddMyPlaceViewController: UIViewController {
                         explanation: self.explanationField.text,
                         feature: self.featureField.text
                     )
+                    
+                    // 스위치의 값을 UserDefaults에 저장
+                    self.userDefaults.set(true, forKey: "myPlaceExist")
+                    
+                    let indicatorView = SPIndicatorView(title: "저장 완료", preset: .done)
+                    indicatorView.present(duration: 2.0, haptic: .success)
                 } else {
                     print("산책길 이름을 입력하세요")
                 }
                 
                 // 나만의 산책길 탭 메인화면으로 돌아가기
                 self.navigationController?.popToRootViewController(animated: true)
-//                self.dismiss(animated: true)
             })
             .disposed(by: rx.disposeBag)
         
@@ -178,12 +257,6 @@ class AddMyPlaceViewController: UIViewController {
                 self.showAlertMessageForReturn()
             })
             .disposed(by: rx.disposeBag)
-    }
-    
-    private func setupTapGestureOnImage() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
-        self.imageView.addGestureRecognizer(tapGesture)
-        self.imageView.isUserInteractionEnabled = true
     }
     
     //MARK: - indirectly called method
@@ -207,16 +280,22 @@ class AddMyPlaceViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
  
-    @objc private func imageViewTapped() {
-        // 기본설정 셋팅
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .any(of: [.images])
-        
-        // 피커뷰 컨트롤러 설정 및 이미지 선택 창 띄우기
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        self.present(picker, animated: true, completion: nil)
+    // TextField의 글자수 제한을 넘기면 초과되는 부분은 입력되지 않도록 설정
+    private func limitTextFieldLength(_ text: String, _ textField: UITextField) -> String {
+        let maxLength: Int = (textField == self.nameField) ? 10 : 20
+        if text.count > maxLength {
+            let index = text.index(text.startIndex, offsetBy: maxLength)
+            textField.text = String(text[..<index])
+            return String(text[..<index])
+        } else {
+            return text
+        }
+    }
+    
+    // TextField에 입력된 문자열에 대한 유효성 검사
+    private func checkTextFieldIsValid(_ text: String, _ textField: UITextField) -> Bool {
+        let maxLength: Int = (textField == self.nameField) ? 10 : 20
+        return (1...maxLength) ~= text.count
     }
     
 }
@@ -226,29 +305,5 @@ class AddMyPlaceViewController: UIViewController {
 extension AddMyPlaceViewController: CLLocationManagerDelegate {
     
     
-    
-}
-
-//MARK: - extension for PHPickerViewControllerDelegate
-
-extension AddMyPlaceViewController: PHPickerViewControllerDelegate {
-    
-    // 사진 선택이 완료된 후 호출되는 메서드
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        let itemProvider = results.first?.itemProvider
-        guard let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else {
-            fatalError("대표사진 로드 실패")
-        }
-        
-        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
-            guard let self = self,
-                  let image = image as? UIImage else { return }
-            DispatchQueue.main.async {
-                self.imageView.image = image
-            }
-        }
-    }
     
 }

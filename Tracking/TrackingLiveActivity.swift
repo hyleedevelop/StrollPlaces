@@ -9,12 +9,9 @@ import ActivityKit
 import WidgetKit
 import UIKit
 import SwiftUI
-import Lottie
 
 // 잠금화면에서 보여줄 위젯
 struct TrackingLiveActivity: Widget {
-    
-    let lottieAnimationView = LottieAnimationView()
     
     var body: some WidgetConfiguration {
         
@@ -24,17 +21,13 @@ struct TrackingLiveActivity: Widget {
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
                     Image(systemName: "figure.walk")
-                        //.resizable()
-                        //.frame(width: 20.0, height: 30.0)
                         .foregroundColor(Color.init(uiColor: K.Color.themeYellow))
                         .padding(.leading, 5)
-                        //.padding(.top, 18)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Text("산책중")
                         .font(Font.system(.body).monospacedDigit())
                         .padding(.trailing, 5)
-                        //.padding(.top, 18)
                 }
                 DynamicIslandExpandedRegion(.center) {
                     VStack(alignment: .center) {
@@ -122,7 +115,6 @@ struct LockScreenLiveActivityView: View {
                 Spacer()
             }
             .frame(height: 100)
-            //.background(.black)
             
         }
 

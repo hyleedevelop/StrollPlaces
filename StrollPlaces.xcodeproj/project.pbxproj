@@ -97,7 +97,6 @@
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
-		07ED15A629E979A700A158A4 /* Pods_StrollPlaces.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
@@ -137,17 +136,6 @@
 				07AC1ED729E3D527006BEA03 /* TrackingExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		07ED15A729E979A700A158A4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				07ED15A629E979A700A158A4 /* Pods_StrollPlaces.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -584,7 +572,6 @@
 				0799CC9029BF584B006AB70D /* Resources */,
 				4DF3F305FB9B617114A5E612 /* [CP] Embed Pods Frameworks */,
 				07AC1EBF29E3D3EC006BEA03 /* Embed Foundation Extensions */,
-				07ED15A729E979A700A158A4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

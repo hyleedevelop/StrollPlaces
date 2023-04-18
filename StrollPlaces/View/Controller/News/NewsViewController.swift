@@ -251,6 +251,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let self = self else { return }
                 let websiteURL = NSURL(string: urlString)
                 let webView = SFSafariViewController(url: websiteURL! as URL)
+                
                 self.present(webView, animated: true, completion: nil)
             }
             .disposed(by: rx.disposeBag)

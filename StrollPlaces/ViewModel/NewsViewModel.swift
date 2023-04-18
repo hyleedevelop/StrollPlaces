@@ -12,7 +12,8 @@ import RxCocoa
 //MARK: - NewsList View Model
 
 // 테이블뷰 컨트롤러에 대한 뷰모델 (Root View Model)
-// 추후 메인화면에 다른 UI 요소가 추가될 수도 있기 때문에 확장성 측면에서 뉴스 아이템에 대한 뷰모델을 따로 분리하였음 (for flexibility)
+// 추후 메인화면에 다른 UI 요소가 추가될 수도 있기 때문에
+// 확장성 측면에서 뉴스 아이템에 대한 뷰모델을 따로 분리 (for flexibility)
 final class NewsViewModel {
     
     let newsItemViewModel: [NewsItemViewModel]

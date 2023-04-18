@@ -15,15 +15,15 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
     @Persisted(primaryKey: true) var _id: ObjectId
     
     @Persisted var points: List<TrackPoint>
-    @Persisted var date: Date
+    @Persisted var date: String
     @Persisted var time: String
     @Persisted var distance: Double
     @Persisted var firstLocation: String?
     @Persisted var lastLocation: String?
     
-    @Persisted var name: String?
-    @Persisted var explanation: String? = nil
-    @Persisted var feature: String? = nil
+    @Persisted var name: String
+    @Persisted var explanation: String
+    @Persisted var feature: String
     //@Persisted var image: UIImage? = nil
     
     
@@ -33,15 +33,14 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
     
     convenience init(
         points: List<TrackPoint>,
-        date: Date,
+        date: String,
         time: String,
         distance: Double,
         firstLocation: String?,
         lastLocation: String?,
-        name: String?,
-        explanation: String?,
-        feature: String?
-        //image: UIImage?
+        name: String,
+        explanation: String,
+        feature: String
     ) {
         self.init()
         self.points = points

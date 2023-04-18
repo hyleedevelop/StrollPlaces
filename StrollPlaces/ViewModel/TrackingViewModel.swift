@@ -113,18 +113,23 @@ final class TrackingViewModel {
     
     // Realm DB에 경로 데이터 저장하기
     func createTrackData() {
+        var dateString: String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+            return dateFormatter.string(from: Date())
+        }
+        
         let dataToAppend = TrackData(
             points: self.trackData.points,
-            date: Date(),
+            date: dateString,
             time: self.timeString,
             distance: self.distance,
             firstLocation: nil,
             lastLocation: nil,
-            name: nil,
-            explanation: nil,
-            feature: nil)
+            name: "",
+            explanation: "",
+            feature: "")
         
-        print(self.trackData.points)
         RealmService.shared.create(dataToAppend)
     }
     

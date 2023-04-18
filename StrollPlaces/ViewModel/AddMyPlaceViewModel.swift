@@ -18,11 +18,11 @@ final class AddMyPlaceViewModel {
     var track: Results<TrackData>!
     var point: Results<TrackPoint>!
     
-    var dateRelay = BehaviorRelay<String>(value: "N/A")
-    var timeRelay = BehaviorRelay<String>(value: "N/A")
-    var distanceRelay = BehaviorRelay<String>(value: "N/A")
-    var firstLocationRelay = BehaviorRelay<String>(value: "N/A")
-    var lastLocationRelay = BehaviorRelay<String>(value: "N/A")
+    var dateRelay = BehaviorRelay<String>(value: "알수없음")
+    var timeRelay = BehaviorRelay<String>(value: "알수없음")
+    var distanceRelay = BehaviorRelay<String>(value: "알수없음")
+    var firstLocationRelay = BehaviorRelay<String>(value: "알수없음")
+    var lastLocationRelay = BehaviorRelay<String>(value: "알수없음")
     
     var primaryKey: ObjectId?
     
@@ -39,10 +39,10 @@ final class AddMyPlaceViewModel {
         self.primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
         
         var dateString: String {
-            let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
+            //let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
-            return dateFormatter.string(from: date)
+            return dateFormatter.string(from: Date())
         }
         self.dateRelay.accept(dateString)
         
@@ -91,8 +91,10 @@ final class AddMyPlaceViewModel {
         guard let latestTrackData = self.track?.last else { return }
         RealmService.shared.delete(latestTrackData)
         
-        guard let latestPointData = self.point.last else { return }
-        RealmService.shared.delete(latestPointData)
+        for _ in 0..<self.point.count {
+            guard let latestPointData = self.point.last else { return }
+            RealmService.shared.delete(latestPointData)
+        }
     }
     
     //MARK: - indirectly called method

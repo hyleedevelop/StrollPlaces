@@ -15,5 +15,4 @@ class MyPlaceTableViewCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    
 }

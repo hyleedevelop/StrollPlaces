@@ -98,8 +98,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 // 메세지 보여주기
                 self.present(alert, animated: true, completion: nil)
                 
-                //
-                self.userDefaults.set(false, forKey: "testSwitchValue")
+                // userdefaults 값 false로 초기화 -> Lottie Animation 표출
+                self.userDefaults.set(false, forKey: "myPlaceExist")
             }
         case .feedback:
             print("feedback")
