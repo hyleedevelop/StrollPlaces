@@ -236,7 +236,6 @@ final class MapViewController: UIViewController {
                let lon = self.dataArray[index].lon {
                 annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                 annotation.title = self.dataArray[index].name
-//                annotation.title = "\(index)"
                 annotation.subtitle = "\(self.dataArray[index].infoType.rawValue)"
                 annotation.index = index
             }
@@ -279,7 +278,7 @@ final class MapViewController: UIViewController {
             
             //self.mapView.removeOverlays(self.mapView.overlays)
             
-            //for getting just one route
+            // 단일 루트 얻기
             if let route = response.routes.first {
                 if draw {  // route를 그려야 하는 경우
                     // 출발지-도착지 경로를 보여줄 지도 영역 설정
@@ -311,6 +310,7 @@ final class MapViewController: UIViewController {
                     self.mapView.addAnnotation(startOfRouteAnnotation)
                     self.mapView.addAnnotation(endOfRouteAnnotation)
                      */
+                    
                     
                 } else {  // 단순히 route 정보만 필요한 경우
                     completion(route.distance, route.expectedTravelTime)

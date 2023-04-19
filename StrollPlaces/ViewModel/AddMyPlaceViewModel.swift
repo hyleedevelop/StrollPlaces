@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import RealmSwift
+import CoreLocation
 
 final class AddMyPlaceViewModel {
     
@@ -24,7 +25,8 @@ final class AddMyPlaceViewModel {
     var firstLocationRelay = BehaviorRelay<String>(value: "알수없음")
     var lastLocationRelay = BehaviorRelay<String>(value: "알수없음")
     
-    var primaryKey: ObjectId?
+    private var primaryKey: ObjectId?
+    private var points = [CLLocationCoordinate2D]()
     
     //MARK: - initializer
     
@@ -69,15 +71,47 @@ final class AddMyPlaceViewModel {
         self.lastLocationRelay.accept(endPoint)
     }
     
+    // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
+    func getTrackPointForPolyline() -> [CLLocationCoordinate2D] {
+        // Realm DB에서 자료 읽기 및 빈 배열 생성
+        let trackPoint = RealmService.shared.realm.objects(TrackData.self).last?.points
+        
+        // List<TrackPoint> (위도+경도) -> CLLocationCoordinate2D (좌표)
+        guard let tp = trackPoint else { fatalError("could not find track points...") }
+        for index in 0..<tp.count {
+            var coordinate = CLLocationCoordinate2DMake(tp[index].latitude,
+                                                        tp[index].longitude)
+            self.points.append(coordinate)
+        }
+        
+        return self.points
+    }
+    
+    // 경로를 보여줄 영역 정보 가져오기
+    func getCenterCoordinateOfMap() -> (Double, Double) {
+        var latitudeArray = [Double]()
+        var longitudeArray = [Double]()
+        
+        for index in 0..<self.points.count {
+            latitudeArray.append(self.points[index].latitude)
+            longitudeArray.append(self.points[index].longitude)
+        }
+        
+        let latitudeDelta = abs(latitudeArray.max()! - latitudeArray.min()!) * 1.5
+        let longitudeDelta = abs(longitudeArray.max()! - longitudeArray.min()!) * 1.5
+        
+        return (latitudeDelta, longitudeDelta)
+    }
+    
     // Realm DB에 데이터 추가하기
-    func updateTrackData(name: String, explanation: String?, feature: String?) {
+    func updateTrackData(name: String, explanation: String, feature: String) {
         let realm = try! Realm()
         try! realm.write {
             realm.create(TrackData.self,
                          value: ["_id": self.primaryKey!,
                                  "name": name,
-                                 "explanation": explanation ?? "",
-                                 "feature": feature ?? ""]
+                                 "explanation": explanation,
+                                 "feature": feature]
                          as [String: Any],
                          update: .modified)
         }
@@ -88,16 +122,16 @@ final class AddMyPlaceViewModel {
         self.track = RealmService.shared.realm.objects(TrackData.self)
         self.point = RealmService.shared.realm.objects(TrackPoint.self)
         
+        // 가장 마지막에 저장된 TrackData에 접근
         guard let latestTrackData = self.track?.last else { return }
-        RealmService.shared.delete(latestTrackData)
-        
-        for _ in 0..<self.point.count {
+        for _ in 0..<latestTrackData.points.count {
             guard let latestPointData = self.point.last else { return }
+            // TrackPoint에서 points의 갯수 만큼 삭제
             RealmService.shared.delete(latestPointData)
         }
+        
+        // TrackData 삭제
+        RealmService.shared.delete(latestTrackData)
     }
-    
-    //MARK: - indirectly called method
-    
     
 }

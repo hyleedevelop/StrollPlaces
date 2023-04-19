@@ -84,7 +84,7 @@ extension TrackingViewController: MKMapViewDelegate {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = K.Color.themeBlack
+        renderer.strokeColor = UIColor.green
         renderer.lineWidth = 4.0
         renderer.alpha = 1.0
         

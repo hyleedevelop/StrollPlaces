@@ -112,7 +112,7 @@ class MyPlaceViewController: UIViewController {
         _  = isListExist ? self.hideInitialView() : self.showInitialView()
     }
     
-    // CollectionView 설정
+    // TableView 설정
     private func setupTableView() {
         self.myPlaceTableView.delegate = self
         self.myPlaceTableView.dataSource = self

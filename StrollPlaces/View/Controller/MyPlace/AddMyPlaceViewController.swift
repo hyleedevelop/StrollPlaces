@@ -52,14 +52,11 @@ class AddMyPlaceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 스위치의 값을 UserDefaults에 저장
-        //self.userDefaults.set(true, forKey: "myPlaceExist")
-        
         // Realm DB에서 데이터 가져오기
         self.viewModel.getTrackDataFromRealmDB()
         
         setupNavigationBar()
-        setupLocationManager()
+        setupMapView()
         setupBackView()
         setupLabel()
         setupTextField()
@@ -92,11 +89,30 @@ class AddMyPlaceViewController: UIViewController {
         self.extendedLayoutIncludesOpaqueBars = true
     }
     
-    private func setupLocationManager() {
-        self.locationManager = CLLocationManager()
-        self.locationManager.startUpdatingLocation()
-        self.locationManager.delegate = self
-        self.locationManager.allowsBackgroundLocationUpdates = true
+    private func setupMapView() {
+        self.mapView.layer.cornerRadius = 0
+        self.mapView.clipsToBounds = true
+        self.mapView.layer.borderColor = K.Color.themeGray.cgColor
+        self.mapView.layer.borderWidth = 1
+        self.mapView.showsUserLocation = false
+        self.mapView.setUserTrackingMode(.none, animated: true)
+        self.mapView.isZoomEnabled = true
+        self.mapView.delegate = self
+        
+        // 각 지점들을 기록하고 그 지점들 사이를 선으로 연결
+        let points: [CLLocationCoordinate2D] = self.viewModel.getTrackPointForPolyline()
+        let routeLine = MKPolyline(coordinates: points, count: points.count)
+        
+        // 지도에 선 나타내기(addOverlay 시 아래의 rendererFor 함수가 호출됨)
+        self.mapView.addOverlay(routeLine)
+        
+        // 지도 영역 제한 설정
+        var rect = MKCoordinateRegion(routeLine.boundingMapRect)
+        rect.span.latitudeDelta = self.viewModel.getCenterCoordinateOfMap().0
+        rect.span.longitudeDelta = self.viewModel.getCenterCoordinateOfMap().1
+        self.mapView.setRegion(rect, animated: true)
+        self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: rect),
+                                       animated: false)
     }
     
     // 경로정보 영역의 Back View 설정
@@ -149,21 +165,6 @@ class AddMyPlaceViewController: UIViewController {
         let explanationObservable = explanationField.rx.text.orEmpty
         let featureObservable = featureField.rx.text.orEmpty
         
-        // TextField 입력값이 유효해지면 체크 표시 나타내기
-        // orEmpty: String? -> String
-//        nameObservable
-//            .skip(1)
-//            .map { (1...10) ~= $0.count }
-//            .asSignal(onErrorJustReturn: false)
-//            .emit(onNext: { [weak self] isValid in
-//                guard let self = self else { return }
-//                if !isValid {
-//                    self.nameField.text = String(self.nameField.text?.dropLast() ?? "")
-//                }
-//                self.nameCheckLabel.text = isValid ? "✅" : ""
-//            })
-//            .disposed(by: rx.disposeBag)
-        
         nameObservable
             .skip(1)
             .asSignal(onErrorJustReturn: "없음")
@@ -197,7 +198,7 @@ class AddMyPlaceViewController: UIViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        // 산책길 이름, 간단한 소개, 특이사항의 모든 TextField가 유효해지면
+        // 산책길 이름, 간단한 소개, 특이사항의 모든 TextField 입력값이 유효하면
         // 저장 버튼을 클릭할 수 있도록 활성화
         Observable
             .combineLatest(
@@ -226,11 +227,13 @@ class AddMyPlaceViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
-                if self.nameField.text != nil {
+                if self.nameField.text != nil &&
+                   self.explanationField.text != nil &&
+                   self.featureField.text != nil {
                     self.viewModel.updateTrackData(
                         name: self.nameField.text!,
-                        explanation: self.explanationField.text,
-                        feature: self.featureField.text
+                        explanation: self.explanationField.text!,
+                        feature: self.featureField.text!
                     )
                     
                     // 스위치의 값을 UserDefaults에 저장
@@ -300,10 +303,28 @@ class AddMyPlaceViewController: UIViewController {
     
 }
 
-//MARK: - extension for CLLocationManagerDelegate
-
-extension AddMyPlaceViewController: CLLocationManagerDelegate {
+extension AddMyPlaceViewController: MKMapViewDelegate {
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? RouteAnnotation {
+            let view = MKAnnotationView(annotation: annotation,
+                                        reuseIdentifier: "RouteAnnotationView")
+            view.image = UIImage(systemName: "location.circle.fill")
+            return view
+        }
+        return nil
+    }
     
+    // 경로를 표시하기 위한 polyline의 렌더링 설정
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
+        let renderer = MKPolylineRenderer(polyline: routeLine)
+        
+        renderer.strokeColor = UIColor.green
+        renderer.lineWidth = 4.0
+        renderer.alpha = 1.0
+        
+        return renderer
+    }
     
 }
