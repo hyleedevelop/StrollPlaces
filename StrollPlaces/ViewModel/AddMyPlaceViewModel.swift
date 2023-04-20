@@ -79,7 +79,7 @@ final class AddMyPlaceViewModel {
         // List<TrackPoint> (위도+경도) -> CLLocationCoordinate2D (좌표)
         guard let tp = trackPoint else { fatalError("could not find track points...") }
         for index in 0..<tp.count {
-            var coordinate = CLLocationCoordinate2DMake(tp[index].latitude,
+            let coordinate = CLLocationCoordinate2DMake(tp[index].latitude,
                                                         tp[index].longitude)
             self.points.append(coordinate)
         }
@@ -88,7 +88,7 @@ final class AddMyPlaceViewModel {
     }
     
     // 경로를 보여줄 영역 정보 가져오기
-    func getCenterCoordinateOfMap() -> (Double, Double) {
+    func getDeltaCoordinate() -> (Double, Double)? {
         var latitudeArray = [Double]()
         var longitudeArray = [Double]()
         
@@ -97,10 +97,14 @@ final class AddMyPlaceViewModel {
             longitudeArray.append(self.points[index].longitude)
         }
         
-        let latitudeDelta = abs(latitudeArray.max()! - latitudeArray.min()!) * 1.5
-        let longitudeDelta = abs(longitudeArray.max()! - longitudeArray.min()!) * 1.5
-        
-        return (latitudeDelta, longitudeDelta)
+        if latitudeArray.max() != nil, latitudeArray.min() != nil,
+           longitudeArray.max() != nil, longitudeArray.min() != nil {
+            let latitudeDelta = abs(latitudeArray.max()! - latitudeArray.min()!) * 1.5
+            let longitudeDelta = abs(longitudeArray.max()! - longitudeArray.min()!) * 1.5
+            return (latitudeDelta, longitudeDelta)
+        } else {
+            return nil
+        }
     }
     
     // Realm DB에 데이터 추가하기

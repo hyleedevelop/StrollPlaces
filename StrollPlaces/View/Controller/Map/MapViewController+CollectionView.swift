@@ -43,16 +43,16 @@ extension MapViewController: UICollectionViewDataSource,
         // 기본 선택값 = 공원
         if indexPath.item == 1 {
             cell.backView.layer.shadowColor = UIColor.black.cgColor
-            //cell.backView.layer.borderColor = K.Color.mainColor.cgColor
-            //cell.backView.layer.borderWidth = 0.0
-            cell.backView.backgroundColor = K.Color.themeYellow
-            cell.themeLabel.textColor = K.Color.themeWhite
-            cell.themeIcon.tintColor = K.Color.themeWhite
+            cell.backView.layer.borderColor = K.Color.themeYellow.cgColor
+            cell.backView.layer.borderWidth = 1.5
+            //cell.backView.backgroundColor = K.Color.themeGray
+            cell.themeLabel.textColor = K.Color.themeBlack
+            cell.themeIcon.tintColor = K.Color.themeBlack
         } else {
             cell.backView.layer.shadowColor = UIColor.black.cgColor
-            //cell.backView.layer.borderColor = UIColor.black.cgColor
-            //cell.backView.layer.borderWidth = 0.0
-            cell.backView.backgroundColor = K.Color.themeWhite
+            cell.backView.layer.borderColor = UIColor.black.cgColor
+            cell.backView.layer.borderWidth = 0.0
+            //cell.backView.backgroundColor = K.Color.themeWhite
             cell.themeLabel.textColor = K.Color.themeBlack
             cell.themeIcon.tintColor = K.Color.themeBlack
         }
@@ -76,11 +76,11 @@ extension MapViewController: UICollectionViewDataSource,
         }
         
         cell.backView.layer.shadowColor = K.Color.mainColor.cgColor
-        //cell.backView.layer.borderColor = K.Color.mainColor.cgColor
-        //cell.backView.layer.borderWidth = 2.0
-        cell.backView.backgroundColor = K.Color.themeYellow
-        cell.themeLabel.textColor = K.Color.themeWhite
-        cell.themeIcon.tintColor = K.Color.themeWhite
+        cell.backView.layer.borderColor = K.Color.themeYellow.cgColor
+        cell.backView.layer.borderWidth = 1.5
+        //cell.backView.backgroundColor = K.Color.themeGray
+        cell.themeLabel.textColor = K.Color.themeBlack
+        cell.themeIcon.tintColor = K.Color.themeBlack
     }
     
     // 셀이 해제되었을 때 실행할 내용
@@ -88,9 +88,9 @@ extension MapViewController: UICollectionViewDataSource,
         let cell = collectionView.cellForItem(at: indexPath) as! ThemeCollectionViewCell
 
         cell.backView.layer.shadowColor = UIColor.black.cgColor
-        //cell.backView.layer.borderColor = UIColor.black.cgColor
-        //cell.backView.layer.borderWidth = 0.0
-        cell.backView.backgroundColor = K.Color.themeWhite
+        cell.backView.layer.borderColor = UIColor.black.cgColor
+        cell.backView.layer.borderWidth = 0.0
+        //cell.backView.backgroundColor = K.Color.themeWhite
         cell.themeLabel.textColor = K.Color.themeBlack
         cell.themeIcon.tintColor = K.Color.themeBlack
     }

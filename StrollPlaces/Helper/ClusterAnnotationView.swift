@@ -22,6 +22,7 @@ class CountClusterAnnotationView: ClusterAnnotationView {
         self.layer.masksToBounds = true
         self.layer.borderColor = UIColor.white.cgColor
         self.layer.borderWidth = 1.5
+        self.alpha = 0.8
     }
 
     // cluster 개수에 따른 annotation 크기(반지름) 설정

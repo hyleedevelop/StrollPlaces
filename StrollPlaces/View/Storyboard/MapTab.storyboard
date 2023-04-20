@@ -18,19 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Hg-yH-Sbi">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Hg-yH-Sbi">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DVW-Jq-0Vi">
-                                <rect key="frame" x="333" y="329" width="50" height="170"/>
+                                <rect key="frame" x="338" y="336.66666666666669" width="45" height="155"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y6Z-jt-Rzf">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="y6Z-jt-Rzf" secondAttribute="height" multiplier="1:1" id="Gtn-rT-rA6"/>
-                                            <constraint firstAttribute="width" constant="50" id="Hpl-1H-DL5"/>
                                         </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
@@ -39,11 +38,10 @@
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRp-HF-kmI">
-                                        <rect key="frame" x="0.0" y="60" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="55" width="45" height="45"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="eRp-HF-kmI" secondAttribute="height" multiplier="1:1" id="4hK-KV-hAo"/>
-                                            <constraint firstAttribute="width" constant="50" id="zQL-fE-GdM"/>
                                         </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
@@ -52,10 +50,9 @@
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cHI-fa-qdc">
-                                        <rect key="frame" x="0.0" y="120" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="110" width="45" height="45"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="Ya2-t3-uBO"/>
                                             <constraint firstAttribute="width" secondItem="cHI-fa-qdc" secondAttribute="height" multiplier="1:1" id="plh-nb-CFD"/>
                                         </constraints>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -64,7 +61,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="egM-vY-eED"/>
+                                    <constraint firstAttribute="width" constant="45" id="egM-vY-eED"/>
                                 </constraints>
                             </stackView>
                         </subviews>

@@ -15,32 +15,28 @@
             <objects>
                 <viewController storyboardIdentifier="MyPlaceViewController" id="bgb-MP-ou8" customClass="MyPlaceViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qgd-b7-JqP">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Vii-i7-hh9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Vii-i7-hh9">
                                 <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="separatorInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <sections/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tmQ-s7-aN3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Vii-i7-hh9" firstAttribute="leading" secondItem="tmQ-s7-aN3" secondAttribute="leading" id="Fdn-gH-JqC"/>
-                            <constraint firstItem="tmQ-s7-aN3" firstAttribute="bottom" secondItem="Vii-i7-hh9" secondAttribute="bottom" id="UOF-0P-7vD"/>
-                            <constraint firstItem="Vii-i7-hh9" firstAttribute="top" secondItem="tmQ-s7-aN3" secondAttribute="top" id="bTF-du-yGb"/>
-                            <constraint firstItem="tmQ-s7-aN3" firstAttribute="trailing" secondItem="Vii-i7-hh9" secondAttribute="trailing" id="hAd-2T-U1Y"/>
+                            <constraint firstItem="Vii-i7-hh9" firstAttribute="leading" secondItem="tmQ-s7-aN3" secondAttribute="leading" id="AR0-ba-nJb"/>
+                            <constraint firstItem="Vii-i7-hh9" firstAttribute="bottom" secondItem="tmQ-s7-aN3" secondAttribute="bottom" id="J4e-94-veg"/>
+                            <constraint firstItem="Vii-i7-hh9" firstAttribute="trailing" secondItem="tmQ-s7-aN3" secondAttribute="trailing" id="Neg-xP-zVe"/>
+                            <constraint firstItem="Vii-i7-hh9" firstAttribute="top" secondItem="tmQ-s7-aN3" secondAttribute="top" id="z4u-OH-mhH"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="" image="icons8-journey-50" id="Q2D-1V-q9f"/>
                     <navigationItem key="navigationItem" title="나만의 산책길" id="F9N-nl-Ib8">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="lightbulb" catalog="system" id="RSZ-5r-6iV">
-                            <color key="tintColor" red="0.98823529409999999" green="0.61568627450000002" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <segue destination="hJE-lf-FBN" kind="presentation" modalPresentationStyle="overFullScreen" id="SlY-kB-RY9"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="r1q-vY-6t8">
                             <color key="tintColor" red="0.98823529409999999" green="0.61568627450000002" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -56,36 +52,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pa8-wf-nsZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2764.1221374045799" y="-27.464788732394368"/>
-        </scene>
-        <!--활용 팁-->
-        <scene sceneID="d68-Pz-yDV">
-            <objects>
-                <viewController id="hJE-lf-FBN" customClass="TipViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="KiJ-Mi-u6y">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="okA-RC-bD2">
-                                <rect key="frame" x="10" y="0.0" width="40" height="32"/>
-                                <color key="tintColor" red="0.91372549020000005" green="0.23529411759999999" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
-                                <connections>
-                                    <action selector="closeButtonTapped" destination="hJE-lf-FBN" eventType="touchUpInside" id="kY4-aN-GJa"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Toh-KS-207"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="okA-RC-bD2" firstAttribute="leading" secondItem="Toh-KS-207" secondAttribute="leading" constant="10" id="6hi-zd-DXe"/>
-                            <constraint firstItem="okA-RC-bD2" firstAttribute="top" secondItem="Toh-KS-207" secondAttribute="top" id="oxT-AC-4a5"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="활용 팁" style="editor" id="jqG-Kb-atK"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XLc-rG-w2N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3595" y="-359"/>
         </scene>
         <!--경로 생성-->
         <scene sceneID="PtQ-Mq-5ax">
@@ -221,7 +187,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WOc-oZ-xxw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3595" y="332"/>
+            <point key="canvasLocation" x="3666" y="-27"/>
         </scene>
         <!--정보 입력-->
         <scene sceneID="yY7-pv-35Y">
@@ -342,7 +308,7 @@
                                                             <constraint firstAttribute="trailing" secondItem="fXR-jV-whg" secondAttribute="trailing" id="wRw-KB-yVY"/>
                                                         </constraints>
                                                     </stackView>
-                                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q5l-jV-Glv" userLabel="이동경로">
+                                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q5l-jV-Glv" userLabel="이동경로">
                                                         <rect key="frame" x="20" y="20" width="313" height="313"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="q5l-jV-Glv" secondAttribute="height" multiplier="1:1" id="ZkT-fs-Zdb"/>
@@ -542,7 +508,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iS6-AU-zmX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4394.6564885496182" y="593.66197183098598"/>
+            <point key="canvasLocation" x="4558" y="200"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hSl-dM-f8q">
@@ -577,7 +543,6 @@
     </designables>
     <resources>
         <image name="icons8-journey-50" width="25" height="25"/>
-        <image name="lightbulb" catalog="system" width="92" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

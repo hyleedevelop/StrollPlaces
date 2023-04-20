@@ -43,7 +43,7 @@ final class NewsViewController: UIViewController {
         let activityIndicator = NVActivityIndicatorView(
             frame: CGRect(x: 0, y: 0, width: 50, height: 50),
             type: .ballRotateChase,
-            color: UIColor.black,
+            color: K.Color.themeYellow,
             padding: .zero)
         activityIndicator.color = UIColor.black
         activityIndicator.stopAnimating()

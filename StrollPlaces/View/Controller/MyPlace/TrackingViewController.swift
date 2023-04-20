@@ -47,6 +47,7 @@ final class TrackingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigationBar()
         setupRealm()
         getLocationUsagePermission()
         setupMapView()
@@ -67,6 +68,29 @@ final class TrackingViewController: UIViewController {
     
     //MARK: - directly called method
     
+    // NavigationBar 설정
+    private func setupNavigationBar() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.shadowColor = .clear
+        navigationBarAppearance.backgroundColor = UIColor.white
+//        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+//        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        // scrollEdge: 스크롤 하기 전의 NavigationBar
+        // standard: 스크롤을 하고 있을 때의 NavigationBar
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.setNeedsStatusBarAppearanceUpdate()
+
+        navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        navigationItem.standardAppearance = navigationBarAppearance
+        
+        self.extendedLayoutIncludesOpaqueBars = false
+    }
+    
     // Realm DB 설정
     private func setupRealm() {
         print(Realm.Configuration.defaultConfiguration.fileURL!)
@@ -74,8 +98,10 @@ final class TrackingViewController: UIViewController {
     
     // 지도 및 경로 관련 설정
     private func setupMapView() {
-        self.mapView.layer.cornerRadius = 20
+        self.mapView.layer.cornerRadius = 2
         self.mapView.clipsToBounds = true
+        self.mapView.layer.borderColor = K.Color.themeGray.cgColor
+        self.mapView.layer.borderWidth = 0.5
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(.follow, animated: true)
         self.mapView.isZoomEnabled = true
@@ -221,11 +247,10 @@ final class TrackingViewController: UIViewController {
             
         animatedCountdownView.countdownValue
             .debug("카운트다운")
-            //.throttle(.seconds(5), latest: false, scheduler: MainScheduler.instance)
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { count in
-                let generator = UINotificationFeedbackGenerator()
-                generator.notificationOccurred(.success)
+                let generator = UIImpactFeedbackGenerator(style: .heavy)
+                generator.impactOccurred()
                 
                 if count == 0.0 {
                     UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseIn) {

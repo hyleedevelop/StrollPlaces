@@ -90,10 +90,10 @@ class AddMyPlaceViewController: UIViewController {
     }
     
     private func setupMapView() {
-        self.mapView.layer.cornerRadius = 0
+        self.mapView.layer.cornerRadius = 2
         self.mapView.clipsToBounds = true
         self.mapView.layer.borderColor = K.Color.themeGray.cgColor
-        self.mapView.layer.borderWidth = 1
+        self.mapView.layer.borderWidth = 0.5
         self.mapView.showsUserLocation = false
         self.mapView.setUserTrackingMode(.none, animated: true)
         self.mapView.isZoomEnabled = true
@@ -106,10 +106,16 @@ class AddMyPlaceViewController: UIViewController {
         // 지도에 선 나타내기(addOverlay 시 아래의 rendererFor 함수가 호출됨)
         self.mapView.addOverlay(routeLine)
         
-        // 지도 영역 제한 설정
+        // 지도를 나타낼 영역 설정
+        guard let deltaCoordinate = self.viewModel.getDeltaCoordinate() else {
+            print("에러")
+            return
+        }
+        
         var rect = MKCoordinateRegion(routeLine.boundingMapRect)
-        rect.span.latitudeDelta = self.viewModel.getCenterCoordinateOfMap().0
-        rect.span.longitudeDelta = self.viewModel.getCenterCoordinateOfMap().1
+        rect.span.latitudeDelta = deltaCoordinate.0
+        rect.span.longitudeDelta = deltaCoordinate.1
+        
         self.mapView.setRegion(rect, animated: true)
         self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: rect),
                                        animated: false)
@@ -117,9 +123,6 @@ class AddMyPlaceViewController: UIViewController {
     
     // 경로정보 영역의 Back View 설정
     private func setupBackView() {
-        self.mapView.layer.cornerRadius = 5
-        self.mapView.clipsToBounds = true
-        
         self.routeInfoBackView.backgroundColor = K.Color.themeWhite
         self.routeInfoBackView.layer.cornerRadius = 20
         self.routeInfoBackView.clipsToBounds = true
@@ -127,7 +130,7 @@ class AddMyPlaceViewController: UIViewController {
         //self.routeInfoBackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         self.routeInfoBackView.layer.shadowColor = UIColor.black.cgColor
         self.routeInfoBackView.layer.shadowRadius = 3
-        self.routeInfoBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.routeInfoBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
         self.routeInfoBackView.layer.shadowOpacity = 0.3
         self.routeInfoBackView.layer.borderColor = K.Color.themeBlack.cgColor
         self.routeInfoBackView.layer.borderWidth = 1
@@ -320,7 +323,7 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = UIColor.green
+        renderer.strokeColor = K.Color.themeYellow
         renderer.lineWidth = 4.0
         renderer.alpha = 1.0
         

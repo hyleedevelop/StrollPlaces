@@ -87,7 +87,7 @@ final class TrackingViewModel {
             // label text 바인딩을 위한 시간 문자열 방출
             self.timeRelay.accept(self.timeString)
             
-            // live widget에 표출할 시간 문자열 전달 및 업데이트
+            // live widget에 표출할 시간 문자열 전달 및 widget UI 업데이트
             LiveActivityService.shared.timeString = self.timeString
             LiveActivityService.shared.update()
         }

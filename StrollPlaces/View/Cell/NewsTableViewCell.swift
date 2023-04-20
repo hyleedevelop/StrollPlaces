@@ -27,7 +27,7 @@ class NewsTableViewCell: UITableViewCell {
         backView.clipsToBounds = true
         backView.layer.masksToBounds = false
         backView.layer.cornerRadius = 20
-        backView.layer.borderColor = K.Color.mainColor.cgColor
+        backView.layer.borderColor = K.Color.themeYellow.cgColor
         backView.layer.borderWidth = 1
         backView.layer.shadowColor = UIColor.systemGray4.cgColor
         backView.layer.shadowRadius = 3

@@ -60,4 +60,9 @@ extension TabBarController: TransitionableTab {
         return animateTransition(tabBarController, shouldSelect: viewController)
     }
     
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
 }

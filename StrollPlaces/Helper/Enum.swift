@@ -14,3 +14,12 @@ enum Selection: Int {
 enum InfoType: Int, CaseIterable {
     case marked, park, strollWay, recreationForest, tourSpot
 }
+
+enum MyPlaceSorting {
+    case descendingByDate
+    case ascendingByDate
+    case descendingByTime
+    case ascendingByTime
+    case descendingByDistance
+    case ascendingByDistance
+}
