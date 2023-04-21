@@ -14,7 +14,6 @@ import CoreLocation
 import MapKit
 import RealmSwift
 import SkyFloatingLabelTextField
-import PhotosUI
 import SPIndicator
 
 class AddMyPlaceViewController: UIViewController {
@@ -90,7 +89,7 @@ class AddMyPlaceViewController: UIViewController {
     }
     
     private func setupMapView() {
-        self.mapView.layer.cornerRadius = 2
+        self.mapView.layer.cornerRadius = 5
         self.mapView.clipsToBounds = true
         self.mapView.layer.borderColor = K.Color.themeGray.cgColor
         self.mapView.layer.borderWidth = 0.5
@@ -124,7 +123,7 @@ class AddMyPlaceViewController: UIViewController {
     // 경로정보 영역의 Back View 설정
     private func setupBackView() {
         self.routeInfoBackView.backgroundColor = K.Color.themeWhite
-        self.routeInfoBackView.layer.cornerRadius = 20
+        self.routeInfoBackView.layer.cornerRadius = 5
         self.routeInfoBackView.clipsToBounds = true
         self.routeInfoBackView.layer.masksToBounds = false
         //self.routeInfoBackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -161,7 +160,6 @@ class AddMyPlaceViewController: UIViewController {
     
     // TextField 및 TextView 설정
     private func setupTextField() {
-        self.nameField.errorColor = UIColor.red
         self.nameField.returnKeyType = .default
         
         let nameObservable = nameField.rx.text.orEmpty
@@ -223,7 +221,7 @@ class AddMyPlaceViewController: UIViewController {
     
     private func setupButton() {
         // (1) 저장 버튼
-        self.saveButton.layer.cornerRadius = self.saveButton.frame.height / 2.0
+        self.saveButton.layer.cornerRadius = 5
         self.saveButton.clipsToBounds = true
         
         self.saveButton.rx.controlEvent(.touchUpInside).asObservable()
@@ -239,11 +237,11 @@ class AddMyPlaceViewController: UIViewController {
                         feature: self.featureField.text!
                     )
                     
-                    // 스위치의 값을 UserDefaults에 저장
+                    // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
                     self.userDefaults.set(true, forKey: "myPlaceExist")
                     
-                    let indicatorView = SPIndicatorView(title: "저장 완료", preset: .done)
-                    indicatorView.present(duration: 2.0, haptic: .success)
+                    SPIndicatorView(title: "생성 완료", preset: .done)
+                        .present(duration: 2.0, haptic: .success)
                 } else {
                     print("산책길 이름을 입력하세요")
                 }
@@ -254,7 +252,7 @@ class AddMyPlaceViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         // (2) 취소 버튼
-        self.cancelButton.layer.cornerRadius = self.saveButton.frame.height / 2.0
+        self.cancelButton.layer.cornerRadius = 5
         self.cancelButton.clipsToBounds = true
         
         self.cancelButton.rx.controlEvent(.touchUpInside).asObservable()
@@ -267,6 +265,7 @@ class AddMyPlaceViewController: UIViewController {
     
     //MARK: - indirectly called method
     
+    // 나만의 산책길 생성 취소 시 확인 메세지 보여주기
     private func showAlertMessageForReturn() {
         // 진짜로 취소할 것인지 alert message 보여주고 확인받기
         let alert = UIAlertController(title: "확인",
@@ -299,9 +298,38 @@ class AddMyPlaceViewController: UIViewController {
     }
     
     // TextField에 입력된 문자열에 대한 유효성 검사
-    private func checkTextFieldIsValid(_ text: String, _ textField: UITextField) -> Bool {
-        let maxLength: Int = (textField == self.nameField) ? 10 : 20
-        return (1...maxLength) ~= text.count
+    private func checkTextFieldIsValid(_ text: String, _ textField: SkyFloatingLabelTextField) -> Bool {
+        if textField == self.nameField {
+            // 문자열 길이가 적절한지 판단
+            let isLengthValid: Bool = (2...10) ~= text.count
+            // 문자열이 기존의 Realm DB에 저장된 산책길 이름과 중복되지 않는지 판단
+            let isUniqueName: Bool = self.viewModel.checkIfThereIsTheSameName(name: text)
+            
+            // 텍스트필드 아래에 에러 메세지 표출
+            if !isLengthValid {
+                textField.errorMessage = "2글자 이상, 10글자 이하"
+            } else {
+                if !isUniqueName {
+                    textField.errorMessage = "중복되는 이름"
+                } else {
+                    textField.errorMessage = nil
+                }
+            }
+            
+            return isLengthValid && isUniqueName
+        } else {
+            // 문자열 길이가 적절한지 판단
+            let isLengthValid: Bool = (2...20) ~= text.count
+            
+            // 텍스트필드 아래에 에러 메세지 표출
+            if !isLengthValid {
+                textField.errorMessage = "2글자 이상, 20글자 이하"
+            } else {
+                textField.errorMessage = nil
+            }
+
+            return isLengthValid
+        }
     }
     
 }
@@ -324,7 +352,7 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
         renderer.strokeColor = K.Color.themeYellow
-        renderer.lineWidth = 4.0
+        renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         
         return renderer

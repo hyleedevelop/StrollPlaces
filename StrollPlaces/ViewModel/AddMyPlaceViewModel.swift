@@ -16,17 +16,16 @@ final class AddMyPlaceViewModel {
     
     //MARK: - property
     
-    var track: Results<TrackData>!
-    var point: Results<TrackPoint>!
+    private var trackData = RealmService.shared.realm.objects(TrackData.self)
+    private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
+    private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
+    private var points = [CLLocationCoordinate2D]()
     
     var dateRelay = BehaviorRelay<String>(value: "알수없음")
     var timeRelay = BehaviorRelay<String>(value: "알수없음")
     var distanceRelay = BehaviorRelay<String>(value: "알수없음")
     var firstLocationRelay = BehaviorRelay<String>(value: "알수없음")
     var lastLocationRelay = BehaviorRelay<String>(value: "알수없음")
-    
-    private var primaryKey: ObjectId?
-    private var points = [CLLocationCoordinate2D]()
     
     //MARK: - initializer
     
@@ -38,7 +37,7 @@ final class AddMyPlaceViewModel {
     
     // Realm DB에 임시저장 해놓은 경로 데이터를 받아 relay에서 요소 방출
     func getTrackDataFromRealmDB() {
-        self.primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
+        //self.primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
         
         var dateString: String {
             //let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
@@ -119,23 +118,37 @@ final class AddMyPlaceViewModel {
                          as [String: Any],
                          update: .modified)
         }
+        
+        // ❌ 에러 해결하기 ❌
+        for index in 0..<self.trackData.last!.points.count {
+            let pointDB = realm.objects(TrackPoint.self)
+            try! realm.write {
+                pointDB[index].id = self.primaryKey!.stringValue
+            }
+        }
     }
     
     // 임시로 저장했던 경로 데이터 지우기
     func clearTemporaryTrackData() {
-        self.track = RealmService.shared.realm.objects(TrackData.self)
-        self.point = RealmService.shared.realm.objects(TrackPoint.self)
+        self.trackData = RealmService.shared.realm.objects(TrackData.self)
+        self.pointData = RealmService.shared.realm.objects(TrackPoint.self)
         
         // 가장 마지막에 저장된 TrackData에 접근
-        guard let latestTrackData = self.track?.last else { return }
+        guard let latestTrackData = self.trackData.last else { return }
         for _ in 0..<latestTrackData.points.count {
-            guard let latestPointData = self.point.last else { return }
+            guard let latestPointData = self.pointData.last else { return }
             // TrackPoint에서 points의 갯수 만큼 삭제
             RealmService.shared.delete(latestPointData)
         }
         
         // TrackData 삭제
         RealmService.shared.delete(latestTrackData)
+    }
+    
+    func checkIfThereIsTheSameName(name: String) -> Bool {
+        // 입력한 산책길 이름이 Realm DB에 저장된 산책길 이름과 중복되는지 체크
+        self.trackData = RealmService.shared.realm.objects(TrackData.self)
+        return self.trackData.firstIndex(where: { $0.name == name } ) == nil ? true : false
     }
     
 }

@@ -141,10 +141,13 @@ final class TrackingViewModel {
     }
     
     // 경로 추가 및 이동거리(현재 지점 <-> 이전 지점) 누적 계산
-    func appendTrackPoint(newTrackPoint: TrackPoint,
-                          currentLatitude: Double,
+    func appendTrackPoint(currentLatitude: Double,
                           currentLongitude: Double) {
         // 신규 위치 추가
+        let newTrackPoint = TrackPoint(latitude: currentLatitude,
+                                       longitude: currentLongitude,
+                                       id: "")
+        
         self.trackData.appendTrackPoint(point: newTrackPoint)
         
         if self.count == 0 {  // 사용자의 위치가 처음 기록되었을 때

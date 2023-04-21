@@ -64,11 +64,9 @@ extension TrackingViewController: CLLocationManagerDelegate {
             
             self.previousCoordinate = location.coordinate
             
-            // 새로운 사용자의 위치를 track data에 추가
-            let newTrackPoint = TrackPoint(latitude: latitude, longitude: longitude)
-            self.viewModel.appendTrackPoint(
-                newTrackPoint: newTrackPoint, currentLatitude: latitude, currentLongitude: longitude
-            )
+            // 새로운 사용자의 위치를 track point에 추가
+            self.viewModel.appendTrackPoint(currentLatitude: latitude,
+                                            currentLongitude: longitude)
         }
         
     }

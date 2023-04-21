@@ -222,7 +222,7 @@ extension MapViewController: MKMapViewDelegate {
         let renderer = MKPolylineRenderer(overlay: overlay)
         
         renderer.strokeColor = K.Color.themeYellow
-        renderer.lineWidth = 4.0
+        renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         
         return renderer

@@ -61,18 +61,4 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         self.points.append(point)
     }
     
-    //MARK: - indirectly called method
-    
-//    private func dateToFormattedString(date: Date) -> String {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm:ss"
-//        dateFormatter.locale = Locale(identifier: "ko_KR")
-//
-//        if let date = self.currentDate {
-//            return dateFormatter.string(from: date)
-//        } else {
-//            return ""
-//        }
-//    }
-    
 }

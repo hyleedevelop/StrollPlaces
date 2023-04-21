@@ -13,6 +13,7 @@ import NSObject_Rx
 import CoreLocation
 import Lottie
 import RealmSwift
+import SPIndicator
 
 class MyPlaceViewController: UIViewController {
 
@@ -84,7 +85,7 @@ class MyPlaceViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
-        
+
         if !isListEmpty {
             DispatchQueue.main.async {
                 self.myPlaceTableView.reloadData()
@@ -119,11 +120,20 @@ class MyPlaceViewController: UIViewController {
         self.navigationItem.leftBarButtonItem?.tintColor = K.Color.themeYellow
     }
     
-    // 나만의 산책로 리스트가 없는 경우 표시할 View 설정
+    // 나만의 산책로 리스트가 없는 경우 애니메이션 표출 설정
     private func setupInitialView() {
-        // UserDefaults에 저장되어있는 값이 참이면 초기화면 표출
-        let isListExist = self.userDefaults.bool(forKey: "myPlaceExist")
-        _  = isListExist ? self.hideInitialView() : self.showInitialView()
+        self.viewModel.itemViewModel.shouldShowAnimationView
+            .debug("애니메이션 표출")
+            .subscribe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] shouldBeShown in
+                guard let self = self else { return }
+                if shouldBeShown {
+                    self.showInitialView()
+                } else {
+                    self.hideInitialView()
+                }
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     // TableView 설정
@@ -133,7 +143,8 @@ class MyPlaceViewController: UIViewController {
         self.myPlaceTableView.register(UINib(nibName: K.MyPlace.cellName, bundle: nil),
                                        forCellReuseIdentifier: K.MyPlace.cellName)
         self.myPlaceTableView.backgroundColor = UIColor.white
-        self.myPlaceTableView.sectionHeaderTopPadding = 0
+        self.myPlaceTableView.tableHeaderView = UIView()
+        self.myPlaceTableView.tableFooterView = UIView()
         
         self.setupReloadOfTableView()
     }
@@ -180,7 +191,7 @@ class MyPlaceViewController: UIViewController {
     
     // context menu를 통해 목록 정렬 기준이 정해지면 메인쓰레드에서 TableView를 reload 하도록 설정
     private func setupReloadOfTableView() {
-        self.viewModel.shouldReloadTableView.asObservable()
+        self.viewModel.itemViewModel.shouldReloadTableView.asObservable()
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] shouldReload in
                 guard let self = self else { return }
@@ -194,6 +205,8 @@ class MyPlaceViewController: UIViewController {
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
 
 extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    //MARK: - directly called method
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -217,8 +230,8 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
         cell.nameLabel.text = dataSource.name.count == 0 ? "제목없음" : dataSource.name
         cell.timeLabel.text = "⏱️ \(dataSource.time)"
         cell.distanceLabel.text = dataSource.distance < 1000.0
-                                ? "📍 " + String(format: "%.1f", dataSource.distance) + "m"
-                                : "📍 " + String(format: "%.2f", dataSource.distance) + "km"
+        ? "📍 " + String(format: "%.1f", dataSource.distance) + "m"
+        : "📍 " + String(format: "%.2f", dataSource.distance/1000.0) + "km"
         cell.dateLabel.text = "📆 \(dataSource.date)"
         
         return cell
@@ -226,16 +239,43 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
     
     // TableView Cell을 스와이프 했을 때의 action 설정
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // 삭제 action 생성
+        // 셀 삭제 action 생성
+        let deleteAction = self.createDeleteAction(tableView: tableView, indexPath: indexPath)
+        // 필요한 경우 기타 다른 action 추가 생성 가능
+        // let anotherAction = ...
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+        // return UISwipeActionsConfiguration(actions: [deleteAction, anotherAction, ...])
+    }
+    
+    //MARK: - indirectly called method
+    
+    private func createDeleteAction(tableView: UITableView, indexPath: IndexPath) -> UIContextualAction {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
             let alert = UIAlertController(title: "확인",
-                                          message: "선택한 나만의 산책길을 삭제할까요?\n삭제하면 복구할 수 없습니다.",
+                                          message: "선택한 나만의 산책길을 삭제할까요?\n한번 삭제하면 복구할 수 없습니다.",
                                           preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "아니요", style: .default)
             let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
-                self.viewModel.removeTrackData(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                // 정렬된 셀에서 indexPath.row번째 cell에 해당하는 ID
+                let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]._id
+                let realmDB = self.viewModel.itemViewModel.trackData
+                
+                if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
+                    // Realm DB에서 삭제하기
+                    self.viewModel.removeTrackData(at: indexOfRealm)
+                    // TableView에서 삭제하기
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    // 화면 상단에 완료 메세지 보여주기
+                    SPIndicatorView(title: "삭제 완료", preset: .done)
+                        .present(duration: 2.0, haptic: .success)
+                } else {
+                    // 화면 상단에 에러 메세지 보여주기
+                    SPIndicatorView(title: "삭제 실패", preset: .error)
+                        .present(duration: 2.0, haptic: .error)
+                }
             }
+            
             alert.addAction(okAction)
             alert.addAction(cancelAction)
             
@@ -244,13 +284,10 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
             
             completionHandler(true)
         }
+        
         deleteAction.image = UIImage(systemName: "trash")
-        deleteAction.backgroundColor = .systemRed
+        deleteAction.backgroundColor = UIColor.systemRed
         
-        // 필요한 경우 기타 다른 action 추가 생성 가능
-        // let anotherAction = ...
-        
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-        // return UISwipeActionsConfiguration(actions: [deleteAction, anotherAction, ...])
+        return deleteAction
     }
 }
