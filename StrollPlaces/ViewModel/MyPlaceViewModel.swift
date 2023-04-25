@@ -17,12 +17,14 @@ final class MyPlaceViewModel {
     
     var itemViewModel: MyPlaceItemViewModel!
     private var menuItems = [UIAction]()
+    private let userDefaults = UserDefaults.standard
     
     //MARK: - initializer
     
     init() {
-        let db = RealmService.shared.realm.objects(TrackData.self)
-        self.itemViewModel = MyPlaceItemViewModel(realmDB: db)
+        let tracks = RealmService.shared.realm.objects(TrackData.self)
+        let points = RealmService.shared.realm.objects(TrackPoint.self)
+        self.itemViewModel = MyPlaceItemViewModel(track: tracks, point: points)
         
         // context menu item 설정
         self.initializeContextMenuItems()
@@ -80,10 +82,24 @@ final class MyPlaceViewModel {
     
     // 특정 row의 TrackData 삭제하기
     func removeTrackData(at row: Int) {
-        // Realm DB에서 trackData 삭제
+        let trackDataId = self.itemViewModel.trackData[row]._id.stringValue
+  
+        // trackData의 id와 같은 id를 가지고 있는 trackPoint 삭제 (뒤에서부터)
+        for index in stride(from: self.itemViewModel.trackpoint.count-1, to: -1, by: -1) {
+            if trackDataId == self.itemViewModel.trackpoint[index].id {
+                RealmService.shared.delete(self.itemViewModel.trackpoint[index])
+            }
+        }
+        
+        // trackData 삭제
         RealmService.shared.delete(self.itemViewModel.trackData[row])
         
-        
+        // 나만의 산책길 목록이 비어있다면 Lottie Animation 표출하기
+        if self.itemViewModel.trackData.count == 0 {
+            // userdefaults 값 false로 초기화 -> Lottie Animation 표출
+            self.userDefaults.set(false, forKey: "myPlaceExist")
+            NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
+        }
     }
     
 }
@@ -115,11 +131,13 @@ final class MyPlaceItemViewModel {
             self.shouldReloadTableView.onNext(true)
         }
     }
+    var trackpoint: Results<TrackPoint>
     
     //MARK: - initializer
     
-    init(realmDB: Results<TrackData>) {
-        self.trackData = realmDB
+    init(track: Results<TrackData>, point: Results<TrackPoint>) {
+        self.trackData = track
+        self.trackpoint = point
     }
     
     //MARK: - directly called method

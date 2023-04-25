@@ -22,6 +22,7 @@ final class TrackingViewModel {
     
     var trackData = TrackData()
     var trackPoint = TrackPoint()
+    
     var timeString: String = ""
     
     // 경로 포인트 갯수 카운트
@@ -118,19 +119,24 @@ final class TrackingViewModel {
             dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
             return dateFormatter.string(from: Date())
         }
-        
-        let dataToAppend = TrackData(
-            points: self.trackData.points,
-            date: dateString,
-            time: self.timeString,
-            distance: self.distance,
-            firstLocation: nil,
-            lastLocation: nil,
-            name: "",
-            explanation: "",
-            feature: "")
-        
-        RealmService.shared.create(dataToAppend)
+
+        // 출발지점과 도착지점의 주소를 얻고 TrackData 추가하기
+        self.getLocationOfFirstAndLastPoint { firstAddress, lastAddress in
+            print(firstAddress)
+            print(lastAddress)
+            let dataToAppend = TrackData(
+                points: self.trackData.points,
+                date: dateString,
+                time: self.timeString,
+                distance: self.distance,
+                firstLocation: firstAddress,
+                lastLocation: lastAddress,
+                name: "",
+                explanation: "",
+                feature: "")
+            
+            RealmService.shared.create(dataToAppend)
+        }
     }
     
     // 경로 데이터 배열 초기화
@@ -150,7 +156,7 @@ final class TrackingViewModel {
         
         self.trackData.appendTrackPoint(point: newTrackPoint)
         
-        if self.count == 0 {  // 사용자의 위치가 처음 기록되었을 때
+        if self.count == 0 {  // 사용자의 위치가 맨 처음 기록된 시점
             self.oldLatitude = currentLatitude
             self.oldLongitude = currentLongitude
         } else {
@@ -195,6 +201,7 @@ final class TrackingViewModel {
         return endPoint.distance(from: startPoint)
     }
     
+    // 역지오코딩 결과를 처리
     private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
         if error != nil {
             locationRelay.accept("위치 파악 불가")
@@ -206,6 +213,52 @@ final class TrackingViewModel {
                 locationRelay.accept("위치 파악 불가")
             }
         }
+    }
+    
+    // 역지오코딩을 통해 출발지점과 도착지점의 주소 구하기
+    private func getLocationOfFirstAndLastPoint(completion: @escaping (String, String) -> Void) {
+        var firstPoint: String = ""
+        var lastPoint: String = ""
+        
+        guard let firstLatitude = self.trackData.points.first?.latitude,
+              let firstLongitude = self.trackData.points.first?.longitude,
+              let lastLatitude = self.trackData.points.last?.latitude,
+              let lastLongitude = self.trackData.points.last?.longitude else { return }
+        
+        // 출발지점의 주소
+        let firstLocation = CLLocation(latitude: firstLatitude, longitude: firstLongitude)
+        CLGeocoder().reverseGeocodeLocation(firstLocation) { (placemarks, error) in
+            if error != nil {
+                print("위치 파악 불가")
+            } else {
+                if let placemarks = placemarks,
+                   let placemark = placemarks.first {
+                    print("compact address: ", placemark.compactAddress)
+                    firstPoint = placemark.compactAddress
+                } else {
+                    print("위치 파악 불가")
+                }
+            }
+        }
+        
+        // 도착지점의 주소
+        let lastLocation = CLLocation(latitude: lastLatitude, longitude: lastLongitude)
+        CLGeocoder().reverseGeocodeLocation(lastLocation) { (placemarks, error) in
+            if error != nil {
+                print("위치 파악 불가")
+            } else {
+                if let placemarks = placemarks,
+                   let placemark = placemarks.first {
+                    print("compact address: ", placemark.compactAddress)
+                    lastPoint = placemark.compactAddress
+                } else {
+                    print("위치 파악 불가")
+                }
+            }
+        }
+        
+        completion(firstPoint, lastPoint)
+        print(#function)
     }
     
 }

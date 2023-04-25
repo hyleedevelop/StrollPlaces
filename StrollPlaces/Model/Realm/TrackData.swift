@@ -26,9 +26,6 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
     @Persisted var feature: String
     //@Persisted var image: UIImage? = nil
     
-    
-    //let points = List<TrackPoint>()
-    
     //MARK: - initializer
     
     convenience init(
@@ -36,8 +33,8 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         date: String,
         time: String,
         distance: Double,
-        firstLocation: String?,
-        lastLocation: String?,
+        firstLocation: String,
+        lastLocation: String,
         name: String,
         explanation: String,
         feature: String

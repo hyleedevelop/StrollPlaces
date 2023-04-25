@@ -110,15 +110,15 @@ final class TrackingViewController: UIViewController {
     
     // label 설정
     private func setupLabel() {
-        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "timeRealy error")
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "알수없음")
             .drive(self.timeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "distanceRelay error")
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "알수없음")
             .drive(self.distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.locationRelay.asDriver(onErrorJustReturn: "locationRelay error")
+        self.viewModel.locationRelay.asDriver(onErrorJustReturn: "알수없음")
             .drive(self.locationLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
@@ -301,6 +301,7 @@ final class TrackingViewController: UIViewController {
                 // 타이머를 종료하고 Realm DB에 경로 기록하기
                 self.isTrackingAllowed = false
                 self.viewModel.stopTimer()
+                self.viewModel.createTrackData()
             }
         }
     }
@@ -315,13 +316,9 @@ final class TrackingViewController: UIViewController {
             completion(false)
         }
         let okAction = UIAlertAction(title: "네", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            
-            // Realm DB에 track 데이터 저장
-            self.viewModel.createTrackData()
-            
-            guard let nextViewController =
-                    self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController") as? AddMyPlaceViewController else { return }
+            // 다음 화면으로 이동
+            guard let self = self,
+                  let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController") as? AddMyPlaceViewController else { return }
             self.navigationController?.pushViewController(nextViewController, animated: true)
             completion(true)
         }

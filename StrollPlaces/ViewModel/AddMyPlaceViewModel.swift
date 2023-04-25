@@ -108,6 +108,7 @@ final class AddMyPlaceViewModel {
     
     // Realm DB에 데이터 추가하기
     func updateTrackData(name: String, explanation: String, feature: String) {
+        // TrackData의 id, name, explanation, feature 업데이트
         let realm = try! Realm()
         try! realm.write {
             realm.create(TrackData.self,
@@ -119,8 +120,10 @@ final class AddMyPlaceViewModel {
                          update: .modified)
         }
         
-        // ❌ 에러 해결하기 ❌
-        for index in 0..<self.trackData.last!.points.count {
+        // TrackPoint의 id 업데이트
+        let rangeEnd = self.pointData.count
+        let rangeStart = rangeEnd - (self.trackData.last?.points.count)!
+        for index in rangeStart..<rangeEnd {
             let pointDB = realm.objects(TrackPoint.self)
             try! realm.write {
                 pointDB[index].id = self.primaryKey!.stringValue
@@ -130,8 +133,8 @@ final class AddMyPlaceViewModel {
     
     // 임시로 저장했던 경로 데이터 지우기
     func clearTemporaryTrackData() {
-        self.trackData = RealmService.shared.realm.objects(TrackData.self)
-        self.pointData = RealmService.shared.realm.objects(TrackPoint.self)
+        //self.trackData = RealmService.shared.realm.objects(TrackData.self)
+        //self.pointData = RealmService.shared.realm.objects(TrackPoint.self)
         
         // 가장 마지막에 저장된 TrackData에 접근
         guard let latestTrackData = self.trackData.last else { return }

@@ -100,6 +100,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 // userdefaults 값 false로 초기화 -> Lottie Animation 표출
                 self.userDefaults.set(false, forKey: "myPlaceExist")
+                NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
             }
         case .feedback:
             print("feedback")

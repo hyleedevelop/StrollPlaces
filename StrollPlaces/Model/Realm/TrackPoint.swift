@@ -10,9 +10,13 @@ import RealmSwift
 
 final class TrackPoint: Object {  // Object 상속 필수 ⭐️
     
+    //MARK: - property
+    
     @Persisted var latitude: Double
     @Persisted var longitude: Double
     @Persisted var id: String
+    
+    //MARK: - initializer
     
     convenience init (latitude: Double, longitude: Double, id: String) {
         self.init()

@@ -80,6 +80,7 @@ class MyPlaceViewController: UIViewController {
         setupNavigationBar()
         setupInitialView()
         setupTableView()
+        setupNotificationObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,6 +92,10 @@ class MyPlaceViewController: UIViewController {
                 self.myPlaceTableView.reloadData()
             }
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - directly called method
@@ -149,6 +154,14 @@ class MyPlaceViewController: UIViewController {
         self.setupReloadOfTableView()
     }
     
+    // Notification을 받았을 때 수행할 내용 설정
+    private func setupNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(notificationReceived(_:)),
+            name: Notification.Name("showLottieAnimation"), object: nil
+        )
+    }
+    
     //MARK: - indirectly called method
     
     // initial view 추가
@@ -200,6 +213,12 @@ class MyPlaceViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
+    // Notification을 받았을 때 수행할 내용 설정
+    @objc private func notificationReceived(_ notification: NSNotification) {
+        let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
+        _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
+    }
+    
 }
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
@@ -235,6 +254,10 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
         cell.dateLabel.text = "📆 \(dataSource.date)"
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(#function, indexPath.row, self.viewModel.itemViewModel.trackpoint.count)
     }
     
     // TableView Cell을 스와이프 했을 때의 action 설정
