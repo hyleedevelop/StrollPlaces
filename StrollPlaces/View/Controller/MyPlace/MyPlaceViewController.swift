@@ -245,7 +245,9 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
         else { fatalError("MyPlaceTableViewCell is not found") }
         
         let dataSource = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]
-
+        cell.mainImage.image = self.viewModel.loadImageFromDocumentDirectory(
+            imageName: dataSource._id.stringValue
+        )
         cell.nameLabel.text = dataSource.name.count == 0 ? "제목없음" : dataSource.name
         cell.timeLabel.text = "⏱️ \(dataSource.time)"
         cell.distanceLabel.text = dataSource.distance < 1000.0

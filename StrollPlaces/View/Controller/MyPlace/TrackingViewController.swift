@@ -301,7 +301,6 @@ final class TrackingViewController: UIViewController {
                 // 타이머를 종료하고 Realm DB에 경로 기록하기
                 self.isTrackingAllowed = false
                 self.viewModel.stopTimer()
-                self.viewModel.createTrackData()
             }
         }
     }
@@ -317,10 +316,22 @@ final class TrackingViewController: UIViewController {
         }
         let okAction = UIAlertAction(title: "네", style: .default) { [weak self] _ in
             // 다음 화면으로 이동
-            guard let self = self,
-                  let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController") as? AddMyPlaceViewController else { return }
-            self.navigationController?.pushViewController(nextViewController, animated: true)
-            completion(true)
+            guard let self = self else { return }
+            
+            // Realm DB에 track data 저장
+            self.viewModel.createTrackData()
+                    
+            self.viewModel.goToNextViewController
+                .debug("AddMyPlace 화면으로 이동")
+                .subscribe(onNext: { isTrue in
+                    if isTrue {
+                        guard let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController") as? AddMyPlaceViewController else { return }
+                        self.navigationController?.pushViewController(nextViewController, animated: true)
+                        
+                        completion(true)  // okAction에 대한 콜백
+                    }
+                })
+                .disposed(by: rx.disposeBag)
         }
         alert.addAction(okAction)
         alert.addAction(cancelAction)

@@ -94,6 +94,9 @@ final class MyPlaceViewModel {
         // trackData 삭제
         RealmService.shared.delete(self.itemViewModel.trackData[row])
         
+        // 지도 이미지 삭제
+        self.deleteImageFromDocumentDirectory(imageName: trackDataId)
+        
         // 나만의 산책길 목록이 비어있다면 Lottie Animation 표출하기
         if self.itemViewModel.trackData.count == 0 {
             // userdefaults 값 false로 초기화 -> Lottie Animation 표출
@@ -102,7 +105,45 @@ final class MyPlaceViewModel {
         }
     }
     
+    // 지도 스냅샷 이미지 불러오기
+    func loadImageFromDocumentDirectory(imageName: String) -> UIImage? {
+        // 1. 폴더 경로 가져오기
+        let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let userDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let path = NSSearchPathForDirectoriesInDomains(documentDirectory, userDomainMask, true)
+        
+        if let directoryPath = path.first {
+            // 2. 이미지 URL 만들기
+            let imageURL = URL(fileURLWithPath: directoryPath).appendingPathComponent(imageName)
+            // 3. UIImage로 불러오기
+            return UIImage(contentsOfFile: imageURL.path)
+        }
+        
+        return nil
+    }
+    
+    //MARK: - indirectly called method
+    
+    private func deleteImageFromDocumentDirectory(imageName: String) {
+        // 1. 폴더 경로 가져오기
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        // 2. 이미지 URL 만들기
+        let imageURL = documentDirectory.appendingPathComponent(imageName + ".png")
+        
+        // 3. 파일이 존재하면 삭제하기
+        if FileManager.default.fileExists(atPath: imageURL.path) {
+            do {
+                try FileManager.default.removeItem(at: imageURL)
+            } catch {
+                print("이미지를 삭제하지 못했습니다.")
+            }
+        }
+    }
+    
 }
+
+
 
 // TableView Cell에 대한 ViewModel
 final class MyPlaceItemViewModel {

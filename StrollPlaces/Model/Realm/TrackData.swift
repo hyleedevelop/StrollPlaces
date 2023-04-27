@@ -18,8 +18,8 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
     @Persisted var date: String
     @Persisted var time: String
     @Persisted var distance: Double
-    @Persisted var firstLocation: String?
-    @Persisted var lastLocation: String?
+    @Persisted var firstLocation: String
+    @Persisted var lastLocation: String
     
     @Persisted var name: String
     @Persisted var explanation: String
@@ -33,8 +33,6 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         date: String,
         time: String,
         distance: Double,
-        firstLocation: String,
-        lastLocation: String,
         name: String,
         explanation: String,
         feature: String
@@ -44,8 +42,6 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         self.date = date
         self.time = time
         self.distance = distance
-        self.firstLocation = firstLocation
-        self.lastLocation = lastLocation
         self.name = name
         self.explanation = explanation
         self.feature = feature

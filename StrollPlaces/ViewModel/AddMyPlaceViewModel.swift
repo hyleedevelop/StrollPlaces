@@ -11,6 +11,7 @@ import RxCocoa
 import NSObject_Rx
 import RealmSwift
 import CoreLocation
+import MapKit
 
 final class AddMyPlaceViewModel {
     
@@ -24,8 +25,8 @@ final class AddMyPlaceViewModel {
     var dateRelay = BehaviorRelay<String>(value: "알수없음")
     var timeRelay = BehaviorRelay<String>(value: "알수없음")
     var distanceRelay = BehaviorRelay<String>(value: "알수없음")
-    var firstLocationRelay = BehaviorRelay<String>(value: "알수없음")
-    var lastLocationRelay = BehaviorRelay<String>(value: "알수없음")
+    
+    var imageToSave = UIImage()
     
     //MARK: - initializer
     
@@ -62,12 +63,6 @@ final class AddMyPlaceViewModel {
             }
         }
         self.distanceRelay.accept(distanceString)
-        
-        let startPoint = RealmService.shared.realm.objects(TrackData.self).last?.firstLocation ?? "알수없음"
-        self.firstLocationRelay.accept(startPoint)
-        
-        let endPoint = RealmService.shared.realm.objects(TrackData.self).last?.lastLocation ?? "알수없음"
-        self.lastLocationRelay.accept(endPoint)
     }
     
     // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
@@ -133,9 +128,6 @@ final class AddMyPlaceViewModel {
     
     // 임시로 저장했던 경로 데이터 지우기
     func clearTemporaryTrackData() {
-        //self.trackData = RealmService.shared.realm.objects(TrackData.self)
-        //self.pointData = RealmService.shared.realm.objects(TrackPoint.self)
-        
         // 가장 마지막에 저장된 TrackData에 접근
         guard let latestTrackData = self.trackData.last else { return }
         for _ in 0..<latestTrackData.points.count {
@@ -148,10 +140,45 @@ final class AddMyPlaceViewModel {
         RealmService.shared.delete(latestTrackData)
     }
     
+    // 입력한 산책길 이름이 Realm DB에 저장된 산책길 이름과 중복되는지 체크
     func checkIfThereIsTheSameName(name: String) -> Bool {
-        // 입력한 산책길 이름이 Realm DB에 저장된 산책길 이름과 중복되는지 체크
         self.trackData = RealmService.shared.realm.objects(TrackData.self)
         return self.trackData.firstIndex(where: { $0.name == name } ) == nil ? true : false
+    }
+    
+    // 경로가 표시된 지도 이미지를 Document 폴더에 저장하기
+    func saveImageToDocumentDirectory(image: UIImage) {
+        // 1. 이미지를 저장할 경로를 설정해줘야함 - 도큐먼트 폴더,File 관련된건 Filemanager가 관리함(싱글톤 패턴)
+        guard let documentDirectory = FileManager.default
+            .urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        // 2. 이미지 파일 이름 & 최종 경로 설정
+        let imageURL = documentDirectory
+            .appendingPathComponent((self.primaryKey?.stringValue ?? "noname")+".png")
+        
+        // 3. 이미지 압축(image.pngData())
+        // 압축이 필요하다면 pngData 대신 jpegData 사용 (0~1 사이 값)
+        guard let data = image.pngData() else { return }
+        
+        // 4. 이미지 저장: 동일한 경로에 이미지를 저장하게 될 경우, 덮어쓰기하는 경우
+        // 4-1. 이미지 경로 여부 확인
+        if FileManager.default.fileExists(atPath: imageURL.path) {
+            // 4-2. 이미지가 존재한다면 기존 경로에 있는 이미지 삭제
+            do {
+                try FileManager.default.removeItem(at: imageURL)
+                print("이미지 삭제 완료")
+            } catch {
+                print("이미지를 삭제하지 못했습니다.")
+            }
+        }
+        
+        // 5. 이미지를 도큐먼트에 저장
+        do {
+            try data.write(to: imageURL)
+            print("이미지 저장완료", imageURL)
+        } catch {
+            print("이미지를 저장하지 못했습니다.")
+        }
     }
     
 }

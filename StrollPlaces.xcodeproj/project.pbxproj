@@ -96,6 +96,7 @@
 		07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
+		07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */ = {isa = PBXBuildFile; productRef = 07E3383129FAA2FC00880DAA /* Screenshots */; };
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */; };
@@ -250,6 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */,
 				07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,6 +581,9 @@
 				07AC1ED629E3D527006BEA03 /* PBXTargetDependency */,
 			);
 			name = StrollPlaces;
+			packageProductDependencies = (
+				07E3383129FAA2FC00880DAA /* Screenshots */,
+			);
 			productName = StrollPlaces;
 			productReference = 0799CC9229BF584B006AB70D /* StrollPlaces.app */;
 			productType = "com.apple.product-type.application";
@@ -675,6 +680,9 @@
 				Base,
 			);
 			mainGroup = 0799CC8929BF584B006AB70D;
+			packageReferences = (
+				07E3383029FAA2FC00880DAA /* XCRemoteSwiftPackageReference "Screenshots" */,
+			);
 			productRefGroup = 0799CC9329BF584B006AB70D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1379,6 +1387,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		07E3383029FAA2FC00880DAA /* XCRemoteSwiftPackageReference "Screenshots" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dequin-cl/Screenshots.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		07E3383129FAA2FC00880DAA /* Screenshots */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07E3383029FAA2FC00880DAA /* XCRemoteSwiftPackageReference "Screenshots" */;
+			productName = Screenshots;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0799CC8A29BF584B006AB70D /* Project object */;
 }

@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 import RealmSwift
 import CoreLocation
 
@@ -24,9 +25,11 @@ final class TrackingViewModel {
     var trackPoint = TrackPoint()
     
     var timeString: String = ""
+    var goToNextViewController = BehaviorSubject<Bool>(value: false)
     
     // 경로 포인트 갯수 카운트
     private var count: Int = 0
+    
     // 경로 거리 누적값 (m)
     private var distance: Double = 0.0 {
         didSet {
@@ -43,6 +46,13 @@ final class TrackingViewModel {
             // live widget에 표출할 시간 문자열 전달 및 업데이트
             LiveActivityService.shared.distanceString = distanceString
         }
+    }
+    
+    // 형식을 갖춘 날짜 문자열
+    var dateString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+        return dateFormatter.string(from: Date())
     }
     
     // 경로 거리 계산에 사용할 변수
@@ -114,29 +124,18 @@ final class TrackingViewModel {
     
     // Realm DB에 경로 데이터 저장하기
     func createTrackData() {
-        var dateString: String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
-            return dateFormatter.string(from: Date())
-        }
-
-        // 출발지점과 도착지점의 주소를 얻고 TrackData 추가하기
-        self.getLocationOfFirstAndLastPoint { firstAddress, lastAddress in
-            print(firstAddress)
-            print(lastAddress)
-            let dataToAppend = TrackData(
-                points: self.trackData.points,
-                date: dateString,
-                time: self.timeString,
-                distance: self.distance,
-                firstLocation: firstAddress,
-                lastLocation: lastAddress,
-                name: "",
-                explanation: "",
-                feature: "")
-            
-            RealmService.shared.create(dataToAppend)
-        }
+        let dataToAppend = TrackData(
+            points: self.trackData.points,
+            date: self.dateString,
+            time: self.timeString,
+            distance: self.distance,
+            name: "",
+            explanation: "",
+            feature: "")
+        
+        RealmService.shared.create(dataToAppend)
+        
+        self.goToNextViewController.onNext(true)
     }
     
     // 경로 데이터 배열 초기화
@@ -213,52 +212,6 @@ final class TrackingViewModel {
                 locationRelay.accept("위치 파악 불가")
             }
         }
-    }
-    
-    // 역지오코딩을 통해 출발지점과 도착지점의 주소 구하기
-    private func getLocationOfFirstAndLastPoint(completion: @escaping (String, String) -> Void) {
-        var firstPoint: String = ""
-        var lastPoint: String = ""
-        
-        guard let firstLatitude = self.trackData.points.first?.latitude,
-              let firstLongitude = self.trackData.points.first?.longitude,
-              let lastLatitude = self.trackData.points.last?.latitude,
-              let lastLongitude = self.trackData.points.last?.longitude else { return }
-        
-        // 출발지점의 주소
-        let firstLocation = CLLocation(latitude: firstLatitude, longitude: firstLongitude)
-        CLGeocoder().reverseGeocodeLocation(firstLocation) { (placemarks, error) in
-            if error != nil {
-                print("위치 파악 불가")
-            } else {
-                if let placemarks = placemarks,
-                   let placemark = placemarks.first {
-                    print("compact address: ", placemark.compactAddress)
-                    firstPoint = placemark.compactAddress
-                } else {
-                    print("위치 파악 불가")
-                }
-            }
-        }
-        
-        // 도착지점의 주소
-        let lastLocation = CLLocation(latitude: lastLatitude, longitude: lastLongitude)
-        CLGeocoder().reverseGeocodeLocation(lastLocation) { (placemarks, error) in
-            if error != nil {
-                print("위치 파악 불가")
-            } else {
-                if let placemarks = placemarks,
-                   let placemark = placemarks.first {
-                    print("compact address: ", placemark.compactAddress)
-                    lastPoint = placemark.compactAddress
-                } else {
-                    print("위치 파악 불가")
-                }
-            }
-        }
-        
-        completion(firstPoint, lastPoint)
-        print(#function)
     }
     
 }

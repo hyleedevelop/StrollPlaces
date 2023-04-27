@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "screenshots",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dequin-cl/Screenshots.git",
+      "state" : {
+        "revision" : "ac8084c53f693656e778ccbc13e351144fd9a46a",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
