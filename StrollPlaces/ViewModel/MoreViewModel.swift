@@ -90,8 +90,35 @@ final class MoreViewModel {
     }
     
     func clearRealmDB() {
+        // 이미지 전체 삭제
+        let trackData = RealmService.shared.realm.objects(TrackData.self)
+        for index in 0..<trackData.count {
+            deleteImageFromDocumentDirectory(imageName: trackData[index]._id.stringValue)
+        }
+        
+        // 데이터 전체 삭제
         let trackPoint = TrackPoint()
         RealmService.shared.deleteAll(trackPoint)
+    }
+ 
+    //MARK: - indirectly called method
+    
+    private func deleteImageFromDocumentDirectory(imageName: String) {
+        // 1. 폴더 경로 가져오기
+        guard let documentDirectory = FileManager.default
+            .urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        // 2. 이미지 URL 만들기
+        let imageURL = documentDirectory.appendingPathComponent(imageName + ".png")
+        
+        // 3. 파일이 존재하면 삭제하기
+        if FileManager.default.fileExists(atPath: imageURL.path) {
+            do {
+                try FileManager.default.removeItem(at: imageURL)
+            } catch {
+                print("이미지를 삭제하지 못했습니다.")
+            }
+        }
     }
     
 }

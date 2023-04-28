@@ -64,7 +64,7 @@ final class TrackingViewModel {
     // UI 바인딩을 위한 Relay
     var timeRelay = BehaviorRelay<String>(value: "00:00:00")
     var distanceRelay = BehaviorRelay<String>(value: "0.0m")
-    var locationRelay = BehaviorRelay<String>(value: "-")
+    var locationRelay = BehaviorRelay<String>(value: "?")
     
     //MARK: - initializer
     

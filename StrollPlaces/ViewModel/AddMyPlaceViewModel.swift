@@ -17,7 +17,7 @@ final class AddMyPlaceViewModel {
     
     //MARK: - property
     
-    private var trackData = RealmService.shared.realm.objects(TrackData.self)
+    var trackData = RealmService.shared.realm.objects(TrackData.self)
     private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
     private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
     private var points = [CLLocationCoordinate2D]()
@@ -25,8 +25,6 @@ final class AddMyPlaceViewModel {
     var dateRelay = BehaviorRelay<String>(value: "알수없음")
     var timeRelay = BehaviorRelay<String>(value: "알수없음")
     var distanceRelay = BehaviorRelay<String>(value: "알수없음")
-    
-    var imageToSave = UIImage()
     
     //MARK: - initializer
     
@@ -138,6 +136,10 @@ final class AddMyPlaceViewModel {
         
         // TrackData 삭제
         RealmService.shared.delete(latestTrackData)
+        
+        // 지도 이미지 삭제
+        let imageName = self.primaryKey?.stringValue ?? "noname"
+        self.deleteImageFromDocumentDirectory(imageName: imageName)
     }
     
     // 입력한 산책길 이름이 Realm DB에 저장된 산책길 이름과 중복되는지 체크
@@ -178,6 +180,26 @@ final class AddMyPlaceViewModel {
             print("이미지 저장완료", imageURL)
         } catch {
             print("이미지를 저장하지 못했습니다.")
+        }
+    }
+    
+    //MARK: - indirectly called method
+    
+    private func deleteImageFromDocumentDirectory(imageName: String) {
+        // 1. 폴더 경로 가져오기
+        guard let documentDirectory = FileManager.default
+            .urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        // 2. 이미지 URL 만들기
+        let imageURL = documentDirectory.appendingPathComponent(imageName + ".png")
+        
+        // 3. 파일이 존재하면 삭제하기
+        if FileManager.default.fileExists(atPath: imageURL.path) {
+            do {
+                try FileManager.default.removeItem(at: imageURL)
+            } catch {
+                print("이미지를 삭제하지 못했습니다.")
+            }
         }
     }
     

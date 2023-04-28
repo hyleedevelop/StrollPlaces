@@ -14,13 +14,20 @@ struct K {
         static let themeGray: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
         static let themeNavy: UIColor = #colorLiteral(red: 0.3005333543, green: 0.357681036, blue: 0.5561813116, alpha: 1)
         static let themeYellow: UIColor = #colorLiteral(red: 0.9882352941, green: 0.6156862745, blue: 0.1764705882, alpha: 1)
+        static let themePurple: UIColor = #colorLiteral(red: 0.4682491422, green: 0.3311958313, blue: 0.8449422717, alpha: 1)
         static let themeWhite: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         static let backgroundGray: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
         //static let themeYellow: Color
         
-        static let mainColor = #colorLiteral(red: 0.9137254902, green: 0.2352941176, blue: 0.1843137255, alpha: 1)
-        static let mainColorLight = #colorLiteral(red: 0.9960784314, green: 0.9098039216, blue: 0.9058823529, alpha: 1)
+        static let mainColor = #colorLiteral(red: 0.4682491422, green: 0.3311958313, blue: 0.8449422717, alpha: 1)
+        static let mainColorLight = #colorLiteral(red: 0.7411764706, green: 0.6705882353, blue: 0.9215686275, alpha: 1)
+    }
+    
+    struct Shape {
+        static let smallCornerRadius: CGFloat = 2
+        static let mediumCornerRadius: CGFloat = 5
+        static let largeCornerRadius: CGFloat = 20
     }
     
     // CSV 파일 관련

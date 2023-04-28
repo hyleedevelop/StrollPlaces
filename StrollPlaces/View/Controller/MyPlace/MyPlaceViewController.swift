@@ -111,6 +111,7 @@ class MyPlaceViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.isHidden = false
         navigationController?.setNeedsStatusBarAppearanceUpdate()
 
         navigationItem.scrollEdgeAppearance = navigationBarAppearance
@@ -122,7 +123,7 @@ class MyPlaceViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "arrow.up.arrow.down"), menu: self.menu
         )
-        self.navigationItem.leftBarButtonItem?.tintColor = K.Color.themeYellow
+        self.navigationItem.leftBarButtonItem?.tintColor = K.Color.mainColor
     }
     
     // 나만의 산책로 리스트가 없는 경우 애니메이션 표출 설정

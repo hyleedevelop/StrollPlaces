@@ -20,6 +20,8 @@ final class TrackingViewController: UIViewController {
     //MARK: - IB outlet & action
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var locationBackView: UIView!
+    @IBOutlet weak var timeDistanceBackView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
@@ -51,6 +53,7 @@ final class TrackingViewController: UIViewController {
         setupRealm()
         getLocationUsagePermission()
         setupMapView()
+        setupBackView()
         setupLabel()
         setupTimerButton()
         setupCancelButton()
@@ -83,6 +86,7 @@ final class TrackingViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.isHidden = true
         navigationController?.setNeedsStatusBarAppearanceUpdate()
 
         navigationItem.scrollEdgeAppearance = navigationBarAppearance
@@ -98,14 +102,24 @@ final class TrackingViewController: UIViewController {
     
     // 지도 및 경로 관련 설정
     private func setupMapView() {
-        self.mapView.layer.cornerRadius = 2
-        self.mapView.clipsToBounds = true
+        //self.mapView.layer.cornerRadius = K.Shape.mediumCornerRadius
+        //self.mapView.clipsToBounds = true
         self.mapView.layer.borderColor = K.Color.themeGray.cgColor
-        self.mapView.layer.borderWidth = 0.5
+        self.mapView.layer.borderWidth = 0.0
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(.follow, animated: true)
         self.mapView.isZoomEnabled = true
         self.mapView.delegate = self
+    }
+    
+    private func setupBackView() {
+        self.locationBackView.layer.cornerRadius = K.Shape.largeCornerRadius
+        self.locationBackView.clipsToBounds = true
+        //self.locationBackView.alpha = 0.9
+        
+        self.timeDistanceBackView.layer.cornerRadius = K.Shape.largeCornerRadius
+        self.timeDistanceBackView.clipsToBounds = true
+        //self.timeDistanceBackView.alpha = 0.9
     }
     
     // label 설정
@@ -132,9 +146,9 @@ final class TrackingViewController: UIViewController {
     private func setupTimerButton() {
         self.isTrackingAllowed = false
         
-        self.timerButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
+        self.timerButton.layer.cornerRadius = K.Shape.mediumCornerRadius
         self.timerButton.clipsToBounds = true
-        self.timerButton.backgroundColor = K.Color.themeYellow
+        self.timerButton.backgroundColor = K.Color.mainColor
         self.changeButtonUI(buttonTitle: "시작")
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
@@ -173,7 +187,7 @@ final class TrackingViewController: UIViewController {
     
     // 산책길 등록 취소 버튼 설정
     private func setupCancelButton() {
-        self.resetButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
+        self.resetButton.layer.cornerRadius = K.Shape.mediumCornerRadius
         self.resetButton.clipsToBounds = true
         self.resetButton.backgroundColor = K.Color.themeGray
         let attributedText = NSAttributedString(
@@ -205,6 +219,8 @@ final class TrackingViewController: UIViewController {
                     self.isTrackingAllowed = false
                     // 잠금화면의 live activity 중단
                     LiveActivityService.shared.deactivate()
+                    // navigation bar 숨기기 해제
+                    self.navigationController?.navigationBar.isHidden = false
                     // 이전 화면으로 돌아가기
                     self.navigationController?.popViewController(animated: true)
                 }

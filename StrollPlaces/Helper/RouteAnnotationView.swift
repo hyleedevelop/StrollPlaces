@@ -9,7 +9,7 @@ import MapKit
 
 //MARK: - MKAnnotationView
 
-class RouteAnnotationView: MKAnnotationView {
+class RouteAnnotationView: MKMarkerAnnotationView {
 
     static let identifier = "RouteAnnotationView"
     
@@ -30,7 +30,5 @@ class RouteAnnotationView: MKAnnotationView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
 
 }

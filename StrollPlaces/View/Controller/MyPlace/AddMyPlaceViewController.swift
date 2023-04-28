@@ -79,6 +79,7 @@ class AddMyPlaceViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.isHidden = false
         navigationController?.setNeedsStatusBarAppearanceUpdate()
 
         navigationItem.scrollEdgeAppearance = navigationBarAppearance
@@ -103,6 +104,25 @@ class AddMyPlaceViewController: UIViewController {
         
         // 지도에 선 나타내기(addOverlay 시 아래의 rendererFor 함수가 호출됨)
         self.mapView.addOverlay(routeLine)
+        
+        let startAnnotation = Artwork(
+            title: "출발",
+            coordinate: CLLocationCoordinate2D(
+                latitude: self.viewModel.trackData.last?.points.first?.latitude ?? 0.0,
+                longitude: self.viewModel.trackData.last?.points.first?.longitude ?? 0.0
+            )
+        )
+        
+        let endAnnotation = Artwork(
+            title: "도착",
+            coordinate: CLLocationCoordinate2D(
+                latitude: self.viewModel.trackData.last?.points.last?.latitude ?? 0.0,
+                longitude: self.viewModel.trackData.last?.points.last?.longitude ?? 0.0
+            )
+        )
+
+        mapView.addAnnotation(startAnnotation)
+        mapView.addAnnotation(endAnnotation)
         
         // 지도를 나타낼 영역 설정
         guard let deltaCoordinate = self.viewModel.getDeltaCoordinate() else { return }
@@ -336,21 +356,49 @@ class AddMyPlaceViewController: UIViewController {
 extension AddMyPlaceViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? RouteAnnotation {
-            let view = MKAnnotationView(annotation: annotation,
-                                        reuseIdentifier: "RouteAnnotationView")
-            view.image = UIImage(systemName: "location.circle.fill")
-            return view
+//        let identifier = "Pin"
+//        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//
+//        annotationView.canShowCallout = true
+//        if annotation is MKUserLocation {
+//            return nil
+//        } else if annotation is Artwork {
+//            annotationView.image = UIImage(imageLiteralResourceName: "me")
+//            return annotationView
+//        } else {
+//            return nil
+//        }
+        
+        guard let annotation = annotation as? Artwork else { return nil }
+        
+        let identifier = "artwork"
+        var view: MKMarkerAnnotationView
+        
+        if let dequeuedView = mapView
+            .dequeueReusableAnnotationView(withIdentifier: identifier) as? RouteAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = MKMarkerAnnotationView(
+                annotation: annotation,
+                reuseIdentifier: identifier
+            )
+            view.markerTintColor = K.Color.mainColorLight
+            view.canShowCallout = false
+            //view.image = UIImage(systemName: "star.fill")
         }
-        return nil
+        
+        return view
     }
+        
+
     
     // 경로를 표시하기 위한 polyline의 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = K.Color.themeYellow
+        renderer.strokeColor = K.Color.mainColor
         renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         

@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 가장 마지막에 저장된 TrackData에 접근
         guard let latestTrackData = track.last else { return }
+        
         if latestTrackData.name.isEmpty {
             for _ in 0..<latestTrackData.points.count {
                 guard let latestPointData = point.last else { return }
@@ -60,7 +61,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // TrackData 삭제
             RealmService.shared.delete(latestTrackData)
+            
+            // 이미지 파일 삭제
+            guard let documentDirectory = FileManager.default
+                .urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            let imageName = track.last?._id.stringValue ?? "noname"
+            let imageURL = documentDirectory.appendingPathComponent(imageName + ".png")
+            if FileManager.default.fileExists(atPath: imageURL.path) {
+                do {
+                    try FileManager.default.removeItem(at: imageURL)
+                } catch {
+                    print("이미지를 삭제하지 못했습니다.")
+                }
+            }
         }
+        
     }
 
 }
