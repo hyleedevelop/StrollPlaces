@@ -133,11 +133,7 @@ class MyPlaceViewController: UIViewController {
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] shouldBeShown in
                 guard let self = self else { return }
-                if shouldBeShown {
-                    self.showInitialView()
-                } else {
-                    self.hideInitialView()
-                }
+                _ = shouldBeShown ? self.showInitialView() : self.hideInitialView()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -237,7 +233,7 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 130
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -254,7 +250,7 @@ extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
         cell.distanceLabel.text = dataSource.distance < 1000.0
         ? "📍 " + String(format: "%.1f", dataSource.distance) + "m"
         : "📍 " + String(format: "%.2f", dataSource.distance/1000.0) + "km"
-        cell.dateLabel.text = "📆 \(dataSource.date)"
+        cell.dateLabel.text = "13시간 전"
         
         return cell
     }

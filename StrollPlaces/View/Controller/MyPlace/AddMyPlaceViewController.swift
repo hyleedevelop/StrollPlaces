@@ -138,7 +138,7 @@ class AddMyPlaceViewController: UIViewController {
         // 스냅샷을 이미지로 저장하기
         let options = MKMapSnapshotter.Options()
         options.region = rect
-        options.size = CGSize(width: 300, height: 300)
+        options.size = CGSize(width: 200, height: 200)
 
         MKMapSnapshotter(options: options).start { snapshot, error in
             if let snapshot = snapshot {
@@ -356,19 +356,6 @@ class AddMyPlaceViewController: UIViewController {
 extension AddMyPlaceViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let identifier = "Pin"
-//        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//
-//        annotationView.canShowCallout = true
-//        if annotation is MKUserLocation {
-//            return nil
-//        } else if annotation is Artwork {
-//            annotationView.image = UIImage(imageLiteralResourceName: "me")
-//            return annotationView
-//        } else {
-//            return nil
-//        }
-        
         guard let annotation = annotation as? Artwork else { return nil }
         
         let identifier = "artwork"
@@ -383,7 +370,7 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
                 annotation: annotation,
                 reuseIdentifier: identifier
             )
-            view.markerTintColor = K.Color.mainColorLight
+            view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.red
             view.canShowCallout = false
             //view.image = UIImage(systemName: "star.fill")
         }

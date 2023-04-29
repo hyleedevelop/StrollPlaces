@@ -185,7 +185,7 @@ final class NewsViewController: UIViewController {
                     // 셀 표출 관련 애니메이션
                     DispatchQueue.main.async {
                         let cells = self.tableView.visibleCells(in: 0)
-                        let animations = [AnimationType.vector(CGVector(dx: 0, dy: 30))]
+                        let animations = [AnimationType.vector(CGVector(dx: 0, dy: 20))]
                         UIView.animate(views: cells, animations: animations, duration: 1.0)
                     }
                     

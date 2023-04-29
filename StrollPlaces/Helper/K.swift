@@ -27,7 +27,7 @@ struct K {
     struct Shape {
         static let smallCornerRadius: CGFloat = 2
         static let mediumCornerRadius: CGFloat = 5
-        static let largeCornerRadius: CGFloat = 20
+        static let largeCornerRadius: CGFloat = 25
     }
     
     // CSV 파일 관련

@@ -20,8 +20,8 @@ final class TrackingViewController: UIViewController {
     //MARK: - IB outlet & action
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var locationBackView: UIView!
-    @IBOutlet weak var timeDistanceBackView: UIView!
+    @IBOutlet weak var labelBackView: UIView!
+    @IBOutlet weak var closeButtonBackView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
@@ -113,13 +113,17 @@ final class TrackingViewController: UIViewController {
     }
     
     private func setupBackView() {
-        self.locationBackView.layer.cornerRadius = K.Shape.largeCornerRadius
-        self.locationBackView.clipsToBounds = true
-        //self.locationBackView.alpha = 0.9
+        self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
+        self.closeButtonBackView.clipsToBounds = true
         
-        self.timeDistanceBackView.layer.cornerRadius = K.Shape.largeCornerRadius
-        self.timeDistanceBackView.clipsToBounds = true
-        //self.timeDistanceBackView.alpha = 0.9
+        self.labelBackView.layer.cornerRadius = K.Shape.largeCornerRadius
+        self.labelBackView.clipsToBounds = true
+        self.labelBackView.layer.masksToBounds = false
+        self.labelBackView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        self.labelBackView.layer.shadowColor = UIColor.black.cgColor
+        self.labelBackView.layer.shadowOpacity = 0.5
+        self.labelBackView.layer.shadowRadius = 5
+        self.labelBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
     
     // label 설정
@@ -146,10 +150,10 @@ final class TrackingViewController: UIViewController {
     private func setupTimerButton() {
         self.isTrackingAllowed = false
         
-        self.timerButton.layer.cornerRadius = K.Shape.mediumCornerRadius
+        self.timerButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
         self.timerButton.clipsToBounds = true
         self.timerButton.backgroundColor = K.Color.mainColor
-        self.changeButtonUI(buttonTitle: "시작")
+        self.changeButtonUI(buttonTitle: "나만의 산책길 생성")
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
             //.skip(until: self.isCountdownOngoing)
@@ -187,15 +191,8 @@ final class TrackingViewController: UIViewController {
     
     // 산책길 등록 취소 버튼 설정
     private func setupCancelButton() {
-        self.resetButton.layer.cornerRadius = K.Shape.mediumCornerRadius
+        self.resetButton.layer.cornerRadius = self.resetButton.frame.height / 2.0
         self.resetButton.clipsToBounds = true
-        self.resetButton.backgroundColor = K.Color.themeGray
-        let attributedText = NSAttributedString(
-            string: "취소",
-            attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold),
-                         NSAttributedString.Key.foregroundColor: K.Color.themeWhite]
-        )
-        self.resetButton.setAttributedTitle(attributedText, for: .normal)
         
         self.resetButton.rx.controlEvent(.touchUpInside).asObservable()
             //.skip(until: self.isTrackButtonTapped)

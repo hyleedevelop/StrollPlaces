@@ -192,9 +192,8 @@ final class TrackingViewModel {
     }
     
     // 두 지점의 위도 및 경도를 받아서 거리를 계산
-    private func getDistanceBetweenTwoPoints(
-        startLat: Double, startLon: Double, endLat: Double, endLon: Double
-    ) -> CLLocationDistance {
+    private func getDistanceBetweenTwoPoints(startLat: Double, startLon: Double,
+                                             endLat: Double, endLon: Double) -> CLLocationDistance {
         let startPoint = CLLocation(latitude: startLat, longitude: startLon)
         let endPoint = CLLocation(latitude: endLat, longitude: endLon)
         return endPoint.distance(from: startPoint)
