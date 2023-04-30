@@ -19,12 +19,13 @@ class MyPlaceViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
-    @IBOutlet weak var myPlaceTableView: UITableView!
+    @IBOutlet weak var myPlaceCollectionView: UICollectionView!
     
     //MARK: - normal property
 
     private let viewModel = MyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
+    private let flowLayout = UICollectionViewFlowLayout()  // 컬렉션뷰의 레이아웃을 담당하는 객체
     
     //MARK: - UI property
     
@@ -79,7 +80,8 @@ class MyPlaceViewController: UIViewController {
 
         setupNavigationBar()
         setupInitialView()
-        setupTableView()
+        setupCollectionView()
+        setupRemoveButton()
         setupNotificationObserver()
     }
     
@@ -89,7 +91,7 @@ class MyPlaceViewController: UIViewController {
 
         if !isListEmpty {
             DispatchQueue.main.async {
-                self.myPlaceTableView.reloadData()
+                self.myPlaceCollectionView.reloadData()
             }
         }
     }
@@ -138,17 +140,47 @@ class MyPlaceViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    // TableView 설정
-    private func setupTableView() {
-        self.myPlaceTableView.delegate = self
-        self.myPlaceTableView.dataSource = self
-        self.myPlaceTableView.register(UINib(nibName: K.MyPlace.cellName, bundle: nil),
-                                       forCellReuseIdentifier: K.MyPlace.cellName)
-        self.myPlaceTableView.backgroundColor = UIColor.white
-        self.myPlaceTableView.tableHeaderView = UIView()
-        self.myPlaceTableView.tableFooterView = UIView()
+    // CollectionView 설정
+    private func setupCollectionView() {
+        self.view.addSubview(myPlaceCollectionView)
+        self.myPlaceCollectionView.snp.makeConstraints {
+            $0.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(K.MyPlace.leadingSpacing)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-K.MyPlace.trailingSpacing)
+        }
         
-        self.setupReloadOfTableView()
+        // delegate 설정
+        self.myPlaceCollectionView.delegate = self
+        self.myPlaceCollectionView.dataSource = self
+        
+        // 컬렉션뷰 배경 색상 설정
+        self.myPlaceCollectionView.backgroundColor = .clear
+        
+        // 컬렉션뷰의 스크롤 방향 설정
+        self.flowLayout.scrollDirection = .vertical
+        self.myPlaceCollectionView.showsVerticalScrollIndicator = false
+        // 컬렉션뷰의 셀 넓이 및 높이 설정
+        self.flowLayout.itemSize = CGSize(width: K.MyPlace.cellWidth, height: K.MyPlace.cellHeight)
+        // 컬렉션뷰 아이템간의 좌우 간격 설정
+        self.flowLayout.minimumInteritemSpacing = K.MyPlace.spacingWidth
+        // 컬렉션뷰 아이템간의 상하 간격 설정
+        self.flowLayout.minimumLineSpacing = K.MyPlace.spacingHeight
+        
+        // 플로우 레이아웃을 컬렉션뷰의 레이아웃에 할당
+        self.myPlaceCollectionView.collectionViewLayout = self.flowLayout
+        
+        // xib 파일 사용을 위해 UINib 오브젝트 등록
+        self.myPlaceCollectionView.register(UINib(nibName: K.MyPlace.cellName, bundle: nil),
+                                            forCellWithReuseIdentifier: K.MyPlace.cellName)
+        self.myPlaceCollectionView.backgroundColor = UIColor.white
+        
+        // 데이터 갱신에 대한 설정
+        self.setupReloadOfCollectionView()
+    }
+    
+    // 삭제 버튼
+    private func setupRemoveButton() {
+        
     }
     
     // Notification을 받았을 때 수행할 내용 설정
@@ -200,12 +232,12 @@ class MyPlaceViewController: UIViewController {
     }
     
     // context menu를 통해 목록 정렬 기준이 정해지면 메인쓰레드에서 TableView를 reload 하도록 설정
-    private func setupReloadOfTableView() {
+    private func setupReloadOfCollectionView() {
         self.viewModel.itemViewModel.shouldReloadTableView.asObservable()
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] shouldReload in
                 guard let self = self else { return }
-                if shouldReload { self.myPlaceTableView.reloadData() }
+                if shouldReload { self.myPlaceCollectionView.reloadData() }
             })
             .disposed(by: rx.disposeBag)
     }
@@ -220,96 +252,155 @@ class MyPlaceViewController: UIViewController {
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
 
-extension MyPlaceViewController: UITableViewDelegate, UITableViewDataSource {
+extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK: - directly called method
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    // section의 개수
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+    // section 내 아이템의 개수
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.viewModel.getNumberOfMyPlaces()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.MyPlace.cellName,
-                                                       for: indexPath) as? MyPlaceTableViewCell
-        else { fatalError("MyPlaceTableViewCell is not found") }
+    // 각 셀마다 실행할 내용
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.MyPlace.cellName, for: indexPath)
+                as? MyPlaceCollectionViewCell else { return UICollectionViewCell() }
         
         let dataSource = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]
+        
         cell.mainImage.image = self.viewModel.loadImageFromDocumentDirectory(
             imageName: dataSource._id.stringValue
         )
         cell.nameLabel.text = dataSource.name.count == 0 ? "제목없음" : dataSource.name
-        cell.timeLabel.text = "⏱️ \(dataSource.time)"
+        cell.timeLabel.text = "\(dataSource.time)"
         cell.distanceLabel.text = dataSource.distance < 1000.0
-        ? "📍 " + String(format: "%.1f", dataSource.distance) + "m"
-        : "📍 " + String(format: "%.2f", dataSource.distance/1000.0) + "km"
+        ? String(format: "%.1f", dataSource.distance) + "m"
+        : String(format: "%.2f", dataSource.distance/1000.0) + "km"
         cell.dateLabel.text = "13시간 전"
+        
+        cell.removeButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                let alert = UIAlertController(
+                    title: "확인",
+                    message: "선택한 나만의 산책길을 삭제할까요?\n한번 삭제하면 복구할 수 없습니다.",
+                    preferredStyle: .alert
+                )
+                let cancelAction = UIAlertAction(title: "아니요", style: .default)
+                let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
+                    // 정렬된 셀에서 indexPath.row번째 cell에 해당하는 ID
+                    let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]._id
+                    let realmDB = self.viewModel.itemViewModel.trackData
+                    
+                    if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
+                        // Realm DB에서 삭제하기
+                        print("indexOfRealm", indexOfRealm)
+                        self.viewModel.removeTrackData(at: indexOfRealm)
+                        // TableView에서 삭제하기
+                        self.myPlaceCollectionView.deleteItems(at: [[0, indexOfRealm]])
+                        // 화면 상단에 완료 메세지 보여주기
+                        SPIndicatorView(title: "삭제 완료", preset: .done)
+                            .present(duration: 2.0, haptic: .success)
+                    } else {
+                        // 화면 상단에 에러 메세지 보여주기
+                        SPIndicatorView(title: "삭제 실패", preset: .error)
+                            .present(duration: 2.0, haptic: .error)
+                    }
+                }
+                
+                alert.addAction(okAction)
+                alert.addAction(cancelAction)
+                
+                // 메세지 보여주기
+                self.present(alert, animated: true, completion: nil)
+            })
+            .disposed(by: rx.disposeBag)
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function, indexPath.row, self.viewModel.itemViewModel.trackpoint.count)
+    // 셀이 선택되었을 때 실행할 내용
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! MyPlaceCollectionViewCell
+
+        print(indexPath)
+//        // 기존에 표출되고 있던 annotation을 없애고 선택한 타입의 annotation을 새롭게 표출
+//        self.removeAnnotations()
+//        for index in 0..<InfoType.allCases.count {
+//            isAnnotationMarked[index] = false
+//        }
+//
+//        if !self.isAnnotationMarked[indexPath.row] {
+//            self.addAnnotations(with: InfoType(rawValue: indexPath.row)!)
+//        }
+//
+//        cell.backView.layer.shadowColor = K.Color.mainColor.cgColor
+//        cell.backView.layer.borderColor = K.Color.themeYellow.cgColor
+//        cell.backView.layer.borderWidth = 1.5
+//        //cell.backView.backgroundColor = K.Color.themeGray
+//        cell.themeLabel.textColor = K.Color.themeBlack
+//        cell.themeIcon.tintColor = K.Color.themeBlack
     }
     
-    // TableView Cell을 스와이프 했을 때의 action 설정
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // 셀 삭제 action 생성
-        let deleteAction = self.createDeleteAction(tableView: tableView, indexPath: indexPath)
-        // 필요한 경우 기타 다른 action 추가 생성 가능
-        // let anotherAction = ...
-        
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-        // return UISwipeActionsConfiguration(actions: [deleteAction, anotherAction, ...])
-    }
+    
+    
+//    // TableView Cell을 스와이프 했을 때의 action 설정
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        // 셀 삭제 action 생성
+//        let deleteAction = self.createDeleteAction(tableView: tableView, indexPath: indexPath)
+//        // 필요한 경우 기타 다른 action 추가 생성 가능
+//        // let anotherAction = ...
+//
+//        return UISwipeActionsConfiguration(actions: [deleteAction])
+//        // return UISwipeActionsConfiguration(actions: [deleteAction, anotherAction, ...])
+//    }
     
     //MARK: - indirectly called method
     
-    private func createDeleteAction(tableView: UITableView, indexPath: IndexPath) -> UIContextualAction {
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
-            let alert = UIAlertController(title: "확인",
-                                          message: "선택한 나만의 산책길을 삭제할까요?\n한번 삭제하면 복구할 수 없습니다.",
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "아니요", style: .default)
-            let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
-                // 정렬된 셀에서 indexPath.row번째 cell에 해당하는 ID
-                let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]._id
-                let realmDB = self.viewModel.itemViewModel.trackData
-                
-                if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
-                    // Realm DB에서 삭제하기
-                    self.viewModel.removeTrackData(at: indexOfRealm)
-                    // TableView에서 삭제하기
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    // 화면 상단에 완료 메세지 보여주기
-                    SPIndicatorView(title: "삭제 완료", preset: .done)
-                        .present(duration: 2.0, haptic: .success)
-                } else {
-                    // 화면 상단에 에러 메세지 보여주기
-                    SPIndicatorView(title: "삭제 실패", preset: .error)
-                        .present(duration: 2.0, haptic: .error)
-                }
-            }
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            // 메세지 보여주기
-            self.present(alert, animated: true, completion: nil)
-            
-            completionHandler(true)
-        }
-        
-        deleteAction.image = UIImage(systemName: "trash")
-        deleteAction.backgroundColor = UIColor.systemRed
-        
-        return deleteAction
-    }
+//    private func createDeleteAction(tableView: UITableView, indexPath: IndexPath) -> UIContextualAction {
+//        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
+//            let alert = UIAlertController(title: "확인",
+//                                          message: "선택한 나만의 산책길을 삭제할까요?\n한번 삭제하면 복구할 수 없습니다.",
+//                                          preferredStyle: .alert)
+//            let cancelAction = UIAlertAction(title: "아니요", style: .default)
+//            let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
+//                // 정렬된 셀에서 indexPath.row번째 cell에 해당하는 ID
+//                let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]._id
+//                let realmDB = self.viewModel.itemViewModel.trackData
+//
+//                if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
+//                    // Realm DB에서 삭제하기
+//                    self.viewModel.removeTrackData(at: indexOfRealm)
+//                    // TableView에서 삭제하기
+//                    tableView.deleteRows(at: [indexPath], with: .fade)
+//                    // 화면 상단에 완료 메세지 보여주기
+//                    SPIndicatorView(title: "삭제 완료", preset: .done)
+//                        .present(duration: 2.0, haptic: .success)
+//                } else {
+//                    // 화면 상단에 에러 메세지 보여주기
+//                    SPIndicatorView(title: "삭제 실패", preset: .error)
+//                        .present(duration: 2.0, haptic: .error)
+//                }
+//            }
+//
+//            alert.addAction(okAction)
+//            alert.addAction(cancelAction)
+//
+//            // 메세지 보여주기
+//            self.present(alert, animated: true, completion: nil)
+//
+//            completionHandler(true)
+//        }
+//
+//        deleteAction.image = UIImage(systemName: "trash")
+//        deleteAction.backgroundColor = UIColor.systemRed
+//
+//        return deleteAction
+//    }
 }

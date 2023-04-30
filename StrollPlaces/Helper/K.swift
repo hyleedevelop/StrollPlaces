@@ -80,7 +80,14 @@ struct K {
     
     // MY플레이스 관련
     struct MyPlace {
-        static let cellName: String = "MyPlaceTableViewCell"
+        static let cellName: String = "MyPlaceCollectionViewCell"
+        static let spacingWidth: CGFloat = 10
+        static let spacingHeight: CGFloat = 10
+        static let leadingSpacing: CGFloat = 10
+        static let trailingSpacing: CGFloat = 10
+        static let cellColumns: CGFloat = 2
+        static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
+        static let cellHeight: CGFloat = 290
     }
     
     // News TableView 관련

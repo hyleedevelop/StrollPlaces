@@ -47,7 +47,6 @@
 		07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
 		0790A42429D83161008C3923 /* TrackPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42329D83161008C3923 /* TrackPoint.swift */; };
 		0790A42629D83208008C3923 /* TrackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42529D83208008C3923 /* TrackData.swift */; };
-		0790A42929D85DFD008C3923 /* MyPlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */; };
 		0790A42A29D85DFD008C3923 /* MyPlaceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
 		0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9529BF584B006AB70D /* AppDelegate.swift */; };
@@ -93,6 +92,8 @@
 		07B2E3E729D156D300210207 /* MoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07B2E3E529D156D300210207 /* MoreTableViewCell.xib */; };
 		07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* MapTab.storyboard */; };
 		07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */; };
+		07C16D1E29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */; };
+		07C16D1F29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */; };
 		07CDB0A429CF068D00F139BB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CDB0A329CF068D00F139BB /* String.swift */; };
 		07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
@@ -183,7 +184,6 @@
 		07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAttributes.swift; sourceTree = "<group>"; };
 		0790A42329D83161008C3923 /* TrackPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPoint.swift; sourceTree = "<group>"; };
 		0790A42529D83208008C3923 /* TrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackData.swift; sourceTree = "<group>"; };
-		0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceTableViewCell.swift; sourceTree = "<group>"; };
 		0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPlaceTableViewCell.xib; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
 		0799CC9229BF584B006AB70D /* StrollPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrollPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +230,8 @@
 		07B2E3E529D156D300210207 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
 		07BAE44229CBE70A0048CE89 /* MapTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapTab.storyboard; sourceTree = "<group>"; };
 		07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyPlaceTab.storyboard; sourceTree = "<group>"; };
+		07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceCollectionViewCell.swift; sourceTree = "<group>"; };
+		07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPlaceCollectionViewCell.xib; sourceTree = "<group>"; };
 		07CDB0A329CF068D00F139BB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
@@ -436,12 +438,13 @@
 			children = (
 				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
-				0790A42729D85DFD008C3923 /* MyPlaceTableViewCell.swift */,
+				07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */,
 				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
 				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
 				0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */,
+				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
 				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
 			);
@@ -707,6 +710,7 @@
 				0799CCE829BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv in Resources */,
 				0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */,
 				0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */,
+				07C16D1F29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib in Resources */,
 				077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */,
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
@@ -929,7 +933,7 @@
 				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
 				070D486F29E6C958009B67A8 /* CLPlacemark.swift in Sources */,
-				0790A42929D85DFD008C3923 /* MyPlaceTableViewCell.swift in Sources */,
+				07C16D1E29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift in Sources */,
 				070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */,
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
