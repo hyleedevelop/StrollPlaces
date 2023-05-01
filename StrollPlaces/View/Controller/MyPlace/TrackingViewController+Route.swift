@@ -39,7 +39,7 @@ extension TrackingViewController: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         
         // 위치 추적이 허용되었을 때만 지도에 경로 나타내기
-        if self.isTrackingAllowed {
+        if self.isTrackingAllowed {            
             // 현재 사용자의 위치에 해당하는 위도와 경도 가져오기
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude

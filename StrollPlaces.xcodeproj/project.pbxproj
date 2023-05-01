@@ -20,6 +20,8 @@
 		072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BB929C2E26A0024B938 /* Enum.swift */; };
 		072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */; };
 		072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */; };
+		072E054329FFDD7900F30E2C /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072E054229FFDD7900F30E2C /* UINavigationController.swift */; };
+		072E054529FFED7A00F30E2C /* UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072E054429FFED7A00F30E2C /* UINavigationItem.swift */; };
 		0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0731E1CD29D430AF0057E12B /* TrackingViewController.swift */; };
 		073AA2C129DBC18600398F9A /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AA2C029DBC18600398F9A /* Date.swift */; };
 		0751436829C201CD00109B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* UIImage.swift */; };
@@ -158,6 +160,8 @@
 		072D5BB929C2E26A0024B938 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
+		072E054229FFDD7900F30E2C /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		072E054429FFED7A00F30E2C /* UINavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItem.swift; sourceTree = "<group>"; };
 		0731E1CD29D430AF0057E12B /* TrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
 		073AA2C029DBC18600398F9A /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -501,6 +505,8 @@
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
 				07CDB0A329CF068D00F139BB /* String.swift */,
 				073AA2C029DBC18600398F9A /* Date.swift */,
+				072E054229FFDD7900F30E2C /* UINavigationController.swift */,
+				072E054429FFED7A00F30E2C /* UINavigationItem.swift */,
 				0751436729C201CD00109B8E /* UIImage.swift */,
 				075FE44029C5B63A00A5694C /* UIView.swift */,
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
@@ -893,6 +899,7 @@
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
+				072E054329FFDD7900F30E2C /* UINavigationController.swift in Sources */,
 				077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
 				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
@@ -920,6 +927,7 @@
 				077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */,
 				07CDB0A429CF068D00F139BB /* String.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */,
+				072E054529FFED7A00F30E2C /* UINavigationItem.swift in Sources */,
 				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
 				07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */,
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,

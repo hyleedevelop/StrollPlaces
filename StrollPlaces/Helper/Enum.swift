@@ -23,3 +23,8 @@ enum MyPlaceSorting {
     case descendingByDistance
     case ascendingByDistance
 }
+
+enum BarButtonType {
+    case action
+    case context
+}

@@ -44,6 +44,13 @@ final class TrackingViewController: UIViewController {
     private var isCountdownOngoing = false
     private let isTrackButtonTapped = PublishSubject<Bool>()
     
+    // 사용자의 현재 위치를 받아오고, 이를 중심으로 regionRadius 반경만큼의 영역을 보여주기
+    var currentLocation: CLLocation {
+        let latitude = ((locationManager.location?.coordinate.latitude) ?? K.Map.defaultLatitude) as Double
+        let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
@@ -153,7 +160,7 @@ final class TrackingViewController: UIViewController {
         self.timerButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
         self.timerButton.clipsToBounds = true
         self.timerButton.backgroundColor = K.Color.mainColor
-        self.changeButtonUI(buttonTitle: "나만의 산책길 생성")
+        self.changeButtonUI(buttonTitle: "산책길 생성 시작하기", interaction: true)
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
             //.skip(until: self.isCountdownOngoing)
@@ -165,12 +172,13 @@ final class TrackingViewController: UIViewController {
                     // 타이머 비활성화
                     self.deactivateTimer()
                     // 시작/종료 버튼 UI 변경
-                    self.changeButtonUI(buttonTitle: "저장")
+                    self.changeButtonUI(buttonTitle: "산책길 저장하기", interaction: true)
                     // 잠금화면의 live activity 중단
                     LiveActivityService.shared.deactivate()
                 } else {
                     // 카운트다운이 진행되는 동안 타이머 버튼을 작동할 수 없도록 설정
                     //self.timerButton.isEnabled = false
+                    self.changeButtonUI(buttonTitle: "카운트다운 진행중", interaction: false)
                     
                     // 카운트다운 시작 (SwiftUI 기반의 view 활용)
                     guard !self.isCountdownOngoing else { return }
@@ -178,7 +186,7 @@ final class TrackingViewController: UIViewController {
                         // 타이머 활성화
                         self.activateTimer()
                         // 시작/종료 버튼 UI 변경
-                        self.changeButtonUI(buttonTitle: "종료")
+                        self.changeButtonUI(buttonTitle: "산책길 생성 종료하기", interaction: true)
                         // 잠금화면의 live activity 시작
                         LiveActivityService.shared.activate()
                     }
@@ -201,9 +209,11 @@ final class TrackingViewController: UIViewController {
                 guard let self = self else { return }
                 
                 // 진짜로 리셋할 것인지 alert message 보여주고 확인받기
-                let alert = UIAlertController(title: "확인",
-                                              message: "경로 생성을 중단할까요?\n지금까지 기록한 경로는 삭제됩니다.",
-                                              preferredStyle: .alert)
+                let alert = UIAlertController(
+                    title: "확인",
+                    message: "경로 생성을 중단할까요?\n지금까지 기록한 경로는 삭제됩니다.",
+                    preferredStyle: .alert
+                )
                 let cancelAction = UIAlertAction(title: "아니요", style: .default)
                 let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
                     // 타이머 중단
@@ -279,7 +289,7 @@ final class TrackingViewController: UIViewController {
     }
     
     // 시작/종료 버튼 UI 변경
-    private func changeButtonUI(buttonTitle: String) {
+    private func changeButtonUI(buttonTitle: String, interaction: Bool) {
         DispatchQueue.main.async {
             let attributedText = NSAttributedString(
                 string: buttonTitle,
@@ -287,6 +297,7 @@ final class TrackingViewController: UIViewController {
                              NSAttributedString.Key.foregroundColor: K.Color.themeWhite]
             )
             self.timerButton.setAttributedTitle(attributedText, for: .normal)
+            self.timerButton.isUserInteractionEnabled = interaction
         }
     }
     

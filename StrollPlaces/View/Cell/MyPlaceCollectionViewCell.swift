@@ -23,7 +23,6 @@ class MyPlaceCollectionViewCell: UICollectionViewCell {
         
         setupBackView()
         setupImage()
-        setupRemoveButton()
     }
     
     private func setupBackView() {
@@ -43,20 +42,6 @@ class MyPlaceCollectionViewCell: UICollectionViewCell {
         self.mainImage.layer.cornerRadius = 5
         self.mainImage.clipsToBounds = true
         self.mainImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-//        self.mainImage.layer.masksToBounds = false
-//        self.mainImage.layer.borderColor = UIColor.black.cgColor
-//        self.mainImage.layer.borderWidth = 0.0
-//        self.mainImage.layer.shadowColor = UIColor.black.cgColor
-//        self.mainImage.layer.shadowRadius = 1
-//        self.mainImage.layer.shadowOffset = CGSize(width: 0, height: 0)
-//        self.mainImage.layer.shadowOpacity = 0.5
-    }
-
-    private func setupRemoveButton() {
-        self.removeButtonBackView.clipsToBounds = true
-        self.removeButtonBackView.layer.cornerRadius = self.removeButtonBackView.frame.height / 2.0
-        
-        
     }
     
 }

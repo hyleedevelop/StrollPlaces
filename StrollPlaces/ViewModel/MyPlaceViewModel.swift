@@ -16,18 +16,20 @@ final class MyPlaceViewModel {
     //MARK: - property
     
     var itemViewModel: MyPlaceItemViewModel!
-    private var menuItems = [UIAction]()
+    private var sortMenuItems = [UIAction]()
+    private var moreMenuItems = [UIAction]()
     private let userDefaults = UserDefaults.standard
+    var isRemoveButtonHidden = BehaviorSubject<Bool>(value: true)
     
     //MARK: - initializer
     
-    init() {
+    init(moreMenuActions: [UIAction]) {
         let tracks = RealmService.shared.realm.objects(TrackData.self)
         let points = RealmService.shared.realm.objects(TrackPoint.self)
         self.itemViewModel = MyPlaceItemViewModel(track: tracks, point: points)
         
         // context menu item 설정
-        self.initializeContextMenuItems()
+        self.initializeContextMenuItems(moreMenuActions: moreMenuActions)
         
         // 나만의 산책길 목록 정렬 기준 기본값 (등록 날짜 오래된 것부터 나열)
         self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
@@ -36,43 +38,55 @@ final class MyPlaceViewModel {
     //MARK: - directly called method
     
     // context menu item 초기화
-    private func initializeContextMenuItems() {
-        self.menuItems = [
-            UIAction(title: "등록날짜 느린 순", handler: { [weak self] _ in
+    private func initializeContextMenuItems(moreMenuActions: [UIAction]) {
+        self.sortMenuItems = [
+            UIAction(title: "등록날짜 느린 순", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDate)
             }),
-            UIAction(title: "등록날짜 빠른 순", handler: { [weak self] _ in
+            UIAction(title: "등록날짜 빠른 순", state: .on, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
             }),
-            UIAction(title: "소요시간 적은 순", handler: { [weak self] _ in
+            UIAction(title: "소요시간 적은 순", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByTime)
             }),
-            UIAction(title: "소요시간 많은 순", handler: { [weak self] _ in
+            UIAction(title: "소요시간 많은 순", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByTime)
             }),
-            UIAction(title: "이동거리 적은 순", handler: { [weak self] _ in
+            UIAction(title: "이동거리 적은 순", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDistance)
             }),
-            UIAction(title: "이동거리 많은 순", handler: { [weak self] _ in
+            UIAction(title: "이동거리 많은 순", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDistance)
             }),
         ]
+        
+        self.moreMenuItems = moreMenuActions
     }
     
-    // context menu 설정하기
-    func getContextMenu() -> UIMenu {
-        return UIMenu(title: "목록 정렬 기준", options: [.displayInline], children: self.menuItems)
+    // 나만의 산책길 목록 정렬을 위한 context menu 설정
+    func getSortContextMenu() -> UIMenu {
+        return UIMenu(title: "정렬", options: [.singleSelection], children: self.sortMenuItems)
     }
     
-    // context menu 아이템 가져오기
-    func getContextMenuItems() -> [UIAction] {
-        return self.menuItems
+    // 나만의 산책길 목록 정렬을 위한 context menu 아이템 가져오기
+    func getSortContextMenuItems() -> [UIAction] {
+        return self.sortMenuItems
+    }
+    
+    // 나만의 산책길 목록 삭제를 위한 context menu 설정
+    func getMoreContextMenu(at row: Int) -> UIMenu {
+        return UIMenu(title: "\(row)번째 셀의 부가기능", options: [.displayInline], children: self.moreMenuItems)
+    }
+    
+    // 나만의 산책길 목록 삭제를 위한 context menu 아이템 가져오기
+    func getMoreContextMenuItems() -> [UIAction] {
+        return self.moreMenuItems
     }
     
     // 나만의 산책길 데이터 개수 가져오기
@@ -97,7 +111,7 @@ final class MyPlaceViewModel {
         // 지도 이미지 삭제
         self.deleteImageFromDocumentDirectory(imageName: trackDataId)
         
-        // 나만의 산책길 목록이 비어있다면 Lottie Animation 표출하기
+        // 삭제 후 나만의 산책길 목록이 비어있다면 Lottie Animation 표출하기
         if self.itemViewModel.trackData.count == 0 {
             // userdefaults 값 false로 초기화 -> Lottie Animation 표출
             self.userDefaults.set(false, forKey: "myPlaceExist")
