@@ -15,11 +15,12 @@ import MapKit
 import RealmSwift
 import SkyFloatingLabelTextField
 import SPIndicator
+import NVActivityIndicatorView
 import Screenshots
 
 class AddMyPlaceViewController: UIViewController {
 
-    //MARK: - IB outlet & action
+    //MARK: - UI property
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var routeInfoBackView: UIView!
@@ -38,6 +39,18 @@ class AddMyPlaceViewController: UIViewController {
     
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
+    
+    // 로딩 아이콘
+    private let activityIndicator: NVActivityIndicatorView = {
+        let activityIndicator = NVActivityIndicatorView(
+            frame: CGRect(x: 0, y: 0, width: 50, height: 50),
+            type: .ballRotateChase,
+            color: K.Color.themeYellow,
+            padding: .zero)
+        activityIndicator.color = UIColor.black
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
     
     //MARK: - normal property
     
@@ -250,6 +263,10 @@ class AddMyPlaceViewController: UIViewController {
                 if self.nameField.text != nil &&
                    self.explanationField.text != nil &&
                    self.featureField.text != nil {
+                    // loading indicator 시작
+                    activityIndicator.startAnimating()
+                    
+                    // DB 업데이트
                     self.viewModel.updateTrackData(
                         name: self.nameField.text!,
                         explanation: self.explanationField.text!,
@@ -258,6 +275,9 @@ class AddMyPlaceViewController: UIViewController {
                     
                     // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
                     self.userDefaults.set(true, forKey: "myPlaceExist")
+                    
+                    // loading indicator 종료
+                    activityIndicator.stopAnimating()
                     
                     SPIndicatorView(title: "생성 완료", preset: .done)
                         .present(duration: 2.0, haptic: .success)
@@ -277,7 +297,7 @@ class AddMyPlaceViewController: UIViewController {
         self.cancelButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.showAlertMessageForReturn()
+                self.showAlertMessageForCancel()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -285,7 +305,7 @@ class AddMyPlaceViewController: UIViewController {
     //MARK: - indirectly called method
     
     // 나만의 산책길 생성 취소 시 확인 메세지 보여주기
-    private func showAlertMessageForReturn() {
+    private func showAlertMessageForCancel() {
         // 진짜로 취소할 것인지 alert message 보여주고 확인받기
         let alert = UIAlertController(title: "확인",
                                       message: "지금까지 작성한 내용을\n모두 삭제할까요?",

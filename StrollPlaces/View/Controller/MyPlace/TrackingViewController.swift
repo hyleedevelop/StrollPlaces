@@ -26,7 +26,7 @@ final class TrackingViewController: UIViewController {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var timerButton: UIButton!
-    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
     
     //MARK: - normal property
     
@@ -56,19 +56,20 @@ final class TrackingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigationBar()
-        setupRealm()
-        getLocationUsagePermission()
-        setupMapView()
-        setupBackView()
-        setupLabel()
-        setupTimerButton()
-        setupCancelButton()
+        self.setupNavigationBar()
+        self.setupRealm()
+        self.getLocationUsagePermission()
+        self.setupMapView()
+        self.setupBackView()
+        self.setupLabel()
+        self.setupTimerButton()
+        self.setupCloseButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
+        self.locationManager.startUpdatingLocation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -99,7 +100,8 @@ final class TrackingViewController: UIViewController {
         navigationItem.scrollEdgeAppearance = navigationBarAppearance
         navigationItem.standardAppearance = navigationBarAppearance
         
-        self.extendedLayoutIncludesOpaqueBars = false
+        self.setNeedsStatusBarAppearanceUpdate()
+        //self.extendedLayoutIncludesOpaqueBars = true
     }
     
     // Realm DB 설정
@@ -198,11 +200,11 @@ final class TrackingViewController: UIViewController {
     }
     
     // 산책길 등록 취소 버튼 설정
-    private func setupCancelButton() {
-        self.resetButton.layer.cornerRadius = self.resetButton.frame.height / 2.0
-        self.resetButton.clipsToBounds = true
+    private func setupCloseButton() {
+        self.closeButton.layer.cornerRadius = self.closeButton.frame.height / 2.0
+        self.closeButton.clipsToBounds = true
         
-        self.resetButton.rx.controlEvent(.touchUpInside).asObservable()
+        self.closeButton.rx.controlEvent(.touchUpInside).asObservable()
             //.skip(until: self.isTrackButtonTapped)
             .debug("초기화 버튼 클릭")
             .subscribe(onNext: { [weak self] in
@@ -320,7 +322,7 @@ final class TrackingViewController: UIViewController {
         
         // alert message 보여주기
         self.showAlertMessageForRegistration { timerShouldBeStopped in
-            // alert action에서 "네"를 클릭한 경우
+            // alert action에서 "네(저장)"를 클릭한 경우
             if timerShouldBeStopped {
                 // 타이머를 종료하고 Realm DB에 경로 기록하기
                 self.isTrackingAllowed = false

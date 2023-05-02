@@ -10,22 +10,24 @@ import UIKit
 extension UINavigationController {
     
     func applyCommonSettings() {
-        let navigationBarAppearance = UINavigationBarAppearance()
-        //navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.shadowColor = .clear
-        navigationBarAppearance.backgroundColor = UIColor.white
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.shadowColor = UIColor.systemGray5
+        standardAppearance.backgroundColor = UIColor.white
         
-        self.navigationBar.tintColor = K.Color.mainColor
-        self.navigationBar.standardAppearance = navigationBarAppearance
-        self.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.shadowColor = UIColor.clear
+        scrollEdgeAppearance.backgroundColor = UIColor.white
+        
+        self.navigationBar.standardAppearance = standardAppearance
+        self.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
         self.navigationBar.prefersLargeTitles = false
         self.navigationBar.isTranslucent = true
         self.navigationBar.isHidden = false
+        self.navigationBar.backgroundColor = UIColor.white
         self.additionalSafeAreaInsets.top = 10
         
-//        self.setNeedsStatusBarAppearanceUpdate()
-    
-//        self.extendedLayoutIncludesOpaqueBars = true
+        self.setNeedsStatusBarAppearanceUpdate()
+        //self.extendedLayoutIncludesOpaqueBars = true
     }
     
 }

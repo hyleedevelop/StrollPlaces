@@ -106,9 +106,67 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETv-Mp-Nvu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2762.5954198473282" y="714.78873239436621"/>
+            <point key="canvasLocation" x="1837" y="738"/>
         </scene>
-        <!--경로 생성-->
+        <!--Detail Info View Controller-->
+        <scene sceneID="zgu-fq-e9Q">
+            <objects>
+                <viewController storyboardIdentifier="DetailInfoViewController" hidesBottomBarWhenPushed="YES" id="zf6-JI-Z6n" customClass="DetailInfoViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IJl-ef-uTh">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0bi-K7-eRg" userLabel="이동경로">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="500"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="500" id="BhP-ek-uRU"/>
+                                </constraints>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlg-oL-hAK" userLabel="LabelBackView">
+                                <rect key="frame" x="0.0" y="475" width="393" height="377"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4az-5N-VB4">
+                                <rect key="frame" x="20" y="79" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="3eY-Ss-5nr"/>
+                                    <constraint firstAttribute="width" secondItem="4az-5N-VB4" secondAttribute="height" multiplier="1:1" id="p8g-W4-ycg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="xmark.circle.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="eja-lN-m2r"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0bi-K7-eRg" firstAttribute="trailing" secondItem="eja-lN-m2r" secondAttribute="trailing" id="2A9-Wg-L1n"/>
+                            <constraint firstItem="mlg-oL-hAK" firstAttribute="trailing" secondItem="eja-lN-m2r" secondAttribute="trailing" id="3A7-SC-QG5"/>
+                            <constraint firstItem="mlg-oL-hAK" firstAttribute="leading" secondItem="eja-lN-m2r" secondAttribute="leading" id="6Rq-RJ-1GT"/>
+                            <constraint firstItem="4az-5N-VB4" firstAttribute="top" secondItem="eja-lN-m2r" secondAttribute="top" constant="20" id="LCX-nY-aw5"/>
+                            <constraint firstItem="4az-5N-VB4" firstAttribute="leading" secondItem="eja-lN-m2r" secondAttribute="leading" constant="20" id="NXf-Zk-pZO"/>
+                            <constraint firstItem="mlg-oL-hAK" firstAttribute="top" secondItem="0bi-K7-eRg" secondAttribute="bottom" constant="-25" id="X5Q-kD-ydr"/>
+                            <constraint firstItem="0bi-K7-eRg" firstAttribute="top" secondItem="IJl-ef-uTh" secondAttribute="top" id="j1x-zM-0m2"/>
+                            <constraint firstItem="eja-lN-m2r" firstAttribute="bottom" secondItem="mlg-oL-hAK" secondAttribute="bottom" constant="-34" id="piT-Og-Uxe"/>
+                            <constraint firstItem="0bi-K7-eRg" firstAttribute="leading" secondItem="eja-lN-m2r" secondAttribute="leading" id="twC-5M-0eR"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" style="editor" id="x6h-O5-Mos"/>
+                    <connections>
+                        <outlet property="closeButton" destination="4az-5N-VB4" id="CHr-dJ-66h"/>
+                        <outlet property="labelBackView" destination="mlg-oL-hAK" id="jzl-iE-iVr"/>
+                        <outlet property="mapView" destination="0bi-K7-eRg" id="Qkw-aT-iWv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JKd-QS-4nb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2762.5954198473282" y="736.61971830985919"/>
+        </scene>
+        <!--Tracking View Controller-->
         <scene sceneID="PtQ-Mq-5ax">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="FTs-Cr-XRN" customClass="TrackingViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -278,14 +336,14 @@
                             <constraint firstItem="5Op-Ch-m6O" firstAttribute="leading" secondItem="l3f-R8-6DL" secondAttribute="leading" id="s4c-yB-vcC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="경로 생성" style="editor" id="vac-24-iGq"/>
+                    <navigationItem key="navigationItem" style="editor" id="vac-24-iGq"/>
                     <connections>
+                        <outlet property="closeButton" destination="LzT-H8-Afr" id="bI9-mY-eHH"/>
                         <outlet property="closeButtonBackView" destination="7aW-2j-zXm" id="yUQ-o9-F4v"/>
                         <outlet property="distanceLabel" destination="whU-1l-iTt" id="kdi-GR-Z7C"/>
                         <outlet property="labelBackView" destination="5Op-Ch-m6O" id="7og-DZ-K66"/>
                         <outlet property="locationLabel" destination="mr5-c7-3Yt" id="I37-87-288"/>
                         <outlet property="mapView" destination="4Js-BY-nTq" id="yTb-1S-lDp"/>
-                        <outlet property="resetButton" destination="LzT-H8-Afr" id="bI9-mY-eHH"/>
                         <outlet property="timeLabel" destination="gjM-8N-GL9" id="AgM-BH-sTi"/>
                         <outlet property="timerButton" destination="BBx-VE-oKg" id="kZC-ka-OIe"/>
                         <segue destination="TU5-fa-ZCD" kind="show" identifier="ToAddMyPlaceViewController" id="QGd-pU-bkJ"/>
@@ -295,7 +353,7 @@
             </objects>
             <point key="canvasLocation" x="3664.8854961832058" y="-27.464788732394368"/>
         </scene>
-        <!--산책길 정보 입력-->
+        <!--상세정보 입력-->
         <scene sceneID="yY7-pv-35Y">
             <objects>
                 <viewController storyboardIdentifier="AddMyPlaceViewController" hidesBottomBarWhenPushed="YES" id="TU5-fa-ZCD" customClass="AddMyPlaceViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -307,7 +365,7 @@
                                 <rect key="frame" x="0.0" y="103" width="393" height="1263"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFP-ef-nwz">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="990"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1012.6666666666666"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lVN-DW-65q" userLabel="경로정보 BackView">
                                                 <rect key="frame" x="20" y="20" width="353" height="451"/>
@@ -396,10 +454,10 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="e4G-Kd-TFF" userLabel="입력 SV">
-                                                <rect key="frame" x="20" y="511" width="353" height="259"/>
+                                                <rect key="frame" x="20" y="511" width="353" height="281.66666666666674"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="uFq-9U-JBW" userLabel="이름 SV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="53"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="353" height="60.666666666666664"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="T5r-cG-vbN">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -422,7 +480,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="예) 강화도일몰맛집길" textAlignment="natural" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="sre-Px-x8q" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="19" width="353" height="34"/>
+                                                                <rect key="frame" x="0.0" y="18.999999999999996" width="353" height="41.666666666666657"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                                 <userDefinedRuntimeAttributes>
@@ -437,7 +495,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="Ht7-Uf-ctK" userLabel="소개 SV">
-                                                        <rect key="frame" x="0.0" y="103" width="353" height="53"/>
+                                                        <rect key="frame" x="0.0" y="110.66666666666664" width="353" height="60.666666666666671"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="wEY-zC-rJc">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -460,7 +518,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="예) 뷰가 좋고 한적한 산책길" textAlignment="natural" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TKx-fS-SEM" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="19" width="353" height="34"/>
+                                                                <rect key="frame" x="0.0" y="18.999999999999996" width="353" height="41.666666666666657"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                                 <userDefinedRuntimeAttributes>
@@ -475,7 +533,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="-5" translatesAutoresizingMaskIntoConstraints="NO" id="DcT-QM-5YD" userLabel="특이사항 SV">
-                                                        <rect key="frame" x="0.0" y="206" width="353" height="53"/>
+                                                        <rect key="frame" x="0.0" y="221.33333333333337" width="353" height="60.333333333333314"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="RVQ-h3-1pr">
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -498,7 +556,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="예) 나무데크로 되어있음, 주변 화장실 없음" textAlignment="natural" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iuH-n7-whr" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="0.0" y="19" width="353" height="34"/>
+                                                                <rect key="frame" x="0.0" y="19.000000000000004" width="353" height="41.333333333333343"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                                 <userDefinedRuntimeAttributes>
@@ -515,7 +573,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G87-VJ-LA6">
-                                                <rect key="frame" x="20" y="830" width="353" height="50"/>
+                                                <rect key="frame" x="20" y="852.66666666666663" width="353" height="50"/>
                                                 <color key="backgroundColor" red="0.38823529411764707" green="0.22352941176470587" blue="0.80784313725490198" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="2YO-8x-Ltt"/>
@@ -527,7 +585,7 @@
                                                 </buttonConfiguration>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5o-ob-ryp">
-                                                <rect key="frame" x="20" y="900" width="353" height="50"/>
+                                                <rect key="frame" x="20" y="922.66666666666674" width="353" height="50"/>
                                                 <color key="backgroundColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="9cA-hb-H4r"/>
@@ -578,7 +636,7 @@
                             <constraint firstItem="NQp-KV-YEJ" firstAttribute="leading" secondItem="jD1-5O-gpS" secondAttribute="leading" id="fdQ-AA-ewj"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="산책길 정보 입력" style="editor" id="z9T-Pt-usn"/>
+                    <navigationItem key="navigationItem" title="상세정보 입력" style="editor" id="z9T-Pt-usn"/>
                     <size key="freeformSize" width="393" height="1400"/>
                     <connections>
                         <outlet property="cancelButton" destination="a5o-ob-ryp" id="9ya-8C-OU7"/>
@@ -598,7 +656,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iS6-AU-zmX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4558" y="165"/>
+            <point key="canvasLocation" x="4556.4885496183206" y="164.78873239436621"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hSl-dM-f8q">
@@ -622,19 +680,20 @@
     </scenes>
     <designables>
         <designable name="TKx-fS-SEM">
-            <size key="intrinsicContentSize" width="203" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="41.607421875"/>
         </designable>
         <designable name="iuH-n7-whr">
-            <size key="intrinsicContentSize" width="294.66666666666669" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="41.607421875"/>
         </designable>
         <designable name="sre-Px-x8q">
-            <size key="intrinsicContentSize" width="162.66666666666666" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="41.607421875"/>
         </designable>
     </designables>
     <resources>
         <image name="icons8-journey-50" width="25" height="25"/>
         <image name="strollingMan" width="1780.5" height="2671"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

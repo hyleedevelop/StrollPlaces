@@ -90,6 +90,8 @@
 		07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* MoreCellData.swift */; };
 		07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */; };
+		07B1DEB92A00DDF100A27F9F /* DetailInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */; };
+		07B1DEBB2A00FC5600A27F9F /* DetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */; };
 		07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B2E3E429D156D300210207 /* MoreTableViewCell.swift */; };
 		07B2E3E729D156D300210207 /* MoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07B2E3E529D156D300210207 /* MoreTableViewCell.xib */; };
 		07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BAE44229CBE70A0048CE89 /* MapTab.storyboard */; };
@@ -230,6 +232,8 @@
 		07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* MoreCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCellData.swift; sourceTree = "<group>"; };
 		07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingValues.swift; sourceTree = "<group>"; };
+		07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoViewController.swift; sourceTree = "<group>"; };
+		07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoViewModel.swift; sourceTree = "<group>"; };
 		07B2E3E429D156D300210207 /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
 		07B2E3E529D156D300210207 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
 		07BAE44229CBE70A0048CE89 /* MapTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapTab.storyboard; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
+				07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */,
 				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
 				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
 				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
@@ -462,6 +467,7 @@
 				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
 				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
 				0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */,
+				07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */,
 				0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */,
 				0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */,
 				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
@@ -918,10 +924,12 @@
 				077C1BEC29CDEDC100DA3218 /* URLRequest.swift in Sources */,
 				07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
+				07B1DEBB2A00FC5600A27F9F /* DetailInfoViewModel.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
 				075FE44129C5B63A00A5694C /* UIView.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */,
 				0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */,
+				07B1DEB92A00DDF100A27F9F /* DetailInfoViewController.swift in Sources */,
 				072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */,
 				077C1BF029CDEEC600DA3218 /* NewsCellData.swift in Sources */,
 				077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */,

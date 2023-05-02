@@ -23,13 +23,16 @@ final class MyPlaceViewModel {
     
     //MARK: - initializer
     
-    init(moreMenuActions: [UIAction]) {
+    init() {
+        // TrackData와 TrackPoint의 인스턴스 생성
         let tracks = RealmService.shared.realm.objects(TrackData.self)
         let points = RealmService.shared.realm.objects(TrackPoint.self)
+        
+        // MyPlaceItemViewModel 초기화
         self.itemViewModel = MyPlaceItemViewModel(track: tracks, point: points)
         
         // context menu item 설정
-        self.initializeContextMenuItems(moreMenuActions: moreMenuActions)
+        self.initializeContextMenuItems()
         
         // 나만의 산책길 목록 정렬 기준 기본값 (등록 날짜 오래된 것부터 나열)
         self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
@@ -38,7 +41,7 @@ final class MyPlaceViewModel {
     //MARK: - directly called method
     
     // context menu item 초기화
-    private func initializeContextMenuItems(moreMenuActions: [UIAction]) {
+    private func initializeContextMenuItems() {
         self.sortMenuItems = [
             UIAction(title: "등록날짜 느린 순", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
@@ -65,28 +68,16 @@ final class MyPlaceViewModel {
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDistance)
             }),
         ]
-        
-        self.moreMenuItems = moreMenuActions
     }
     
     // 나만의 산책길 목록 정렬을 위한 context menu 설정
     func getSortContextMenu() -> UIMenu {
-        return UIMenu(title: "정렬", options: [.singleSelection], children: self.sortMenuItems)
+        return UIMenu(title: "정렬순", options: [.singleSelection], children: self.sortMenuItems)
     }
     
     // 나만의 산책길 목록 정렬을 위한 context menu 아이템 가져오기
     func getSortContextMenuItems() -> [UIAction] {
         return self.sortMenuItems
-    }
-    
-    // 나만의 산책길 목록 삭제를 위한 context menu 설정
-    func getMoreContextMenu(at row: Int) -> UIMenu {
-        return UIMenu(title: "\(row)번째 셀의 부가기능", options: [.displayInline], children: self.moreMenuItems)
-    }
-    
-    // 나만의 산책길 목록 삭제를 위한 context menu 아이템 가져오기
-    func getMoreContextMenuItems() -> [UIAction] {
-        return self.moreMenuItems
     }
     
     // 나만의 산책길 데이터 개수 가져오기
@@ -168,7 +159,7 @@ final class MyPlaceItemViewModel {
     lazy var shouldShowAnimationView = BehaviorSubject<Bool>(
         value: !self.userDefaults.bool(forKey: "myPlaceExist")
     )
-    let shouldReloadTableView = BehaviorSubject<Bool>(value: false)
+    let shouldReloadCollectionView = BehaviorSubject<Bool>(value: false)
     var trackData: Results<TrackData> {
         didSet {
             // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
@@ -183,7 +174,7 @@ final class MyPlaceItemViewModel {
     }
     var sortedTrackData: Results<TrackData>! {
         didSet {
-            self.shouldReloadTableView.onNext(true)
+            self.shouldReloadCollectionView.onNext(true)
         }
     }
     var trackpoint: Results<TrackPoint>

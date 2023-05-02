@@ -23,7 +23,7 @@ class MyPlaceViewController: UIViewController {
     
     //MARK: - normal property
     
-    private lazy var viewModel = MyPlaceViewModel(moreMenuActions: moreMenuActions)
+    private lazy var viewModel = MyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
     private let flowLayout = UICollectionViewFlowLayout()  // 컬렉션뷰의 레이아웃을 담당하는 객체
     
@@ -64,31 +64,21 @@ class MyPlaceViewController: UIViewController {
         label.text = "오른쪽 상단의 + 버튼을 눌러서" + "\n" + "나만의 산책길을 만들어 보세요!"
         return label
     }()
-    
-    private let moreMenuActions = [
-        UIAction(title: "삭제", image: UIImage(systemName: "trash"), handler: { _ in
-            //guard let self = self else { return }
-            print("삭제 버튼 클릭됨...")
-        }),
-        UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up") , handler: { _ in
-            //guard let self = self else { return }
-            
-        }),
-    ]
         
     //MARK: - drawing cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationBar()
-        setupInitialView()
-        setupCollectionView()
-        setupRemoveButton()
-        setupNotificationObserver()
+        self.setupNavigationBar()
+        self.setupInitialView()
+        self.setupCollectionView()
+        self.setupNotificationObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+        
         let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
 
@@ -97,6 +87,11 @@ class MyPlaceViewController: UIViewController {
                 self.myPlaceCollectionView.reloadData()
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     deinit {
@@ -177,11 +172,6 @@ class MyPlaceViewController: UIViewController {
         self.setupReloadOfCollectionView()
     }
     
-    // 삭제 버튼
-    private func setupRemoveButton() {
-        
-    }
-    
     // Notification을 받았을 때 수행할 내용 설정
     private func setupNotificationObserver() {
         NotificationCenter.default.addObserver(
@@ -232,7 +222,7 @@ class MyPlaceViewController: UIViewController {
     
     // context menu를 통해 목록 정렬 기준이 정해지면 메인쓰레드에서 TableView를 reload 하도록 설정
     private func setupReloadOfCollectionView() {
-        self.viewModel.itemViewModel.shouldReloadTableView.asObservable()
+        self.viewModel.itemViewModel.shouldReloadCollectionView.asObservable()
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] shouldReload in
                 guard let self = self else { return }
@@ -252,6 +242,13 @@ class MyPlaceViewController: UIViewController {
         
 //        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ToTrackingViewController") else { return }
 //        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "ToDetailInfoViewController" {
+//            guard let vc = segue.destination as? NaviViewController else { return }
+//            vc.index = message
+//
     }
     
 }
@@ -290,24 +287,51 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         : String(format: "%.2f", dataSource.distance/1000.0) + "km"
         cell.dateLabel.text = "13시간 전"
         
-        //cell.removeButton.isHidden = true
-        cell.removeButton.tag = indexPath.row
-        //cell.removeButton.addTarget(self, action: #selector(removeCell(_:)), for: .touchUpInside)
-        cell.removeButton.showsMenuAsPrimaryAction = true
-        cell.removeButton.menu = self.viewModel.getMoreContextMenu(at: indexPath.row)
+        //guard let newIndexPath = collectionView.indexPath(for: cell) else { fatalError() }
+        cell.moreButton.tag = indexPath.row
+        cell.moreButton.showsMenuAsPrimaryAction = true
+        cell.moreButton.menu = self.getMoreContextMenu(index: indexPath.row,
+                                                       sender: cell.moreButton)
         
         return cell
     }
     
     // 셀이 선택되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let cell = collectionView.cellForItem(at: indexPath) as! MyPlaceCollectionViewCell
-        print(indexPath)
+        print("\(indexPath.row)번째 셀이 클릭됨...")
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailInfoViewController") as? DetailInfoViewController else { return }
+        nextVC.cellIndex = indexPath.row
+        nextVC.modalPresentationStyle = .overFullScreen
+        self.present(nextVC, animated: true, completion: nil)
     }
     
     //MARK: - indirectly called method
     
-    func removeCell(_ sender: UIButton) {
+    private func getMoreContextMenu(index: Int, sender: UIButton) -> UIMenu {
+        let actions = [
+            UIAction(title: "삭제", image: UIImage(systemName: "trash"),
+                     attributes: .destructive, handler: { _ in
+                         print(index, "삭제 버튼 클릭됨...")
+                         self.removeMyPlace(sender)
+                     }),
+            UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up"),
+                     attributes: .disabled, handler: { _ in
+                         print(index, "공유 버튼 클릭됨...")
+                         self.shareMyPlace(sender)
+                     }),
+        ]
+        return UIMenu(title: "", options: [.displayInline], children: actions)
+    }
+    
+//    private func refreshMoreContextMenu() {
+//        for cell in myPlaceCollectionView.visibleCells {
+//            guard let indexPath = myPlaceCollectionView.indexPath(for: cell) else { continue }
+//            getMoreContextMenu(index: indexPath.row, sender: <#T##UIButton#>)
+//        }
+//    }
+    
+    // 나만의 산책길 항목 삭제하기
+    private func removeMyPlace(_ sender: UIButton) {
         let alert = UIAlertController(
             title: "확인",
             message: "선택한 나만의 산책길을 삭제할까요?\n한번 삭제하면 복구할 수 없습니다.",
@@ -320,15 +344,19 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
             let realmDB = self.viewModel.itemViewModel.trackData
             
             if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
-                print(indexOfRealm)
-                // 컬랙션뷰의 데이터를 먼저 삭제 후, DB의 데이터를 삭제 (순서를 반대로 하면 데이터가 꼬임)
-                // CollectionView에서 삭제
+                print("indexOfRealm: \(indexOfRealm)")
+                // CollectionView의 데이터를 먼저 삭제 후, DB의 데이터를 삭제 (순서를 반대로 하면 데이터가 꼬임)
+                // 1) CollectionView에서 삭제
                 DispatchQueue.main.async {
-                    self.myPlaceCollectionView.deleteItems(at: [IndexPath.init(row: sender.tag, section: 0)])
+                    self.myPlaceCollectionView.deleteItems(
+                        at: [IndexPath.init(row: sender.tag, section: 0)]
+                    )
                     self.myPlaceCollectionView.reloadData()
                 }
-                // DB에서 삭제
+                
+                // 2) DB에서 삭제
                 self.viewModel.removeTrackData(at: indexOfRealm)
+                
                 // 화면 상단에 완료 메세지 보여주기
                 SPIndicatorView(title: "삭제 완료", preset: .done)
                     .present(duration: 2.0, haptic: .success)
@@ -344,6 +372,11 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         // 메세지 보여주기
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // 나만의 산책길 항목 공유하기
+    private func shareMyPlace(_ sender: UIButton) {
+        
     }
     
 }

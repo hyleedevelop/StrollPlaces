@@ -10,8 +10,8 @@ import UIKit
 class MyPlaceCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var backView: UIView!
-    @IBOutlet weak var removeButton: UIButton!
-    @IBOutlet weak var removeButtonBackView: UIView!
+    @IBOutlet weak var moreButton: UIButton!
+    @IBOutlet weak var moreButtonBackView: UIView!
     @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
