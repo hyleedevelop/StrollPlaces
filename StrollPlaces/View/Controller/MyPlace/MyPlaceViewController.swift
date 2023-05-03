@@ -26,6 +26,7 @@ class MyPlaceViewController: UIViewController {
     private lazy var viewModel = MyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
     private let flowLayout = UICollectionViewFlowLayout()  // 컬렉션뷰의 레이아웃을 담당하는 객체
+    //private var actions = [UIAction]()
     
     //MARK: - UI property
     
@@ -77,6 +78,8 @@ class MyPlaceViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Navigation Bar 기본 설정
+        navigationController?.applyCommonSettings()
         self.navigationController?.navigationBar.isHidden = false
         
         let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
@@ -102,7 +105,7 @@ class MyPlaceViewController: UIViewController {
     
     // NavigationBar 설정
     private func setupNavigationBar() {
-        // 기본 설정
+        // Navigation Bar 기본 설정
         navigationController?.applyCommonSettings()
         
         // 좌측 상단에 위치한 타이틀 설정
@@ -248,7 +251,7 @@ class MyPlaceViewController: UIViewController {
 //        if segue.identifier == "ToDetailInfoViewController" {
 //            guard let vc = segue.destination as? NaviViewController else { return }
 //            vc.index = message
-//
+//        }
     }
     
 }
@@ -285,10 +288,8 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.distanceLabel.text = dataSource.distance < 1000.0
         ? String(format: "%.1f", dataSource.distance) + "m"
         : String(format: "%.2f", dataSource.distance/1000.0) + "km"
-        cell.dateLabel.text = "13시간 전"
+        cell.dateLabel.text = "\(Int.random(in: 0..<60))분 전"
         
-        //guard let newIndexPath = collectionView.indexPath(for: cell) else { fatalError() }
-        cell.moreButton.tag = indexPath.row
         cell.moreButton.showsMenuAsPrimaryAction = true
         cell.moreButton.menu = self.getMoreContextMenu(index: indexPath.row,
                                                        sender: cell.moreButton)
@@ -298,7 +299,6 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     // 셀이 선택되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath.row)번째 셀이 클릭됨...")
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailInfoViewController") as? DetailInfoViewController else { return }
         nextVC.cellIndex = indexPath.row
         nextVC.modalPresentationStyle = .overFullScreen
@@ -311,27 +311,18 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         let actions = [
             UIAction(title: "삭제", image: UIImage(systemName: "trash"),
                      attributes: .destructive, handler: { _ in
-                         print(index, "삭제 버튼 클릭됨...")
-                         self.removeMyPlace(sender)
+                         self.removeMyPlace(sender, index: index)
                      }),
             UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up"),
-                     attributes: .disabled, handler: { _ in
-                         print(index, "공유 버튼 클릭됨...")
+                     attributes: .keepsMenuPresented, handler: { _ in
                          self.shareMyPlace(sender)
                      }),
         ]
         return UIMenu(title: "", options: [.displayInline], children: actions)
     }
     
-//    private func refreshMoreContextMenu() {
-//        for cell in myPlaceCollectionView.visibleCells {
-//            guard let indexPath = myPlaceCollectionView.indexPath(for: cell) else { continue }
-//            getMoreContextMenu(index: indexPath.row, sender: <#T##UIButton#>)
-//        }
-//    }
-    
     // 나만의 산책길 항목 삭제하기
-    private func removeMyPlace(_ sender: UIButton) {
+    private func removeMyPlace(_ sender: UIButton, index: Int) {
         let alert = UIAlertController(
             title: "확인",
             message: "선택한 나만의 산책길을 삭제할까요?\n한번 삭제하면 복구할 수 없습니다.",
@@ -340,22 +331,17 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cancelAction = UIAlertAction(title: "아니요", style: .default)
         let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
             // 정렬된 셀에서 indexPath.row번째 cell에 해당하는 ID
-            let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[sender.tag]._id
+            let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[index]._id
             let realmDB = self.viewModel.itemViewModel.trackData
             
             if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
-                print("indexOfRealm: \(indexOfRealm)")
-                // CollectionView의 데이터를 먼저 삭제 후, DB의 데이터를 삭제 (순서를 반대로 하면 데이터가 꼬임)
-                // 1) CollectionView에서 삭제
+                // DB에서 데이터 삭제
+                self.viewModel.removeTrackData(at: indexOfRealm)
+                
+                // CollectionView에서 셀 삭제
                 DispatchQueue.main.async {
-                    self.myPlaceCollectionView.deleteItems(
-                        at: [IndexPath.init(row: sender.tag, section: 0)]
-                    )
                     self.myPlaceCollectionView.reloadData()
                 }
-                
-                // 2) DB에서 삭제
-                self.viewModel.removeTrackData(at: indexOfRealm)
                 
                 // 화면 상단에 완료 메세지 보여주기
                 SPIndicatorView(title: "삭제 완료", preset: .done)

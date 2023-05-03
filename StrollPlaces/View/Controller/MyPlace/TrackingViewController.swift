@@ -81,13 +81,17 @@ final class TrackingViewController: UIViewController {
     
     // NavigationBar 설정
     private func setupNavigationBar() {
+        // 기본 설정
+        //navigationController?.applyCommonSettings()
+        //navigationController?.setNavigationBarHidden(true, animated: false)
+        
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
         navigationBarAppearance.shadowColor = .clear
         navigationBarAppearance.backgroundColor = UIColor.white
 //        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 //        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
+
         // scrollEdge: 스크롤 하기 전의 NavigationBar
         // standard: 스크롤을 하고 있을 때의 NavigationBar
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
@@ -99,7 +103,7 @@ final class TrackingViewController: UIViewController {
 
         navigationItem.scrollEdgeAppearance = navigationBarAppearance
         navigationItem.standardAppearance = navigationBarAppearance
-        
+
         self.setNeedsStatusBarAppearanceUpdate()
         //self.extendedLayoutIncludesOpaqueBars = true
     }

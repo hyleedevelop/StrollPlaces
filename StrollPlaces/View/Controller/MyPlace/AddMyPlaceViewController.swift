@@ -358,11 +358,11 @@ class AddMyPlaceViewController: UIViewController {
             return isLengthValid && isUniqueName
         } else {
             // 문자열 길이가 적절한지 판단
-            let isLengthValid: Bool = (2...20) ~= text.count
+            let isLengthValid: Bool = (2...15) ~= text.count
             
             // 텍스트필드 아래에 에러 메세지 표출
             if !isLengthValid {
-                textField.errorMessage = "2글자 이상, 20글자 이하"
+                textField.errorMessage = "2글자 이상, 15글자 이하"
             } else {
                 textField.errorMessage = nil
             }

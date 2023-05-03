@@ -10,7 +10,8 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 
-// 나만의 산책길 화면에 대한 ViewModel
+//MARK: - 나만의 산책길 화면에 대한 ViewModel
+
 final class MyPlaceViewModel {
     
     //MARK: - property
@@ -150,7 +151,8 @@ final class MyPlaceViewModel {
 
 
 
-// TableView Cell에 대한 ViewModel
+//MARK: - CollectionView Cell에 대한 ViewModel
+
 final class MyPlaceItemViewModel {
     
     //MARK: - property
@@ -170,10 +172,13 @@ final class MyPlaceItemViewModel {
                 self.userDefaults.set(false, forKey: "myPlaceExist")
                 self.shouldShowAnimationView.onNext(true)
             }
+            print("trackData has been changed!")
+            self.shouldReloadCollectionView.onNext(true)
         }
     }
     var sortedTrackData: Results<TrackData>! {
         didSet {
+            print("sortedTrackData has been changed!")
             self.shouldReloadCollectionView.onNext(true)
         }
     }
