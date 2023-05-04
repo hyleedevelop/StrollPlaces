@@ -17,6 +17,7 @@ import SkyFloatingLabelTextField
 import SPIndicator
 import NVActivityIndicatorView
 import Screenshots
+import Cosmos
 
 class AddMyPlaceViewController: UIViewController {
 
@@ -32,10 +33,12 @@ class AddMyPlaceViewController: UIViewController {
     @IBOutlet weak var nameField: SkyFloatingLabelTextField!
     @IBOutlet weak var explanationField: SkyFloatingLabelTextField!
     @IBOutlet weak var featureField: SkyFloatingLabelTextField!
+    @IBOutlet weak var levelRating: CosmosView!
     
     @IBOutlet weak var nameCheckLabel: UILabel!
     @IBOutlet weak var explanationCheckLabel: UILabel!
     @IBOutlet weak var featureCheckLabel: UILabel!
+    @IBOutlet weak var levelCheckLabel: UILabel!
     
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -199,6 +202,7 @@ class AddMyPlaceViewController: UIViewController {
         let nameObservable = nameField.rx.text.orEmpty
         let explanationObservable = explanationField.rx.text.orEmpty
         let featureObservable = featureField.rx.text.orEmpty
+        let ratingObservable = Observable<Double>.just(self.levelRating.rating)
         
         nameObservable
             .skip(1)
@@ -230,6 +234,14 @@ class AddMyPlaceViewController: UIViewController {
                 let str = self.limitTextFieldLength($0, self.featureField)
                 let isValid = self.checkTextFieldIsValid(str, self.featureField)
                 self.featureCheckLabel.text = isValid ? "✅" : ""
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // ❗️ 문제 해결하기
+        ratingObservable
+            .map { self.checkLevelRatingIsValid(value: $0) }
+            .subscribe(onNext: { isValid in
+                self.levelCheckLabel.text = isValid ? "✅" : ""
             })
             .disposed(by: rx.disposeBag)
         
@@ -270,7 +282,8 @@ class AddMyPlaceViewController: UIViewController {
                     self.viewModel.updateTrackData(
                         name: self.nameField.text!,
                         explanation: self.explanationField.text!,
-                        feature: self.featureField.text!
+                        feature: self.featureField.text!,
+                        level: self.levelRating.rating
                     )
                     
                     // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
@@ -369,6 +382,11 @@ class AddMyPlaceViewController: UIViewController {
 
             return isLengthValid
         }
+    }
+    
+    // 산책길 난이도 별점에 대한 유효성 검사
+    private func checkLevelRatingIsValid(value: Double) -> Bool {
+        return (1.0...5.0) ~= value ? true : false
     }
     
 }

@@ -11,6 +11,7 @@ import MapKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import Hero
 
 final class DetailInfoViewController: UIViewController {
 
@@ -18,11 +19,21 @@ final class DetailInfoViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var labelBackView: UIView!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var closeButtonBackView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var explanationLabel: UILabel!
+    @IBOutlet weak var featureLabel: UILabel!
+    @IBOutlet weak var levelLabel: UILabel!
     
     //MARK: - normal property
     
     private let viewModel = DetailInfoViewModel()
     private var locationManager: CLLocationManager!
+    private lazy var labelArray = [self.timeLabel, self.distanceLabel, self.levelLabel,
+                                   self.explanationLabel, self.featureLabel, self.dateLabel]
     var cellIndex: Int = 0
     
     //MARK: - drawing cycle
@@ -30,15 +41,23 @@ final class DetailInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Realm DB에서 데이터 가져오기
+        self.viewModel.getTrackDataFromRealmDB(index: self.cellIndex)
+        
         self.setupNavigationBar()
         self.setupMapView()
-        //self.setupBackView()
+        self.setupLabel()
+        self.setupBackView()
         self.setupCloseButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     //MARK: - directly called method
@@ -118,15 +137,61 @@ final class DetailInfoViewController: UIViewController {
                                        animated: false)
     }
     
+    // Label 설정
+    private func setupLabel() {
+        // hero animation
+        self.hero.isEnabled = true
+        self.nameLabel.hero.id = "nameLabel\(self.cellIndex)"
+        
+        // UI binding
+        self.viewModel.nameRelay.asDriver(onErrorJustReturn: "nameRealy error")
+            .drive(self.nameLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "dateRelay error")
+            .drive(self.dateLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "timeRealy error")
+            .drive(self.timeLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+            
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "distanceRealy error")
+            .drive(self.distanceLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.explanationRelay.asDriver(onErrorJustReturn: "explanationRelay error")
+            .drive(self.explanationLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.featureRelay.asDriver(onErrorJustReturn: "featureRelay error")
+            .drive(self.featureLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        self.viewModel.levelRelay.asDriver(onErrorJustReturn: "levelRelay error")
+            .drive(self.levelLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+    }
+    
     // BackView 설정
     private func setupBackView() {
-
+        self.closeButtonBackView.clipsToBounds = true
+        self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
+        
+        self.labelBackView.layer.cornerRadius = K.Shape.largeCornerRadius
+        self.labelBackView.clipsToBounds = true
+        self.labelBackView.layer.masksToBounds = false
+        self.labelBackView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        self.labelBackView.layer.shadowColor = UIColor.black.cgColor
+        self.labelBackView.layer.shadowOpacity = 0.5
+        self.labelBackView.layer.shadowRadius = 5
+        self.labelBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
     
     // 산책길 등록 취소 버튼 설정
     private func setupCloseButton() {
-        self.closeButton.layer.cornerRadius = self.closeButton.frame.height / 2.0
         self.closeButton.clipsToBounds = true
+        self.closeButton.layer.cornerRadius = self.closeButton.frame.height / 2.0
         
         self.closeButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in

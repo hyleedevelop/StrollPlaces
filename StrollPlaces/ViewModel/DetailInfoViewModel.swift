@@ -22,9 +22,13 @@ final class DetailInfoViewModel {
     private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
     private var points = [CLLocationCoordinate2D]()
     
-    var dateRelay = BehaviorRelay<String>(value: "알수없음")
-    var timeRelay = BehaviorRelay<String>(value: "알수없음")
-    var distanceRelay = BehaviorRelay<String>(value: "알수없음")
+    let nameRelay = BehaviorRelay<String>(value: "알수없음")
+    let dateRelay = BehaviorRelay<String>(value: "알수없음")
+    let timeRelay = BehaviorRelay<String>(value: "알수없음")
+    let distanceRelay = BehaviorRelay<String>(value: "알수없음")
+    let explanationRelay = BehaviorRelay<String>(value: "알수없음")
+    let featureRelay = BehaviorRelay<String>(value: "알수없음")
+    let levelRelay = BehaviorRelay<String>(value: "알수없음")
     
     //MARK: - initializer
     
@@ -33,6 +37,52 @@ final class DetailInfoViewModel {
     }
     
     //MARK: - directly called method
+    
+    // Realm DB에 임시저장 해놓은 경로 데이터를 받아 relay에서 요소 방출
+    func getTrackDataFromRealmDB(index: Int) {
+        var nameString: String {
+            return RealmService.shared.realm.objects(TrackData.self)[index].name
+        }
+        self.nameRelay.accept(nameString)
+        
+        var dateString: String {
+            //let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+            return dateFormatter.string(from: Date())
+        }
+        self.dateRelay.accept(dateString)
+        
+        var timeString: String {
+            return RealmService.shared.realm.objects(TrackData.self)[index].time
+        }
+        self.timeRelay.accept(timeString)
+        
+        var distanceString: String {
+            let distance = RealmService.shared.realm.objects(TrackData.self).last?.distance ?? 0.0
+            if (..<1000) ~= distance {
+                return String(format: "%.1f", distance) + "m"
+            } else {
+                return String(format: "%.2f", distance/1000.0) + "km"
+            }
+        }
+        self.distanceRelay.accept(distanceString)
+        
+        var explanationString: String {
+            return RealmService.shared.realm.objects(TrackData.self)[index].explanation
+        }
+        self.explanationRelay.accept(explanationString)
+        
+        var featureString: String {
+            return RealmService.shared.realm.objects(TrackData.self)[index].feature
+        }
+        self.featureRelay.accept(featureString)
+        
+        var levelString : String {
+            return "\(Int(RealmService.shared.realm.objects(TrackData.self)[index].level)) / 5"
+        }
+        self.levelRelay.accept(levelString)
+    }
     
     // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
     func getTrackPointForPolyline(index: Int) -> [CLLocationCoordinate2D] {

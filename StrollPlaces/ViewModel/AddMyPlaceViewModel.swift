@@ -48,7 +48,7 @@ final class AddMyPlaceViewModel {
         
         var timeString: String {
             let time = RealmService.shared.realm.objects(TrackData.self).last?.time ?? "알수없음"
-            return "\(time)"
+            return time
         }
         self.timeRelay.accept(timeString)
         
@@ -100,7 +100,7 @@ final class AddMyPlaceViewModel {
     }
     
     // Realm DB에 데이터 추가하기
-    func updateTrackData(name: String, explanation: String, feature: String) {
+    func updateTrackData(name: String, explanation: String, feature: String, level: Double) {
         // TrackData의 id, name, explanation, feature 업데이트
         let realm = try! Realm()
         try! realm.write {
@@ -108,7 +108,8 @@ final class AddMyPlaceViewModel {
                          value: ["_id": self.primaryKey!,
                                  "name": name,
                                  "explanation": explanation,
-                                 "feature": feature]
+                                 "feature": feature,
+                                 "level": level]
                          as [String: Any],
                          update: .modified)
         }

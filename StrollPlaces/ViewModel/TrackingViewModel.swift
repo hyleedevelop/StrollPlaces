@@ -64,7 +64,7 @@ final class TrackingViewModel {
     // UI 바인딩을 위한 Relay
     var timeRelay = BehaviorRelay<String>(value: "00:00:00")
     var distanceRelay = BehaviorRelay<String>(value: "0.0m")
-    var locationRelay = BehaviorRelay<String>(value: "?")
+    var locationRelay = BehaviorRelay<String>(value: "-")
     
     //MARK: - initializer
     
@@ -119,7 +119,7 @@ final class TrackingViewModel {
         
         self.timeRelay.accept("00:00:00")
         self.distanceRelay.accept("0.0m")
-        self.locationRelay.accept("-")
+        self.locationRelay.accept("위치 파악중")
     }
     
     // Realm DB에 경로 데이터 저장하기
@@ -131,7 +131,8 @@ final class TrackingViewModel {
             distance: self.distance,
             name: "",
             explanation: "",
-            feature: "")
+            feature: "",
+            level: 0.0)
         
         RealmService.shared.create(dataToAppend)
         

@@ -19,8 +19,8 @@ target 'StrollPlaces' do
   #pod 'Google-Mobile-Ads-SDK'
   pod 'NVActivityIndicatorView'
   pod 'Cluster'
-  pod 'PopOverMenu', '~> 3.0'
-  pod 'DropDown'
+  #pod 'PopOverMenu', '~> 3.0'
+  #pod 'DropDown'
   pod 'ViewAnimator'
   pod 'SPIndicator'
   pod 'lottie-ios'
@@ -28,6 +28,8 @@ target 'StrollPlaces' do
   pod 'TransitionableTab', '~> 0.2.0'
   pod 'SkyFloatingLabelTextField', '~> 3.0'
   pod 'FaveButton'
+  pod 'Hero'
+  pod 'Cosmos', '~> 23.0'
   
   target 'StrollPlacesTests' do
     inherit! :search_paths

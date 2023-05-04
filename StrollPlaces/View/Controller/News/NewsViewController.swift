@@ -178,20 +178,16 @@ final class NewsViewController: UIViewController {
                 let news = newsResponse.items
                 self.viewModel = NewsViewModel(news)
                 
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    // TableView 갱신
-                    self.tableView.reloadData()
-                    
-                    // 셀 표출 관련 애니메이션
-                    DispatchQueue.main.async {
-                        let cells = self.tableView.visibleCells(in: 0)
-                        let animations = [AnimationType.vector(CGVector(dx: 0, dy: 20))]
-                        UIView.animate(views: cells, animations: animations, duration: 1.0)
-                    }
-                    
-                    // indicator 비활성화
-                    self.activityIndicator.stopAnimating()
-                //}
+                // TableView 갱신
+                self.tableView.reloadData()
+                
+                // 셀 표출 관련 애니메이션
+                let cells = self.tableView.visibleCells(in: 0)
+                let animations = [AnimationType.vector(CGVector(dx: 0, dy: 20))]
+                UIView.animate(views: cells, animations: animations, duration: 1.0)
+                
+                // indicator 비활성화
+                self.activityIndicator.stopAnimating()
             })
             .disposed(by: rx.disposeBag)
     }

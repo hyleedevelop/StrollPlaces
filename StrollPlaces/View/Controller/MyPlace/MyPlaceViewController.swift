@@ -14,6 +14,7 @@ import CoreLocation
 import Lottie
 import RealmSwift
 import SPIndicator
+import Hero
 
 class MyPlaceViewController: UIViewController {
 
@@ -279,6 +280,8 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         let dataSource = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]
         
+        cell.levelRating.rating = dataSource.level
+        
         cell.mainImage.image = self.viewModel.loadImageFromDocumentDirectory(
             imageName: dataSource._id.stringValue
         )
@@ -294,6 +297,8 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.moreButton.menu = self.getMoreContextMenu(index: indexPath.row,
                                                        sender: cell.moreButton)
         
+        cell.nameLabel.hero.id = "nameLabel\(indexPath.row)"
+        
         return cell
     }
     
@@ -302,6 +307,9 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailInfoViewController") as? DetailInfoViewController else { return }
         nextVC.cellIndex = indexPath.row
         nextVC.modalPresentationStyle = .overFullScreen
+        nextVC.hero.isEnabled = true
+        nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
+
         self.present(nextVC, animated: true, completion: nil)
     }
     

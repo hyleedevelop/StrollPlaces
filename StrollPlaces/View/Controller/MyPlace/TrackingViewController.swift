@@ -163,10 +163,10 @@ final class TrackingViewController: UIViewController {
     private func setupTimerButton() {
         self.isTrackingAllowed = false
         
-        self.timerButton.layer.cornerRadius = self.timerButton.frame.height / 2.0
+        self.timerButton.layer.cornerRadius = K.Shape.mediumCornerRadius
         self.timerButton.clipsToBounds = true
         self.timerButton.backgroundColor = K.Color.mainColor
-        self.changeButtonUI(buttonTitle: "산책길 생성 시작하기", interaction: true)
+        self.changeButtonUI(buttonTitle: "산책길 경로 생성", interaction: true)
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
             //.skip(until: self.isCountdownOngoing)
@@ -178,7 +178,7 @@ final class TrackingViewController: UIViewController {
                     // 타이머 비활성화
                     self.deactivateTimer()
                     // 시작/종료 버튼 UI 변경
-                    self.changeButtonUI(buttonTitle: "산책길 저장하기", interaction: true)
+                    self.changeButtonUI(buttonTitle: "산책길 경로 저장", interaction: true)
                     // 잠금화면의 live activity 중단
                     LiveActivityService.shared.deactivate()
                 } else {
@@ -192,7 +192,7 @@ final class TrackingViewController: UIViewController {
                         // 타이머 활성화
                         self.activateTimer()
                         // 시작/종료 버튼 UI 변경
-                        self.changeButtonUI(buttonTitle: "산책길 생성 종료하기", interaction: true)
+                        self.changeButtonUI(buttonTitle: "경로 생성 종료", interaction: true)
                         // 잠금화면의 live activity 시작
                         LiveActivityService.shared.activate()
                     }

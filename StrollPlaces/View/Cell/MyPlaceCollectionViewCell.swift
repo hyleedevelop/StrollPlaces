@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Cosmos
 
 class MyPlaceCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var levelRating: CosmosView!
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var moreButtonBackView: UIView!

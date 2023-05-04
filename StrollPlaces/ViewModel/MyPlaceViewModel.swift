@@ -172,13 +172,11 @@ final class MyPlaceItemViewModel {
                 self.userDefaults.set(false, forKey: "myPlaceExist")
                 self.shouldShowAnimationView.onNext(true)
             }
-            print("trackData has been changed!")
             self.shouldReloadCollectionView.onNext(true)
         }
     }
     var sortedTrackData: Results<TrackData>! {
         didSet {
-            print("sortedTrackData has been changed!")
             self.shouldReloadCollectionView.onNext(true)
         }
     }

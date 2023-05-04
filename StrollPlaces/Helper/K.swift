@@ -87,7 +87,8 @@ struct K {
         static let trailingSpacing: CGFloat = 15
         static let cellColumns: CGFloat = 2
         static let cellWidth: CGFloat = (UIScreen.main.bounds.width - (leadingSpacing + trailingSpacing) - spacingWidth * (cellColumns - 1)) / cellColumns
-        static let cellHeight: CGFloat = 300
+        static let cellHeight: CGFloat = cellWidth + 109
+        //static let cellHeight: CGFloat = 300
     }
     
     // News TableView 관련

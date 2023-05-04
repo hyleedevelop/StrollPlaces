@@ -49,7 +49,6 @@
 		07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
 		0790A42429D83161008C3923 /* TrackPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42329D83161008C3923 /* TrackPoint.swift */; };
 		0790A42629D83208008C3923 /* TrackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42529D83208008C3923 /* TrackData.swift */; };
-		0790A42A29D85DFD008C3923 /* MyPlaceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
 		0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9529BF584B006AB70D /* AppDelegate.swift */; };
 		0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9729BF584B006AB70D /* SceneDelegate.swift */; };
@@ -190,7 +189,6 @@
 		07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAttributes.swift; sourceTree = "<group>"; };
 		0790A42329D83161008C3923 /* TrackPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPoint.swift; sourceTree = "<group>"; };
 		0790A42529D83208008C3923 /* TrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackData.swift; sourceTree = "<group>"; };
-		0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyPlaceTableViewCell.xib; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
 		0799CC9229BF584B006AB70D /* StrollPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StrollPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0799CC9529BF584B006AB70D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
 				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
 				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
-				0790A42829D85DFD008C3923 /* MyPlaceTableViewCell.xib */,
 				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
 				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
@@ -728,7 +725,6 @@
 				0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */,
 				079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
-				0790A42A29D85DFD008C3923 /* MyPlaceTableViewCell.xib in Resources */,
 				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				07648DC929C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
