@@ -44,29 +44,37 @@ final class MyPlaceViewModel {
     // context menu item 초기화
     private func initializeContextMenuItems() {
         self.sortMenuItems = [
-            UIAction(title: "등록날짜 느린 순", state: .off, handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .descendingByDate)
-            }),
-            UIAction(title: "등록날짜 빠른 순", state: .on, handler: { [weak self] _ in
+            UIAction(title: "오래전 등록된 것부터", state: .on, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
             }),
-            UIAction(title: "소요시간 적은 순", state: .off, handler: { [weak self] _ in
+            UIAction(title: "최근 등록된 것부터", state: .off, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.itemViewModel.getSortedTrackData(mode: .descendingByDate)
+            }),
+            UIAction(title: "소요시간 적은 것부터", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByTime)
             }),
-            UIAction(title: "소요시간 많은 순", state: .off, handler: { [weak self] _ in
+            UIAction(title: "소요시간 많은 것부터", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByTime)
             }),
-            UIAction(title: "이동거리 적은 순", state: .off, handler: { [weak self] _ in
+            UIAction(title: "이동거리 적은 것부터", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDistance)
             }),
-            UIAction(title: "이동거리 많은 순", state: .off, handler: { [weak self] _ in
+            UIAction(title: "이동거리 많은 것부터", state: .off, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDistance)
+            }),
+            UIAction(title: "별점 낮은 것부터", state: .off, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.itemViewModel.getSortedTrackData(mode: .ascendingByRating)
+            }),
+            UIAction(title: "별점 높은 것부터", state: .off, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.itemViewModel.getSortedTrackData(mode: .descendingByRating)
             }),
         ]
     }
@@ -193,20 +201,21 @@ final class MyPlaceItemViewModel {
     
     // Realm DB의 TrackData를 정렬하여 sortedTrackData에 넣기
     func getSortedTrackData(mode: MyPlaceSorting) {
+        var variableName = String()
+        var isAscendingOrder = Bool()
+        
         switch mode {
-        case .descendingByDate:
-            self.sortedTrackData = self.trackData.sorted(byKeyPath: "date", ascending: false)
-        case .ascendingByDate:
-            self.sortedTrackData = self.trackData.sorted(byKeyPath: "date", ascending: true)
-        case .descendingByTime:
-            self.sortedTrackData = self.trackData.sorted(byKeyPath: "time", ascending: false)
-        case .ascendingByTime:
-            self.sortedTrackData = self.trackData.sorted(byKeyPath: "time", ascending: true)
-        case .descendingByDistance:
-            self.sortedTrackData = self.trackData.sorted(byKeyPath: "distance", ascending: false)
-        case .ascendingByDistance:
-            self.sortedTrackData = self.trackData.sorted(byKeyPath: "distance", ascending: true)
+        case .descendingByDate: variableName = "date" ; isAscendingOrder = false
+        case .ascendingByDate: variableName = "date" ; isAscendingOrder = true
+        case .descendingByTime: variableName = "time" ; isAscendingOrder = false
+        case .ascendingByTime: variableName = "time" ; isAscendingOrder = true
+        case .descendingByDistance: variableName = "distance" ; isAscendingOrder = false
+        case .ascendingByDistance: variableName = "distance" ; isAscendingOrder = true
+        case .descendingByRating: variableName = "rating" ; isAscendingOrder = false
+        case .ascendingByRating: variableName = "rating" ; isAscendingOrder = true
         }
+        
+        self.sortedTrackData = self.trackData.sorted(byKeyPath: variableName, ascending: isAscendingOrder)
     }
     
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TipViewController: UIViewController {
+final class MyPlaceHelpViewController: UIViewController {
 
     //MARK: - IB outlet & action
     

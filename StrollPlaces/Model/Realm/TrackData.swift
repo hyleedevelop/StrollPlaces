@@ -22,7 +22,7 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
     @Persisted var name: String
     @Persisted var explanation: String
     @Persisted var feature: String
-    @Persisted var level: Double
+    @Persisted var rating: Double
     
     //MARK: - initializer
     
@@ -34,7 +34,7 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         name: String,
         explanation: String,
         feature: String,
-        level: Double
+        rating: Double
     ) {
         self.init()
         self.points = points
@@ -44,7 +44,7 @@ final class TrackData: Object {  // Object 상속 필수 ⭐️
         self.name = name
         self.explanation = explanation
         self.feature = feature
-        self.level = level
+        self.rating = rating
     }
     
     //MARK: - directly called method

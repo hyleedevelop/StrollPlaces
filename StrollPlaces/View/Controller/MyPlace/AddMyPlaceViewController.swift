@@ -33,12 +33,12 @@ class AddMyPlaceViewController: UIViewController {
     @IBOutlet weak var nameField: SkyFloatingLabelTextField!
     @IBOutlet weak var explanationField: SkyFloatingLabelTextField!
     @IBOutlet weak var featureField: SkyFloatingLabelTextField!
-    @IBOutlet weak var levelRating: CosmosView!
+    @IBOutlet weak var starRating: CosmosView!
     
     @IBOutlet weak var nameCheckLabel: UILabel!
     @IBOutlet weak var explanationCheckLabel: UILabel!
     @IBOutlet weak var featureCheckLabel: UILabel!
-    @IBOutlet weak var levelCheckLabel: UILabel!
+    @IBOutlet weak var ratingCheckLabel: UILabel!
     
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -73,7 +73,7 @@ class AddMyPlaceViewController: UIViewController {
         setupMapView()
         setupBackView()
         setupLabel()
-        setupTextField()
+        setupInputResponse()
         setupButton()
     }
     
@@ -196,13 +196,17 @@ class AddMyPlaceViewController: UIViewController {
     }
     
     // TextField 및 TextView 설정
-    private func setupTextField() {
-        self.nameField.returnKeyType = .default
-        
+    private func setupInputResponse() {
         let nameObservable = nameField.rx.text.orEmpty
         let explanationObservable = explanationField.rx.text.orEmpty
         let featureObservable = featureField.rx.text.orEmpty
-        let ratingObservable = Observable<Double>.just(self.levelRating.rating)
+        let ratingObservable = BehaviorSubject<Double>(value: self.starRating.rating)
+        
+        // 키보드 종류 설정
+        [self.nameField, self.explanationField, self.featureField]
+            .forEach { $0?.returnKeyType = .default }
+        // 별점 항목에서 별을 터치했을 때 수행할 내용
+        self.starRating.didTouchCosmos = { ratingObservable.onNext($0) }
         
         nameObservable
             .skip(1)
@@ -239,9 +243,10 @@ class AddMyPlaceViewController: UIViewController {
         
         // ❗️ 문제 해결하기
         ratingObservable
-            .map { self.checkLevelRatingIsValid(value: $0) }
-            .subscribe(onNext: { isValid in
-                self.levelCheckLabel.text = isValid ? "✅" : ""
+            .map { self.checkstarRatingIsValid(value: $0) }
+            .subscribe(onNext: { [weak self] isValid in
+                guard let self = self else { return }
+                self.ratingCheckLabel.text = isValid ? "✅" : ""
             })
             .disposed(by: rx.disposeBag)
         
@@ -255,7 +260,9 @@ class AddMyPlaceViewController: UIViewController {
                     .map { self.checkTextFieldIsValid($0, self.explanationField) },  // Bool
                 featureObservable
                     .map { self.checkTextFieldIsValid($0, self.featureField) },  // Bool
-                resultSelector: { s1, s2, s3 in s1 && s2 && s3 })
+                ratingObservable
+                    .map { self.checkstarRatingIsValid(value: $0) },  // Bool
+                resultSelector: { s1, s2, s3, s4 in s1 && s2 && s3 && s4 })
             .subscribe(onNext: { [weak self] isAvailable in
                 guard let self = self else { return }
                 self.saveButton.isEnabled = isAvailable
@@ -283,7 +290,7 @@ class AddMyPlaceViewController: UIViewController {
                         name: self.nameField.text!,
                         explanation: self.explanationField.text!,
                         feature: self.featureField.text!,
-                        level: self.levelRating.rating
+                        rating: self.starRating.rating
                     )
                     
                     // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
@@ -361,31 +368,23 @@ class AddMyPlaceViewController: UIViewController {
             if !isLengthValid {
                 textField.errorMessage = "2글자 이상, 10글자 이하"
             } else {
-                if !isUniqueName {
-                    textField.errorMessage = "중복되는 이름"
-                } else {
-                    textField.errorMessage = nil
-                }
+                textField.errorMessage = !isUniqueName ? "중복되는 이름" : nil
             }
             
             return isLengthValid && isUniqueName
         } else {
             // 문자열 길이가 적절한지 판단
-            let isLengthValid: Bool = (2...15) ~= text.count
+            let isLengthValid: Bool = (2...20) ~= text.count
             
             // 텍스트필드 아래에 에러 메세지 표출
-            if !isLengthValid {
-                textField.errorMessage = "2글자 이상, 15글자 이하"
-            } else {
-                textField.errorMessage = nil
-            }
-
+            textField.errorMessage = !isLengthValid ? "2글자 이상, 20글자 이하" : nil
+            
             return isLengthValid
         }
     }
     
     // 산책길 난이도 별점에 대한 유효성 검사
-    private func checkLevelRatingIsValid(value: Double) -> Bool {
+    private func checkstarRatingIsValid(value: Double) -> Bool {
         return (1.0...5.0) ~= value ? true : false
     }
     

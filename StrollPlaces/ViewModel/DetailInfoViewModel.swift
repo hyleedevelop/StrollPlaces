@@ -19,7 +19,6 @@ final class DetailInfoViewModel {
     
     var trackData = RealmService.shared.realm.objects(TrackData.self)
     private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
-    private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
     private var points = [CLLocationCoordinate2D]()
     
     let nameRelay = BehaviorRelay<String>(value: "알수없음")
@@ -79,7 +78,7 @@ final class DetailInfoViewModel {
         self.featureRelay.accept(featureString)
         
         var levelString : String {
-            return "\(Int(RealmService.shared.realm.objects(TrackData.self)[index].level)) / 5"
+            return "\(RealmService.shared.realm.objects(TrackData.self)[index].rating) / 5"
         }
         self.levelRelay.accept(levelString)
     }
@@ -119,5 +118,18 @@ final class DetailInfoViewModel {
         }
     }
     
+    // Realm DB 업데이트 // ❗️
+    func updateDB(index: Int, newValue: String) {
+        let primaryKey = RealmService.shared.realm.objects(TrackData.self)[index]._id
+        let realm = try! Realm()
+        try! realm.write {
+            realm.create(TrackData.self,
+                         value: ["_id": primaryKey,
+                                 "name": newValue]
+                         as [String: Any],
+                         update: .modified)
+        }
+        self.nameRelay.accept(newValue)
+    }
     
 }

@@ -19,20 +19,24 @@ final class DetailInfoViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var labelBackView: UIView!
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var closeButtonBackView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var explanationLabel: UILabel!
     @IBOutlet weak var featureLabel: UILabel!
-    @IBOutlet weak var levelLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    
+    @IBOutlet weak var nameEditButton: UIButton!
+    @IBOutlet weak var ratingEditButton: UIButton!
+    @IBOutlet weak var explanationEditButton: UIButton!
+    @IBOutlet weak var featureEditButton: UIButton!
     
     //MARK: - normal property
     
     private let viewModel = DetailInfoViewModel()
     private var locationManager: CLLocationManager!
-    private lazy var labelArray = [self.timeLabel, self.distanceLabel, self.levelLabel,
+    private lazy var labelArray = [self.timeLabel, self.distanceLabel, self.ratingLabel,
                                    self.explanationLabel, self.featureLabel, self.dateLabel]
     var cellIndex: Int = 0
     
@@ -49,6 +53,7 @@ final class DetailInfoViewController: UIViewController {
         self.setupLabel()
         self.setupBackView()
         self.setupCloseButton()
+        self.setupEditButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,14 +174,14 @@ final class DetailInfoViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         self.viewModel.levelRelay.asDriver(onErrorJustReturn: "levelRelay error")
-            .drive(self.levelLabel.rx.text)
+            .drive(self.ratingLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
     
     // BackView 설정
     private func setupBackView() {
-        self.closeButtonBackView.clipsToBounds = true
-        self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
+        //self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
+        //self.closeButtonBackView.clipsToBounds = true
         
         self.labelBackView.layer.cornerRadius = K.Shape.largeCornerRadius
         self.labelBackView.clipsToBounds = true
@@ -198,6 +203,40 @@ final class DetailInfoViewController: UIViewController {
                 guard let self = self else { return }
                 print("닫기 버튼 터치됨")
                 self.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: rx.disposeBag)
+    }
+    
+    // ❗️
+    private func setupEditButton() {
+        self.nameEditButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                // 진짜로 리셋할 것인지 alert message 보여주고 확인받기
+                let alert = UIAlertController(
+                    title: "수정",
+                    message: "새로운 산책길 이름을 입력하세요",
+                    preferredStyle: .alert
+                )
+                let cancelAction = UIAlertAction(title: "취소", style: .default)
+                let okAction = UIAlertAction(title: "저장", style: .default) { _ in
+                    // Textfield에서 입력받은 값을 뷰모델로 전달하여 Realm DB의 업데이트 수행
+                    guard let text = alert.textFields![0].text else { return }
+                    self.viewModel.updateDB(index: self.cellIndex, newValue: text)
+                }
+                
+                alert.addTextField { textField in
+                    textField.text = self.nameLabel.text
+                    textField.placeholder = "새로운 산책길 이름"
+                    textField.clearButtonMode = .whileEditing
+                }
+                alert.addAction(okAction)
+                alert.addAction(cancelAction)
+                
+                // 메세지 보여주기
+                self.present(alert, animated: true, completion: nil)
+
             })
             .disposed(by: rx.disposeBag)
     }

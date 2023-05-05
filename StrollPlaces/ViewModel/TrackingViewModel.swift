@@ -132,7 +132,7 @@ final class TrackingViewModel {
             name: "",
             explanation: "",
             feature: "",
-            level: 0.0)
+            rating: 0.0)
         
         RealmService.shared.create(dataToAppend)
         

@@ -12,14 +12,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MyPlaceCollectionViewCell" id="gTV-IL-0wX" customClass="MyPlaceCollectionViewCell" customModule="StrollPlaces" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="190" height="300"/>
+            <rect key="frame" x="0.0" y="0.0" width="190" height="290"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="190" height="300"/>
+                <rect key="frame" x="0.0" y="0.0" width="190" height="290"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bnr-bN-ZO8" userLabel="BackView">
-                        <rect key="frame" x="0.0" y="0.0" width="190" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="190" height="290"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Psn-c8-qQr">
                                 <rect key="frame" x="0.0" y="0.0" width="190" height="190"/>
@@ -28,13 +28,13 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rgp-dE-2Nv">
-                                <rect key="frame" x="10" y="200" width="170" height="90"/>
+                                <rect key="frame" x="10" y="200" width="170" height="80"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vnF-pP-ose">
-                                        <rect key="frame" x="0.0" y="0.0" width="170" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="170" height="17"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="0sk-dx-kzZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="170" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="170" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="8oA-uC-aEa"/>
                                                 </constraints>
@@ -48,7 +48,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dHl-JP-mGD">
-                                        <rect key="frame" x="0.0" y="25" width="170" height="17"/>
+                                        <rect key="frame" x="0.0" y="22" width="170" height="17"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="timer" translatesAutoresizingMaskIntoConstraints="NO" id="ewT-GV-HYK" userLabel="Time Icon">
                                                 <rect key="frame" x="0.0" y="2.6666666666666572" width="12" height="12"/>
@@ -69,17 +69,17 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="jpv-eM-Jif">
-                                        <rect key="frame" x="0.0" y="47" width="170" height="24"/>
+                                        <rect key="frame" x="0.0" y="44" width="170" height="17"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="distance" translatesAutoresizingMaskIntoConstraints="NO" id="GJS-yN-7Ar" userLabel="Distance Icon">
-                                                <rect key="frame" x="0.0" y="6" width="12" height="12"/>
+                                                <rect key="frame" x="0.0" y="2.6666666666666572" width="12" height="12"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="12" id="Ukz-R0-Y2H"/>
                                                     <constraint firstAttribute="width" constant="12" id="jR4-sb-tde"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="거리" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vuh-mW-Pdt">
-                                                <rect key="frame" x="17" y="3.6666666666666572" width="153" height="17"/>
+                                                <rect key="frame" x="17" y="0.0" width="153" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -90,7 +90,7 @@
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="등록한 시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Omx-NZ-zKq">
-                                        <rect key="frame" x="0.0" y="76" width="170" height="14"/>
+                                        <rect key="frame" x="0.0" y="66" width="170" height="14"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="14" id="BJ7-Lg-4xl"/>
                                         </constraints>
@@ -106,7 +106,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sy7-GG-KCv">
-                                <rect key="frame" x="160" y="270" width="20" height="20"/>
+                                <rect key="frame" x="160" y="260" width="20" height="20"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Azw-HU-71c">
                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -139,29 +139,29 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="starSize">
-                                        <real key="value" value="15"/>
+                                        <real key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
                                         <color key="value" systemColor="systemYellowColor"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
-                                        <color key="value" systemColor="systemYellowColor"/>
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="emptyBorderWidth">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="0.5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
-                                        <real key="value" value="2"/>
+                                        <real key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
-                                        <color key="value" systemColor="systemYellowColor"/>
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
-                                        <integer key="value" value="0"/>
+                                        <integer key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="updateOnTouch" value="NO"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="filledBorderWidth">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="0.5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -191,7 +191,7 @@
                 <constraint firstAttribute="bottom" secondItem="Bnr-bN-ZO8" secondAttribute="bottom" id="vmX-T5-52t"/>
                 <constraint firstItem="Bnr-bN-ZO8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="wPl-c5-y83"/>
             </constraints>
-            <size key="customSize" width="190" height="302"/>
+            <size key="customSize" width="190" height="292"/>
             <connections>
                 <outlet property="backView" destination="Bnr-bN-ZO8" id="0ci-QU-NYQ"/>
                 <outlet property="dateLabel" destination="Omx-NZ-zKq" id="JWS-s2-gZR"/>
@@ -203,9 +203,14 @@
                 <outlet property="nameLabel" destination="0sk-dx-kzZ" id="pfY-Af-146"/>
                 <outlet property="timeLabel" destination="e38-m7-yLd" id="au8-rw-A1w"/>
             </connections>
-            <point key="canvasLocation" x="129.7709923664122" y="5.6338028169014089"/>
+            <point key="canvasLocation" x="129.7709923664122" y="2.1126760563380285"/>
         </collectionViewCell>
     </objects>
+    <designables>
+        <designable name="i9S-c0-E01">
+            <size key="intrinsicContentSize" width="92" height="16"/>
+        </designable>
+    </designables>
     <resources>
         <image name="distance" width="48" height="48"/>
         <image name="ellipsis.circle.fill" catalog="system" width="128" height="123"/>

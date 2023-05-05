@@ -100,7 +100,7 @@ final class AddMyPlaceViewModel {
     }
     
     // Realm DB에 데이터 추가하기
-    func updateTrackData(name: String, explanation: String, feature: String, level: Double) {
+    func updateTrackData(name: String, explanation: String, feature: String, rating: Double) {
         // TrackData의 id, name, explanation, feature 업데이트
         let realm = try! Realm()
         try! realm.write {
@@ -109,7 +109,7 @@ final class AddMyPlaceViewModel {
                                  "name": name,
                                  "explanation": explanation,
                                  "feature": feature,
-                                 "level": level]
+                                 "rating": rating]
                          as [String: Any],
                          update: .modified)
         }

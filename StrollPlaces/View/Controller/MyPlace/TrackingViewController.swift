@@ -115,8 +115,6 @@ final class TrackingViewController: UIViewController {
     
     // 지도 및 경로 관련 설정
     private func setupMapView() {
-        //self.mapView.layer.cornerRadius = K.Shape.mediumCornerRadius
-        //self.mapView.clipsToBounds = true
         self.mapView.layer.borderColor = K.Color.themeGray.cgColor
         self.mapView.layer.borderWidth = 0.0
         self.mapView.showsUserLocation = true
@@ -126,8 +124,8 @@ final class TrackingViewController: UIViewController {
     }
     
     private func setupBackView() {
-        self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
-        self.closeButtonBackView.clipsToBounds = true
+        //self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
+        //self.closeButtonBackView.clipsToBounds = true
         
         self.labelBackView.layer.cornerRadius = K.Shape.largeCornerRadius
         self.labelBackView.clipsToBounds = true

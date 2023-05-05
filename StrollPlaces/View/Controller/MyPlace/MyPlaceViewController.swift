@@ -114,14 +114,17 @@ class MyPlaceViewController: UIViewController {
         
         // right bar button 설정
         let addBarButton = self.navigationItem.makeSFSymbolButton(
-            self, action: #selector(pushViewController), symbolName: "plus"
+            self, action: #selector(pushToTracking), symbolName: "plus"
         )
         let sortBarButton = self.navigationItem.makeSFSymbolButton(
             self, menu: self.viewModel.getSortContextMenu(), symbolName: "arrow.up.arrow.down"
         )
+        let helpBarButton = self.navigationItem.makeSFSymbolButton(
+            self, action: #selector(pushToHelp), symbolName: "questionmark.circle"
+        )
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         spacer.width = 15
-        self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton]
+        self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton, spacer, helpBarButton]
     }
     
     // 나만의 산책로 리스트가 없는 경우 애니메이션 표출 설정
@@ -241,18 +244,20 @@ class MyPlaceViewController: UIViewController {
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
     }
     
-    @objc private func pushViewController() {
+    // 나만의 산책길 생성 화면으로 이동
+    @objc private func pushToTracking() {
         self.performSegue(withIdentifier: "ToTrackingViewController", sender: self)
-        
-//        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ToTrackingViewController") else { return }
-//        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ToDetailInfoViewController" {
-//            guard let vc = segue.destination as? NaviViewController else { return }
-//            vc.index = message
-//        }
+    // 나만의 산책길 생성 도움말 화면으로 이동
+    @objc private func pushToHelp() {
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPlaceHelpViewController") as? MyPlaceHelpViewController else { return }
+        nextVC.modalPresentationStyle = .overFullScreen
+        nextVC.hero.isEnabled = true
+        //nextVC.hero.modalAnimationType = .selectBy(presenting: .cover(direction: .down), dismissing: .uncover(direction: .up))
+        nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right), dismissing: .slide(direction: .left))
+        
+        self.present(nextVC, animated: true, completion: nil)
     }
     
 }
@@ -280,7 +285,7 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         let dataSource = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]
         
-        cell.levelRating.rating = dataSource.level
+        cell.levelRating.rating = dataSource.rating
         
         cell.mainImage.image = self.viewModel.loadImageFromDocumentDirectory(
             imageName: dataSource._id.stringValue
@@ -317,13 +322,13 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     private func getMoreContextMenu(index: Int, sender: UIButton) -> UIMenu {
         let actions = [
+            UIAction(title: "수정", image: UIImage(systemName: "pencil"),
+                     attributes: .keepsMenuPresented, handler: { _ in
+                         
+                     }),
             UIAction(title: "삭제", image: UIImage(systemName: "trash"),
                      attributes: .destructive, handler: { _ in
                          self.removeMyPlace(sender, index: index)
-                     }),
-            UIAction(title: "공유", image: UIImage(systemName: "square.and.arrow.up"),
-                     attributes: .keepsMenuPresented, handler: { _ in
-                         self.shareMyPlace(sender)
                      }),
         ]
         return UIMenu(title: "", options: [.displayInline], children: actions)
@@ -366,11 +371,6 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         // 메세지 보여주기
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    // 나만의 산책길 항목 공유하기
-    private func shareMyPlace(_ sender: UIButton) {
-        
     }
     
 }

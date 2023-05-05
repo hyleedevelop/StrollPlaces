@@ -25,26 +25,26 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     // Section Header의 제목 설정
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.viewModel.getTitleForHeaderInSection(at: section)
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return self.viewModel.getTitleForHeaderInSection(at: section)
+//    }
 
     // Section Header의 스타일 설정
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let title = UILabel()
-        title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        title.textColor = UIColor.black
-
-        let backView = UIView()
-        backView.backgroundColor = K.Color.mainColorLight
-        
-        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.textLabel!.font = title.font
-        header.textLabel?.textColor = title.textColor
-        header.backgroundView = backView
-        header.layer.borderColor = UIColor.systemGray4.cgColor
-        header.layer.borderWidth = 0
-    }
+//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        let title = UILabel()
+//        title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+//        title.textColor = UIColor.black
+//
+//        let backView = UIView()
+//        backView.backgroundColor = K.Color.mainColorLight
+//
+//        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+//        header.textLabel!.font = title.font
+//        header.textLabel?.textColor = title.textColor
+//        header.backgroundView = backView
+//        header.layer.borderColor = UIColor.systemGray4.cgColor
+//        header.layer.borderWidth = 0
+//    }
     
     // TableViewCell 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -79,7 +79,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
-            print("appSettings")
             if indexPath.row == 2 {
                 // 진짜로 취소할 것인지 alert message 보여주고 확인받기
                 let alert = UIAlertController(title: "확인",
@@ -91,19 +90,19 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let indicatorView = SPIndicatorView(title: "삭제 완료", preset: .done)
                     indicatorView.present(duration: 2.0, haptic: .success)
+                    
+                    // userdefaults 값 false로 초기화 -> Lottie Animation 표출
+                    self.userDefaults.set(false, forKey: "myPlaceExist")
+                    NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
                 }
                 alert.addAction(okAction)
                 alert.addAction(cancelAction)
                 
                 // 메세지 보여주기
                 self.present(alert, animated: true, completion: nil)
-                
-                // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-                self.userDefaults.set(false, forKey: "myPlaceExist")
-                NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
             }
         case .feedback:
-            print("feedback")
+            let _ = "nothing"
         case .aboutTheApp:
             if indexPath.row == 0 {
                 self.showSafariView(urlString: K.More.helpURL)

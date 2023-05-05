@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */; };
-		0709557529D2B29200068C91 /* TipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557429D2B29200068C91 /* TipViewController.swift */; };
+		0709557529D2B29200068C91 /* MyPlaceHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */; };
 		0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */; };
 		070D486F29E6C958009B67A8 /* CLPlacemark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070D486E29E6C958009B67A8 /* CLPlacemark.swift */; };
 		070FFB0029D56B4900987285 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FFAFF29D56B4900987285 /* AlertService.swift */; };
@@ -149,7 +149,7 @@
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
 		0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230312.csv; sourceTree = "<group>"; };
-		0709557429D2B29200068C91 /* TipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipViewController.swift; sourceTree = "<group>"; };
+		0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceHelpViewController.swift; sourceTree = "<group>"; };
 		0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewController.swift; sourceTree = "<group>"; };
 		070D486E29E6C958009B67A8 /* CLPlacemark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLPlacemark.swift; sourceTree = "<group>"; };
 		070FFAFF29D56B4900987285 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
 				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
 				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
-				0709557429D2B29200068C91 /* TipViewController.swift */,
+				0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */,
 			);
 			path = MyPlace;
 			sourceTree = "<group>";
@@ -951,7 +951,7 @@
 				0799CCEC29BF6E10006AB70D /* Double.swift in Sources */,
 				0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */,
 				07AC1EE329E3E412006BEA03 /* TrackingLiveActivity.swift in Sources */,
-				0709557529D2B29200068C91 /* TipViewController.swift in Sources */,
+				0709557529D2B29200068C91 /* MyPlaceHelpViewController.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
