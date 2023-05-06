@@ -25,3 +25,9 @@ enum MyPlaceSorting {
     case descendingByRating
     case ascendingByRating
 }
+
+enum EditableItems {
+    case name
+    case explanation
+    case feature
+}

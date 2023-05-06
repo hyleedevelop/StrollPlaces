@@ -27,7 +27,7 @@ class MyPlaceViewController: UIViewController {
     private lazy var viewModel = MyPlaceViewModel()
     private let userDefaults = UserDefaults.standard
     private let flowLayout = UICollectionViewFlowLayout()  // 컬렉션뷰의 레이아웃을 담당하는 객체
-    //private var actions = [UIAction]()
+    private var timer = Timer()
     
     //MARK: - UI property
     
@@ -79,6 +79,8 @@ class MyPlaceViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Navigation Bar 기본 설정
         navigationController?.applyCommonSettings()
         self.navigationController?.navigationBar.isHidden = false
@@ -91,11 +93,23 @@ class MyPlaceViewController: UIViewController {
                 self.myPlaceCollectionView.reloadData()
             }
         }
+        
+        // 1분마다 Collection View를 갱신하는 Timer 시작
+        self.timer = Timer.scheduledTimer(timeInterval: 60, target: self,
+                                          selector: #selector(shouldReloadMyPlace),
+                                          userInfo: nil, repeats: true)
+        // 사용자가 메인쓰레드에서 작업(interaction, UI update 등)중이어도 타이머가 작동되도록 설정
+        RunLoop.current.add(self.timer, forMode: .common)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // Navigation Bar 기본 설정
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        // Timer 해제
+        self.timer.invalidate()
     }
     
     deinit {
@@ -182,8 +196,13 @@ class MyPlaceViewController: UIViewController {
     // Notification을 받았을 때 수행할 내용 설정
     private func setupNotificationObserver() {
         NotificationCenter.default.addObserver(
-            self, selector: #selector(notificationReceived(_:)),
+            self, selector: #selector(shouldShowAnimation(_:)),
             name: Notification.Name("showLottieAnimation"), object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(shouldReloadMyPlace(_:)),
+            name: Notification.Name("reloadMyPlace"), object: nil
         )
     }
     
@@ -238,10 +257,17 @@ class MyPlaceViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    // Notification을 받았을 때 수행할 내용 설정
-    @objc private func notificationReceived(_ notification: NSNotification) {
+    // Notification을 받았을 때 수행할 내용 설정 (1)
+    @objc private func shouldShowAnimation(_ notification: NSNotification) {
         let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
+    }
+    
+    // Notification을 받았을 때 수행할 내용 설정 (2)
+    @objc private func shouldReloadMyPlace(_ notification: NSNotification) {
+        DispatchQueue.main.async {
+            self.myPlaceCollectionView.reloadData()
+        }
     }
     
     // 나만의 산책길 생성 화면으로 이동
@@ -282,27 +308,34 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.MyPlace.cellName, for: indexPath)
                 as? MyPlaceCollectionViewCell else { return UICollectionViewCell() }
-        
         let dataSource = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]
         
-        cell.levelRating.rating = dataSource.rating
+        cell.starRating.rating = dataSource.rating
         
         cell.mainImage.image = self.viewModel.loadImageFromDocumentDirectory(
             imageName: dataSource._id.stringValue
         )
         
         cell.nameLabel.text = dataSource.name.count == 0 ? "제목없음" : dataSource.name
+        
         cell.timeLabel.text = "\(dataSource.time)"
+        
         cell.distanceLabel.text = dataSource.distance < 1000.0
         ? String(format: "%.1f", dataSource.distance) + "m"
         : String(format: "%.2f", dataSource.distance/1000.0) + "km"
-        cell.dateLabel.text = "\(Int.random(in: 0..<60))분 전"
+        
+        cell.dateLabel.text = Date().getTimeIntervalString(since: dataSource.date.toDate()!)
         
         cell.moreButton.showsMenuAsPrimaryAction = true
         cell.moreButton.menu = self.getMoreContextMenu(index: indexPath.row,
                                                        sender: cell.moreButton)
         
-        cell.nameLabel.hero.id = "nameLabel\(indexPath.row)"
+        let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]._id
+        let realmDB = self.viewModel.itemViewModel.trackData
+
+        if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
+            cell.nameLabel.hero.id = "nameLabel\(indexOfRealm)"
+        }
         
         return cell
     }
@@ -310,22 +343,27 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
     // 셀이 선택되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailInfoViewController") as? DetailInfoViewController else { return }
-        nextVC.cellIndex = indexPath.row
-        nextVC.modalPresentationStyle = .overFullScreen
-        nextVC.hero.isEnabled = true
-        nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
-
-        self.present(nextVC, animated: true, completion: nil)
+        
+        let sortedDataID = self.viewModel.itemViewModel.sortedTrackData[indexPath.row]._id
+        let realmDB = self.viewModel.itemViewModel.trackData
+        
+        if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
+            nextVC.cellIndex = indexOfRealm
+            nextVC.modalPresentationStyle = .overFullScreen
+            nextVC.hero.isEnabled = true
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
+            self.present(nextVC, animated: true, completion: nil)
+        }
     }
     
     //MARK: - indirectly called method
     
     private func getMoreContextMenu(index: Int, sender: UIButton) -> UIMenu {
         let actions = [
-            UIAction(title: "수정", image: UIImage(systemName: "pencil"),
-                     attributes: .keepsMenuPresented, handler: { _ in
-                         
-                     }),
+//            UIAction(title: "수정", image: UIImage(systemName: "pencil"),
+//                     attributes: .keepsMenuPresented, handler: { _ in
+//
+//                     }),
             UIAction(title: "삭제", image: UIImage(systemName: "trash"),
                      attributes: .destructive, handler: { _ in
                          self.removeMyPlace(sender, index: index)

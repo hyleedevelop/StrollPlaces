@@ -9,6 +9,7 @@ import Foundation
 
 extension String {
     
+    // escaping string을 unescaping string으로 변환
     func unescape() -> String {
         let characters = [
             "&amp;": "&",
@@ -30,9 +31,18 @@ extension String {
         return str
     }
     
-    func convertDateString() -> String {
-        let convertedString = ""
-        return convertedString
+    // string을 date로 변환
+    func toDate() -> Date? {
+        //"yyyy-MM-dd HH:mm:ss"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분 ss초"
+        dateFormatter.timeZone = TimeZone(identifier: "KST")
+        
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
     }
     
 }

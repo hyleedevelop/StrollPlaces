@@ -241,7 +241,7 @@ class AddMyPlaceViewController: UIViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        // ❗️ 문제 해결하기
+        // 문제 해결하기
         ratingObservable
             .map { self.checkstarRatingIsValid(value: $0) }
             .subscribe(onNext: { [weak self] isValid in

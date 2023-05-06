@@ -51,7 +51,7 @@ final class TrackingViewModel {
     // 형식을 갖춘 날짜 문자열
     var dateString: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분 ss초"
         return dateFormatter.string(from: Date())
     }
     

@@ -27,7 +27,7 @@ final class DetailInfoViewModel {
     let distanceRelay = BehaviorRelay<String>(value: "알수없음")
     let explanationRelay = BehaviorRelay<String>(value: "알수없음")
     let featureRelay = BehaviorRelay<String>(value: "알수없음")
-    let levelRelay = BehaviorRelay<String>(value: "알수없음")
+    let ratingRelay = BehaviorRelay<String>(value: "알수없음")
     
     //MARK: - initializer
     
@@ -45,10 +45,7 @@ final class DetailInfoViewModel {
         self.nameRelay.accept(nameString)
         
         var dateString: String {
-            //let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
-            return dateFormatter.string(from: Date())
+            return RealmService.shared.realm.objects(TrackData.self)[index].date
         }
         self.dateRelay.accept(dateString)
         
@@ -77,10 +74,10 @@ final class DetailInfoViewModel {
         }
         self.featureRelay.accept(featureString)
         
-        var levelString : String {
+        var ratingString : String {
             return "\(RealmService.shared.realm.objects(TrackData.self)[index].rating) / 5"
         }
-        self.levelRelay.accept(levelString)
+        self.ratingRelay.accept(ratingString)
     }
     
     // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
@@ -118,18 +115,27 @@ final class DetailInfoViewModel {
         }
     }
     
-    // Realm DB 업데이트 // ❗️
-    func updateDB(index: Int, newValue: String) {
-        let primaryKey = RealmService.shared.realm.objects(TrackData.self)[index]._id
+    // 상세정보 화면에서 편집 버튼을 통해 Realm DB 업데이트 하기
+    func updateDB(index: Int, newValue: String, item: EditableItems) {
         let realm = try! Realm()
-        try! realm.write {
-            realm.create(TrackData.self,
-                         value: ["_id": primaryKey,
-                                 "name": newValue]
-                         as [String: Any],
-                         update: .modified)
+        let primaryKey = RealmService.shared.realm.objects(TrackData.self)[index]._id
+        var dictionary = [String: Any]()
+        
+        switch item {
+        case .name: dictionary = ["_id": primaryKey, "name": newValue]
+        case .explanation: dictionary = ["_id": primaryKey, "explanation": newValue]
+        case .feature: dictionary = ["_id": primaryKey, "feature": newValue]
         }
-        self.nameRelay.accept(newValue)
+        
+        try! realm.write {
+            realm.create(TrackData.self, value: dictionary as [String: Any], update: .modified)
+        }
+        
+        switch item {
+        case .name: self.nameRelay.accept(newValue)
+        case .explanation: self.explanationRelay.accept(newValue)
+        case .feature: self.featureRelay.accept(newValue)
+        }
     }
     
 }

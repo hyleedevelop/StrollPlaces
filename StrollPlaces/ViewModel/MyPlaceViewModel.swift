@@ -44,7 +44,7 @@ final class MyPlaceViewModel {
     // context menu item 초기화
     private func initializeContextMenuItems() {
         self.sortMenuItems = [
-            UIAction(title: "오래전 등록된 것부터", state: .on, handler: { [weak self] _ in
+            UIAction(title: "예전 등록된 것부터", state: .on, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
             }),
@@ -81,7 +81,7 @@ final class MyPlaceViewModel {
     
     // 나만의 산책길 목록 정렬을 위한 context menu 설정
     func getSortContextMenu() -> UIMenu {
-        return UIMenu(title: "정렬순", options: [.singleSelection], children: self.sortMenuItems)
+        return UIMenu(title: "정렬방법", options: [.singleSelection], children: self.sortMenuItems)
     }
     
     // 나만의 산책길 목록 정렬을 위한 context menu 아이템 가져오기

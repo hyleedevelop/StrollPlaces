@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--산책길 관련 소식-->
+        <!--News View Controller-->
         <scene sceneID="nHG-iT-sqb">
             <objects>
                 <viewController id="qLB-wf-QFj" customClass="NewsViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -33,7 +33,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="" image="TabBarIcon3" id="JB3-Gb-Uxx"/>
-                    <navigationItem key="navigationItem" title="산책길 관련 소식" id="l6Q-nY-s9n"/>
+                    <navigationItem key="navigationItem" id="l6Q-nY-s9n"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="WbR-R0-frl" id="aIN-px-mAL"/>

@@ -28,7 +28,6 @@ final class DetailInfoViewController: UIViewController {
     @IBOutlet weak var ratingLabel: UILabel!
     
     @IBOutlet weak var nameEditButton: UIButton!
-    @IBOutlet weak var ratingEditButton: UIButton!
     @IBOutlet weak var explanationEditButton: UIButton!
     @IBOutlet weak var featureEditButton: UIButton!
     
@@ -173,16 +172,13 @@ final class DetailInfoViewController: UIViewController {
             .drive(self.featureLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.levelRelay.asDriver(onErrorJustReturn: "levelRelay error")
+        self.viewModel.ratingRelay.asDriver(onErrorJustReturn: "levelRelay error")
             .drive(self.ratingLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
     
     // BackView 설정
     private func setupBackView() {
-        //self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
-        //self.closeButtonBackView.clipsToBounds = true
-        
         self.labelBackView.layer.cornerRadius = K.Shape.largeCornerRadius
         self.labelBackView.clipsToBounds = true
         self.labelBackView.layer.masksToBounds = false
@@ -195,50 +191,81 @@ final class DetailInfoViewController: UIViewController {
     
     // 산책길 등록 취소 버튼 설정
     private func setupCloseButton() {
-        self.closeButton.clipsToBounds = true
-        self.closeButton.layer.cornerRadius = self.closeButton.frame.height / 2.0
-        
         self.closeButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                print("닫기 버튼 터치됨")
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true) {
+                    // 나만의 산책길 목록 화면의 CollectionView Cell 갱신 요청
+                    NotificationCenter.default.post(
+                        name: Notification.Name("reloadMyPlace"), object: nil
+                    )
+                }
             })
             .disposed(by: rx.disposeBag)
     }
     
-    // ❗️
+    // 편집 버튼 설정
     private func setupEditButton() {
         self.nameEditButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                
-                // 진짜로 리셋할 것인지 alert message 보여주고 확인받기
-                let alert = UIAlertController(
-                    title: "수정",
-                    message: "새로운 산책길 이름을 입력하세요",
-                    preferredStyle: .alert
+                self.editItemWithAlertMessage(
+                    message: "산책길 이름을 다음과 같이 변경합니다.", placeHolder: "산책길 이름", item: .name
                 )
-                let cancelAction = UIAlertAction(title: "취소", style: .default)
-                let okAction = UIAlertAction(title: "저장", style: .default) { _ in
-                    // Textfield에서 입력받은 값을 뷰모델로 전달하여 Realm DB의 업데이트 수행
-                    guard let text = alert.textFields![0].text else { return }
-                    self.viewModel.updateDB(index: self.cellIndex, newValue: text)
-                }
-                
-                alert.addTextField { textField in
-                    textField.text = self.nameLabel.text
-                    textField.placeholder = "새로운 산책길 이름"
-                    textField.clearButtonMode = .whileEditing
-                }
-                alert.addAction(okAction)
-                alert.addAction(cancelAction)
-                
-                // 메세지 보여주기
-                self.present(alert, animated: true, completion: nil)
-
             })
             .disposed(by: rx.disposeBag)
+        
+        self.explanationEditButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.editItemWithAlertMessage(
+                    message: "간단한 소개를 다음과 같이 변경합니다.", placeHolder: "간단한 소개", item: .explanation
+                )
+            })
+            .disposed(by: rx.disposeBag)
+        
+        self.featureEditButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.editItemWithAlertMessage(
+                    message: "특이사항을 다음과 같이 변경합니다.", placeHolder: "특이사항", item: .feature
+                )
+            })
+            .disposed(by: rx.disposeBag)
+    }
+    
+    //MARK: - indirectly called method
+    
+    private func editItemWithAlertMessage(message: String, placeHolder: String, item: EditableItems) {
+        // alert message 보여주고 입력값 받기
+        let alert = UIAlertController(
+            title: "수정", message: message, preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        let okAction = UIAlertAction(title: "저장", style: .default) { _ in
+            // TextField에서 입력받은 값을 뷰모델로 전달하여 Realm DB의 업데이트 수행
+            guard let text = alert.textFields![0].text else { return }
+            self.viewModel.updateDB(index: self.cellIndex, newValue: text, item: item)
+        }
+        
+        // TextField와 Action Button 추가
+        alert.addTextField { textField in
+            var currentText = ""
+            switch item {
+            case .name: currentText = self.viewModel.trackData[self.cellIndex].name
+            case .explanation: currentText = self.viewModel.trackData[self.cellIndex].explanation
+            case .feature: currentText = self.viewModel.trackData[self.cellIndex].feature
+            }
+            
+            textField.text = currentText
+            textField.placeholder = placeHolder
+            textField.clearButtonMode = .whileEditing
+        }
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        // 메세지 보여주기
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
