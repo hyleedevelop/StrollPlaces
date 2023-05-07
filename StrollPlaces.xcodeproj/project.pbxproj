@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070428AE2A07E4C400709369 /* TabBarWithCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070428AD2A07E4C400709369 /* TabBarWithCornerRadius.swift */; };
 		0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */; };
 		0709557529D2B29200068C91 /* MyPlaceHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */; };
 		0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */; };
@@ -148,6 +149,7 @@
 
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
+		070428AD2A07E4C400709369 /* TabBarWithCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarWithCornerRadius.swift; sourceTree = "<group>"; };
 		0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230312.csv; sourceTree = "<group>"; };
 		0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceHelpViewController.swift; sourceTree = "<group>"; };
 		0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewController.swift; sourceTree = "<group>"; };
@@ -295,6 +297,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		070428AC2A07E47D00709369 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				070428AD2A07E4C400709369 /* TabBarWithCornerRadius.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		0760D51B29D3295700796D73 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +431,7 @@
 			isa = PBXGroup;
 			children = (
 				079AF4EC29C74683006C365B /* Storyboard */,
+				070428AC2A07E47D00709369 /* View */,
 				0799CCC629BF5947006AB70D /* Controller */,
 				0799CCCF29BF5987006AB70D /* Cell */,
 			);
@@ -893,6 +904,7 @@
 				079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */,
 				0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */,
 				072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */,
+				070428AE2A07E4C400709369 /* TabBarWithCornerRadius.swift in Sources */,
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,

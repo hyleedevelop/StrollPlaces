@@ -36,29 +36,50 @@ class MoreViewController: UIViewController {
         setupTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Navigation Bar 기본 설정
+        navigationController?.applyCommonSettings()
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Navigation Bar 기본 설정
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     //MARK: - directly called method
     
     // NavigationBar 설정
     private func setupNavigationBar() {
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.shadowColor = .clear
-        navigationBarAppearance.backgroundColor = UIColor.white
-//        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-//        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        // Navigation Bar 기본 설정
+        navigationController?.applyCommonSettings()
         
-        // scrollEdge: 스크롤 하기 전의 NavigationBar
-        // standard: 스크롤을 하고 있을 때의 NavigationBar
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.setNeedsStatusBarAppearanceUpdate()
-
-        navigationItem.scrollEdgeAppearance = navigationBarAppearance
-        navigationItem.standardAppearance = navigationBarAppearance
+        // 좌측 상단에 위치한 타이틀 설정
+        navigationItem.makeLeftSideTitle(title: "설정")
         
-        self.extendedLayoutIncludesOpaqueBars = true
+//        let navigationBarAppearance = UINavigationBarAppearance()
+//        navigationBarAppearance.configureWithOpaqueBackground()
+//        navigationBarAppearance.shadowColor = .clear
+//        navigationBarAppearance.backgroundColor = UIColor.white
+////        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+////        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+//
+//        // scrollEdge: 스크롤 하기 전의 NavigationBar
+//        // standard: 스크롤을 하고 있을 때의 NavigationBar
+//        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+//        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+//        navigationController?.navigationBar.prefersLargeTitles = false
+//        navigationController?.navigationBar.isTranslucent = false
+//        navigationController?.setNeedsStatusBarAppearanceUpdate()
+//
+//        navigationItem.scrollEdgeAppearance = navigationBarAppearance
+//        navigationItem.standardAppearance = navigationBarAppearance
+//
+//        self.extendedLayoutIncludesOpaqueBars = true
     }
     
     // TableView 설정

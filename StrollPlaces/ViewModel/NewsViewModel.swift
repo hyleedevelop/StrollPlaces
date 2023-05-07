@@ -50,8 +50,11 @@ final class NewsItemViewModel {
     }
     
     var publishDate: Observable<String> {
-        let string = "🕰️ " + news.pubDate
-        return Observable<String>.just(string)
+        // news.pubDate를 date format을 이용해 date 타입으로 변경
+        guard let targetDate = news.pubDate.toDate(mode: .news) else { fatalError("date error...") }
+        // date를 파라미터로 전달하여 현지 시간과의 차이 구하기
+        let interval = Date().getTimeIntervalString(since: targetDate)
+        return Observable<String>.just(interval)
     }
     
     var newsPageLink: Observable<String> {

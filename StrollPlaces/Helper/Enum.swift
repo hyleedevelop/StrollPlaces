@@ -31,3 +31,8 @@ enum EditableItems {
     case explanation
     case feature
 }
+
+enum DateFormatType {
+    case myPlace
+    case news
+}

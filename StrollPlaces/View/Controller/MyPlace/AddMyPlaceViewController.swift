@@ -276,6 +276,7 @@ class AddMyPlaceViewController: UIViewController {
         self.saveButton.clipsToBounds = true
         
         self.saveButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 

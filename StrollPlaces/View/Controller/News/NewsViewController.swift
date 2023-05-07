@@ -22,19 +22,36 @@ final class NewsViewController: UIViewController {
     //MARK: - property
     
     private var viewModel: NewsViewModel!
+    private var scrollToTop = true
     
-    // 구글 애드몹
-//    lazy var bannerView: GADBannerView = {
-//        let banner = GADBannerView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-//        return banner
-//    }()
+    //
+    private lazy var scrollToTopView: UIView = {
+        let view = UIView(frame: CGRect.zero)
+        view.layer.cornerRadius = 20
+        view.backgroundColor = UIColor.lightGray
+        view.alpha = 0.8
+        view.layer.borderWidth = 1.5
+        view.layer.borderColor = UIColor.white.cgColor
+        return view
+    }()
+    
+    private lazy var scrollToTopImageView: UIImageView = {
+        let tapScrollDown = UITapGestureRecognizer(target: self, action: #selector(scrollToTheTop(_:)))
+        let iv = UIImageView(frame: CGRect.zero)
+        iv.image = UIImage(systemName: "arrow.up")
+        iv.image = iv.image!.withRenderingMode(.alwaysTemplate)
+        iv.tintColor = UIColor.white
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tapScrollDown)
+        return iv
+    }()
     
     // refresh control
     private var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.backgroundColor = UIColor.white
         control.tintColor = UIColor.black
-        //control.attributedTitle = NSAttributedString(string: "뉴스 업데이트")
+        control.attributedTitle = NSAttributedString(string: "당겨서 새로고침")
         return control
     }()
     
@@ -65,6 +82,7 @@ final class NewsViewController: UIViewController {
         setupTableView()
         setupRefreshControl()
         setupLoadingIndicator()
+        setupScrollToTopView()
         
         fetchNews(searchKeyword: K.News.keyword)
     }
@@ -94,25 +112,11 @@ final class NewsViewController: UIViewController {
         // 좌측 상단에 위치한 타이틀 설정
         navigationItem.makeLeftSideTitle(title: "산책길 관련 소식")
         
-//        let navigationBarAppearance = UINavigationBarAppearance()
-//        navigationBarAppearance.configureWithOpaqueBackground()
-//        navigationBarAppearance.shadowColor = .clear
-//        navigationBarAppearance.backgroundColor = UIColor.white
-////        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-////        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-//
-//        // scrollEdge: 스크롤 하기 전의 NavigationBar
-//        // standard: 스크롤을 하고 있을 때의 NavigationBar
-//        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-//        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-//        navigationController?.navigationBar.prefersLargeTitles = false
-//        navigationController?.navigationBar.isTranslucent = false
-//        navigationController?.setNeedsStatusBarAppearanceUpdate()
-//
-//        navigationItem.scrollEdgeAppearance = navigationBarAppearance
-//        navigationItem.standardAppearance = navigationBarAppearance
-//
-//        self.extendedLayoutIncludesOpaqueBars = true
+//        // right bar button 설정
+//        let markBarButton = self.navigationItem.makeSFSymbolButton(
+//            self, action: #selector(pushToBookmark), symbolName: "bookmark"
+//        )
+//        self.navigationItem.rightBarButtonItems = [markBarButton]
     }
     
     // TableView 설정
@@ -122,6 +126,7 @@ final class NewsViewController: UIViewController {
         self.tableView.register(UINib(nibName: K.News.cellName, bundle: nil),
                                 forCellReuseIdentifier: K.News.cellName)
         self.tableView.backgroundColor = UIColor.white
+        self.tableView.scrollsToTop = true
     }
     
     // RefreshControl 설정
@@ -133,14 +138,20 @@ final class NewsViewController: UIViewController {
         
         let refreshLoading = PublishRelay<Bool>()
         self.refreshControl.rx.controlEvent(.valueChanged)
+            //.debounce(.seconds(3), scheduler: MainScheduler.instance)
+            .throttle(.seconds(5), scheduler: MainScheduler.instance)  // 무분별한 새로고침 방지
             .bind(onNext: { [weak self] in
                 guard let self = self else { return }
+                
                 // 로딩 표시
                 refreshLoading.accept(true)
-                // 뉴스 다시 불러오기
-                self.fetchNews(searchKeyword: K.News.keyword)
-                // 로딩 숨기기
-                refreshLoading.accept(false)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    // 뉴스 다시 불러오기
+                    self.fetchNews(searchKeyword: K.News.keyword)
+                    // 로딩 숨기기
+                    refreshLoading.accept(false)
+                }
             })
             .disposed(by: rx.disposeBag)
         
@@ -159,8 +170,26 @@ final class NewsViewController: UIViewController {
             $0.width.height.equalTo(50)
         }
     }
-
-    // 네이버 뉴스 가져오기
+    
+    // 맨 위로 가기 버튼(뷰) 설정
+    private func setupScrollToTopView() {
+        self.view.addSubview(scrollToTopView)
+        self.scrollToTopView.addSubview(scrollToTopImageView)
+        
+        self.scrollToTopView.snp.makeConstraints {
+            $0.width.height.equalTo(40)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(-60)
+            $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        self.scrollToTopImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+    
+    //MARK: - indirectly called method
+    
+    // 네이버 API를 통해 뉴스 기사 가져오기
     private func fetchNews(searchKeyword: String) {
         // indicator 활성화
         self.activityIndicator.startAnimating()
@@ -174,8 +203,6 @@ final class NewsViewController: UIViewController {
         // 뉴스를 가져와서 TableView에 표출하기
         displayNewsOnTableView(resource: resource)
     }
-    
-    //MARK: - indirectly called method
     
     // URLRequest 구조체 생성
     private func createURLRequest(urlString: String) -> URLRequest {
@@ -211,6 +238,42 @@ final class NewsViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
             })
             .disposed(by: rx.disposeBag)
+    }
+    
+    // scrollToTop 버튼의 레이아웃 설정
+    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        
+        // 스크롤 offset이 350 이상이면 버튼 나타내기
+        if offsetY >= 350 {
+            if self.scrollToTop {
+                self.scrollToTopView.snp.updateConstraints {
+                    $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
+                }
+                UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+                self.scrollToTop = false
+            }
+        // 스크롤 offset이 350 미만이면 버튼 숨기기
+        } else {
+            if !self.scrollToTop {
+                self.scrollToTopView.snp.updateConstraints {
+                    $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(-60)
+                }
+                UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
+                self.scrollToTop = true
+            }
+        }
+    }
+    
+    // 뉴스 책갈피 화면으로 이동
+    @objc private func pushToBookmark() {
+        //self.performSegue(withIdentifier: "ToTrackingViewController", sender: self)
+        print("책갈피 화면으로 이동합니다.")
+    }
+    
+    @objc private func scrollToTheTop(_ sender: UITapGestureRecognizer) {
+        let topOffest = CGPoint(x: 0, y: -(self.tableView?.contentInset.top ?? 0))
+        self.tableView.setContentOffset(topOffest, animated: true)
     }
     
 }

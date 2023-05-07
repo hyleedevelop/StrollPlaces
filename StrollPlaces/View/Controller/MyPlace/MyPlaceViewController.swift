@@ -324,7 +324,9 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         ? String(format: "%.1f", dataSource.distance) + "m"
         : String(format: "%.2f", dataSource.distance/1000.0) + "km"
         
-        cell.dateLabel.text = Date().getTimeIntervalString(since: dataSource.date.toDate()!)
+        cell.dateLabel.text = Date().getTimeIntervalString(
+            since: dataSource.date.toDate(mode: .myPlace)!
+        )
         
         cell.moreButton.showsMenuAsPrimaryAction = true
         cell.moreButton.menu = self.getMoreContextMenu(index: indexPath.row,
