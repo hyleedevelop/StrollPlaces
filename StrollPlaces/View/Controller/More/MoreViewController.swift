@@ -27,7 +27,7 @@ class MoreViewController: UIViewController {
     internal let viewModel = MoreViewModel()
     internal let userDefaults = UserDefaults.standard
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,27 +59,7 @@ class MoreViewController: UIViewController {
         navigationController?.applyCommonSettings()
         
         // 좌측 상단에 위치한 타이틀 설정
-        navigationItem.makeLeftSideTitle(title: "설정")
-        
-//        let navigationBarAppearance = UINavigationBarAppearance()
-//        navigationBarAppearance.configureWithOpaqueBackground()
-//        navigationBarAppearance.shadowColor = .clear
-//        navigationBarAppearance.backgroundColor = UIColor.white
-////        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-////        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-//
-//        // scrollEdge: 스크롤 하기 전의 NavigationBar
-//        // standard: 스크롤을 하고 있을 때의 NavigationBar
-//        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-//        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-//        navigationController?.navigationBar.prefersLargeTitles = false
-//        navigationController?.navigationBar.isTranslucent = false
-//        navigationController?.setNeedsStatusBarAppearanceUpdate()
-//
-//        navigationItem.scrollEdgeAppearance = navigationBarAppearance
-//        navigationItem.standardAppearance = navigationBarAppearance
-//
-//        self.extendedLayoutIncludesOpaqueBars = true
+        navigationItem.makeLeftSideTitle(title: "더보기")
     }
     
     // TableView 설정

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		070428AE2A07E4C400709369 /* TabBarWithCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070428AD2A07E4C400709369 /* TabBarWithCornerRadius.swift */; };
 		0706B3B429C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */; };
 		0709557529D2B29200068C91 /* MyPlaceHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */; };
 		0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */; };
@@ -74,7 +73,7 @@
 		0799CCEA29BF65A9006AB70D /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE929BF65A9006AB70D /* MKMapView.swift */; };
 		0799CCEC29BF6E10006AB70D /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCEB29BF6E10006AB70D /* Double.swift */; };
 		079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 079AF4EF29C74931006C365B /* strollingMan.jpeg */; };
-		079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* LoginViewController.swift */; };
+		079AF4F229C74C9D006C365B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* SplashViewController.swift */; };
 		07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */; };
 		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
 		07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */; };
@@ -104,6 +103,7 @@
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
 		07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */ = {isa = PBXBuildFile; productRef = 07E3383129FAA2FC00880DAA /* Screenshots */; };
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
+		07F8814D2A0890E00067948A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F8814C2A0890E00067948A /* NavigationController.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
@@ -149,7 +149,6 @@
 
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
-		070428AD2A07E4C400709369 /* TabBarWithCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarWithCornerRadius.swift; sourceTree = "<group>"; };
 		0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230312.csv; sourceTree = "<group>"; };
 		0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceHelpViewController.swift; sourceTree = "<group>"; };
 		0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewController.swift; sourceTree = "<group>"; };
@@ -219,7 +218,7 @@
 		0799CCE929BF65A9006AB70D /* MKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
 		0799CCEB29BF6E10006AB70D /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		079AF4EF29C74931006C365B /* strollingMan.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = strollingMan.jpeg; sourceTree = "<group>"; };
-		079AF4F129C74C9D006C365B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		079AF4F129C74C9D006C365B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +243,7 @@
 		07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		07D01A2129E65AAC00FE85D4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
+		07F8814C2A0890E00067948A /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackingExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3248728FE58600DA8548F940 /* Pods-TrackingExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingExtension.debug.xcconfig"; path = "Target Support Files/Pods-TrackingExtension/Pods-TrackingExtension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -297,14 +297,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		070428AC2A07E47D00709369 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				070428AD2A07E4C400709369 /* TabBarWithCornerRadius.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		0760D51B29D3295700796D73 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,14 +384,10 @@
 		0799CC9429BF584B006AB70D /* StrollPlaces */ = {
 			isa = PBXGroup;
 			children = (
-				0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */,
-				0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */,
-				07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */,
-				0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */,
+				0799CCA329BF584C006AB70D /* Info.plist */,
 				0799CC9529BF584B006AB70D /* AppDelegate.swift */,
 				0799CC9729BF584B006AB70D /* SceneDelegate.swift */,
-				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
-				0799CCA329BF584C006AB70D /* Info.plist */,
+				07D2329A2A09289F006DE737 /* Resource */,
 				0799CCD929BF5A62006AB70D /* Extension */,
 				0799CCD829BF5A5E006AB70D /* Helper */,
 				0760D51B29D3295700796D73 /* Service */,
@@ -430,8 +418,8 @@
 		0799CCC529BF5941006AB70D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				07D232992A092871006DE737 /* Custom */,
 				079AF4EC29C74683006C365B /* Storyboard */,
-				070428AC2A07E47D00709369 /* View */,
 				0799CCC629BF5947006AB70D /* Controller */,
 				0799CCCF29BF5987006AB70D /* Cell */,
 			);
@@ -441,8 +429,9 @@
 		0799CCC629BF5947006AB70D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				079AF4F129C74C9D006C365B /* SplashViewController.swift */,
 				0799CCC729BF595C006AB70D /* TabBarController.swift */,
-				079AF4F129C74C9D006C365B /* LoginViewController.swift */,
+				07F8814C2A0890E00067948A /* NavigationController.swift */,
 				077C1BE529CDEBE700DA3218 /* Map */,
 				077C1BE629CDEBF900DA3218 /* MyPlace */,
 				077C1BE729CDEC5500DA3218 /* News */,
@@ -501,13 +490,10 @@
 			isa = PBXGroup;
 			children = (
 				0799CCDA29BF5A6F006AB70D /* K.swift */,
-				07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */,
 				072D5BB929C2E26A0024B938 /* Enum.swift */,
+				07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */,
 				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
 				077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */,
-				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
-				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
-				07D01A2129E65AAC00FE85D4 /* CountdownView.swift */,
 				078480FC29FB97DD00A3CDB3 /* Artwork.swift */,
 			);
 			path = Helper;
@@ -556,6 +542,28 @@
 				07AC1ED229E3D527006BEA03 /* Info.plist */,
 			);
 			path = Tracking;
+			sourceTree = "<group>";
+		};
+		07D232992A092871006DE737 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				07D01A2129E65AAC00FE85D4 /* CountdownView.swift */,
+				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
+				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		07D2329A2A09289F006DE737 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
+				0799CCE629BF62A9006AB70D /* SouthKoreaParkData_qc_20230312.csv */,
+				0706B3B329C4B48900AF06D1 /* SouthKoreaStrollWayData_qc_20230312.csv */,
+				07648DC829C55F2900F994C1 /* SouthKoreaRecreationForestData_qc_20230312.csv */,
+				0799CCE529BF62A9006AB70D /* SouthKoreaTourSpotData_qc_20230312.csv */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		911A2571663AC9DCAF7EFE9B /* Frameworks */ = {
@@ -901,10 +909,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0760D51F29D32ED100796D73 /* MyPlaceData.swift in Sources */,
-				079AF4F229C74C9D006C365B /* LoginViewController.swift in Sources */,
+				079AF4F229C74C9D006C365B /* SplashViewController.swift in Sources */,
 				0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */,
 				072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */,
-				070428AE2A07E4C400709369 /* TabBarWithCornerRadius.swift in Sources */,
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
@@ -955,6 +962,7 @@
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				070FFB0029D56B4900987285 /* AlertService.swift in Sources */,
 				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
+				07F8814D2A0890E00067948A /* NavigationController.swift in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
 				070D486F29E6C958009B67A8 /* CLPlacemark.swift in Sources */,
 				07C16D1E29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift in Sources */,

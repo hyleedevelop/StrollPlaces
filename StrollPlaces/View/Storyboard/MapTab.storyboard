@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller-->
+        <!--검색-->
         <scene sceneID="Fvc-jB-ceG">
             <objects>
                 <viewController id="iGx-ha-8on" customClass="MapViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -76,7 +76,7 @@
                             <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="DVW-Jq-0Vi" secondAttribute="trailing" constant="10" id="scg-yz-Loc"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="TabBarIcon1" id="ceh-kC-frY"/>
+                    <tabBarItem key="tabBarItem" title="검색" image="TabBarIcon1" id="ceh-kC-frY"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="currentLocationButton" destination="cHI-fa-qdc" id="oIl-O5-Ugf"/>
@@ -88,6 +88,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2hm-Ua-MfL" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="69" y="-226"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="aLl-rv-TAm">
+            <objects>
+                <viewController storyboardIdentifier="SplashViewController" id="fgr-8t-RuI" customClass="SplashViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V5E-5u-wOC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Es1-30-GKM"/>
+                        <color key="backgroundColor" red="0.1647058824" green="0.65490196079999996" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1sG-D6-479" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="824" y="-226"/>
         </scene>
     </scenes>
     <resources>

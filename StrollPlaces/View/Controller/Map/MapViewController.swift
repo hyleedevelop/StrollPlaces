@@ -14,6 +14,8 @@ import CoreLocation
 import MapKit
 import Cluster
 import ViewAnimator
+import Lottie
+import Hero
 
 final class MapViewController: UIViewController {
 
@@ -30,9 +32,26 @@ final class MapViewController: UIViewController {
 //        }
 //    }
     
-    //MARK: - property
+    //MARK: - UI property
     
-    // 인스턴스
+    // collection view
+    internal lazy var themeButtonCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing = K.ThemeCV.spacingWidth
+        flowLayout.minimumLineSpacing = K.ThemeCV.spacingHeight
+        let cv = UICollectionView(frame: CGRect(), collectionViewLayout: flowLayout)
+        cv.isScrollEnabled = true
+        cv.showsHorizontalScrollIndicator = false
+        cv.showsVerticalScrollIndicator = false
+        cv.collectionViewLayout = flowLayout
+        cv.register(UINib(nibName: K.ThemeCV.cellName, bundle: nil), forCellWithReuseIdentifier: K.ThemeCV.cellName)
+        cv.backgroundColor = UIColor.clear
+        return cv
+    }()
+    
+    //MARK: - normal property
+    
     internal var viewModel: MapViewModel!
     
     internal lazy var locationManager: CLLocationManager = {
@@ -50,22 +69,6 @@ final class MapViewController: UIViewController {
         manager.minCountForClustering = 3
         manager.clusterPosition = .nearCenter
         return manager
-    }()
-    
-    // collection view
-    internal lazy var themeButtonCollectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumInteritemSpacing = K.ThemeCV.spacingWidth
-        flowLayout.minimumLineSpacing = K.ThemeCV.spacingHeight
-        let cv = UICollectionView(frame: CGRect(), collectionViewLayout: flowLayout)
-        cv.isScrollEnabled = true
-        cv.showsHorizontalScrollIndicator = false
-        cv.showsVerticalScrollIndicator = false
-        cv.collectionViewLayout = flowLayout
-        cv.register(UINib(nibName: K.ThemeCV.cellName, bundle: nil), forCellWithReuseIdentifier: K.ThemeCV.cellName)
-        cv.backgroundColor = UIColor.clear
-        return cv
     }()
     
     // 사용자의 현재 위치를 받아오고, 이를 중심으로 regionRadius 반경만큼의 영역을 보여주기
@@ -88,18 +91,20 @@ final class MapViewController: UIViewController {
     // annotation의 지도 표시 여부
     var isAnnotationMarked = [Bool](repeating: false, count: InfoType.allCases.count)
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getLocationUsagePermission()
-        setupMapView()
-        setupCollectionView()
-        setupMapControlButton()
+        //self.setupSplashScreen()
         
-        moveToCurrentLocation()
-        addAnnotations(with: .park)
+        self.getLocationUsagePermission()
+        self.setupMapView()
+        self.setupCollectionView()
+        self.setupMapControlButton()
+        
+        self.moveToCurrentLocation()
+        self.addAnnotations(with: .park)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -107,6 +112,23 @@ final class MapViewController: UIViewController {
     }
     
     //MARK: - method
+    
+    private func setupSplashScreen() {
+        UIView.animate(withDuration: 0.2) {
+            
+        } completion: { done in
+            if done {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "SplashViewController") as? SplashViewController else { return }
+                    nextVC.modalTransitionStyle = .crossDissolve
+                    nextVC.modalPresentationStyle = .fullScreen
+                    //nextVC.hero.isEnabled = true
+                    //nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right), dismissing: .slide(direction: .left))
+                    self.present(nextVC, animated: false)
+                }
+            }
+        }
+    }
     
     // 지도 관련 설정
     private func setupMapView() {
@@ -212,8 +234,10 @@ final class MapViewController: UIViewController {
     
     // 현재 사용자의 위치로 지도 이동
     internal func moveToCurrentLocation() {
-        let latitude = ((locationManager.location?.coordinate.latitude) ?? K.Map.defaultLatitude) as Double
-        let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
+        let latitude = ((locationManager.location?.coordinate.latitude)
+                        ?? K.Map.defaultLatitude) as Double
+        let longitude = ((locationManager.location?.coordinate.longitude)
+                         ?? K.Map.defaultLongitude) as Double
         self.mapView.centerToLocation(
             location: CLLocation(latitude: latitude, longitude: longitude),
             deltaLat: 1.0.km,

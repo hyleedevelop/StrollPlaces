@@ -15,15 +15,15 @@ enum InfoType: Int, CaseIterable {
     case marked, park, strollWay, recreationForest, tourSpot
 }
 
-enum MyPlaceSorting {
+enum MyPlaceSorting: Int {
+    case ascendingByDate = 0
     case descendingByDate
-    case ascendingByDate
-    case descendingByTime
     case ascendingByTime
-    case descendingByDistance
+    case descendingByTime
     case ascendingByDistance
-    case descendingByRating
+    case descendingByDistance
     case ascendingByRating
+    case descendingByRating
 }
 
 enum EditableItems {

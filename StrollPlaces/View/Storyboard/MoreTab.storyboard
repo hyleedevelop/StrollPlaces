@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--More View Controller-->
+        <!--더보기-->
         <scene sceneID="pC9-bd-Oi4">
             <objects>
                 <viewController id="qVy-gx-ht7" customClass="MoreViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,7 +31,7 @@
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="kd5-yE-dcf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="icons8-ellipsis-50" id="xGL-mj-etE"/>
+                    <tabBarItem key="tabBarItem" title="더보기" image="icons8-ellipsis-50" id="xGL-mj-etE"/>
                     <navigationItem key="navigationItem" id="wiu-Wk-RP1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

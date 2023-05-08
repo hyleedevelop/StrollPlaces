@@ -165,7 +165,7 @@ class PlaceInfoViewController: UIViewController {
     internal var containerViewHeightConstraint: NSLayoutConstraint?
     internal var containerViewBottomConstraint: NSLayoutConstraint?
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

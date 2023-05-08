@@ -39,7 +39,7 @@ final class DetailInfoViewController: UIViewController {
                                    self.explanationLabel, self.featureLabel, self.dateLabel]
     var cellIndex: Int = 0
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -25,6 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // (해당 View 내의 TextField끼리는 이전/이후 버튼을 통해 상호 간편이동이 가능해짐)
         //IQKeyboardManager.shared.toolbarPreviousNextAllowedClasses = [SomeView.self]
         
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+//
+//        }
+        //Thread.sleep(forTimeInterval: 2)
+        
         return true
     }
 

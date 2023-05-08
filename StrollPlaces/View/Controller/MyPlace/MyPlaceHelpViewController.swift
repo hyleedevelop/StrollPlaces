@@ -15,7 +15,7 @@ final class MyPlaceHelpViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

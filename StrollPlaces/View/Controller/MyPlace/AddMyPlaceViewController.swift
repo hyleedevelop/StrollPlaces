@@ -61,7 +61,7 @@ class AddMyPlaceViewController: UIViewController {
     private let userDefaults = UserDefaults.standard
     private var locationManager: CLLocationManager!
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +72,7 @@ class AddMyPlaceViewController: UIViewController {
         setupNavigationBar()
         setupMapView()
         setupBackView()
+        setupLoadingIndicator()
         setupLabel()
         setupInputResponse()
         setupButton()
@@ -180,6 +181,16 @@ class AddMyPlaceViewController: UIViewController {
         self.routeInfoBackView.layer.borderWidth = 1
     }
     
+    // loading indicator 설정
+    private func setupLoadingIndicator() {
+        self.view.addSubview(activityIndicator)
+        
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
+            $0.width.height.equalTo(50)
+        }
+    }
+    
     // Realm DB 설정
     private func setupLabel() {
         self.viewModel.dateRelay.asDriver(onErrorJustReturn: "dateRealy error")
@@ -279,32 +290,26 @@ class AddMyPlaceViewController: UIViewController {
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
+                // loading indicator 시작
+                activityIndicator.startAnimating()
                 
-                if self.nameField.text != nil &&
-                   self.explanationField.text != nil &&
-                   self.featureField.text != nil {
-                    // loading indicator 시작
-                    activityIndicator.startAnimating()
-                    
-                    // DB 업데이트
-                    self.viewModel.updateTrackData(
-                        name: self.nameField.text!,
-                        explanation: self.explanationField.text!,
-                        feature: self.featureField.text!,
-                        rating: self.starRating.rating
-                    )
-                    
-                    // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
-                    self.userDefaults.set(true, forKey: "myPlaceExist")
-                    
-                    // loading indicator 종료
-                    activityIndicator.stopAnimating()
-                    
-                    SPIndicatorView(title: "생성 완료", preset: .done)
-                        .present(duration: 2.0, haptic: .success)
-                } else {
-                    print("산책길 이름을 입력하세요")
-                }
+                // DB 업데이트
+                self.viewModel.updateTrackData(
+                    name: self.nameField.text!,
+                    explanation: self.explanationField.text!,
+                    feature: self.featureField.text!,
+                    rating: self.starRating.rating
+                )
+                
+                // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
+                self.userDefaults.set(true, forKey: "myPlaceExist")
+                
+                // loading indicator 종료
+                self.activityIndicator.stopAnimating()
+                
+                // 완료 메세지 표시
+                SPIndicatorView(title: "생성 완료", preset: .done)
+                    .present(duration: 2.0, haptic: .success)
                 
                 // 나만의 산책길 탭 메인화면으로 돌아가기
                 self.navigationController?.popToRootViewController(animated: true)

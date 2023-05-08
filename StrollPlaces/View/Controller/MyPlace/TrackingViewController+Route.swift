@@ -24,7 +24,6 @@ extension TrackingViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 추적 권한 허용됨")
-            //self.locationManager.startUpdatingLocation()
         case .restricted, .notDetermined:
             print("위치 추적 권한 미설정")
         case .denied:

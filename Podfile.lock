@@ -27,9 +27,11 @@ PODS:
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
+  - SettingsIconGenerator (1.0.2)
   - SkyFloatingLabelTextField (3.8.0)
   - SnapKit (5.6.0)
   - SPIndicator (1.6.4)
+  - SSCustomTabbar (2.0.7)
   - TransitionableTab (0.2.0)
   - ViewAnimator (3.1.0)
 
@@ -47,9 +49,11 @@ DEPENDENCIES:
   - RxCocoa
   - RxDataSources
   - RxSwift
+  - SettingsIconGenerator
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
   - SPIndicator
+  - SSCustomTabbar
   - TransitionableTab (~> 0.2.0)
   - ViewAnimator
 
@@ -71,9 +75,11 @@ SPEC REPOS:
     - RxDataSources
     - RxRelay
     - RxSwift
+    - SettingsIconGenerator
     - SkyFloatingLabelTextField
     - SnapKit
     - SPIndicator
+    - SSCustomTabbar
     - TransitionableTab
     - ViewAnimator
 
@@ -94,12 +100,14 @@ SPEC CHECKSUMS:
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  SettingsIconGenerator: a991f0a0bc5de6696164150dac012bc64ebbfc76
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
+  SSCustomTabbar: da05060b9916312a3b9af6b7640d6a298a335dfe
   TransitionableTab: 54a5d0af475033bdb83959fde4e5d6201af7e2ab
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: e922538fa5006101a008b2f309f5e353cd6a6c4b
+PODFILE CHECKSUM: febe46006c74d62fd6116f7ee90eb6745c513d02
 
 COCOAPODS: 1.11.3

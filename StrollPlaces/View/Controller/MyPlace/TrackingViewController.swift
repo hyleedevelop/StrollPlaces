@@ -51,7 +51,7 @@ final class TrackingViewController: UIViewController {
         return CLLocation(latitude: latitude, longitude: longitude)
     }
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

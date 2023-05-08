@@ -30,6 +30,8 @@ target 'StrollPlaces' do
   pod 'FaveButton'
   pod 'Hero'
   pod 'Cosmos', '~> 23.0'
+  pod 'SSCustomTabbar'
+  pod 'SettingsIconGenerator'
   
   target 'StrollPlacesTests' do
     inherit! :search_paths

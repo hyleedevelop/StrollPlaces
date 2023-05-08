@@ -27,7 +27,7 @@ final class NewsViewController: UIViewController {
     //
     private lazy var scrollToTopView: UIView = {
         let view = UIView(frame: CGRect.zero)
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 25
         view.backgroundColor = UIColor.lightGray
         view.alpha = 0.8
         view.layer.borderWidth = 1.5
@@ -73,7 +73,7 @@ final class NewsViewController: UIViewController {
         return button
     }()
     
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -177,7 +177,7 @@ final class NewsViewController: UIViewController {
         self.scrollToTopView.addSubview(scrollToTopImageView)
         
         self.scrollToTopView.snp.makeConstraints {
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(50)
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(-60)
             $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -248,7 +248,7 @@ final class NewsViewController: UIViewController {
         if offsetY >= 350 {
             if self.scrollToTop {
                 self.scrollToTopView.snp.updateConstraints {
-                    $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
+                    $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(25)
                 }
                 UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
                 self.scrollToTop = false
@@ -301,7 +301,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.row == 0 {
             cell.backView.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(20)
+                $0.top.equalToSuperview().offset(25)
             }
             self.view.layoutIfNeeded()
         }

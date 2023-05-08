@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RealmSwift
+import SettingsIconGenerator
 
 final class MoreViewModel {
     
@@ -23,22 +24,30 @@ final class MoreViewModel {
     
     init() {
         appSettings = [
-            MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "지도", value: nil),
-            MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "경로안내", value: nil),
-            MoreCellData(icon: UIImage(systemName: "paintbrush"), title: "산책길 보관함 비우기", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("map", backgroundColor: .systemBlue),
+                         title: "지도", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("trash", backgroundColor: .systemRed),
+                         title: "산책길 보관함 비우기", value: nil),
         ]
 
         feedback = [
-            MoreCellData(icon: UIImage(systemName: "star"), title: "앱 리뷰", value: nil),
-            MoreCellData(icon: UIImage(systemName: "envelope"), title: "문의사항", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("star", backgroundColor: .systemGreen),
+                         title: "앱 리뷰", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("envelope", backgroundColor: .systemRed),
+                         title: "문의사항", value: nil),
         ]
         
         aboutTheApp = [
-            MoreCellData(icon: UIImage(systemName: "questionmark.circle"), title: "도움말", value: nil),
-            MoreCellData(icon: UIImage(systemName: "wand.and.stars.inverse"), title: "라이브러리", value: nil),
-            MoreCellData(icon: UIImage(systemName: "doc.text"), title: "개인정보 정책", value: nil),
-            MoreCellData(icon: UIImage(systemName: "doc.text"), title: "이용약관", value: nil),
-            MoreCellData(icon: UIImage(systemName: "number.circle"), title: "버전", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("questionmark", backgroundColor: .systemBlue),
+                         title: "도움말", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("wand.and.stars.inverse", backgroundColor: .systemRed),
+                         title: "라이브러리", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("doc.text", backgroundColor: .systemGreen),
+                         title: "개인정보 정책", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("doc.text", backgroundColor: .systemRed),
+                         title: "이용약관", value: nil),
+            MoreCellData(icon: UIImage.generateSettingsIcon("number", backgroundColor: .systemBlue),
+                         title: "버전", value: nil),
         ]
         
         moreCellData = [appSettings, feedback, aboutTheApp]

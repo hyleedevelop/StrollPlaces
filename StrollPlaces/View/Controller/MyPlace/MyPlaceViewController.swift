@@ -67,7 +67,7 @@ class MyPlaceViewController: UIViewController {
         return label
     }()
         
-    //MARK: - drawing cycle
+    //MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

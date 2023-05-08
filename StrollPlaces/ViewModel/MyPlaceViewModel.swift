@@ -28,55 +28,69 @@ final class MyPlaceViewModel {
         // TrackData와 TrackPoint의 인스턴스 생성
         let tracks = RealmService.shared.realm.objects(TrackData.self)
         let points = RealmService.shared.realm.objects(TrackPoint.self)
+        let index = self.userDefaults.integer(forKey: "selectedContextMenu")
         
         // MyPlaceItemViewModel 초기화
         self.itemViewModel = MyPlaceItemViewModel(track: tracks, point: points)
         
         // context menu item 설정
-        self.initializeContextMenuItems()
+        self.initializeContextMenuItems(stateOn: index)
         
         // 나만의 산책길 목록 정렬 기준 기본값 (등록 날짜 오래된 것부터 나열)
-        self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
+        
+        self.itemViewModel.getSortedTrackData(
+            mode: MyPlaceSorting(rawValue: index) ?? .ascendingByDate
+        )
     }
     
     //MARK: - directly called method
     
     // context menu item 초기화
-    private func initializeContextMenuItems() {
+    private func initializeContextMenuItems(stateOn: Int) {
         self.sortMenuItems = [
-            UIAction(title: "예전 등록된 것부터", state: .on, handler: { [weak self] _ in
+            UIAction(title: "예전 등록된 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
+                self.userDefaults.set(0, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "최근 등록된 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "최근 등록된 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDate)
+                self.userDefaults.set(1, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "소요시간 적은 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "소요시간 적은 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByTime)
+                self.userDefaults.set(2, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "소요시간 많은 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "소요시간 많은 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByTime)
+                self.userDefaults.set(3, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "이동거리 적은 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "이동거리 적은 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDistance)
+                self.userDefaults.set(4, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "이동거리 많은 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "이동거리 많은 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDistance)
+                self.userDefaults.set(5, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "별점 낮은 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "별점 낮은 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByRating)
+                self.userDefaults.set(6, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "별점 높은 것부터", state: .off, handler: { [weak self] _ in
+            UIAction(title: "별점 높은 것부터", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByRating)
+                self.userDefaults.set(7, forKey: "selectedContextMenu")
             }),
         ]
+        
+        self.sortMenuItems[stateOn].state = .on
     }
     
     // 나만의 산책길 목록 정렬을 위한 context menu 설정
