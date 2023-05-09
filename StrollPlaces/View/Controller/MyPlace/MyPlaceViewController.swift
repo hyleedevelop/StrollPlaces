@@ -73,6 +73,7 @@ class MyPlaceViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupNavigationBar()
+        self.setupTabBar()
         self.setupInitialView()
         self.setupCollectionView()
         self.setupNotificationObserver()
@@ -139,6 +140,12 @@ class MyPlaceViewController: UIViewController {
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         spacer.width = 15
         self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton, spacer, helpBarButton]
+    }
+    
+    // TabBar 설정
+    private func setupTabBar() {
+        //self.tabBarController?.tabBarItem.badgeValue = "1"
+        
     }
     
     // 나만의 산책로 리스트가 없는 경우 애니메이션 표출 설정
@@ -280,8 +287,8 @@ class MyPlaceViewController: UIViewController {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPlaceHelpViewController") as? MyPlaceHelpViewController else { return }
         nextVC.modalPresentationStyle = .overFullScreen
         nextVC.hero.isEnabled = true
-        //nextVC.hero.modalAnimationType = .selectBy(presenting: .cover(direction: .down), dismissing: .uncover(direction: .up))
-        nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right), dismissing: .slide(direction: .left))
+        nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right),
+                                                   dismissing: .slide(direction: .left))
         
         self.present(nextVC, animated: true, completion: nil)
     }

@@ -69,7 +69,9 @@ extension MapViewController: MKMapViewDelegate {
             
         } else if annotation is MeAnnotation {
             let identifier = "Me"
-            let annotationView = mapView.annotationView(of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
+            let annotationView = mapView.annotationView(
+                of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
+            )
             //annotationView.image = .me
             annotationView.image = UIImage()
             return annotationView
@@ -99,11 +101,13 @@ extension MapViewController: MKMapViewDelegate {
             
         } else {
             let identifier = "Pin"
-            let annotationView = mapView.annotationView(of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier)
+            let annotationView = mapView.annotationView(
+                of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
+            )
             
             annotationView.canShowCallout = true
             annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            annotationView.pinTintColor = K.Color.themeNavy
+            annotationView.pinTintColor = K.Map.placeColor
             return annotationView
             
         }

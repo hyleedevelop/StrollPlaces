@@ -164,7 +164,7 @@ final class TrackingViewController: UIViewController {
         self.timerButton.layer.cornerRadius = K.Shape.mediumCornerRadius
         self.timerButton.clipsToBounds = true
         self.timerButton.backgroundColor = K.Color.mainColor
-        self.changeButtonUI(buttonTitle: "산책길 경로 생성", interaction: true)
+        self.timerButton.changeAttributes(buttonTitle: "산책길 경로 생성", interaction: true)
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
             //.skip(until: self.isCountdownOngoing)
@@ -176,21 +176,19 @@ final class TrackingViewController: UIViewController {
                     // 타이머 비활성화
                     self.deactivateTimer()
                     // 시작/종료 버튼 UI 변경
-                    self.changeButtonUI(buttonTitle: "산책길 경로 저장", interaction: true)
+                    self.timerButton.changeAttributes(buttonTitle: "산책길 경로 저장", interaction: true)
                     // 잠금화면의 live activity 중단
                     LiveActivityService.shared.deactivate()
                 } else {
                     // 카운트다운이 진행되는 동안 타이머 버튼을 작동할 수 없도록 설정
-                    //self.timerButton.isEnabled = false
-                    self.changeButtonUI(buttonTitle: "카운트다운 진행중", interaction: false)
-                    
+                    self.timerButton.changeAttributes(buttonTitle: "카운트다운 진행중", interaction: false)
                     // 카운트다운 시작 (SwiftUI 기반의 view 활용)
                     guard !self.isCountdownOngoing else { return }
                     self.showCountdownView {
                         // 타이머 활성화
                         self.activateTimer()
                         // 시작/종료 버튼 UI 변경
-                        self.changeButtonUI(buttonTitle: "경로 생성 종료", interaction: true)
+                        self.timerButton.changeAttributes(buttonTitle: "경로 생성 종료", interaction: true)
                         // 잠금화면의 live activity 시작
                         LiveActivityService.shared.activate()
                     }
@@ -290,19 +288,6 @@ final class TrackingViewController: UIViewController {
                 }
             })
             .disposed(by: rx.disposeBag)
-    }
-    
-    // 시작/종료 버튼 UI 변경
-    private func changeButtonUI(buttonTitle: String, interaction: Bool) {
-        DispatchQueue.main.async {
-            let attributedText = NSAttributedString(
-                string: buttonTitle,
-                attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold),
-                             NSAttributedString.Key.foregroundColor: K.Color.themeWhite]
-            )
-            self.timerButton.setAttributedTitle(attributedText, for: .normal)
-            self.timerButton.isUserInteractionEnabled = interaction
-        }
     }
     
     // 타이머 활성화

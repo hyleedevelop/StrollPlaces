@@ -11,16 +11,23 @@ import Lottie
 
 final class SplashViewController: UIViewController {
 
-    //MARK: - IB outlet & action
-
     //MARK: - UI property
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "가벼운 발걸음"
+        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        return label
+    }()
     
     private lazy var initialAnimationView: LottieAnimationView = {
         let view = LottieAnimationView(name: "walkingMan")
         //view.frame = self.view.bounds
         //view.center = self.view.center
         view.contentMode = .scaleAspectFit
-        view.loopMode = .repeat(2)
+        view.loopMode = .loop
         view.animationSpeed = 0.75
         view.alpha = 1
         //view.play()
@@ -32,25 +39,27 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tabBarController?.tabBar.isHidden = true
-        
-        self.setupSplashScreen()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.dismiss(animated: true)
-            //self.navigationController?.popToRootViewController(animated: true)
-        }
+        self.setupView()
+        self.setupAnimationView()
+        self.setupLabel()
+        self.goToNextViewController()
     }
     
     //MARK: - directly called method
     
-    private func setupSplashScreen() {
-        self.view.addSubview(initialAnimationView)
-        
+    // View 설정
+    private func setupView() {
+        self.view.backgroundColor = K.Color.themeGreen
+    }
+    
+    // Lottie Animation 설정
+    private func setupAnimationView() {
+        self.view.addSubview(self.initialAnimationView)
         self.initialAnimationView.snp.makeConstraints {
-            $0.width.equalTo(100)
-            $0.height.equalTo(300)
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-200)
+            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
+            $0.top.equalTo(self.view.snp.centerY).offset(-50)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-100)
         }
         
         self.initialAnimationView.play { _ in
@@ -60,6 +69,30 @@ final class SplashViewController: UIViewController {
                 self.initialAnimationView.isHidden = true
                 self.initialAnimationView.removeFromSuperview()
             })
+        }
+    }
+    
+    // Label 설정
+    private func setupLabel() {
+        self.view.addSubview(self.titleLabel)
+        self.titleLabel.snp.makeConstraints {
+            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
+            $0.bottom.equalTo(self.initialAnimationView.snp.top).offset(-80)
+        }
+    }
+    
+    // 다음 화면으로 이동
+    private func goToNextViewController() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
+                    as? OnboardingViewController else { return }
+            
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.hero.isEnabled = true
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoomSlide(direction: .left), dismissing: .zoomSlide(direction: .left))
+            
+            self.present(nextVC, animated: true, completion: nil)
         }
     }
 

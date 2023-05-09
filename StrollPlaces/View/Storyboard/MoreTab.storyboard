@@ -14,7 +14,7 @@
             <objects>
                 <viewController id="qVy-gx-ht7" customClass="MoreViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7hW-ya-mI4">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="PtN-hb-tPl">
@@ -31,6 +31,7 @@
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="kd5-yE-dcf"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="더보기" image="icons8-ellipsis-50" id="xGL-mj-etE"/>
                     <navigationItem key="navigationItem" id="wiu-Wk-RP1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

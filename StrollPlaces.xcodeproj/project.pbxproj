@@ -20,8 +20,7 @@
 		072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BB929C2E26A0024B938 /* Enum.swift */; };
 		072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */; };
 		072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */; };
-		072E054329FFDD7900F30E2C /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072E054229FFDD7900F30E2C /* UINavigationController.swift */; };
-		072E054529FFED7A00F30E2C /* UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072E054429FFED7A00F30E2C /* UINavigationItem.swift */; };
+		072E054329FFDD7900F30E2C /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072E054229FFDD7900F30E2C /* NavigationBar.swift */; };
 		0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0731E1CD29D430AF0057E12B /* TrackingViewController.swift */; };
 		0751436829C201CD00109B8E /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* UIImage.swift */; };
 		075729B12A067CA00011D127 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075729B02A067CA00011D127 /* Date.swift */; };
@@ -103,7 +102,12 @@
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
 		07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */ = {isa = PBXBuildFile; productRef = 07E3383129FAA2FC00880DAA /* Screenshots */; };
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
-		07F8814D2A0890E00067948A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F8814C2A0890E00067948A /* NavigationController.swift */; };
+		07FD50C12A0A064F00FFE3EC /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */; };
+		07FD50C32A0A0B3200FFE3EC /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */; };
+		07FD50C52A0A0B8B00FFE3EC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */; };
+		07FD50C72A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */; };
+		07FD50CB2A0A3A5C00FFE3EC /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50CA2A0A3A5C00FFE3EC /* TabBar.swift */; };
+		07FD50CD2A0A448E00FFE3EC /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50CC2A0A448E00FFE3EC /* Button.swift */; };
 		119150A1FD78048A2B1AA21A /* Pods_StrollPlaces_StrollPlacesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397451D7E7C5B4783076C56E /* Pods_StrollPlaces_StrollPlacesUITests.framework */; };
 		B984F4BD009DD9EE93AB118D /* Pods_TrackingExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */; };
 		D833011D7D771016C3150402 /* Pods_StrollPlacesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7077385DE03245CFFA290 /* Pods_StrollPlacesTests.framework */; };
@@ -162,8 +166,7 @@
 		072D5BB929C2E26A0024B938 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		072D5BBD29C304C60024B938 /* MapViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
-		072E054229FFDD7900F30E2C /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
-		072E054429FFED7A00F30E2C /* UINavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItem.swift; sourceTree = "<group>"; };
+		072E054229FFDD7900F30E2C /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		0731E1CD29D430AF0057E12B /* TrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		075729B02A067CA00011D127 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -243,7 +246,12 @@
 		07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		07D01A2129E65AAC00FE85D4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
-		07F8814C2A0890E00067948A /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
+		07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		07FD50CA2A0A3A5C00FFE3EC /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		07FD50CC2A0A448E00FFE3EC /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		16650632E032CF58426FB33C /* Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces-StrollPlacesUITests/Pods-StrollPlaces-StrollPlacesUITests.release.xcconfig"; sourceTree = "<group>"; };
 		23621994C88EBA98576F0752 /* Pods_TrackingExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackingExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3248728FE58600DA8548F940 /* Pods-TrackingExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingExtension.debug.xcconfig"; path = "Target Support Files/Pods-TrackingExtension/Pods-TrackingExtension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -297,15 +305,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0760D51B29D3295700796D73 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				0760D51C29D3296600796D73 /* RealmService.swift */,
-				070FFAFF29D56B4900987285 /* AlertService.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
 		0774AA8129D94C790048C781 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,7 +389,6 @@
 				07D2329A2A09289F006DE737 /* Resource */,
 				0799CCD929BF5A62006AB70D /* Extension */,
 				0799CCD829BF5A5E006AB70D /* Helper */,
-				0760D51B29D3295700796D73 /* Service */,
 				0799CCD129BF59A0006AB70D /* Model */,
 				0799CCC529BF5941006AB70D /* View */,
 				0799CCD029BF5996006AB70D /* ViewModel */,
@@ -430,8 +428,8 @@
 			isa = PBXGroup;
 			children = (
 				079AF4F129C74C9D006C365B /* SplashViewController.swift */,
+				07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */,
 				0799CCC729BF595C006AB70D /* TabBarController.swift */,
-				07F8814C2A0890E00067948A /* NavigationController.swift */,
 				077C1BE529CDEBE700DA3218 /* Map */,
 				077C1BE629CDEBF900DA3218 /* MyPlace */,
 				077C1BE729CDEC5500DA3218 /* News */,
@@ -443,16 +441,12 @@
 		0799CCCF29BF5987006AB70D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */,
 				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
 				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
 				07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */,
 				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
 				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
-				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
-				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
-				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
-				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
-				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -460,6 +454,7 @@
 		0799CCD029BF5996006AB70D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */,
 				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
 				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
 				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
@@ -476,6 +471,7 @@
 		0799CCD129BF59A0006AB70D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */,
 				0799CCD229BF59C0006AB70D /* PublicData.swift */,
 				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
 				0760D51E29D32ED100796D73 /* MyPlaceData.swift */,
@@ -495,6 +491,8 @@
 				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
 				077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */,
 				078480FC29FB97DD00A3CDB3 /* Artwork.swift */,
+				070FFAFF29D56B4900987285 /* AlertService.swift */,
+				0760D51C29D3296600796D73 /* RealmService.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -505,13 +503,14 @@
 				0799CCEB29BF6E10006AB70D /* Double.swift */,
 				07CDB0A329CF068D00F139BB /* String.swift */,
 				075729B02A067CA00011D127 /* Date.swift */,
-				072E054229FFDD7900F30E2C /* UINavigationController.swift */,
-				072E054429FFED7A00F30E2C /* UINavigationItem.swift */,
 				0751436729C201CD00109B8E /* UIImage.swift */,
 				075FE44029C5B63A00A5694C /* UIView.swift */,
 				0799CCE929BF65A9006AB70D /* MKMapView.swift */,
 				077C1BEB29CDEDC100DA3218 /* URLRequest.swift */,
 				070D486E29E6C958009B67A8 /* CLPlacemark.swift */,
+				072E054229FFDD7900F30E2C /* NavigationBar.swift */,
+				07FD50CA2A0A3A5C00FFE3EC /* TabBar.swift */,
+				07FD50CC2A0A448E00FFE3EC /* Button.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -525,6 +524,11 @@
 				07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */,
 				0718B96129D08F7500D5CDDE /* NewsTab.storyboard */,
 				07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */,
+				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
+				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
+				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
+				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
+				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
 				079AF4EF29C74931006C365B /* strollingMan.jpeg */,
 			);
 			path = Storyboard;
@@ -913,6 +917,7 @@
 				0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */,
 				072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */,
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
+				07FD50C32A0A0B3200FFE3EC /* OnboardingData.swift in Sources */,
 				0799CCDD29BF5D02006AB70D /* MapViewModel.swift in Sources */,
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
 				075FE43D29C5B42F00A5694C /* MapViewController+Annotation.swift in Sources */,
@@ -920,7 +925,7 @@
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
 				078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
-				072E054329FFDD7900F30E2C /* UINavigationController.swift in Sources */,
+				072E054329FFDD7900F30E2C /* NavigationBar.swift in Sources */,
 				077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
 				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
@@ -932,13 +937,17 @@
 				0712E4AB29C6B3A000243DF8 /* PlaceInfoViewController.swift in Sources */,
 				0790A42429D83161008C3923 /* TrackPoint.swift in Sources */,
 				077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */,
+				07FD50CD2A0A448E00FFE3EC /* Button.swift in Sources */,
 				0799CCCC29BF5979006AB70D /* MyPlaceViewController.swift in Sources */,
+				07FD50C72A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift in Sources */,
 				0790A42629D83208008C3923 /* TrackData.swift in Sources */,
 				0799CC9629BF584B006AB70D /* AppDelegate.swift in Sources */,
+				07FD50CB2A0A3A5C00FFE3EC /* TabBar.swift in Sources */,
 				077C1BEC29CDEDC100DA3218 /* URLRequest.swift in Sources */,
 				07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				07B1DEBB2A00FC5600A27F9F /* DetailInfoViewModel.swift in Sources */,
+				07FD50C12A0A064F00FFE3EC /* OnboardingViewController.swift in Sources */,
 				0799CCCA29BF596E006AB70D /* MapViewController.swift in Sources */,
 				075FE44129C5B63A00A5694C /* UIView.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */,
@@ -950,7 +959,7 @@
 				077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */,
 				07CDB0A429CF068D00F139BB /* String.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */,
-				072E054529FFED7A00F30E2C /* UINavigationItem.swift in Sources */,
+				07FD50C52A0A0B8B00FFE3EC /* OnboardingViewModel.swift in Sources */,
 				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
 				07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */,
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,
@@ -962,7 +971,6 @@
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				070FFB0029D56B4900987285 /* AlertService.swift in Sources */,
 				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
-				07F8814D2A0890E00067948A /* NavigationController.swift in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
 				070D486F29E6C958009B67A8 /* CLPlacemark.swift in Sources */,
 				07C16D1E29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift in Sources */,
@@ -1173,7 +1181,7 @@
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "가벼운산책";
+				INFOPLIST_KEY_CFBundleDisplayName = "가벼운 발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
@@ -1213,7 +1221,7 @@
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "가벼운산책";
+				INFOPLIST_KEY_CFBundleDisplayName = "가벼운 발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";

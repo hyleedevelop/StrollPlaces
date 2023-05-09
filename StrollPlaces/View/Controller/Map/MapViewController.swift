@@ -96,8 +96,6 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.setupSplashScreen()
-        
         self.getLocationUsagePermission()
         self.setupMapView()
         self.setupCollectionView()
@@ -112,23 +110,6 @@ final class MapViewController: UIViewController {
     }
     
     //MARK: - method
-    
-    private func setupSplashScreen() {
-        UIView.animate(withDuration: 0.2) {
-            
-        } completion: { done in
-            if done {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "SplashViewController") as? SplashViewController else { return }
-                    nextVC.modalTransitionStyle = .crossDissolve
-                    nextVC.modalPresentationStyle = .fullScreen
-                    //nextVC.hero.isEnabled = true
-                    //nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right), dismissing: .slide(direction: .left))
-                    self.present(nextVC, animated: false)
-                }
-            }
-        }
-    }
     
     // 지도 관련 설정
     private func setupMapView() {

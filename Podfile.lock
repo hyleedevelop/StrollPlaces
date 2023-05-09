@@ -33,6 +33,7 @@ PODS:
   - SPIndicator (1.6.4)
   - SSCustomTabbar (2.0.7)
   - TransitionableTab (0.2.0)
+  - UICheckbox.Swift (1.0.0)
   - ViewAnimator (3.1.0)
 
 DEPENDENCIES:
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - SPIndicator
   - SSCustomTabbar
   - TransitionableTab (~> 0.2.0)
+  - UICheckbox.Swift
   - ViewAnimator
 
 SPEC REPOS:
@@ -81,6 +83,7 @@ SPEC REPOS:
     - SPIndicator
     - SSCustomTabbar
     - TransitionableTab
+    - UICheckbox.Swift
     - ViewAnimator
 
 SPEC CHECKSUMS:
@@ -106,8 +109,9 @@ SPEC CHECKSUMS:
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
   SSCustomTabbar: da05060b9916312a3b9af6b7640d6a298a335dfe
   TransitionableTab: 54a5d0af475033bdb83959fde4e5d6201af7e2ab
+  UICheckbox.Swift: 85715689206fac5bae38b308f19c2a3e00442c3b
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: febe46006c74d62fd6116f7ee90eb6745c513d02
+PODFILE CHECKSUM: 0a02cbac83d6f3f1a4ba341bd146c2cd2b17e0d0
 
 COCOAPODS: 1.11.3

@@ -12,6 +12,7 @@ import RxCocoa
 import NSObject_Rx
 import CoreLocation
 import SPIndicator
+import FaveButton
 
 class PlaceInfoViewController: UIViewController {
     
@@ -41,11 +42,21 @@ class PlaceInfoViewController: UIViewController {
     private let iconBackView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1.0
-        view.layer.cornerRadius = 13
+        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.borderWidth = 0
+        view.layer.cornerRadius = 0
         view.clipsToBounds = true
         return view
+    }()
+    
+    private lazy var faveButton: FaveButton = {
+        let button = FaveButton(
+            frame: CGRect(x:0, y:0, width: 26, height: 26),
+            faveIconNormal: UIImage(systemName: "heart.fill")
+        )
+        //button.selectedColor = UIColor.yellow
+        button.delegate = self
+        return button
     }()
     
     private let iconImage: UIImageView = {
@@ -213,14 +224,18 @@ class PlaceInfoViewController: UIViewController {
     private func setupTopUI() {
         // icon image
         self.containerView.addSubview(self.iconBackView)
-        self.iconBackView.addSubview(self.iconImage)
+//        self.iconBackView.addSubview(self.iconImage)
+        self.iconBackView.addSubview(self.faveButton)
         self.iconBackView.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.height.equalTo(26)
             $0.width.equalTo(26)
         }
-        self.iconImage.snp.makeConstraints {
+//        self.iconImage.snp.makeConstraints {
+//            $0.top.left.right.bottom.equalTo(self.iconBackView)
+//        }
+        self.faveButton.snp.makeConstraints {
             $0.top.left.right.bottom.equalTo(self.iconBackView)
         }
         
@@ -409,5 +424,25 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+}
+
+//MARK: - extension for FaveButtonDelegate
+
+extension PlaceInfoViewController: FaveButtonDelegate {
+    
+    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
+        // Realm DB에 즐겨찾기 장소 저장하기
+        // ...
+        print(#function)
+    }
+    
+    func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]?{
+//        if( faveButton === heartButton || faveButton === loveButton){
+//            return colors
+//        }
+        return nil
+    }
+    
     
 }
