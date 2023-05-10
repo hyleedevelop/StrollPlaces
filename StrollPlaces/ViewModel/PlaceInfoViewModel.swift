@@ -11,7 +11,7 @@ import RxCocoa
 
 final class PlaceInfoViewModel {
     
-    //MARK: - 저장속성
+    //MARK: - normal property
     
     let pinData: PublicData
     private var titleArray = [String]()
@@ -23,8 +23,6 @@ final class PlaceInfoViewModel {
     // -> 계산이 끝나면 didSet을 통해 새로운 label 업데이트
     var estimatedDistance = BehaviorRelay<String>(value: "거리: 계산중...")
     var estimatedTime = BehaviorRelay<String>(value: "소요시간: 계산중...")
-    
-    //MARK: - 계산속성
     
     var distance: Double = -1 {
         didSet {
@@ -71,13 +69,13 @@ final class PlaceInfoViewModel {
         return Observable<String>.just(pinData.category)
     }
     
-    //MARK: - 생성자
+    //MARK: - initializer
     
     init(_ pinData: PublicData) {
         self.pinData = pinData
     }
     
-    //MARK: - 메서드
+    //MARK: - directly called method
 
     @discardableResult
     func getTitleInfo() -> Observable<[String]> {

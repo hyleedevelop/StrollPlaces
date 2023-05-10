@@ -139,7 +139,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aTo-Nm-QlC">
-                                <rect key="frame" x="0.0" y="59" width="393" height="523"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="543"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="M7c-la-jQ1">
                                     <size key="itemSize" width="393" height="555"/>
@@ -149,7 +149,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OnboardingCollectionViewCell" id="0ZG-Hd-TzA" customClass="OnboardingCollectionViewCell" customModule="StrollPlaces" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-16" width="393" height="555"/>
+                                        <rect key="frame" x="0.0" y="-6" width="393" height="555"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="bWm-oY-dTk">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="555"/>
@@ -202,43 +202,37 @@
                                 </cells>
                             </collectionView>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="rGW-Yc-sSe">
-                                <rect key="frame" x="138.66666666666666" y="592" width="115.66666666666666" height="26"/>
+                                <rect key="frame" x="138.66666666666666" y="612" width="115.66666666666666" height="26"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </pageControl>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="meL-AC-3yk">
-                                <rect key="frame" x="108.66666666666667" y="748" width="175.66666666666663" height="34.333333333333371"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxj-pI-F5F">
-                                        <rect key="frame" x="0.0" y="0.0" width="49" height="34.333333333333336"/>
-                                        <color key="tintColor" red="0.1647058824" green="0.65490196079999996" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="checkmark.square" catalog="system"/>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="다음부터 보지 않기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ZI-YC-dzQ">
-                                        <rect key="frame" x="48.999999999999979" y="0.0" width="126.66666666666669" height="34.333333333333336"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxj-pI-F5F">
+                                <rect key="frame" x="106.66666666666669" y="748" width="180" height="40"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <buttonConfiguration key="configuration" style="plain" image="square" catalog="system" title=" 다음부터 보지 않기"/>
+                                <connections>
+                                    <action selector="hideNextTimeButtonTapped:" destination="Bb0-b4-iHm" eventType="touchUpInside" id="Vbj-BF-yBj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="JNj-Na-ss1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JNj-Na-ss1" firstAttribute="trailing" secondItem="aTo-Nm-QlC" secondAttribute="trailing" id="3Ew-fl-5XK"/>
                             <constraint firstItem="JNj-Na-ss1" firstAttribute="bottom" secondItem="E6d-Mb-a7t" secondAttribute="bottom" constant="100" id="3Tb-JC-9CQ"/>
+                            <constraint firstItem="JNj-Na-ss1" firstAttribute="bottom" secondItem="uxj-pI-F5F" secondAttribute="bottom" constant="30" id="5wL-YJ-Cn9"/>
                             <constraint firstItem="rGW-Yc-sSe" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="ASA-U2-jUs"/>
-                            <constraint firstItem="E6d-Mb-a7t" firstAttribute="top" secondItem="rGW-Yc-sSe" secondAttribute="bottom" constant="50" id="GHX-gU-eVr"/>
-                            <constraint firstItem="meL-AC-3yk" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="OXr-a3-kJM"/>
+                            <constraint firstItem="uxj-pI-F5F" firstAttribute="top" secondItem="E6d-Mb-a7t" secondAttribute="bottom" constant="30" id="G7g-KZ-qza"/>
+                            <constraint firstItem="E6d-Mb-a7t" firstAttribute="top" secondItem="rGW-Yc-sSe" secondAttribute="bottom" constant="30" id="GHX-gU-eVr"/>
                             <constraint firstItem="aTo-Nm-QlC" firstAttribute="top" secondItem="JNj-Na-ss1" secondAttribute="top" id="T6F-kL-Oub"/>
                             <constraint firstItem="E6d-Mb-a7t" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="Xgz-dA-sJB"/>
                             <constraint firstItem="rGW-Yc-sSe" firstAttribute="top" secondItem="aTo-Nm-QlC" secondAttribute="bottom" constant="10" id="lqr-oB-EGj"/>
-                            <constraint firstItem="meL-AC-3yk" firstAttribute="top" secondItem="E6d-Mb-a7t" secondAttribute="bottom" constant="30" id="vlB-Ef-3Wk"/>
+                            <constraint firstItem="uxj-pI-F5F" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="pCb-mc-XXh"/>
                             <constraint firstItem="aTo-Nm-QlC" firstAttribute="leading" secondItem="JNj-Na-ss1" secondAttribute="leading" id="zbY-10-qvw"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="hideNextTimeButton" destination="uxj-pI-F5F" id="h3h-8x-jJb"/>
                         <outlet property="nextButton" destination="E6d-Mb-a7t" id="EHL-4d-4Up"/>
                         <outlet property="onboardingCollectionView" destination="aTo-Nm-QlC" id="Z5E-VY-upe"/>
                         <outlet property="pageControl" destination="rGW-Yc-sSe" id="xgP-V7-Fwu"/>
@@ -250,7 +244,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checkmark.square" catalog="system" width="128" height="114"/>
+        <image name="square" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

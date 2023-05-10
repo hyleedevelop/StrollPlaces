@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import UICheckbox_Swift
 
 final class OnboardingViewController: UIViewController {
 
@@ -16,18 +15,13 @@ final class OnboardingViewController: UIViewController {
     @IBOutlet weak var onboardingCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextButton: UIButton!
-    
-    private let checkBox: UICheckbox = {
-        let box = UICheckbox(type: .custom)
-        box.onSelectStateChanged = { (checkbox, selected) in
-            debugPrint("Clicked - \(selected)")
-        }
-        return box
-    }()
+    @IBOutlet weak var hideNextTimeButton: UIButton!
     
     //MARK: - normal property
     
     private let viewModel = OnboardingViewModel()
+    private let userDefaults = UserDefaults.standard
+    
     private var currentPage = 0 {
         didSet {
             self.pageControl.currentPage = currentPage
@@ -35,10 +29,21 @@ final class OnboardingViewController: UIViewController {
             if self.currentPage == self.viewModel.slide.count - 1 {
                 // 마지막 페이지의 경우 시작 버튼으로 작동
                 self.nextButton.changeAttributes(buttonTitle: "시작하기", interaction: true)
-                self.showCheckBox()
+                self.hideNextTimeButton.isHidden = false
             } else {
                 // 나머지 페이지의 경우 다음 버튼으로 작동
                 self.nextButton.changeAttributes(buttonTitle: "다음", interaction: true)
+                self.hideNextTimeButton.isHidden = true
+            }
+        }
+    }
+    
+    private var isHideNextTimeChecked = false {
+        didSet {
+            if self.isHideNextTimeChecked {
+                self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
+            } else {
+                self.userDefaults.setValue(true, forKey: "hideOnboardingScreen")
             }
         }
     }
@@ -51,7 +56,6 @@ final class OnboardingViewController: UIViewController {
         self.setupCollectionView()
         self.setupPageControl()
         self.setupButton()
-        self.setupCheckBox()
     }
     
     //MARK: - directly called method
@@ -73,23 +77,15 @@ final class OnboardingViewController: UIViewController {
         self.nextButton.backgroundColor = K.Color.themeGreen
         self.nextButton.layer.cornerRadius = self.nextButton.frame.height / 2.0
         self.nextButton.changeAttributes(buttonTitle: "다음", interaction: true)
-    }
-    
-    // CheckBox 설정
-    private func setupCheckBox() {
-        self.view.addSubview(self.checkBox)
         
-        self.checkBox.snp.makeConstraints {
-            $0.top.equalTo(self.nextButton.snp.bottom).offset(10)
-            $0.centerX.equalToSuperview()
-        }
-        
-        self.checkBox.isHidden = true
+        self.hideNextTimeButton.isHidden = true
+        self.hideNextTimeButton.setImage(UIImage(systemName: "square"),
+                                         for: .normal)
     }
     
     //MARK: - IB action
     
-    @IBAction func nextButtonTapped(_ sender: Any) {
+    @IBAction func nextButtonTapped(_ sender: UIButton) {
         // 마지막 페이지인 경우
         if self.currentPage == self.viewModel.slide.count - 1 {
             guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBar")
@@ -97,8 +93,8 @@ final class OnboardingViewController: UIViewController {
             
             nextVC.modalPresentationStyle = .fullScreen
             nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoomSlide(direction: .left),
-                                                       dismissing: .zoomSlide(direction: .left))
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
+                                                       dismissing: .zoomOut)
             
             self.present(nextVC, animated: true, completion: nil)
             
@@ -111,12 +107,22 @@ final class OnboardingViewController: UIViewController {
         }
     }
     
-    //MARK: - directly called method
-    
-    private func showCheckBox() {
-        self.checkBox.isHidden = false
+    @IBAction func hideNextTimeButtonTapped(_ sender: UIButton) {
+        DispatchQueue.main.async {
+            if self.isHideNextTimeChecked {
+                self.hideNextTimeButton.setImage(UIImage(systemName: "square"),
+                                                 for: .normal)
+            } else {
+                self.hideNextTimeButton.setImage(UIImage(systemName: "checkmark.square"),
+                                                 for: .normal)
+            }
+        }
+        
+        self.isHideNextTimeChecked.toggle()
     }
     
+    //MARK: - directly called method
+   
     
 }
 

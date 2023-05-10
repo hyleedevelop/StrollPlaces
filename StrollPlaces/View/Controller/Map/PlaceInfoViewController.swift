@@ -28,7 +28,7 @@ class PlaceInfoViewController: UIViewController {
     internal let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = K.Shape.largeCornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.clipsToBounds = true
         view.layer.masksToBounds = false
@@ -39,19 +39,9 @@ class PlaceInfoViewController: UIViewController {
         return view
     }()
     
-    private let iconBackView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.layer.borderColor = UIColor.white.cgColor
-        view.layer.borderWidth = 0
-        view.layer.cornerRadius = 0
-        view.clipsToBounds = true
-        return view
-    }()
-    
     private lazy var faveButton: FaveButton = {
         let button = FaveButton(
-            frame: CGRect(x:0, y:0, width: 26, height: 26),
+            frame: CGRect(x:0, y:0, width: 30, height: 30),
             faveIconNormal: UIImage(systemName: "heart.fill")
         )
         //button.selectedColor = UIColor.yellow
@@ -125,21 +115,10 @@ class PlaceInfoViewController: UIViewController {
         return button
     }()
     
-    public let bookmarkButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = K.Color.themeYellow
-        button.setTitle(K.DetailView.bookmarkButtonName, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        button.tintColor = UIColor.white
-        button.layer.cornerRadius = 22.5
-        button.clipsToBounds = true
-        return button
-    }()
-    
     private lazy var buttonStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [navigateButton, bookmarkButton])
+        let sv = UIStackView(arrangedSubviews: [navigateButton])
         sv.axis = .horizontal
-        sv.spacing = 20
+        sv.spacing = 30
         sv.alignment = .fill
         sv.distribution = .fillEqually
         return sv
@@ -165,9 +144,9 @@ class PlaceInfoViewController: UIViewController {
 
     private let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
     
-    internal let dismissibleHeight: CGFloat = 135
-    internal lazy var defaultHeight: CGFloat = 155 + (scene?.windows.first?.safeAreaInsets.bottom ?? 0)
-    internal lazy var currentContainerHeight: CGFloat = 155 + (scene?.windows.first?.safeAreaInsets.bottom ?? 0)
+    internal let dismissibleHeight: CGFloat = 160
+    internal lazy var defaultHeight: CGFloat = 180 + (scene?.windows.first?.safeAreaInsets.bottom ?? 0)
+    internal lazy var currentContainerHeight: CGFloat = 180 + (scene?.windows.first?.safeAreaInsets.bottom ?? 0)
     internal let maximumContainerHeight: CGFloat = 500
     internal var maximumContainerHeightByButton: CGFloat = 500
     
@@ -181,18 +160,18 @@ class PlaceInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupView()
+        self.setupView()
         
-        setupTopUI()
-        setupMiddleUI()
-        setupBottomUI()
+        self.setupTopUI()
+        self.setupMiddleUI()
+        self.setupBottomUI()
         
-        setupConstraints()
+        self.setupConstraints()
         
-        setupTapGesture()
-        setupPanGesture()
+        self.setupTapGesture()
+        self.setupPanGesture()
         
-        setupBinding()
+        self.setupBinding()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -222,37 +201,29 @@ class PlaceInfoViewController: UIViewController {
     }
     
     private func setupTopUI() {
-        // icon image
-        self.containerView.addSubview(self.iconBackView)
-//        self.iconBackView.addSubview(self.iconImage)
-        self.iconBackView.addSubview(self.faveButton)
-        self.iconBackView.snp.makeConstraints {
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.height.equalTo(26)
-            $0.width.equalTo(26)
-        }
-//        self.iconImage.snp.makeConstraints {
-//            $0.top.left.right.bottom.equalTo(self.iconBackView)
-//        }
+        // fave button
+        self.containerView.addSubview(self.faveButton)
         self.faveButton.snp.makeConstraints {
-            $0.top.left.right.bottom.equalTo(self.iconBackView)
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.height.equalTo(30)
+            $0.width.equalTo(30)
         }
         
         // disclosure button
         self.containerView.addSubview(self.disclosureButton)
         self.disclosureButton.snp.makeConstraints {
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
             $0.width.height.equalTo(30)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
         }
         
         // name label
         self.containerView.addSubview(self.nameLabel)
         self.nameLabel.snp.makeConstraints {
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.left.equalTo(self.iconBackView.snp.right).offset(10)
-            $0.right.equalTo(self.disclosureButton.snp_leftMargin).offset(-20)
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.left.equalTo(self.faveButton.snp.right).offset(10)
+            $0.right.equalTo(self.disclosureButton.snp.left).offset(-20)
             $0.height.equalTo(26)
         }
     }
@@ -260,8 +231,8 @@ class PlaceInfoViewController: UIViewController {
     private func setupMiddleUI() {
         self.containerView.addSubview(self.labelStackView)
         self.labelStackView.snp.makeConstraints {
-            $0.top.equalTo(self.iconBackView.snp.bottom).offset(15)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(self.faveButton.snp.bottom).offset(20)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
             $0.height.equalTo(18)
             $0.width.equalTo(260)
         }
@@ -277,22 +248,23 @@ class PlaceInfoViewController: UIViewController {
     
     private func setupBottomUI() {
         self.containerView.addSubview(self.buttonStackView)
-        buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(self.labelStackView.snp.bottom).offset(15)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
-            $0.height.equalTo(45)
+        self.buttonStackView.snp.makeConstraints {
+            $0.top.equalTo(self.labelStackView.snp.bottom).offset(20)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+            $0.height.equalTo(50)
         }
     }
     
     internal func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "PlaceInfoTableViewCell", bundle: nil),
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.register(UINib(nibName: "PlaceInfoTableViewCell", bundle: nil),
                            forCellReuseIdentifier: "PlaceInfoCell")
+        self.tableView.showsVerticalScrollIndicator = true
         
-        containerView.addSubview(tableView)
-        tableView.snp.makeConstraints {
+        self.containerView.addSubview(self.tableView)
+        self.tableView.snp.makeConstraints {
             $0.top.equalTo(self.navigateButton.snp_bottomMargin).offset(25)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide)
             //$0.height.equalTo(300)
@@ -307,38 +279,42 @@ class PlaceInfoViewController: UIViewController {
         let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
         
         // 장소 유형
-        placeType.map { type -> UIImage in
-            switch type {
-            case .marked:
-                return UIImage(systemName: "star.fill") ?? UIImage()
-            case .park:
-                return UIImage(systemName: "tree.fill") ?? UIImage()
-            case .strollWay:
-                return UIImage(systemName: "road.lanes") ?? UIImage()
-            case .recreationForest:
-                return UIImage(systemName: "mountain.2.fill") ?? UIImage()
-            case .tourSpot:
-                return UIImage(systemName: "hand.thumbsup.fill") ?? UIImage()
+        placeType
+            .map { type -> UIImage in
+                switch type {
+                case .marked:
+                    return UIImage(systemName: "star.fill") ?? UIImage()
+                case .park:
+                    return UIImage(systemName: "tree.fill") ?? UIImage()
+                case .strollWay:
+                    return UIImage(systemName: "road.lanes") ?? UIImage()
+                case .recreationForest:
+                    return UIImage(systemName: "mountain.2.fill") ?? UIImage()
+                case .tourSpot:
+                    return UIImage(systemName: "hand.thumbsup.fill") ?? UIImage()
+                }
+                //return UIImage(systemName: "star") ?? UIImage()
             }
-            //return UIImage(systemName: "star") ?? UIImage()
-        }
-        .map { $0.withAlignmentRectInsets(
-            UIEdgeInsets(top: -4, left: -4, bottom: -4, right: -4)
-        )}
-        .drive(iconImage.rx.image)
-        .disposed(by: rx.disposeBag)
+            .map { $0.withAlignmentRectInsets(
+                UIEdgeInsets(top: -4, left: -4, bottom: -4, right: -4)
+            )}
+            .drive(iconImage.rx.image)
+            .disposed(by: rx.disposeBag)
         
         // 장소명
-        placeName.map { $0[0] }
+        placeName
+            .map { $0[0] }
             .drive(nameLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         // 거리
-        distance.drive(distanceLabel.rx.text)
+        distance
+            .drive(distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
 
         // 소요시간
-        time.drive(expectedTimeLabel.rx.text)
+        time
+            .drive(expectedTimeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         // "chevron" 버튼을 눌렀을 때 실행할 이벤트
@@ -366,14 +342,18 @@ class PlaceInfoViewController: UIViewController {
         // -> MapViewController+Annotation.swift에 구현되어 있음
         
         // "즐겨찾기 등록" 버튼을 눌렀을 때 실행할 이벤트
-        self.bookmarkButton.rx.controlEvent(.touchUpInside).asObservable()
+        self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
             .throttle(.seconds(2), scheduler: MainScheduler.instance)
             .subscribe(
                 onNext: {
-                    let indicatorView = SPIndicatorView(title: "등록 완료", preset: .done)
+                    //if ... {
+                    //    let indicatorView = SPIndicatorView(title: "즐겨찾기 해제", preset: .done)
+                    //}
+                    let indicatorView = SPIndicatorView(title: "즐겨찾기 등록", preset: .done)
                     indicatorView.present(duration: 2.0, haptic: .success)
-                }, onError: { _ in
-                    let indicatorView = SPIndicatorView(title: "등록 실패", preset: .error)
+                },
+                onError: { _ in
+                    let indicatorView = SPIndicatorView(title: "즐겨찾기 등록 실패", preset: .error)
                     indicatorView.present(duration: 2.0, haptic: .error)
                 })
             .disposed(by: rx.disposeBag)
@@ -434,7 +414,7 @@ extension PlaceInfoViewController: FaveButtonDelegate {
     func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
         // Realm DB에 즐겨찾기 장소 저장하기
         // ...
-        print(#function)
+        print(#function, self.faveButton.isSelected)
     }
     
     func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]?{

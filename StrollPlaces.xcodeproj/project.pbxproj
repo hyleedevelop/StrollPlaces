@@ -101,6 +101,7 @@
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
 		07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */ = {isa = PBXBuildFile; productRef = 07E3383129FAA2FC00880DAA /* Screenshots */; };
+		07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E35C492A0BDFA00087A14C /* MyPlace.swift */; };
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
 		07FD50C12A0A064F00FFE3EC /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */; };
 		07FD50C32A0A0B3200FFE3EC /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */; };
@@ -246,6 +247,7 @@
 		07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		07D01A2129E65AAC00FE85D4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
+		07E35C492A0BDFA00087A14C /* MyPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlace.swift; sourceTree = "<group>"; };
 		07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		0774AA8129D94C790048C781 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
+				07E35C492A0BDFA00087A14C /* MyPlace.swift */,
 				0790A42329D83161008C3923 /* TrackPoint.swift */,
 				0790A42529D83208008C3923 /* TrackData.swift */,
 			);
@@ -965,6 +968,7 @@
 				0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */,
 				07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */,
 				0718B96429D0940F00D5CDDE /* MoreViewController+TableView.swift in Sources */,
+				07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
 				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,
 				07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */,

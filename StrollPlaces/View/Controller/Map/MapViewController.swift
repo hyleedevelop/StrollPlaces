@@ -24,13 +24,7 @@ final class MapViewController: UIViewController {
     @IBOutlet weak var zoomInButton: UIButton!
     @IBOutlet weak var zoomOutButton: UIButton!
     @IBOutlet weak var currentLocationButton: UIButton!
-    @IBOutlet weak var mapView: MKMapView! //{
-//        didSet {
-//            self.mapView.region = .init(center: region.center,
-//                                        latitudinalMeters: region.delta,
-//                                        longitudinalMeters: region.delta)
-//        }
-//    }
+    @IBOutlet weak var mapView: MKMapView!
     
     //MARK: - UI property
     
@@ -52,7 +46,7 @@ final class MapViewController: UIViewController {
     
     //MARK: - normal property
     
-    internal var viewModel: MapViewModel!
+    internal let viewModel = MapViewModel()
     
     internal lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -109,7 +103,7 @@ final class MapViewController: UIViewController {
         self.locationManager.stopUpdatingLocation()
     }
     
-    //MARK: - method
+    //MARK: - directly called method
     
     // 지도 관련 설정
     private func setupMapView() {
@@ -151,8 +145,6 @@ final class MapViewController: UIViewController {
         
         self.themeButtonCollectionView.delegate = self
         self.themeButtonCollectionView.dataSource = self
-        
-        self.viewModel = MapViewModel()  // 셀의 초기화가 진행되는 시점
         
         // 초기화 시 선택되어 있을 셀(공원) 지정하기
         self.themeButtonCollectionView.selectItem(
@@ -212,6 +204,8 @@ final class MapViewController: UIViewController {
             })
             .disposed(by: rx.disposeBag)
     }
+    
+    //MARK: - indirectly called method
     
     // 현재 사용자의 위치로 지도 이동
     internal func moveToCurrentLocation() {

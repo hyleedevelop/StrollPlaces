@@ -9,6 +9,10 @@ import UIKit
 import CoreLocation
 
 struct K {
+    struct Precondition {
+        static let splashScreenTime: Double = 2.0
+    }
+    
     struct Color {
         static let themeBlack: UIColor = #colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.2039215686, alpha: 1)
         static let themeGray: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)

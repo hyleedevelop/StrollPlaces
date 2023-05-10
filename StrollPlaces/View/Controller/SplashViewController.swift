@@ -34,6 +34,10 @@ final class SplashViewController: UIViewController {
         return view
     }()
     
+    //MARK: - normal property
+    
+    private let userDefaults = UserDefaults.standard
+    
     //MARK: - life cycle
     
     override func viewDidLoad() {
@@ -84,15 +88,28 @@ final class SplashViewController: UIViewController {
     
     // 다음 화면으로 이동
     private func goToNextViewController() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
-                    as? OnboardingViewController else { return }
-            
-            nextVC.modalPresentationStyle = .fullScreen
-            nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoomSlide(direction: .left), dismissing: .zoomSlide(direction: .left))
-            
-            self.present(nextVC, animated: true, completion: nil)
+        let hideOnboardingScreen = self.userDefaults.bool(forKey: "hideOnboardingScreen")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + K.Precondition.splashScreenTime) {
+            if hideOnboardingScreen {
+                guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBar")
+                        as? UITabBarController else { return }
+                
+                nextVC.modalPresentationStyle = .fullScreen
+                nextVC.hero.isEnabled = true
+                nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
+                                                           dismissing: .zoomOut)
+                self.present(nextVC, animated: true, completion: nil)
+            } else {
+                guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
+                        as? OnboardingViewController else { return }
+                
+                nextVC.modalPresentationStyle = .fullScreen
+                nextVC.hero.isEnabled = true
+                nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .down),
+                                                           dismissing: .slide(direction: .down))
+                self.present(nextVC, animated: true, completion: nil)
+            }
         }
     }
 
