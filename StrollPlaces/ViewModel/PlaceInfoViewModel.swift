@@ -8,15 +8,18 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SPIndicator
 
 final class PlaceInfoViewModel {
     
     //MARK: - normal property
     
     let pinData: PublicData
+    var myPlaceData = RealmService.shared.realm.objects(MyPlace.self)
     private var titleArray = [String]()
     private var placeArray = [String]()
     let numberOfItems = BehaviorSubject<Int>(value: 5)
+    let checkFaveButton = BehaviorSubject<Bool>(value: false)
     
     // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
     // -> 경로 계산 결과가 나오기 전까지 기본값을 먼저 label에 표출
@@ -88,12 +91,16 @@ final class PlaceInfoViewModel {
             titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         case .tourSpot:
             titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
-        case .marked:
-            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+//        case .marked:
+//            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         }
         
         self.numberOfItems.onNext(titleArray.count)
         return Observable<[String]>.just(titleArray)
+    }
+    
+    func getPlaceType() -> Observable<InfoType> {
+        return Observable<InfoType>.just(pinData.infoType)
     }
     
     func getPlaceInfo() -> Observable<[String]> {
@@ -114,17 +121,49 @@ final class PlaceInfoViewModel {
             placeArray = [pinData.name, pinData.address,
                           pinData.category, pinData.infra,
                           pinData.organization, pinData.telephoneNumber]
-        case .marked:
-            placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber]
+//        case .marked:
+//            placeArray = [pinData.name, pinData.address,
+//                          pinData.category, pinData.infra,
+//                          pinData.organization, pinData.telephoneNumber]
         }
         
         return Observable<[String]>.just(placeArray)
     }
     
-    func getPlaceType() -> Observable<InfoType> {
-        return Observable<InfoType>.just(pinData.infoType)
+    // Realm DB에 즐겨찾기 데이터 저장하기
+    func addMyPlaceData() {
+        let dataToAppend = MyPlace(
+            name: self.pinData.name,
+            category: self.pinData.category,
+            address: self.pinData.address,
+            latitude: self.pinData.lat!,
+            longitude: self.pinData.lon!,
+            infra: self.pinData.infra,
+            organization: self.pinData.organization,
+            savedDate: "\(Date())"
+        )
+        RealmService.shared.create(dataToAppend)
+        self.checkFaveButton.onNext(true)
+        
+        let indicatorView = SPIndicatorView(title: "즐겨찾기 추가됨", preset: .done)
+        indicatorView.present(duration: 2.0, haptic: .success)
+    }
+    
+    // Realm DB에서 즐겨찾기 데이터 삭제하기
+    func removeMyPlaceData() {
+        // myPlaceData가 비어있지 않은 경우,
+        // pinData의 name과 같은 name을 가지고 있는 myPlaceData 삭제
+        guard self.myPlaceData.count != 0 else { return }
+        
+        for index in 0..<self.myPlaceData.count {
+            if self.pinData.name == self.myPlaceData[index].name {
+                RealmService.shared.delete(self.myPlaceData[index])
+                self.checkFaveButton.onNext(false)
+            }
+        }
+        
+        let indicatorView = SPIndicatorView(title: "즐겨찾기 삭제됨", preset: .done)
+        indicatorView.present(duration: 2.0, haptic: .success)
     }
     
 }

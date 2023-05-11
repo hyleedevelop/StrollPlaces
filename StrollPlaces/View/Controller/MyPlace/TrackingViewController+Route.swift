@@ -35,6 +35,8 @@ extension TrackingViewController: CLLocationManagerDelegate {
     
     // 사용자의 위치가 업데이트 될 때 수행할 내용
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.moveToCurrentLocation()
+        
         guard let location = locations.last else { return }
         
         // 위치 추적이 허용되었을 때만 지도에 경로 나타내기

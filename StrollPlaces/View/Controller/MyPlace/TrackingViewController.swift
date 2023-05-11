@@ -64,6 +64,8 @@ final class TrackingViewController: UIViewController {
         self.setupLabel()
         self.setupTimerButton()
         self.setupCloseButton()
+        
+        self.moveToCurrentLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +77,7 @@ final class TrackingViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.viewModel.clearTrackDataArray()
+        self.locationManager.stopUpdatingLocation()
     }
     
     //MARK: - directly called method
@@ -84,28 +87,7 @@ final class TrackingViewController: UIViewController {
         // 기본 설정
         //navigationController?.applyCommonSettings()
         //navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.shadowColor = .clear
-        navigationBarAppearance.backgroundColor = UIColor.white
-//        navigationBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-//        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
-        // scrollEdge: 스크롤 하기 전의 NavigationBar
-        // standard: 스크롤을 하고 있을 때의 NavigationBar
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isHidden = true
-        navigationController?.setNeedsStatusBarAppearanceUpdate()
-
-        navigationItem.scrollEdgeAppearance = navigationBarAppearance
-        navigationItem.standardAppearance = navigationBarAppearance
-
-        self.setNeedsStatusBarAppearanceUpdate()
-        //self.extendedLayoutIncludesOpaqueBars = true
     }
     
     // Realm DB 설정
@@ -115,12 +97,21 @@ final class TrackingViewController: UIViewController {
     
     // 지도 및 경로 관련 설정
     private func setupMapView() {
-        self.mapView.layer.borderColor = K.Color.themeGray.cgColor
-        self.mapView.layer.borderWidth = 0.0
+        self.mapView.delegate = self
+        self.mapView.isZoomEnabled = true
+        self.mapView.isRotateEnabled = true
+        self.mapView.isScrollEnabled = true
+        self.mapView.isPitchEnabled = false
+        self.mapView.isUserInteractionEnabled = true
+        self.mapView.showsCompass = false
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(.follow, animated: true)
-        self.mapView.isZoomEnabled = true
-        self.mapView.delegate = self
+        
+        self.locationManager.startUpdatingLocation()
+        
+        // 카메라 줌아웃 제한 설정
+        let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 2000.km)
+        self.mapView.setCameraZoomRange(zoomRange, animated: true)
     }
     
     private func setupBackView() {
@@ -241,6 +232,19 @@ final class TrackingViewController: UIViewController {
 
             })
             .disposed(by: rx.disposeBag)
+    }
+    
+    // 현재 사용자의 위치로 지도 이동
+    internal func moveToCurrentLocation() {
+        let latitude = ((locationManager.location?.coordinate.latitude)
+                        ?? K.Map.defaultLatitude) as Double
+        let longitude = ((locationManager.location?.coordinate.longitude)
+                         ?? K.Map.defaultLongitude) as Double
+        self.mapView.centerToLocation(
+            location: CLLocation(latitude: latitude, longitude: longitude),
+            deltaLat: 0.2.km,
+            deltaLon: 0.2.km
+        )
     }
     
     //MARK: - indirectly called method

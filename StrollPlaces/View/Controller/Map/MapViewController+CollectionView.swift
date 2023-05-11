@@ -41,7 +41,7 @@ extension MapViewController: UICollectionViewDataSource,
             .disposed(by: rx.disposeBag)
         
         // 기본 선택값 = 공원
-        if indexPath.item == 1 {
+        if indexPath.item == 0 {
             cell.backView.layer.shadowColor = UIColor.black.cgColor
             cell.backView.layer.borderColor = K.Color.themeYellow.cgColor
             cell.backView.layer.borderWidth = 1.5

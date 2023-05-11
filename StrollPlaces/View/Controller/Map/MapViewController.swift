@@ -16,6 +16,7 @@ import Cluster
 import ViewAnimator
 import Lottie
 import Hero
+import RealmSwift
 
 final class MapViewController: UIViewController {
 
@@ -91,6 +92,8 @@ final class MapViewController: UIViewController {
         super.viewDidLoad()
         
         self.getLocationUsagePermission()
+        self.setupRealm()
+        
         self.setupMapView()
         self.setupCollectionView()
         self.setupMapControlButton()
@@ -99,15 +102,25 @@ final class MapViewController: UIViewController {
         self.addAnnotations(with: .park)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.locationManager.startUpdatingLocation()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.locationManager.stopUpdatingLocation()
     }
     
     //MARK: - directly called method
     
+    // Realm DB 설정
+    private func setupRealm() {
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
+    }
+    
     // 지도 관련 설정
     private func setupMapView() {
-        // 델리게이트 설정
         self.mapView.delegate = self
         self.mapView.isZoomEnabled = true
         self.mapView.isRotateEnabled = true
@@ -148,7 +161,7 @@ final class MapViewController: UIViewController {
         
         // 초기화 시 선택되어 있을 셀(공원) 지정하기
         self.themeButtonCollectionView.selectItem(
-            at: NSIndexPath(item: 1, section: 0) as IndexPath,
+            at: NSIndexPath(item: 0, section: 0) as IndexPath,
             animated: false,
             scrollPosition: .centeredHorizontally
         )

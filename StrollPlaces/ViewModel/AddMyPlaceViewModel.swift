@@ -151,7 +151,7 @@ final class AddMyPlaceViewModel {
     
     // 경로가 표시된 지도 이미지를 Document 폴더에 저장하기
     func saveImageToDocumentDirectory(image: UIImage) {
-        // 1. 이미지를 저장할 경로를 설정해줘야함 - 도큐먼트 폴더,File 관련된건 Filemanager가 관리함(싱글톤 패턴)
+        // 1. 이미지를 저장할 경로를 설정해줘야함 - 도큐먼트 폴더 및 파일은 FileManager가 관리함(싱글톤 패턴)
         guard let documentDirectory = FileManager.default
             .urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         

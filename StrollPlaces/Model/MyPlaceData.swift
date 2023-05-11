@@ -8,7 +8,6 @@
 import Foundation
 
 struct MyPlaceData {
-    let infoType = InfoType.marked
     let name: String
     let memo: String
     

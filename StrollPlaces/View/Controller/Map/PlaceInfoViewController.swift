@@ -39,15 +39,15 @@ class PlaceInfoViewController: UIViewController {
         return view
     }()
     
-    private lazy var faveButton: FaveButton = {
-        let button = FaveButton(
-            frame: CGRect(x:0, y:0, width: 30, height: 30),
-            faveIconNormal: UIImage(systemName: "heart.fill")
-        )
-        //button.selectedColor = UIColor.yellow
-        button.delegate = self
-        return button
-    }()
+//    private lazy var faveButton: FaveButton = {
+//        let button = FaveButton(
+//            frame: CGRect(x:0, y:0, width: 30, height: 30),
+//            faveIconNormal: UIImage(systemName: "heart.fill")
+//        )
+//        //button.selectedColor = UIColor.yellow
+//        button.delegate = self
+//        return button
+//    }()
     
     private let iconImage: UIImageView = {
         let image = UIImageView()
@@ -110,7 +110,7 @@ class PlaceInfoViewController: UIViewController {
         button.setTitle(K.DetailView.navigateButtonName, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.tintColor = UIColor.white
-        button.layer.cornerRadius = 22.5
+        button.layer.cornerRadius = K.Shape.smallCornerRadius
         button.clipsToBounds = true
         return button
     }()
@@ -202,12 +202,21 @@ class PlaceInfoViewController: UIViewController {
     
     private func setupTopUI() {
         // fave button
-        self.containerView.addSubview(self.faveButton)
-        self.faveButton.snp.makeConstraints {
+//        self.containerView.addSubview(self.faveButton)
+//        self.faveButton.snp.makeConstraints {
+//            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+//            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+//            $0.height.equalTo(30)
+//            $0.width.equalTo(30)
+//        }
+        
+        // icon image
+        self.containerView.addSubview(self.iconImage)
+        self.iconImage.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.height.equalTo(30)
-            $0.width.equalTo(30)
+            $0.height.equalTo(26)
+            $0.width.equalTo(26)
         }
         
         // disclosure button
@@ -222,7 +231,7 @@ class PlaceInfoViewController: UIViewController {
         self.containerView.addSubview(self.nameLabel)
         self.nameLabel.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.left.equalTo(self.faveButton.snp.right).offset(10)
+            $0.left.equalTo(self.iconImage.snp.right).offset(10)
             $0.right.equalTo(self.disclosureButton.snp.left).offset(-20)
             $0.height.equalTo(26)
         }
@@ -231,7 +240,7 @@ class PlaceInfoViewController: UIViewController {
     private func setupMiddleUI() {
         self.containerView.addSubview(self.labelStackView)
         self.labelStackView.snp.makeConstraints {
-            $0.top.equalTo(self.faveButton.snp.bottom).offset(20)
+            $0.top.equalTo(self.iconImage.snp.bottom).offset(20)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
             $0.height.equalTo(18)
             $0.width.equalTo(260)
@@ -273,7 +282,7 @@ class PlaceInfoViewController: UIViewController {
     }
     
     private func setupBinding() {
-        let placeType = self.viewModel.getPlaceType().asDriver(onErrorJustReturn: .marked)
+        let placeType = self.viewModel.getPlaceType().asDriver(onErrorJustReturn: .park)
         let placeName = self.viewModel.getPlaceInfo().asDriver(onErrorJustReturn: ["알수없음"])
         let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
         let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
@@ -282,8 +291,8 @@ class PlaceInfoViewController: UIViewController {
         placeType
             .map { type -> UIImage in
                 switch type {
-                case .marked:
-                    return UIImage(systemName: "star.fill") ?? UIImage()
+                //case .marked:
+                //    return UIImage(systemName: "star.fill") ?? UIImage()
                 case .park:
                     return UIImage(systemName: "tree.fill") ?? UIImage()
                 case .strollWay:
@@ -342,21 +351,28 @@ class PlaceInfoViewController: UIViewController {
         // -> MapViewController+Annotation.swift에 구현되어 있음
         
         // "즐겨찾기 등록" 버튼을 눌렀을 때 실행할 이벤트
-        self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
-            .throttle(.seconds(2), scheduler: MainScheduler.instance)
-            .subscribe(
-                onNext: {
-                    //if ... {
-                    //    let indicatorView = SPIndicatorView(title: "즐겨찾기 해제", preset: .done)
-                    //}
-                    let indicatorView = SPIndicatorView(title: "즐겨찾기 등록", preset: .done)
-                    indicatorView.present(duration: 2.0, haptic: .success)
-                },
-                onError: { _ in
-                    let indicatorView = SPIndicatorView(title: "즐겨찾기 등록 실패", preset: .error)
-                    indicatorView.present(duration: 2.0, haptic: .error)
-                })
-            .disposed(by: rx.disposeBag)
+//        self.viewModel.checkFaveButton
+//            .subscribe(onNext: { [weak self] isChecked in
+//                guard let self = self else { return }
+//                self.faveButton.isSelected = isChecked
+//            })
+//            .disposed(by: rx.disposeBag)
+        
+//        self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
+//            .throttle(.seconds(2), scheduler: MainScheduler.instance)
+//            .subscribe(
+//                onNext: {
+//                    //if ... {
+//                    //    let indicatorView = SPIndicatorView(title: "즐겨찾기 해제", preset: .done)
+//                    //}
+//                    //let indicatorView = SPIndicatorView(title: "즐겨찾기 등록", preset: .done)
+//                    //indicatorView.present(duration: 2.0, haptic: .success)
+//                },
+//                onError: { _ in
+//                    //let indicatorView = SPIndicatorView(title: "즐겨찾기 등록 실패", preset: .error)
+//                    //indicatorView.present(duration: 2.0, haptic: .error)
+//                })
+//            .disposed(by: rx.disposeBag)
     }
     
     //MARK: - indirectly called method
@@ -409,20 +425,11 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - extension for FaveButtonDelegate
 
-extension PlaceInfoViewController: FaveButtonDelegate {
-    
-    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
-        // Realm DB에 즐겨찾기 장소 저장하기
-        // ...
-        print(#function, self.faveButton.isSelected)
-    }
-    
-    func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]?{
-//        if( faveButton === heartButton || faveButton === loveButton){
-//            return colors
-//        }
-        return nil
-    }
-    
-    
-}
+//extension PlaceInfoViewController: FaveButtonDelegate {
+//
+//    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
+//        // Realm DB에 즐겨찾기 장소 저장 또는 삭제하기
+//        _ = selected ? self.viewModel.addMyPlaceData() : self.viewModel.removeMyPlaceData()
+//    }
+//
+//}

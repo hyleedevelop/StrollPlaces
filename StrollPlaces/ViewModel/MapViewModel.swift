@@ -21,10 +21,10 @@ final class MapViewModel {
     
     // PublicData 형식을 가진 데이터를 append
     func getPublicData() -> [PublicData] {
-        loadParkData()
-        loadStrollWayData()
-        loadRecreationForestData()
-        loadTourSpotData()
+        self.loadParkData()
+        self.loadStrollWayData()
+        self.loadRecreationForestData()
+        self.loadTourSpotData()
         return publicData
     }
     
@@ -263,7 +263,7 @@ final class MapViewModel {
     
     init() {
         let themeCell = [
-            ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
+            //ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
             ThemeCellData(icon: UIImage(systemName: "tree.fill")!, title: "공원"),
             ThemeCellData(icon: UIImage(systemName: "road.lanes")!, title: "산책로"),
             ThemeCellData(icon: UIImage(systemName: "mountain.2.fill")!, title: "자연휴양림"),

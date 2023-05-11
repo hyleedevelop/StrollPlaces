@@ -125,7 +125,7 @@ class MyPlaceViewController: UIViewController {
         navigationController?.applyCommonSettings()
         
         // 좌측 상단에 위치한 타이틀 설정
-        navigationItem.makeLeftSideTitle(title: "나만의 산책길")
+        navigationItem.makeLeftSideTitle(title: "MY산책길")
         
         // right bar button 설정
         let addBarButton = self.navigationItem.makeSFSymbolButton(
@@ -134,12 +134,14 @@ class MyPlaceViewController: UIViewController {
         let sortBarButton = self.navigationItem.makeSFSymbolButton(
             self, menu: self.viewModel.getSortContextMenu(), symbolName: "arrow.up.arrow.down"
         )
-        let helpBarButton = self.navigationItem.makeSFSymbolButton(
-            self, action: #selector(pushToHelp), symbolName: "questionmark.circle"
-        )
+//        let helpBarButton = self.navigationItem.makeSFSymbolButton(
+//            self, action: #selector(pushToHelp), symbolName: "questionmark.circle"
+//        )
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         spacer.width = 15
-        self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton, spacer, helpBarButton]
+        
+        self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton]
+//        self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton, spacer, helpBarButton]
     }
     
     // TabBar 설정

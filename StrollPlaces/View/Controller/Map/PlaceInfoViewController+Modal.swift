@@ -13,7 +13,6 @@ extension PlaceInfoViewController {
     //MARK: - internal functions
     
     internal func setupConstraints() {
-        print(#function)
         // Set dynamic constraints
         // First, set container to default height
         // after panning, the height can expand
@@ -30,7 +29,6 @@ extension PlaceInfoViewController {
     }
     
     internal func setupTapGesture() {
-        print(#function)
         // tap gesture on dimmed view to dismiss
         let tapGesture = UITapGestureRecognizer(
             target: self, action: #selector(self.handleCloseAction)
@@ -39,7 +37,6 @@ extension PlaceInfoViewController {
     }
     
     internal func setupPanGesture() {
-        print(#function)
         // add pan gesture recognizer to the view controller's view (the whole screen)
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(gesture:)))
         // change to false to immediately listen on gesture movement
@@ -58,7 +55,6 @@ extension PlaceInfoViewController {
     }
     
     internal func animateDismissView() {
-        print(#function)
         
         // hide blur view
         dimmedView.alpha = maxDimmedAlpha
@@ -80,7 +76,6 @@ extension PlaceInfoViewController {
     }
     
     internal func animateContainerHeight(_ height: CGFloat) {
-        print(#function)
         UIView.animate(withDuration: 0.3) {
             // Update container height
             self.containerViewHeightConstraint?.constant = height
@@ -107,7 +102,6 @@ extension PlaceInfoViewController {
     
     // Present and dismiss animation
     internal func animatePresentContainer() {
-        print(#function)
         // update bottom constraint in animation block
         UIView.animate(withDuration: 0.3) {
             self.containerViewBottomConstraint?.constant = 0
@@ -147,16 +141,13 @@ extension PlaceInfoViewController {
             
             // Condition 1: If new height is below min, dismiss controller
             if newHeight < dismissibleHeight {
-                print(#function, "condition1", separator: ", ")
                 self.animateDismissView()
             }
             else if newHeight < defaultHeight {
-                print(#function, "condition2", separator: ", ")
                 // Condition 2: If new height is below default, animate back to default
                 animateContainerHeight(defaultHeight)
             }
             else if newHeight < maximumContainerHeight && isDraggingDown {
-                print(#function, "condition3", separator: ", ")
                 // Condition 3: If new height is below max and going down, set to default height
                 
                 UIView.animate(withDuration: 0.3) {
@@ -169,7 +160,6 @@ extension PlaceInfoViewController {
                 isDetailActivated = false
             }
             else if newHeight > defaultHeight && !isDraggingDown {
-                print(#function, "condition4", separator: ", ")
                 // Condition 4: If new height is below max and going up, set to max height at top
                 animateContainerHeight(maximumContainerHeight)
                 
@@ -182,7 +172,6 @@ extension PlaceInfoViewController {
     }
     
     @objc private func handleCloseAction() {
-        print(#function)
         animateDismissView()
     }
             
