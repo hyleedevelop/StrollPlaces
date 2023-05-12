@@ -79,7 +79,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
-            if indexPath.row == 2 {
+            if indexPath.row == 1 {
                 // 진짜로 취소할 것인지 alert message 보여주고 확인받기
                 let alert = UIAlertController(title: "확인",
                                               message: "산책길 보관함을 초기화할까요?\n모든 산책길 데이터가 삭제됩니다.",
@@ -90,6 +90,9 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let indicatorView = SPIndicatorView(title: "삭제 완료", preset: .done)
                     indicatorView.present(duration: 2.0, haptic: .success)
+                    
+                    // Tab Bar 뱃지의 숫자 업데이트 알리기
+                    NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
                     
                     // userdefaults 값 false로 초기화 -> Lottie Animation 표출
                     self.userDefaults.set(false, forKey: "myPlaceExist")

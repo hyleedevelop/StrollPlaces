@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import IVBezierPathRenderer
 
 //MARK: - extension for CLLocationManagerDelegate
 
@@ -82,10 +83,17 @@ extension TrackingViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
+//        let renderer = IVBezierPathRenderer(overlay: routeLine)
         
         renderer.strokeColor = K.Color.mainColor
         renderer.lineWidth = 5.0
         renderer.alpha = 1.0
+        
+//        //Optional Tension for curve, default: 4
+//        renderer.tension = 4.0
+//        //Optional Border
+//        renderer.borderColor = UIColor.clear
+//        renderer.borderMultiplier = 0.0
         
         return renderer
     }

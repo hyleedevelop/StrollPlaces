@@ -16,7 +16,16 @@ final class SplashViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "가벼운 발걸음"
-        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "오늘 하루가 행복해지는"
+        label.font = .systemFont(ofSize: 17, weight: .regular)
         label.textAlignment = .center
         label.textColor = UIColor.white
         return label
@@ -28,7 +37,7 @@ final class SplashViewController: UIViewController {
         //view.center = self.view.center
         view.contentMode = .scaleAspectFit
         view.loopMode = .loop
-        view.animationSpeed = 0.75
+        view.animationSpeed = 0.85
         view.alpha = 1
         //view.play()
         return view
@@ -44,8 +53,8 @@ final class SplashViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupView()
-        self.setupAnimationView()
         self.setupLabel()
+        self.setupAnimationView()
         self.goToNextViewController()
     }
     
@@ -56,14 +65,35 @@ final class SplashViewController: UIViewController {
         self.view.backgroundColor = K.Color.themeGreen
     }
     
+    // Label 설정
+    private func setupLabel() {
+        // "가벼운 발걸음"
+        self.view.addSubview(self.titleLabel)
+        self.titleLabel.snp.makeConstraints {
+            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-150)  //
+            $0.height.equalTo(30)
+        }
+        
+        // "오늘 하루가 행복해지는"
+        self.view.addSubview(self.subtitleLabel)
+        self.subtitleLabel.snp.makeConstraints {
+            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
+            $0.bottom.equalTo(self.titleLabel.snp.top).offset(-10)
+            $0.height.equalTo(17)
+        }
+    }
+    
     // Lottie Animation 설정
     private func setupAnimationView() {
         self.view.addSubview(self.initialAnimationView)
         self.initialAnimationView.snp.makeConstraints {
             $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
             $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
-            $0.top.equalTo(self.view.snp.centerY).offset(-50)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-100)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(150)  //
+            $0.bottom.equalTo(self.subtitleLabel.snp.top).offset(-50)
         }
         
         self.initialAnimationView.play { _ in
@@ -76,25 +106,20 @@ final class SplashViewController: UIViewController {
         }
     }
     
-    // Label 설정
-    private func setupLabel() {
-        self.view.addSubview(self.titleLabel)
-        self.titleLabel.snp.makeConstraints {
-            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
-            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
-            $0.bottom.equalTo(self.initialAnimationView.snp.top).offset(-80)
-        }
-    }
-    
     // 다음 화면으로 이동
     private func goToNextViewController() {
+        // ✅ for debugging...
+        // --------------------------------------------------------------
+        self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
+        // --------------------------------------------------------------
+        
         let hideOnboardingScreen = self.userDefaults.bool(forKey: "hideOnboardingScreen")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + K.Precondition.splashScreenTime) {
             if hideOnboardingScreen {
                 guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBar")
                         as? UITabBarController else { return }
-                
+
                 nextVC.modalPresentationStyle = .fullScreen
                 nextVC.hero.isEnabled = true
                 nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
@@ -103,7 +128,7 @@ final class SplashViewController: UIViewController {
             } else {
                 guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
                         as? OnboardingViewController else { return }
-                
+
                 nextVC.modalPresentationStyle = .fullScreen
                 nextVC.hero.isEnabled = true
                 nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .down),

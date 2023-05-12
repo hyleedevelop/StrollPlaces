@@ -93,8 +93,8 @@ final class OnboardingViewController: UIViewController {
             
             nextVC.modalPresentationStyle = .fullScreen
             nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
-                                                       dismissing: .zoomOut)
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .up),
+                                                       dismissing: .slide(direction: .up))
             
             self.present(nextVC, animated: true, completion: nil)
             

@@ -31,6 +31,7 @@ target 'StrollPlaces' do
   pod 'Hero'
   pod 'Cosmos', '~> 23.0'
   pod 'SettingsIconGenerator'
+  pod 'IVBezierPathRenderer'
   
   target 'StrollPlacesTests' do
     inherit! :search_paths

@@ -10,7 +10,7 @@ import CoreLocation
 
 struct K {
     struct Precondition {
-        static let splashScreenTime: Double = 2.0
+        static let splashScreenTime: Double = 3.0
     }
     
     struct Color {
@@ -38,10 +38,11 @@ struct K {
     
     // CSV 파일 관련
     struct CSV {
-        static let parkData: String = "SouthKoreaParkData_qc_20230312"
-        static let strollWayData: String = "SouthKoreaStrollWayData_qc_20230312"
-        static let recreationForestData: String = "SouthKoreaRecreationForestData_qc_20230312"
-        static let tourSpotData: String = "SouthKoreaTourSpotData_qc_20230312"
+        static let dataDate: String = "20230512"
+        static let parkData: String = "SouthKoreaParkData_qc_" + K.CSV.dataDate
+        static let strollWayData: String = "SouthKoreaStrollWayData_qc_" + K.CSV.dataDate
+        static let recreationForestData: String = "SouthKoreaRecreationForestData_qc_" + K.CSV.dataDate
+        static let tourSpotData: String = "SouthKoreaTourSpotData_qc_" + K.CSV.dataDate
     }
     
     // Mapkit, CoreLocation 관련

@@ -6,6 +6,7 @@ PODS:
   - FaveButton (3.2.1)
   - Hero (1.6.2)
   - IQKeyboardManagerSwift (6.5.10)
+  - IVBezierPathRenderer (0.1.1)
   - lottie-ios (4.1.3)
   - "NSObject+Rx (5.2.2)":
     - RxSwift (~> 6.2)
@@ -31,9 +32,7 @@ PODS:
   - SkyFloatingLabelTextField (3.8.0)
   - SnapKit (5.6.0)
   - SPIndicator (1.6.4)
-  - SSCustomTabbar (2.0.7)
   - TransitionableTab (0.2.0)
-  - UICheckbox.Swift (1.0.0)
   - ViewAnimator (3.1.0)
 
 DEPENDENCIES:
@@ -43,6 +42,7 @@ DEPENDENCIES:
   - FaveButton
   - Hero
   - IQKeyboardManagerSwift (= 6.5.10)
+  - IVBezierPathRenderer
   - lottie-ios
   - "NSObject+Rx"
   - NVActivityIndicatorView
@@ -54,9 +54,7 @@ DEPENDENCIES:
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
   - SPIndicator
-  - SSCustomTabbar
   - TransitionableTab (~> 0.2.0)
-  - UICheckbox.Swift
   - ViewAnimator
 
 SPEC REPOS:
@@ -68,6 +66,7 @@ SPEC REPOS:
     - FaveButton
     - Hero
     - IQKeyboardManagerSwift
+    - IVBezierPathRenderer
     - lottie-ios
     - "NSObject+Rx"
     - NVActivityIndicatorView
@@ -81,9 +80,7 @@ SPEC REPOS:
     - SkyFloatingLabelTextField
     - SnapKit
     - SPIndicator
-    - SSCustomTabbar
     - TransitionableTab
-    - UICheckbox.Swift
     - ViewAnimator
 
 SPEC CHECKSUMS:
@@ -94,6 +91,7 @@ SPEC CHECKSUMS:
   FaveButton: 93cfebf6030336fa7653fad2068c3152ed668b39
   Hero: c69009dbc9e2f0472e081adc644dba05fcedae72
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  IVBezierPathRenderer: bdc981ad18bb3acb2c9fce0120ecfe9d30e20172
   lottie-ios: d0954d3150061f662ed0adf96ef98d7421864c47
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
@@ -107,11 +105,9 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
-  SSCustomTabbar: da05060b9916312a3b9af6b7640d6a298a335dfe
   TransitionableTab: 54a5d0af475033bdb83959fde4e5d6201af7e2ab
-  UICheckbox.Swift: 85715689206fac5bae38b308f19c2a3e00442c3b
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: 0a02cbac83d6f3f1a4ba341bd146c2cd2b17e0d0
+PODFILE CHECKSUM: c0f09aba424451f8ae024e48b843a2a01f5c306d
 
 COCOAPODS: 1.11.3

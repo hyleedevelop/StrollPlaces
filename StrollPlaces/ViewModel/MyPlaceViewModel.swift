@@ -125,6 +125,9 @@ final class MyPlaceViewModel {
         // 지도 이미지 삭제
         self.deleteImageFromDocumentDirectory(imageName: trackDataId)
         
+        // Tab Bar 뱃지의 숫자 업데이트 알리기
+        NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
+        
         // 삭제 후 나만의 산책길 목록이 비어있다면 Lottie Animation 표출하기
         if self.itemViewModel.trackData.count == 0 {
             // userdefaults 값 false로 초기화 -> Lottie Animation 표출

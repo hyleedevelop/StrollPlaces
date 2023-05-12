@@ -307,6 +307,9 @@ class AddMyPlaceViewController: UIViewController {
                 // loading indicator 종료
                 self.activityIndicator.stopAnimating()
                 
+                // Tab Bar 뱃지의 숫자 업데이트 알리기
+                NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
+                
                 // 완료 메세지 표시
                 SPIndicatorView(title: "생성 완료", preset: .done)
                     .present(duration: 2.0, haptic: .success)

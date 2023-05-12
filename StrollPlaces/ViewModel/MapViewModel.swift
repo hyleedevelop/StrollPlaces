@@ -22,9 +22,13 @@ final class MapViewModel {
     // PublicData 형식을 가진 데이터를 append
     func getPublicData() -> [PublicData] {
         self.loadParkData()
+        print(#function, "1")
         self.loadStrollWayData()
+        print(#function, "2")
         self.loadRecreationForestData()
+        print(#function, "3")
         self.loadTourSpotData()
+        print(#function, "4")
         return publicData
     }
     

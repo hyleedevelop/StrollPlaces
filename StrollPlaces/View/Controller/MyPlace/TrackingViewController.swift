@@ -242,8 +242,8 @@ final class TrackingViewController: UIViewController {
                          ?? K.Map.defaultLongitude) as Double
         self.mapView.centerToLocation(
             location: CLLocation(latitude: latitude, longitude: longitude),
-            deltaLat: 0.2.km,
-            deltaLon: 0.2.km
+            deltaLat: 0.3.km,
+            deltaLon: 0.3.km
         )
     }
     

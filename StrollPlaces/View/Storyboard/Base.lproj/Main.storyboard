@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bQ4-pL-CNo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aPK-Hq-T5x">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -139,7 +139,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aTo-Nm-QlC">
-                                <rect key="frame" x="0.0" y="59" width="393" height="543"/>
+                                <rect key="frame" x="0.0" y="89" width="393" height="513"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="M7c-la-jQ1">
                                     <size key="itemSize" width="393" height="555"/>
@@ -149,7 +149,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OnboardingCollectionViewCell" id="0ZG-Hd-TzA" customClass="OnboardingCollectionViewCell" customModule="StrollPlaces" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-6" width="393" height="555"/>
+                                        <rect key="frame" x="0.0" y="-21" width="393" height="555"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="bWm-oY-dTk">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="555"/>
@@ -224,7 +224,7 @@
                             <constraint firstItem="rGW-Yc-sSe" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="ASA-U2-jUs"/>
                             <constraint firstItem="uxj-pI-F5F" firstAttribute="top" secondItem="E6d-Mb-a7t" secondAttribute="bottom" constant="30" id="G7g-KZ-qza"/>
                             <constraint firstItem="E6d-Mb-a7t" firstAttribute="top" secondItem="rGW-Yc-sSe" secondAttribute="bottom" constant="30" id="GHX-gU-eVr"/>
-                            <constraint firstItem="aTo-Nm-QlC" firstAttribute="top" secondItem="JNj-Na-ss1" secondAttribute="top" id="T6F-kL-Oub"/>
+                            <constraint firstItem="aTo-Nm-QlC" firstAttribute="top" secondItem="JNj-Na-ss1" secondAttribute="top" constant="30" id="T6F-kL-Oub"/>
                             <constraint firstItem="E6d-Mb-a7t" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="Xgz-dA-sJB"/>
                             <constraint firstItem="rGW-Yc-sSe" firstAttribute="top" secondItem="aTo-Nm-QlC" secondAttribute="bottom" constant="10" id="lqr-oB-EGj"/>
                             <constraint firstItem="uxj-pI-F5F" firstAttribute="centerX" secondItem="VE1-Zy-Xbk" secondAttribute="centerX" id="pCb-mc-XXh"/>
