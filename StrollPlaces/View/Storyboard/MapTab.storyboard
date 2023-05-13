@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--검색-->
+        <!--Map View Controller-->
         <scene sceneID="Fvc-jB-ceG">
             <objects>
                 <viewController storyboardIdentifier="MapViewController" id="iGx-ha-8on" customClass="MapViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,48 +22,29 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DVW-Jq-0Vi">
-                                <rect key="frame" x="338" y="336.66666666666669" width="45" height="155"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y6Z-jt-Rzf">
-                                        <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="y6Z-jt-Rzf" secondAttribute="height" multiplier="1:1" id="Gtn-rT-rA6"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="+">
-                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="24"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRp-HF-kmI">
-                                        <rect key="frame" x="0.0" y="55" width="45" height="45"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="eRp-HF-kmI" secondAttribute="height" multiplier="1:1" id="4hK-KV-hAo"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="-">
-                                            <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="24"/>
-                                        </buttonConfiguration>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cHI-fa-qdc">
-                                        <rect key="frame" x="0.0" y="110" width="45" height="45"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="cHI-fa-qdc" secondAttribute="height" multiplier="1:1" id="plh-nb-CFD"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="dot.circle.viewfinder" catalog="system" title=""/>
-                                    </button>
-                                </subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Grk-wS-xiM" customClass="Floaty" customModule="Floaty">
+                                <rect key="frame" x="338" y="694" width="45" height="45"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="45" id="egM-vY-eED"/>
+                                    <constraint firstAttribute="width" secondItem="Grk-wS-xiM" secondAttribute="height" multiplier="1:1" id="VWj-7l-E0G"/>
+                                    <constraint firstAttribute="width" constant="45" id="hWT-oD-tQF"/>
                                 </constraints>
-                            </stackView>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.1647058824" green="0.65490196079999996" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonShadowColor">
+                                        <color key="value" systemColor="systemGray2Color"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="plusColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="hasShadow" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="itemImageColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ynA-1x-k5u"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -71,19 +52,17 @@
                             <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="9Hg-yH-Sbi" secondAttribute="trailing" id="5d1-Wu-H4U"/>
                             <constraint firstItem="ynA-1x-k5u" firstAttribute="bottom" secondItem="9Hg-yH-Sbi" secondAttribute="bottom" id="84f-RR-2l6"/>
                             <constraint firstItem="9Hg-yH-Sbi" firstAttribute="leading" secondItem="ynA-1x-k5u" secondAttribute="leading" id="DJe-cw-NlZ"/>
+                            <constraint firstItem="ynA-1x-k5u" firstAttribute="bottom" secondItem="Grk-wS-xiM" secondAttribute="bottom" constant="30" id="IUB-cf-BiL"/>
                             <constraint firstItem="9Hg-yH-Sbi" firstAttribute="top" secondItem="7am-6D-p6S" secondAttribute="top" id="QMf-qE-BLG"/>
-                            <constraint firstItem="DVW-Jq-0Vi" firstAttribute="centerY" secondItem="ynA-1x-k5u" secondAttribute="centerY" id="nXH-SZ-TYW"/>
-                            <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="DVW-Jq-0Vi" secondAttribute="trailing" constant="10" id="scg-yz-Loc"/>
+                            <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="Grk-wS-xiM" secondAttribute="trailing" constant="10" id="oqK-dy-tlg"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="검색" image="TabBarIcon1" id="gfD-ZY-FRb"/>
+                    <tabBarItem key="tabBarItem" title="" image="TabBarIcon1" id="gfD-ZY-FRb"/>
                     <navigationItem key="navigationItem" id="KwR-kh-aes"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="currentLocationButton" destination="cHI-fa-qdc" id="oIl-O5-Ugf"/>
                         <outlet property="mapView" destination="9Hg-yH-Sbi" id="eCD-i7-dre"/>
-                        <outlet property="zoomInButton" destination="y6Z-jt-Rzf" id="yA4-hd-eYN"/>
-                        <outlet property="zoomOutButton" destination="eRp-HF-kmI" id="W5S-xU-nFb"/>
+                        <outlet property="menuButton" destination="Grk-wS-xiM" id="FhA-fa-zWe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2hm-Ua-MfL" sceneMemberID="firstResponder"/>
@@ -93,9 +72,11 @@
     </scenes>
     <resources>
         <image name="TabBarIcon1" width="24" height="24"/>
-        <image name="dot.circle.viewfinder" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

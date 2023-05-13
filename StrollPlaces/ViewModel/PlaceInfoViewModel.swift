@@ -18,7 +18,7 @@ final class PlaceInfoViewModel {
     var myPlaceData = RealmService.shared.realm.objects(MyPlace.self)
     private var titleArray = [String]()
     private var placeArray = [String]()
-    let numberOfItems = BehaviorSubject<Int>(value: 5)
+    let numberOfItems = BehaviorSubject<Int>(value: 8)
     let checkFaveButton = BehaviorSubject<Bool>(value: false)
     
     // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
@@ -84,13 +84,13 @@ final class PlaceInfoViewModel {
     func getTitleInfo() -> Observable<[String]> {
         switch pinData.infoType {
         case .park:
-            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["공원 이름", "주소", "유형", "참고사항", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
         case .strollWay:
-            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["산책길 이름", "주소", "코스", "설명", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
         case .recreationForest:
-            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["자연휴양림 이름", "주소", "유형", "참고사항", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
         case .tourSpot:
-            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
+            titleArray = ["지역명소 이름", "주소", "유형", "참고사항", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
 //        case .marked:
 //            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
         }
@@ -107,23 +107,23 @@ final class PlaceInfoViewModel {
         switch pinData.infoType {
         case .park:
             placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber]
+                          pinData.category, pinData.feature, pinData.infra,
+                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
         case .strollWay:
             placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber]
+                          pinData.category, pinData.feature, pinData.infra,
+                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
         case .recreationForest:
             placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber]
+                          pinData.category, pinData.feature, pinData.infra,
+                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
         case .tourSpot:
             placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber]
+                          pinData.category, pinData.feature, pinData.infra,
+                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
 //        case .marked:
 //            placeArray = [pinData.name, pinData.address,
-//                          pinData.category, pinData.infra,
+//                          pinData.category, pinData.feature, pinData.infra,
 //                          pinData.organization, pinData.telephoneNumber]
         }
         

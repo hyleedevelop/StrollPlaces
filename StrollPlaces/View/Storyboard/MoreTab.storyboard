@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--더보기-->
+        <!--More View Controller-->
         <scene sceneID="pC9-bd-Oi4">
             <objects>
                 <viewController id="qVy-gx-ht7" customClass="MoreViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="PtN-hb-tPl">
-                                <rect key="frame" x="0.0" y="103" width="393" height="616"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PtN-hb-tPl">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableView>
                         </subviews>
@@ -26,13 +26,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="top" secondItem="vRS-wh-Ho9" secondAttribute="top" id="EsE-EW-hiy"/>
-                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="bottom" secondItem="PtN-hb-tPl" secondAttribute="bottom" constant="50" id="a2B-dy-2bn"/>
+                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="bottom" secondItem="PtN-hb-tPl" secondAttribute="bottom" id="a2B-dy-2bn"/>
                             <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="PtN-hb-tPl" secondAttribute="trailing" id="cQ2-oy-xzJ"/>
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="kd5-yE-dcf"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" title="더보기" image="icons8-ellipsis-50" id="xGL-mj-etE"/>
+                    <tabBarItem key="tabBarItem" title="" image="icons8-ellipsis-50" id="xGL-mj-etE"/>
                     <navigationItem key="navigationItem" id="wiu-Wk-RP1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

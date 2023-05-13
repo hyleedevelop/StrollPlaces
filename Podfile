@@ -32,6 +32,7 @@ target 'StrollPlaces' do
   pod 'Cosmos', '~> 23.0'
   pod 'SettingsIconGenerator'
   pod 'IVBezierPathRenderer'
+  pod 'Floaty', '~> 4.2.0'
   
   target 'StrollPlacesTests' do
     inherit! :search_paths

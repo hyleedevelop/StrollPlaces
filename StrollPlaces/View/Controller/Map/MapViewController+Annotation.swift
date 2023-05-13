@@ -115,10 +115,19 @@ extension MapViewController: MKMapViewDelegate {
     
     // 사용자의 위치가 업데이트 될 때 수행할 내용
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // 실시간 위경도 확인용
         if let location = locations.last {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             print(#function, latitude, longitude, separator: ", ")
+        }
+        
+        // 위치 추적 모드 실행
+        if self.isUserTrackingModeOn {
+            self.mapView.centerToLocation(
+                location: self.currentLocation,
+                deltaLat: 0.3.km,
+                deltaLon: 0.3.km)
         }
     }
     

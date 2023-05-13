@@ -69,6 +69,7 @@ class MoreViewController: UIViewController {
         self.tableView.register(UINib(nibName: "MoreTableViewCell", bundle: nil),
                                 forCellReuseIdentifier: "MoreCell")
         self.tableView.backgroundColor = UIColor.white
+        self.tableView.separatorStyle = .none
         //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
     

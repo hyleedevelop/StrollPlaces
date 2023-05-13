@@ -22,13 +22,9 @@ final class MapViewModel {
     // PublicData 형식을 가진 데이터를 append
     func getPublicData() -> [PublicData] {
         self.loadParkData()
-        print(#function, "1")
         self.loadStrollWayData()
-        print(#function, "2")
         self.loadRecreationForestData()
-        print(#function, "3")
         self.loadTourSpotData()
-        print(#function, "4")
         return publicData
     }
     
@@ -36,33 +32,48 @@ final class MapViewModel {
     private func loadParkData() {
         guard let dataArray = openDataFile(file: K.CSV.parkData) else { return }
         
-        // 데이터를 Park 구조체에 넣기
+        // 공공 데이터에 추가
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
             if let latitude = Double(dataArray[index][5]),
                let longitude = Double(dataArray[index][6]) {
                 
                 // 이름
-                let name: String = dataArray[index][1].count != 0 ? dataArray[index][1] : K.Map.noDataMessage
+                let name: String = !dataArray[index][1].isEmpty ? dataArray[index][1] : K.Map.noDataMessage
+                
                 // 카테고리
-                let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                let category: String = !dataArray[index][2].isEmpty ? dataArray[index][2] : K.Map.noDataMessage
+                
                 // 주소(도로명주소 우선, 없을 시 지번주소, 둘다 없을 시 정보 없음)
                 var address: String {
-                    if (dataArray[index][3].count + dataArray[index][4].count) == 0 {
+                    if dataArray[index][3].isEmpty && dataArray[index][4].isEmpty {
                         return K.Map.noDataMessage
                     } else {
-                        return dataArray[index][3].count != 0 ? dataArray[index][3] : dataArray[index][4]
+                        return !dataArray[index][3].isEmpty ? dataArray[index][3] : dataArray[index][4]
                     }
                 }
+                
+                // 참고사항
+                let feature: String = K.Map.noDataMessage
+                
                 // 주변시설
                 var infra: String {
-                    #warning("코드 구현 필요")
-                    //let mergedString = dataArray[index][8]
-                    return K.Map.noDataMessage
+                    var fullString = ""
+                    [8, 9, 10, 11, 12].forEach {
+                        if !dataArray[index][$0].isEmpty {
+                            fullString = fullString + dataArray[index][$0] + " "
+                        }
+                    }
+                    return !fullString.isEmpty ? fullString : K.Map.noDataMessage
                 }
+                
                 // 관리기관
-                let organization: String = dataArray[index][14].count != 0 ? dataArray[index][14] : K.Map.noDataMessage
+                let organization: String = !dataArray[index][14].isEmpty ? dataArray[index][14] : K.Map.noDataMessage
+                
                 // 관리기관 전화번호
-                let telephoneNumber: String = dataArray[index][15].count != 0 ? dataArray[index][15] : K.Map.noDataMessage
+                let telephoneNumber: String = !dataArray[index][15].isEmpty ? dataArray[index][15] : K.Map.noDataMessage
+                
+                // 홈페이지 주소
+                let homepage: String = K.Map.noDataMessage
                 
                 publicData.append(
                     PublicData(infoType: .park,
@@ -71,9 +82,11 @@ final class MapViewModel {
                                address: address,
                                lat: latitude,
                                lon: longitude,
+                               feature: feature,
                                infra: infra,
                                organization: organization,
-                               telephoneNumber: telephoneNumber)
+                               telephoneNumber: telephoneNumber,
+                               homepage: homepage)
                 )
             }
         }
@@ -84,42 +97,46 @@ final class MapViewModel {
     private func loadStrollWayData() {
         guard let dataArray = openDataFile(file: K.CSV.strollWayData) else { return }
 
-        // 데이터를 Park 구조체에 넣기
+        // 공공 데이터에 추가
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
             if let latitude = Double(dataArray[index][14]),
                let longitude = Double(dataArray[index][15]) {
 
                 // 이름
-                var name: String {
-                    if dataArray[index][1] == dataArray[index][2] {
-                        return dataArray[index][1]
-                    } else if (dataArray[index][1].count + dataArray[index][2].count) == 0 {
-                        return K.Map.noDataMessage
-                    } else {
-                        return "\(dataArray[index][1])(\(dataArray[index][2]))"
-                    }
-                }
-                #warning("여기까지 작업 완료")
+                let name: String = !dataArray[index][1].isEmpty ? dataArray[index][1] : K.Map.noDataMessage
+                
                 // 카테고리
-                let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                let category: String = !dataArray[index][2].isEmpty ? dataArray[index][2] : K.Map.noDataMessage
+                
                 // 주소(도로명주소 우선, 없을 시 지번주소, 둘다 없을 시 정보 없음)
-                var address: String {
-                    if (dataArray[index][3].count + dataArray[index][4].count) == 0 {
-                        return K.Map.noDataMessage
-                    } else {
-                        return dataArray[index][3].count != 0 ? dataArray[index][3] : dataArray[index][4]
-                    }
-                }
+                let address: String = !dataArray[index][13].isEmpty ? dataArray[index][13] : K.Map.noDataMessage
+
+                // 참고사항
+                let feature: String = !dataArray[index][8].isEmpty ? dataArray[index][8] : K.Map.noDataMessage
+                
                 // 주변시설
                 var infra: String {
-                    //let mergedString = dataArray[index][8]
-                    return K.Map.noDataMessage
+                    var fullString = ""
+                    if !dataArray[index][11].isEmpty {
+                        fullString = "화장실: " + dataArray[index][11]
+                    } else if !dataArray[index][12].isEmpty {
+                        fullString = "편의시설: " + dataArray[index][12]
+                    } else if !dataArray[index][11].isEmpty && !dataArray[index][12].isEmpty {
+                        fullString = "화장실: " + dataArray[index][11] + "\n" +
+                                     "편의시설: " + dataArray[index][12]
+                    }
+                    return !fullString.isEmpty ? fullString : K.Map.noDataMessage
                 }
+                
                 // 관리기관
-                let organization: String = dataArray[index][10].count != 0 ? dataArray[index][10] : K.Map.noDataMessage
+                let organization: String = K.Map.noDataMessage
+                
                 // 관리기관 전화번호
-                let telephoneNumber: String = dataArray[index][11].count != 0 ? dataArray[index][11] : K.Map.noDataMessage
+                let telephoneNumber: String = K.Map.noDataMessage
 
+                // 홈페이지 주소
+                let homepage: String = K.Map.noDataMessage
+                
                 publicData.append(
                     PublicData(infoType: .strollWay,
                                name: name,
@@ -127,9 +144,11 @@ final class MapViewModel {
                                address: address,
                                lat: latitude,
                                lon: longitude,
+                               feature: feature,
                                infra: infra,
                                organization: organization,
-                               telephoneNumber: telephoneNumber)
+                               telephoneNumber: telephoneNumber,
+                               homepage: homepage)
                 )
             }
         }
@@ -139,23 +158,34 @@ final class MapViewModel {
     private func loadRecreationForestData() {
         guard let dataArray = openDataFile(file: K.CSV.recreationForestData) else { return }
 
-        // 데이터 추가
+        // 공공 데이터에 추가
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
             if let latitude = Double(dataArray[index][12]),
                let longitude = Double(dataArray[index][13]) {
                 // 이름
                 let name: String = dataArray[index][0].count != 0 ? dataArray[index][0] : K.Map.noDataMessage
+                
                 // 카테고리
                 let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                
                 // 주소
                 var address: String = dataArray[index][8].count != 0 ? dataArray[index][8] : K.Map.noDataMessage
+                
+                // 참고사항
+                let feature: String = K.Map.noDataMessage
+                
                 // 주변시설
                 var infra: String = dataArray[index][7].count != 0 ? dataArray[index][7] : K.Map.noDataMessage
+                
                 // 관리기관
                 let organization: String = dataArray[index][9].count != 0 ? dataArray[index][9] : K.Map.noDataMessage
+                
                 // 관리기관 전화번호
                 let telephoneNumber: String = dataArray[index][10].count != 0 ? dataArray[index][10] : K.Map.noDataMessage
 
+                // 홈페이지 주소
+                let homepage: String = !dataArray[index][11].isEmpty ? dataArray[index][11] : K.Map.noDataMessage
+                
                 publicData.append(
                     PublicData(infoType: .recreationForest,
                                name: name,
@@ -163,9 +193,11 @@ final class MapViewModel {
                                address: address,
                                lat: latitude,
                                lon: longitude,
+                               feature: feature,
                                infra: infra,
                                organization: organization,
-                               telephoneNumber: telephoneNumber)
+                               telephoneNumber: telephoneNumber,
+                               homepage: homepage)
                 )
             }
         }
@@ -175,15 +207,16 @@ final class MapViewModel {
     private func loadTourSpotData() {
         guard let dataArray = openDataFile(file: K.CSV.tourSpotData) else { return }
 
-        // 데이터를 Park 구조체에 넣기
+        // 공공 데이터에 추가
         for index in 1..<dataArray.count-1 {  // index = 0은 제목에 해당하므로 제외
             if let latitude = Double(dataArray[index][4]),
                let longitude = Double(dataArray[index][5]) {
                 // 이름
                 let name: String = dataArray[index][0].count != 0 ? dataArray[index][0] : K.Map.noDataMessage
-                #warning("여기까지 작업 완료")
+                
                 // 카테고리
                 let category: String = dataArray[index][2].count != 0 ? dataArray[index][2] : K.Map.noDataMessage
+                
                 // 주소(도로명주소 우선, 없을 시 지번주소, 둘다 없을 시 정보 없음)
                 var address: String {
                     if (dataArray[index][3].count + dataArray[index][4].count) == 0 {
@@ -192,16 +225,25 @@ final class MapViewModel {
                         return dataArray[index][3].count != 0 ? dataArray[index][3] : dataArray[index][4]
                     }
                 }
+                
+                // 참고사항
+                let feature: String = K.Map.noDataMessage
+                
                 // 주변시설
                 var infra: String {
                     //let mergedString = dataArray[index][8]
                     return K.Map.noDataMessage
                 }
+                
                 // 관리기관
                 let organization: String = dataArray[index][10].count != 0 ? dataArray[index][10] : K.Map.noDataMessage
+                
                 // 관리기관 전화번호
                 let telephoneNumber: String = dataArray[index][11].count != 0 ? dataArray[index][11] : K.Map.noDataMessage
 
+                // 홈페이지 주소
+                let homepage: String = K.Map.noDataMessage
+                
                 publicData.append(
                     PublicData(infoType: .tourSpot,
                                name: name,
@@ -209,9 +251,11 @@ final class MapViewModel {
                                address: address,
                                lat: latitude,
                                lon: longitude,
+                               feature: feature,
                                infra: infra,
                                organization: organization,
-                               telephoneNumber: telephoneNumber)
+                               telephoneNumber: telephoneNumber,
+                               homepage: homepage)
                 )
             }
         }

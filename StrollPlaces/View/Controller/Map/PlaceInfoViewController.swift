@@ -110,7 +110,7 @@ class PlaceInfoViewController: UIViewController {
         button.setTitle(K.DetailView.navigateButtonName, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         button.tintColor = UIColor.white
-        button.layer.cornerRadius = K.Shape.smallCornerRadius
+        button.layer.cornerRadius = K.Shape.mediumCornerRadius
         button.clipsToBounds = true
         return button
     }()
@@ -214,7 +214,7 @@ class PlaceInfoViewController: UIViewController {
         self.containerView.addSubview(self.iconImage)
         self.iconImage.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(K.Shape.horizontalSafeAreaOffset)
             $0.height.equalTo(26)
             $0.width.equalTo(26)
         }
@@ -223,7 +223,7 @@ class PlaceInfoViewController: UIViewController {
         self.containerView.addSubview(self.disclosureButton)
         self.disclosureButton.snp.makeConstraints {
             $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-K.Shape.horizontalSafeAreaOffset)
             $0.width.height.equalTo(30)
         }
         
@@ -241,7 +241,7 @@ class PlaceInfoViewController: UIViewController {
         self.containerView.addSubview(self.labelStackView)
         self.labelStackView.snp.makeConstraints {
             $0.top.equalTo(self.iconImage.snp.bottom).offset(20)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(K.Shape.horizontalSafeAreaOffset)
             $0.height.equalTo(18)
             $0.width.equalTo(260)
         }
@@ -259,8 +259,8 @@ class PlaceInfoViewController: UIViewController {
         self.containerView.addSubview(self.buttonStackView)
         self.buttonStackView.snp.makeConstraints {
             $0.top.equalTo(self.labelStackView.snp.bottom).offset(20)
-            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-30)
+            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(K.Shape.horizontalSafeAreaOffset)
+            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-K.Shape.horizontalSafeAreaOffset)
             $0.height.equalTo(50)
         }
     }
@@ -377,6 +377,11 @@ class PlaceInfoViewController: UIViewController {
     
     //MARK: - indirectly called method
     
+    @objc private func visitHomepage() {
+        let url = URL(string: self.viewModel.pinData.homepage)!
+        UIApplication.shared.open(url)
+    }
+    
 }
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
@@ -408,15 +413,24 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
         // 데이터 보내기 (3): PlaceVM -> PlaceVC(바인딩)
         self.viewModel.getTitleInfo()
             .asDriver(onErrorJustReturn: ["알수없음"])
-            .map { $0[indexPath.row ] }
+            .compactMap { $0[indexPath.row ] }
             .drive(cell.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         self.viewModel.getPlaceInfo()
             .asDriver(onErrorJustReturn: ["알수없음"])
-            .map { $0[indexPath.row ] }
+            .compactMap { $0[indexPath.row ] }
             .drive(cell.descriptionLabel.rx.text)
             .disposed(by: rx.disposeBag)
+        
+        if self.viewModel.pinData.infoType == .recreationForest && indexPath.row == 7 {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.visitHomepage))
+            let titleString = "접속하기(클릭)"
+            let attributedLinkString = NSMutableAttributedString(string: titleString, attributes:[NSAttributedString.Key.link: URL(string: self.viewModel.pinData.homepage)!])
+            cell.descriptionLabel.addGestureRecognizer(tap)
+            cell.descriptionLabel.isUserInteractionEnabled = true
+            cell.descriptionLabel.attributedText = attributedLinkString
+        }
         
         return cell
     }

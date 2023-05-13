@@ -24,27 +24,45 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         return self.viewModel.getNumberOfRowsInSection(at: section)
     }
     
-    // Section Header의 제목 설정
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return self.viewModel.getTitleForHeaderInSection(at: section)
-//    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.viewModel.getTitleForHeaderInSection(at: section)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 50 : 40
+    }
 
-    // Section Header의 스타일 설정
-//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        let title = UILabel()
-//        title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-//        title.textColor = UIColor.black
-//
-//        let backView = UIView()
-//        backView.backgroundColor = K.Color.mainColorLight
-//
-//        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-//        header.textLabel!.font = title.font
-//        header.textLabel?.textColor = title.textColor
-//        header.backgroundView = backView
-//        header.layer.borderColor = UIColor.systemGray4.cgColor
-//        header.layer.borderWidth = 0
-//    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let yPosition: CGFloat = section == 0 ? 20 : 10
+        let titleLabel = UILabel(frame: CGRect(
+            x: 10, y: yPosition, width: tableView.frame.width, height: 18
+        ))
+        titleLabel.textAlignment = .left
+        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        titleLabel.textColor = UIColor.black
+        titleLabel.text = self.viewModel.getTitleForHeaderInSection(at: section)
+        
+        let headerView = UIView()
+        headerView.addSubview(titleLabel)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let separatorView = UIView(frame: CGRect(
+            x: -20, y: 20, width: tableView.frame.width, height: 1
+        ))
+        separatorView.backgroundColor = UIColor.systemGray5
+        
+        let footerView = UIView()
+        footerView.addSubview(separatorView)
+        
+        return section == self.viewModel.getNumberOfSections()-1 ? nil : footerView
+    }
     
     // TableViewCell 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -60,14 +78,13 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLabel.text = self.viewModel.moreCellData[indexPath.section][indexPath.row].title
         cell.descriptionLabel.text = self.viewModel.moreCellData[indexPath.section][indexPath.row].value
                 
+        cell.accessoryType = .none
         cell.selectionStyle = .none
-        cell.accessoryType = .disclosureIndicator
-        cell.backgroundColor = UIColor.white
         
         if indexPath.section == 2 {
             if indexPath.row == 4 {
-                cell.accessoryType = .none
-                cell.descriptionLabel.text = "\(self.viewModel.getCurrentAppVersion()) (\(self.viewModel.getCurrentBuildNumber()))"
+                cell.descriptionLabel.text = "\(self.viewModel.getCurrentAppVersion()) " +
+                                             "(\(self.viewModel.getCurrentBuildNumber()))"
             }
         }
         return cell

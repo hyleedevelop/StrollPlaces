@@ -34,6 +34,7 @@ struct K {
         static let smallCornerRadius: CGFloat = 2
         static let mediumCornerRadius: CGFloat = 5
         static let largeCornerRadius: CGFloat = 25
+        static let horizontalSafeAreaOffset: CGFloat = 20
     }
     
     // CSV 파일 관련
@@ -120,7 +121,7 @@ struct K {
     struct More {
         static let appSettingsTitle = "설정"
         static let feedbackTitle = "피드백"
-        static let aboutTheAppTitle = "정보"
+        static let aboutTheAppTitle = "앱 정보"
         
         static let helpURL =
         "https://hyleenote.notion.site/Crypto-Calculator-5f6ae38726dd400c8b3a91a24da06795"

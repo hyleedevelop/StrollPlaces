@@ -63,7 +63,7 @@ class MyPlaceViewController: UIViewController {
         label.textColor = UIColor.lightGray
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "오른쪽 상단의 + 버튼을 눌러서" + "\n" + "나만의 산책길을 만들어 보세요!"
+        label.text = "오른쪽 상단의 + 버튼을 눌러서" + "\n" + "나만의 산책길을 기록해보는건 어때요?"
         return label
     }()
         
@@ -243,7 +243,7 @@ class MyPlaceViewController: UIViewController {
         }
         
         self.initialSubtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.initialTitleLabel.snp.bottom).offset(50)
+            $0.top.equalTo(self.initialTitleLabel.snp.bottom).offset(20)
             $0.left.equalTo(self.initialView.safeAreaLayoutGuide).offset(50)
             $0.right.equalTo(self.initialView.safeAreaLayoutGuide).offset(-50)
             $0.height.equalTo(45)

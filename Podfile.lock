@@ -4,6 +4,7 @@ PODS:
   - Cosmos (23.0.0)
   - Differentiator (5.0.0)
   - FaveButton (3.2.1)
+  - Floaty (4.2.0)
   - Hero (1.6.2)
   - IQKeyboardManagerSwift (6.5.10)
   - IVBezierPathRenderer (0.1.1)
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - Cluster
   - Cosmos (~> 23.0)
   - FaveButton
+  - Floaty (~> 4.2.0)
   - Hero
   - IQKeyboardManagerSwift (= 6.5.10)
   - IVBezierPathRenderer
@@ -64,6 +66,7 @@ SPEC REPOS:
     - Cosmos
     - Differentiator
     - FaveButton
+    - Floaty
     - Hero
     - IQKeyboardManagerSwift
     - IVBezierPathRenderer
@@ -89,6 +92,7 @@ SPEC CHECKSUMS:
   Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FaveButton: 93cfebf6030336fa7653fad2068c3152ed668b39
+  Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   Hero: c69009dbc9e2f0472e081adc644dba05fcedae72
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   IVBezierPathRenderer: bdc981ad18bb3acb2c9fce0120ecfe9d30e20172
@@ -108,6 +112,6 @@ SPEC CHECKSUMS:
   TransitionableTab: 54a5d0af475033bdb83959fde4e5d6201af7e2ab
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: c0f09aba424451f8ae024e48b843a2a01f5c306d
+PODFILE CHECKSUM: d7786d3355bde62c70c0e8772894c4d2487a561c
 
 COCOAPODS: 1.11.3

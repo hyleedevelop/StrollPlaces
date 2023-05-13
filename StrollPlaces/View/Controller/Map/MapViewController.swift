@@ -17,14 +17,13 @@ import ViewAnimator
 import Lottie
 import Hero
 import RealmSwift
+import Floaty
 
 final class MapViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
-    @IBOutlet weak var zoomInButton: UIButton!
-    @IBOutlet weak var zoomOutButton: UIButton!
-    @IBOutlet weak var currentLocationButton: UIButton!
+    @IBOutlet weak var menuButton: Floaty!
     @IBOutlet weak var mapView: MKMapView!
     
     //MARK: - UI property
@@ -43,6 +42,31 @@ final class MapViewController: UIViewController {
         cv.register(UINib(nibName: K.ThemeCV.cellName, bundle: nil), forCellWithReuseIdentifier: K.ThemeCV.cellName)
         cv.backgroundColor = UIColor.clear
         return cv
+    }()
+    
+    // 컴퍼스 버튼
+    private lazy var compassButton: MKCompassButton = {
+        let cb = MKCompassButton(mapView: self.mapView)
+        cb.layer.cornerRadius = cb.frame.height / 2.0
+        cb.layer.masksToBounds = false
+        cb.layer.shadowColor = UIColor.black.cgColor
+        cb.layer.shadowRadius = 1
+        cb.layer.shadowOffset = CGSize(width: 0, height: 1)
+        cb.layer.shadowOpacity = 0.3
+        return cb
+    }()
+    
+    internal lazy var trackingStopButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("위치 추적모드 해제하기", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
+        button.layer.cornerRadius = 22.5
+        button.backgroundColor = UIColor.black
+        button.alpha = 0.5
+        button.layer.borderWidth = 1.5
+        button.layer.borderColor = UIColor.white.cgColor
+        button.isHidden = true
+        return button
     }()
     
     //MARK: - normal property
@@ -72,6 +96,7 @@ final class MapViewController: UIViewController {
         let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
         return CLLocation(latitude: latitude, longitude: longitude)
     }
+    var isUserTrackingModeOn: Bool = false
     
     // 지도 및 CSV데이터 관련
     var dataArray = [PublicData]()
@@ -97,6 +122,7 @@ final class MapViewController: UIViewController {
         self.setupMapView()
         self.setupCollectionView()
         self.setupMapControlButton()
+        self.setupTrackingStopButton()
         
         self.moveToCurrentLocation()
         self.addAnnotations(with: .park)
@@ -140,10 +166,14 @@ final class MapViewController: UIViewController {
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // 지도 영역 제한 설정
-//        let region = MKCoordinateRegion(center: K.Map.southKoreaCenterLocation.coordinate,
-//                                        latitudinalMeters: 750.km,
-//                                        longitudinalMeters: 750.km)
-//        self.mapView.setCameraBoundary(MKMapView.CameraBoundary(coordinateRegion: region), animated: false)
+        let region = MKCoordinateRegion(
+            center: K.Map.southKoreaCenterLocation.coordinate,
+            latitudinalMeters: 750.km,
+            longitudinalMeters: 750.km
+        )
+        self.mapView.setCameraBoundary(
+            MKMapView.CameraBoundary(coordinateRegion: region), animated: false
+        )
     }
     
     // CollectionView 설정
@@ -169,51 +199,62 @@ final class MapViewController: UIViewController {
     
     // map controll button 설정
     private func setupMapControlButton() {
-        // 각 버튼 및 컴퍼스의 UI 설정
-        let compassButton = MKCompassButton(mapView: self.mapView)
-        [zoomInButton, zoomOutButton, currentLocationButton, compassButton].forEach {
-            $0.layer.cornerRadius = $0.frame.height / 2.0
-            $0.layer.masksToBounds = false
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowRadius = 1
-            $0.layer.shadowOffset = CGSize(width: 0, height: 1)
-            $0.layer.shadowOpacity = 0.3
+        // 지도 컨트롤 관련 버튼 설정
+        self.menuButton.addItem(
+            "위치 추적모드", icon: UIImage(systemName: "figure.run")
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.isUserTrackingModeOn = true
+            self.trackingStopButton.isHidden = false
         }
+        self.menuButton.addItem(
+            "현재위치로 이동", icon: UIImage(systemName: "dot.circle.viewfinder")
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.mapView.centerToLocation(
+                location: self.currentLocation,
+                deltaLat: 0.5.km,
+                deltaLon: 0.5.km
+            )
+        }
+        self.menuButton.addItem(
+            "축소", icon: UIImage(systemName: "minus.magnifyingglass")
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.mapView.zoomLevel -= 2
+        }
+        self.menuButton.addItem(
+            "확대", icon: UIImage(systemName: "plus.magnifyingglass")
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.mapView.zoomLevel += 1
+        }
+        self.menuButton.openAnimationType = .pop
+        self.menuButton.animationSpeed = 0.05
         
         self.view.addSubview(compassButton)
         compassButton.snp.makeConstraints {
+            $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-30)
-            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
         }
         
-        // "줌인" 버튼을 눌렀을 때
-        self.zoomInButton.rx.controlEvent(.touchUpInside).asObservable()
-            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.mapView.zoomLevel += 1
-            })
-            .disposed(by: rx.disposeBag)
+    }
+    
+    // 위치 추적모드 표시 버튼 설정
+    internal func setupTrackingStopButton() {
+        self.view.addSubview(self.trackingStopButton)
+        self.trackingStopButton.snp.makeConstraints {
+            $0.width.equalTo(180)
+            $0.height.equalTo(45)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-30)
+            $0.centerX.equalTo(self.view.safeAreaLayoutGuide)
+        }
         
-        // "줌아웃" 버튼을 눌렀을 때
-        self.zoomOutButton.rx.controlEvent(.touchUpInside).asObservable()
-            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
+        self.trackingStopButton.rx.controlEvent(.touchUpInside).asObservable()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.mapView.zoomLevel -= 2
-            })
-            .disposed(by: rx.disposeBag)
-        
-        // "현재위치로 이동하기" 버튼을 눌렀을 때
-        self.currentLocationButton.rx.controlEvent(.touchUpInside).asObservable()
-            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.mapView.centerToLocation(
-                    location: self.currentLocation,
-                    deltaLat: 0.5.km,
-                    deltaLon: 0.5.km
-                )
+                self.isUserTrackingModeOn = false
+                self.trackingStopButton.isHidden = true
             })
             .disposed(by: rx.disposeBag)
     }

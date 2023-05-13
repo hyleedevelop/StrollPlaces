@@ -24,12 +24,11 @@ final class NewsViewController: UIViewController {
     private var viewModel: NewsViewModel!
     private var scrollToTop = true
     
-    //
     private lazy var scrollToTopView: UIView = {
         let view = UIView(frame: CGRect.zero)
         view.layer.cornerRadius = 25
-        view.backgroundColor = UIColor.lightGray
-        view.alpha = 0.8
+        view.backgroundColor = UIColor.black
+        view.alpha = 0.5
         view.layer.borderWidth = 1.5
         view.layer.borderColor = UIColor.white.cgColor
         return view
