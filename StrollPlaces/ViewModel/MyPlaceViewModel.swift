@@ -48,42 +48,42 @@ final class MyPlaceViewModel {
     // context menu item 초기화
     private func initializeContextMenuItems(stateOn: Int) {
         self.sortMenuItems = [
-            UIAction(title: "예전 등록된 것부터", handler: { [weak self] _ in
+            UIAction(title: "이전 등록순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
                 self.userDefaults.set(0, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "최근 등록된 것부터", handler: { [weak self] _ in
+            UIAction(title: "최근 등록순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDate)
                 self.userDefaults.set(1, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "소요시간 적은 것부터", handler: { [weak self] _ in
+            UIAction(title: "소요시간 적은순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByTime)
                 self.userDefaults.set(2, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "소요시간 많은 것부터", handler: { [weak self] _ in
+            UIAction(title: "소요시간 많은순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByTime)
                 self.userDefaults.set(3, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "이동거리 적은 것부터", handler: { [weak self] _ in
+            UIAction(title: "이동거리 적은순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByDistance)
                 self.userDefaults.set(4, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "이동거리 많은 것부터", handler: { [weak self] _ in
+            UIAction(title: "이동거리 많은순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByDistance)
                 self.userDefaults.set(5, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "별점 낮은 것부터", handler: { [weak self] _ in
+            UIAction(title: "별점 낮은순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .ascendingByRating)
                 self.userDefaults.set(6, forKey: "selectedContextMenu")
             }),
-            UIAction(title: "별점 높은 것부터", handler: { [weak self] _ in
+            UIAction(title: "별점 높은순", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.itemViewModel.getSortedTrackData(mode: .descendingByRating)
                 self.userDefaults.set(7, forKey: "selectedContextMenu")
@@ -95,7 +95,7 @@ final class MyPlaceViewModel {
     
     // 나만의 산책길 목록 정렬을 위한 context menu 설정
     func getSortContextMenu() -> UIMenu {
-        return UIMenu(title: "정렬방법", options: [.singleSelection], children: self.sortMenuItems)
+        return UIMenu(title: "정렬 방법", options: [.singleSelection], children: self.sortMenuItems)
     }
     
     // 나만의 산책길 목록 정렬을 위한 context menu 아이템 가져오기

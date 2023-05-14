@@ -85,7 +85,7 @@ extension TrackingViewController: MKMapViewDelegate {
         let renderer = MKPolylineRenderer(polyline: routeLine)
 //        let renderer = IVBezierPathRenderer(overlay: routeLine)
         
-        renderer.strokeColor = K.Color.mainColor
+        renderer.strokeColor = K.Color.themeBrown
         renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         

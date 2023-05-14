@@ -79,25 +79,6 @@ extension MapViewController: MKMapViewDelegate {
         } else if annotation is MKUserLocation {
             let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "UserLocationAnnotationView")
             return annotationView
-            //return nil
-            
-//        } else if annotation is RouteAnnotation {
-//            let annotationView = mapView.dequeueReusableAnnotationView(
-//                withIdentifier: RouteAnnotationView.identifier)
-//            mapView.register(RouteAnnotationView.self,
-//                             forAnnotationViewWithReuseIdentifier: RouteAnnotationView.identifier)
-//            annotationView?.canShowCallout = true
-//
-//            let customImage: UIImage!
-//            let size = CGSize(width: 15, height: 25)
-//            UIGraphicsBeginImageContext(size)
-//
-//            customImage = UIImage(named: "pin")
-//            customImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-//            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-//            annotationView?.image = resizedImage
-//
-//            return annotationView
             
         } else {
             let identifier = "Pin"
@@ -232,9 +213,11 @@ extension MapViewController: MKMapViewDelegate {
     
     // 경로 안내를 위한 polyline 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+    
+        
         let renderer = MKPolylineRenderer(overlay: overlay)
         
-        renderer.strokeColor = UIColor.red
+        renderer.strokeColor = K.Color.themeBrown
         renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         

@@ -26,7 +26,7 @@ extension UIView {
     }
     
     
-    // animate UIView expand from bottom to top and vice versa
+    // 아래에서 위로 끌어올리면서 화면을 펼치기
     func slideUpShow(_ duration: CGFloat){
         self.alpha = 1
         UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.curveEaseOut],
@@ -36,6 +36,7 @@ extension UIView {
         }, completion: nil)
     }
     
+    // 위에서 아래로 끌어내리면서 화면을 접기
     func slideDownHide(_ duration: CGFloat){
         UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: [.curveEaseOut],
                        animations: {
@@ -45,7 +46,28 @@ extension UIView {
         },  completion: {(_ completed: Bool) -> Void in
             self.alpha = 0
         })
-        
+    }
+    
+    // 수평 방향으로 gradient 색상 넣기
+    func setHorizontalGradient(color1: UIColor, color2: UIColor) {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [color1.cgColor, color2.cgColor]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradient.frame = bounds
+        self.layer.addSublayer(gradient)
+    }
+    
+    // 수직 방향으로 gradient 색상 넣기
+    func setVerticalGradient(color1: UIColor, color2: UIColor) {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [color1.cgColor, color2.cgColor]
+        gradient.locations = [0.0, 0.7]
+        gradient.startPoint = CGPoint(x: 1.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradient.frame = bounds
+        self.layer.addSublayer(gradient)
     }
     
 }

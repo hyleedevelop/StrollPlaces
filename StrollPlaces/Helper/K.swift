@@ -9,31 +9,30 @@ import UIKit
 import CoreLocation
 
 struct K {
-    struct Precondition {
-        static let splashScreenTime: Double = 3.0
+    struct App {
+        static let splashScreenTime: Double = 3
+        static let appName = "가벼운 발걸음"
     }
     
     struct Color {
         static let themeBlack: UIColor = #colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.2039215686, alpha: 1)
         static let themeGray: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
         static let themeNavy: UIColor = #colorLiteral(red: 0.3005333543, green: 0.357681036, blue: 0.5561813116, alpha: 1)
-        static let themeYellow: UIColor = #colorLiteral(red: 0.9882352941, green: 0.6156862745, blue: 0.1764705882, alpha: 1)
+        static let themeYellow: UIColor = #colorLiteral(red: 0.9882352941, green: 0.9616177446, blue: 0.2040017992, alpha: 1)
         static let themePurple: UIColor = #colorLiteral(red: 0.4682491422, green: 0.3311958313, blue: 0.8449422717, alpha: 1)
         static let themeWhite: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         static let themeGreen: UIColor = #colorLiteral(red: 0.1647058824, green: 0.6549019608, blue: 0.4588235294, alpha: 1)
-        static let themeBrown: UIColor = #colorLiteral(red: 0.3098039329, green: 0.2039215714, blue: 0.03921568766, alpha: 1)
+        static let themeBrown: UIColor = #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1)
+        static let themeSky: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         static let backgroundGray: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
-        //static let themeYellow: Color
-        
-        static let mainColor = #colorLiteral(red: 0.4682491422, green: 0.3311958313, blue: 0.8449422717, alpha: 1)
-        static let mainColorLight = #colorLiteral(red: 0.7411764706, green: 0.6705882353, blue: 0.9215686275, alpha: 1)
+        static let mainColor = K.Color.themeGreen
     }
     
     struct Shape {
         static let smallCornerRadius: CGFloat = 2
         static let mediumCornerRadius: CGFloat = 5
-        static let largeCornerRadius: CGFloat = 25
+        static let largeCornerRadius: CGFloat = 20
         static let horizontalSafeAreaOffset: CGFloat = 20
     }
     
@@ -61,8 +60,7 @@ struct K {
     
         static let noDataMessage: String = "정보없음"
         
-        static let placeColor: UIColor = K.Color.mainColor
-        static var themeColor: [UIColor] = [#colorLiteral(red: 0.2846682966, green: 0.3880401254, blue: 0.336489141, alpha: 1), #colorLiteral(red: 0.3058823529, green: 0.4235294118, blue: 0.3137254902, alpha: 1), #colorLiteral(red: 0.7137254902, green: 0.6392156863, blue: 0.4509803922, alpha: 1), #colorLiteral(red: 0.9411764706, green: 0.9215686275, blue: 0.8078431373, alpha: 1)]
+        static let placeColor: UIColor = K.Color.themeSky
     }
     
     // Theme CollectionView 관련

@@ -177,7 +177,7 @@ class AddMyPlaceViewController: UIViewController {
         self.routeInfoBackView.layer.shadowRadius = 3
         self.routeInfoBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
         self.routeInfoBackView.layer.shadowOpacity = 0.3
-        self.routeInfoBackView.layer.borderColor = K.Color.themeBlack.cgColor
+        self.routeInfoBackView.layer.borderColor = K.Color.themeBrown.cgColor
         self.routeInfoBackView.layer.borderWidth = 1
     }
     
@@ -431,7 +431,7 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = K.Color.mainColor
+        renderer.strokeColor = K.Color.themeBrown
         renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         

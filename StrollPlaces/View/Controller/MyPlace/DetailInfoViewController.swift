@@ -275,26 +275,29 @@ final class DetailInfoViewController: UIViewController {
 extension DetailInfoViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard let annotation = annotation as? Artwork else { return nil }
-        
-        let identifier = "artwork"
-        var view: MKMarkerAnnotationView
-        
-        if let dequeuedView = mapView
-            .dequeueReusableAnnotationView(withIdentifier: identifier) as? RouteAnnotationView {
-            dequeuedView.annotation = annotation
-            view = dequeuedView
+        if let annotation = annotation as? Artwork {
+            
+            let identifier = "artwork"
+            var view: MKMarkerAnnotationView
+            
+            if let dequeuedView = mapView
+                .dequeueReusableAnnotationView(withIdentifier: identifier) as? RouteAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = MKMarkerAnnotationView(
+                    annotation: annotation,
+                    reuseIdentifier: identifier
+                )
+                view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.red
+                view.canShowCallout = false
+                //view.image = UIImage(systemName: "star.fill")
+            }
+            
+            return view
         } else {
-            view = MKMarkerAnnotationView(
-                annotation: annotation,
-                reuseIdentifier: identifier
-            )
-            view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.red
-            view.canShowCallout = false
-            //view.image = UIImage(systemName: "star.fill")
+            return nil
         }
-        
-        return view
     }
         
 
@@ -304,7 +307,7 @@ extension DetailInfoViewController: MKMapViewDelegate {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = K.Color.mainColor
+        renderer.strokeColor = K.Color.themeBrown
         renderer.lineWidth = 5.0
         renderer.alpha = 1.0
         

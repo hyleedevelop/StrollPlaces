@@ -41,9 +41,9 @@ final class OnboardingViewController: UIViewController {
     private var isHideNextTimeChecked = false {
         didSet {
             if self.isHideNextTimeChecked {
-                self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
-            } else {
                 self.userDefaults.setValue(true, forKey: "hideOnboardingScreen")
+            } else {
+                self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
             }
         }
     }
@@ -108,14 +108,10 @@ final class OnboardingViewController: UIViewController {
     }
     
     @IBAction func hideNextTimeButtonTapped(_ sender: UIButton) {
-        DispatchQueue.main.async {
-            if self.isHideNextTimeChecked {
-                self.hideNextTimeButton.setImage(UIImage(systemName: "square"),
-                                                 for: .normal)
-            } else {
-                self.hideNextTimeButton.setImage(UIImage(systemName: "checkmark.square"),
-                                                 for: .normal)
-            }
+        if self.isHideNextTimeChecked {
+            self.hideNextTimeButton.setImage(UIImage(systemName: "square"), for: .normal)
+        } else {
+            self.hideNextTimeButton.setImage(UIImage(systemName: "checkmark.square"), for: .normal)
         }
         
         self.isHideNextTimeChecked.toggle()

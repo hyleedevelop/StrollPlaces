@@ -22,29 +22,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Grk-wS-xiM" customClass="Floaty" customModule="Floaty">
-                                <rect key="frame" x="338" y="694" width="45" height="45"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Grk-wS-xiM" secondAttribute="height" multiplier="1:1" id="VWj-7l-E0G"/>
-                                    <constraint firstAttribute="width" constant="45" id="hWT-oD-tQF"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" red="0.1647058824" green="0.65490196079999996" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonShadowColor">
-                                        <color key="value" systemColor="systemGray2Color"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="plusColor">
-                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="hasShadow" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="itemImageColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ynA-1x-k5u"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -52,9 +29,7 @@
                             <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="9Hg-yH-Sbi" secondAttribute="trailing" id="5d1-Wu-H4U"/>
                             <constraint firstItem="ynA-1x-k5u" firstAttribute="bottom" secondItem="9Hg-yH-Sbi" secondAttribute="bottom" id="84f-RR-2l6"/>
                             <constraint firstItem="9Hg-yH-Sbi" firstAttribute="leading" secondItem="ynA-1x-k5u" secondAttribute="leading" id="DJe-cw-NlZ"/>
-                            <constraint firstItem="ynA-1x-k5u" firstAttribute="bottom" secondItem="Grk-wS-xiM" secondAttribute="bottom" constant="30" id="IUB-cf-BiL"/>
                             <constraint firstItem="9Hg-yH-Sbi" firstAttribute="top" secondItem="7am-6D-p6S" secondAttribute="top" id="QMf-qE-BLG"/>
-                            <constraint firstItem="ynA-1x-k5u" firstAttribute="trailing" secondItem="Grk-wS-xiM" secondAttribute="trailing" constant="10" id="oqK-dy-tlg"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="TabBarIcon1" id="gfD-ZY-FRb"/>
@@ -62,7 +37,6 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mapView" destination="9Hg-yH-Sbi" id="eCD-i7-dre"/>
-                        <outlet property="menuButton" destination="Grk-wS-xiM" id="FhA-fa-zWe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2hm-Ua-MfL" sceneMemberID="firstResponder"/>
@@ -74,9 +48,6 @@
         <image name="TabBarIcon1" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray2Color">
-            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

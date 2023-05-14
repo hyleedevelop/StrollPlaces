@@ -27,12 +27,12 @@ class NewsTableViewCell: UITableViewCell {
         backView.clipsToBounds = true
         backView.layer.masksToBounds = false
         backView.layer.cornerRadius = K.Shape.largeCornerRadius
-        backView.layer.borderColor = K.Color.themeYellow.cgColor
+        backView.layer.borderColor = K.Color.mainColor.cgColor
         backView.layer.borderWidth = 1
-        backView.layer.shadowColor = UIColor.systemGray4.cgColor
+        backView.layer.shadowColor = UIColor.systemGray5.cgColor
         backView.layer.shadowRadius = 3
         backView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        backView.layer.shadowOpacity = 0.8
+        backView.layer.shadowOpacity = 0.7
     }
     
     private func setupLabel() {

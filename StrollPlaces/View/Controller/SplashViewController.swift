@@ -15,7 +15,7 @@ final class SplashViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "가벼운 발걸음"
+        label.text = K.App.appName
         label.font = .systemFont(ofSize: 30, weight: .bold)
         label.textAlignment = .center
         label.textColor = UIColor.white
@@ -24,8 +24,8 @@ final class SplashViewController: UIViewController {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "오늘 하루가 행복해지는"
-        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.text = "상쾌한 하루를 위한"
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .center
         label.textColor = UIColor.white
         return label
@@ -33,13 +33,10 @@ final class SplashViewController: UIViewController {
     
     private lazy var initialAnimationView: LottieAnimationView = {
         let view = LottieAnimationView(name: "walkingMan")
-        //view.frame = self.view.bounds
-        //view.center = self.view.center
         view.contentMode = .scaleAspectFit
         view.loopMode = .loop
         view.animationSpeed = 0.85
         view.alpha = 1
-        //view.play()
         return view
     }()
     
@@ -62,7 +59,7 @@ final class SplashViewController: UIViewController {
     
     // View 설정
     private func setupView() {
-        self.view.backgroundColor = K.Color.themeGreen
+        self.view.setVerticalGradient(color1: K.Color.themeSky, color2: K.Color.themeGreen)
     }
     
     // Label 설정
@@ -110,12 +107,12 @@ final class SplashViewController: UIViewController {
     private func goToNextViewController() {
         // ✅ for debugging...
         // --------------------------------------------------------------
-        self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
+        //self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
         // --------------------------------------------------------------
         
         let hideOnboardingScreen = self.userDefaults.bool(forKey: "hideOnboardingScreen")
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + K.Precondition.splashScreenTime) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + K.App.splashScreenTime) {
             if hideOnboardingScreen {
                 guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBar")
                         as? UITabBarController else { return }

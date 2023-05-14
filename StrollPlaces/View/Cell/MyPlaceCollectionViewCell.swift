@@ -31,7 +31,7 @@ class MyPlaceCollectionViewCell: UICollectionViewCell {
         self.backView.backgroundColor = UIColor.white
         self.backView.clipsToBounds = true
 //        self.backView.layer.masksToBounds = false
-        self.backView.layer.cornerRadius = 20
+        self.backView.layer.cornerRadius = K.Shape.largeCornerRadius
         self.backView.layer.borderColor = UIColor.systemGray5.cgColor
         self.backView.layer.borderWidth = 1.0
 //        self.backView.layer.shadowColor = UIColor.black.cgColor

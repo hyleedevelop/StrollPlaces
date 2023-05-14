@@ -99,7 +99,6 @@
 		07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */ = {isa = PBXBuildFile; productRef = 07E3383129FAA2FC00880DAA /* Screenshots */; };
 		07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E35C492A0BDFA00087A14C /* MyPlace.swift */; };
 		07E8A8762A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */; };
-		07E8A8782A0E75AC00DE6D9F /* SouthKoreaTourSpotData_qc_20230512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07E8A8772A0E75AC00DE6D9F /* SouthKoreaTourSpotData_qc_20230512.csv */; };
 		07E8A87A2A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */; };
 		07E8A87C2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */; };
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
@@ -245,7 +244,6 @@
 		07D01A2129E65AAC00FE85D4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		07E35C492A0BDFA00087A14C /* MyPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlace.swift; sourceTree = "<group>"; };
 		07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaParkData_qc_20230512.csv; sourceTree = "<group>"; };
-		07E8A8772A0E75AC00DE6D9F /* SouthKoreaTourSpotData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaTourSpotData_qc_20230512.csv; sourceTree = "<group>"; };
 		07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230512.csv; sourceTree = "<group>"; };
 		07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230512.csv; sourceTree = "<group>"; };
 		07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -568,7 +566,6 @@
 				07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */,
 				07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */,
 				07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */,
-				07E8A8772A0E75AC00DE6D9F /* SouthKoreaTourSpotData_qc_20230512.csv */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -756,7 +753,6 @@
 				07B2E3E729D156D300210207 /* MoreTableViewCell.xib in Resources */,
 				0718B96229D08F7500D5CDDE /* NewsTab.storyboard in Resources */,
 				07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */,
-				07E8A8782A0E75AC00DE6D9F /* SouthKoreaTourSpotData_qc_20230512.csv in Resources */,
 				07E8A87C2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

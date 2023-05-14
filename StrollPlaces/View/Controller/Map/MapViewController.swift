@@ -23,7 +23,7 @@ final class MapViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
-    @IBOutlet weak var menuButton: Floaty!
+    //@IBOutlet weak var menuButton: Floaty!
     @IBOutlet weak var mapView: MKMapView!
     
     //MARK: - UI property
@@ -56,6 +56,19 @@ final class MapViewController: UIViewController {
         return cb
     }()
     
+    // 메뉴 버튼
+    private lazy var menuButton: Floaty = {
+        let button = Floaty()
+        button.plusColor = UIColor.white
+        button.buttonColor = K.Color.mainColor
+        button.itemImageColor = UIColor.black
+        button.itemButtonColor = UIColor.white
+        button.openAnimationType = .pop
+        button.animationSpeed = 0.05
+        return button
+    }()
+    
+    // 위치 추적모드 해제 버튼
     internal lazy var trackingStopButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("위치 추적모드 해제하기", for: .normal)
@@ -119,6 +132,7 @@ final class MapViewController: UIViewController {
         self.getLocationUsagePermission()
         self.setupRealm()
         
+        self.setupNavigationBar()
         self.setupMapView()
         self.setupCollectionView()
         self.setupMapControlButton()
@@ -131,11 +145,20 @@ final class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.locationManager.startUpdatingLocation()
+        
+        self.view.addSubview(self.menuButton)
+        self.menuButton.snp.makeConstraints {
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-22.5)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-35)
+            $0.width.height.equalTo(45)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.locationManager.stopUpdatingLocation()
+        
+        self.menuButton.removeFromSuperview()
     }
     
     //MARK: - directly called method
@@ -145,9 +168,18 @@ final class MapViewController: UIViewController {
         print(Realm.Configuration.defaultConfiguration.fileURL!)
     }
     
+    // NavigationBar 설정
+    private func setupNavigationBar() {
+        // 기본 설정
+        //navigationController?.applyCommonSettings()
+        //navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     // 지도 관련 설정
     private func setupMapView() {
         self.mapView.delegate = self
+        self.mapView.overrideUserInterfaceStyle = .light
         self.mapView.isZoomEnabled = true
         self.mapView.isRotateEnabled = true
         self.mapView.isScrollEnabled = true
@@ -229,8 +261,6 @@ final class MapViewController: UIViewController {
             guard let self = self else { return }
             self.mapView.zoomLevel += 1
         }
-        self.menuButton.openAnimationType = .pop
-        self.menuButton.animationSpeed = 0.05
         
         self.view.addSubview(compassButton)
         compassButton.snp.makeConstraints {
@@ -345,26 +375,20 @@ final class MapViewController: UIViewController {
                     
                     // 경로 그리기
                     self.mapView.addOverlay(route.polyline)
-                    
-                    // 출발지와 도착지 오버레이 표시하기
-                    /*
-                    let startOfRouteAnnotation = RouteAnnotation(
-                        coordinate: CLLocationCoordinate2D(
-                            latitude: pickupCoordinate.latitude,
-                            longitude: pickupCoordinate.longitude),
+
+                    // 출발(사용자의 현재 위치) 및 도착(해당 장소) 지점 표시하기
+                    let startAnnotation = Artwork(
                         title: "출발",
-                        type: .startOfRoute)
-                    let endOfRouteAnnotation = RouteAnnotation(
-                        coordinate: CLLocationCoordinate2D(
-                            latitude: destinationCoordinate.latitude,
-                            longitude: destinationCoordinate.longitude),
+                        coordinate: pickupCoordinate
+                    )
+                    let endAnnotation = Artwork(
                         title: "도착",
-                        type: .endOfRoute)
-                    self.mapView.addAnnotation(startOfRouteAnnotation)
-                    self.mapView.addAnnotation(endOfRouteAnnotation)
-                     */
+                        coordinate: destinationCoordinate
+                    )
                     
-                    
+                    self.mapView.addAnnotation(startAnnotation)
+                    self.mapView.addAnnotation(endAnnotation)
+
                 } else {  // 단순히 route 정보만 필요한 경우
                     completion(route.distance, route.expectedTravelTime)
                 }

@@ -16,7 +16,6 @@ enum InfoType: Int, CaseIterable {
     case park
     case strollWay
     case recreationForest
-    case tourSpot
 }
 
 enum MyPlaceSorting: Int {

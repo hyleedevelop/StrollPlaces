@@ -39,21 +39,14 @@ class PlaceInfoViewController: UIViewController {
         return view
     }()
     
-//    private lazy var faveButton: FaveButton = {
-//        let button = FaveButton(
-//            frame: CGRect(x:0, y:0, width: 30, height: 30),
-//            faveIconNormal: UIImage(systemName: "heart.fill")
-//        )
-//        //button.selectedColor = UIColor.yellow
-//        button.delegate = self
-//        return button
-//    }()
-    
-    private let iconImage: UIImageView = {
-        let image = UIImageView()
-        image.tintColor = UIColor.black
-        image.contentMode = .scaleAspectFill
-        return image
+    private lazy var faveButton: FaveButton = {
+        let button = FaveButton(
+            frame: CGRect(x:0, y:0, width: 30, height: 30),
+            faveIconNormal: UIImage(systemName: "heart.fill")
+        )
+        //button.selectedColor = UIColor.yellow
+        button.delegate = self
+        return button
     }()
     
     private let nameLabel: UILabel = {
@@ -202,27 +195,18 @@ class PlaceInfoViewController: UIViewController {
     
     private func setupTopUI() {
         // fave button
-//        self.containerView.addSubview(self.faveButton)
-//        self.faveButton.snp.makeConstraints {
-//            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-//            $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-//            $0.height.equalTo(30)
-//            $0.width.equalTo(30)
-//        }
-        
-        // icon image
-        self.containerView.addSubview(self.iconImage)
-        self.iconImage.snp.makeConstraints {
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+        self.containerView.addSubview(self.faveButton)
+        self.faveButton.snp.makeConstraints {
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(K.Shape.horizontalSafeAreaOffset)
-            $0.height.equalTo(26)
-            $0.width.equalTo(26)
+            $0.height.equalTo(30)
+            $0.width.equalTo(30)
         }
         
         // disclosure button
         self.containerView.addSubview(self.disclosureButton)
         self.disclosureButton.snp.makeConstraints {
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
             $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-K.Shape.horizontalSafeAreaOffset)
             $0.width.height.equalTo(30)
         }
@@ -230,17 +214,17 @@ class PlaceInfoViewController: UIViewController {
         // name label
         self.containerView.addSubview(self.nameLabel)
         self.nameLabel.snp.makeConstraints {
-            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(30)
-            $0.left.equalTo(self.iconImage.snp.right).offset(10)
+            $0.top.equalTo(self.containerView.safeAreaLayoutGuide).offset(20)
+            $0.left.equalTo(self.faveButton.snp.right).offset(10)
             $0.right.equalTo(self.disclosureButton.snp.left).offset(-20)
-            $0.height.equalTo(26)
+            $0.height.equalTo(30)
         }
     }
     
     private func setupMiddleUI() {
         self.containerView.addSubview(self.labelStackView)
         self.labelStackView.snp.makeConstraints {
-            $0.top.equalTo(self.iconImage.snp.bottom).offset(20)
+            $0.top.equalTo(self.faveButton.snp.bottom).offset(20)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(K.Shape.horizontalSafeAreaOffset)
             $0.height.equalTo(18)
             $0.width.equalTo(260)
@@ -282,37 +266,12 @@ class PlaceInfoViewController: UIViewController {
     }
     
     private func setupBinding() {
-        let placeType = self.viewModel.getPlaceType().asDriver(onErrorJustReturn: .park)
-        let placeName = self.viewModel.getPlaceInfo().asDriver(onErrorJustReturn: ["알수없음"])
+        let placeName = self.viewModel.getPlaceName().asDriver(onErrorJustReturn: "알수없음")
         let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
         let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
         
-        // 장소 유형
-        placeType
-            .map { type -> UIImage in
-                switch type {
-                //case .marked:
-                //    return UIImage(systemName: "star.fill") ?? UIImage()
-                case .park:
-                    return UIImage(systemName: "tree.fill") ?? UIImage()
-                case .strollWay:
-                    return UIImage(systemName: "road.lanes") ?? UIImage()
-                case .recreationForest:
-                    return UIImage(systemName: "mountain.2.fill") ?? UIImage()
-                case .tourSpot:
-                    return UIImage(systemName: "hand.thumbsup.fill") ?? UIImage()
-                }
-                //return UIImage(systemName: "star") ?? UIImage()
-            }
-            .map { $0.withAlignmentRectInsets(
-                UIEdgeInsets(top: -4, left: -4, bottom: -4, right: -4)
-            )}
-            .drive(iconImage.rx.image)
-            .disposed(by: rx.disposeBag)
-        
         // 장소명
         placeName
-            .map { $0[0] }
             .drive(nameLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
@@ -377,8 +336,8 @@ class PlaceInfoViewController: UIViewController {
     
     //MARK: - indirectly called method
     
-    @objc private func visitHomepage() {
-        let url = URL(string: self.viewModel.pinData.homepage)!
+    @objc private func visitWebPage() {
+        let url = URL(string: self.viewModel.itemViewModel.homepage)!
         UIApplication.shared.open(url)
     }
     
@@ -393,14 +352,7 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.viewModel.getTitleInfo()
-        var numberOfRows = 0
-        self.viewModel.numberOfItems
-            .subscribe { num in
-                numberOfRows = num
-            }
-            .disposed(by: rx.disposeBag)
-        return numberOfRows
+        return self.viewModel.getNumberOfPlaceInfo()
     }
     
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -417,19 +369,22 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
             .drive(cell.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.getPlaceInfo()
+        self.viewModel.getSubtitleInfo()
             .asDriver(onErrorJustReturn: ["알수없음"])
             .compactMap { $0[indexPath.row ] }
             .drive(cell.descriptionLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        if self.viewModel.pinData.infoType == .recreationForest && indexPath.row == 7 {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.visitHomepage))
-            let titleString = "접속하기(클릭)"
-            let attributedLinkString = NSMutableAttributedString(string: titleString, attributes:[NSAttributedString.Key.link: URL(string: self.viewModel.pinData.homepage)!])
-            cell.descriptionLabel.addGestureRecognizer(tap)
-            cell.descriptionLabel.isUserInteractionEnabled = true
-            cell.descriptionLabel.attributedText = attributedLinkString
+        if self.viewModel.itemViewModel.infoType == .recreationForest && indexPath.row == 7 {
+            if self.viewModel.itemViewModel.homepage != K.Map.noDataMessage {
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.visitWebPage))
+                let titleString = "접속하기"
+                let attributedLinkString = NSMutableAttributedString(string: titleString)
+                cell.descriptionLabel.addGestureRecognizer(tap)
+                cell.descriptionLabel.isUserInteractionEnabled = true
+                cell.descriptionLabel.attributedText = attributedLinkString
+                cell.descriptionLabel.textColor = K.Color.mainColor
+            }
         }
         
         return cell

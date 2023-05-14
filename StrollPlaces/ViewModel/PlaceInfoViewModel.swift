@@ -14,11 +14,11 @@ final class PlaceInfoViewModel {
     
     //MARK: - normal property
     
-    let pinData: PublicData
+    let itemViewModel: PublicData
+    var titleArray = [String]()
+    var infoArray = [String]()
     var myPlaceData = RealmService.shared.realm.objects(MyPlace.self)
-    private var titleArray = [String]()
-    private var placeArray = [String]()
-    let numberOfItems = BehaviorSubject<Int>(value: 8)
+    
     let checkFaveButton = BehaviorSubject<Bool>(value: false)
     
     // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
@@ -69,77 +69,81 @@ final class PlaceInfoViewModel {
     }
     
     var category: Observable<String> {
-        return Observable<String>.just(pinData.category)
+        return Observable<String>.just(self.itemViewModel.category)
     }
     
     //MARK: - initializer
     
-    init(_ pinData: PublicData) {
-        self.pinData = pinData
+    init(_ itemViewModel: PublicData) {
+        self.itemViewModel = itemViewModel
+        self.createPlaceInfoDictionary()
     }
     
     //MARK: - directly called method
-
-    @discardableResult
+    
+    // custom modal view를 통해 제공할 정보 초기화
+    func createPlaceInfoDictionary() {
+        switch self.itemViewModel.infoType {
+        case .park:
+            self.titleArray = [
+                "장소명", "유형", "주소", "참고사항", "주변시설", "관리담당", "문의연락처"
+            ]
+            self.infoArray = [
+                itemViewModel.name, itemViewModel.category, itemViewModel.address,
+                itemViewModel.feature, itemViewModel.infra, itemViewModel.organization,
+                itemViewModel.telephoneNumber,
+            ]
+        case .strollWay:
+            self.titleArray = [
+                "장소명", "코스명", "코스구성", "주소", "설명", "주변시설"
+            ]
+            self.infoArray = [
+                itemViewModel.name, itemViewModel.category, itemViewModel.route,
+                itemViewModel.address, itemViewModel.feature, itemViewModel.infra,
+            ]
+        case .recreationForest:
+            self.titleArray = [
+                "장소명", "유형", "주소", "입장료", "주변시설", "관리담당", "문의연락처", "홈페이지"
+            ]
+            self.infoArray = [
+                itemViewModel.name, itemViewModel.category, itemViewModel.address,
+                itemViewModel.fee, itemViewModel.infra, itemViewModel.organization,
+                itemViewModel.telephoneNumber, itemViewModel.homepage,
+            ]
+        //case .marked:
+        }
+    }
+    
+    // 항목 이름 얻기
     func getTitleInfo() -> Observable<[String]> {
-        switch pinData.infoType {
-        case .park:
-            titleArray = ["공원 이름", "주소", "유형", "참고사항", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
-        case .strollWay:
-            titleArray = ["산책길 이름", "주소", "코스", "설명", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
-        case .recreationForest:
-            titleArray = ["자연휴양림 이름", "주소", "유형", "참고사항", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
-        case .tourSpot:
-            titleArray = ["지역명소 이름", "주소", "유형", "참고사항", "주변시설", "관리담당기관", "문의연락처", "홈페이지"]
-//        case .marked:
-//            titleArray = ["장소명", "주소", "유형", "주변시설", "관리담당기관", "문의연락처"]
-        }
-        
-        self.numberOfItems.onNext(titleArray.count)
-        return Observable<[String]>.just(titleArray)
+        return Observable<[String]>.just(self.titleArray)
     }
     
-    func getPlaceType() -> Observable<InfoType> {
-        return Observable<InfoType>.just(pinData.infoType)
+    // 정보 내용 얻기
+    func getSubtitleInfo() -> Observable<[String]> {
+        return Observable<[String]>.just(self.infoArray)
     }
     
-    func getPlaceInfo() -> Observable<[String]> {
-        switch pinData.infoType {
-        case .park:
-            placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.feature, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
-        case .strollWay:
-            placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.feature, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
-        case .recreationForest:
-            placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.feature, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
-        case .tourSpot:
-            placeArray = [pinData.name, pinData.address,
-                          pinData.category, pinData.feature, pinData.infra,
-                          pinData.organization, pinData.telephoneNumber, pinData.homepage]
-//        case .marked:
-//            placeArray = [pinData.name, pinData.address,
-//                          pinData.category, pinData.feature, pinData.infra,
-//                          pinData.organization, pinData.telephoneNumber]
-        }
-        
-        return Observable<[String]>.just(placeArray)
+    // 장소 이름 얻기
+    func getPlaceName() -> Observable<String> {
+        return Observable<String>.just(self.itemViewModel.name)
+    }
+    
+    // TableView에 표시할 정보의 개수 얻기
+    func getNumberOfPlaceInfo() -> Int {
+        return self.infoArray.count
     }
     
     // Realm DB에 즐겨찾기 데이터 저장하기
     func addMyPlaceData() {
         let dataToAppend = MyPlace(
-            name: self.pinData.name,
-            category: self.pinData.category,
-            address: self.pinData.address,
-            latitude: self.pinData.lat!,
-            longitude: self.pinData.lon!,
-            infra: self.pinData.infra,
-            organization: self.pinData.organization,
+            name: self.itemViewModel.name,
+            category: self.itemViewModel.category,
+            address: self.itemViewModel.address,
+            latitude: self.itemViewModel.lat!,
+            longitude: self.itemViewModel.lon!,
+            infra: self.itemViewModel.infra,
+            organization: self.itemViewModel.organization,
             savedDate: "\(Date())"
         )
         RealmService.shared.create(dataToAppend)
@@ -156,7 +160,7 @@ final class PlaceInfoViewModel {
         guard self.myPlaceData.count != 0 else { return }
         
         for index in 0..<self.myPlaceData.count {
-            if self.pinData.name == self.myPlaceData[index].name {
+            if self.itemViewModel.name == self.myPlaceData[index].name {
                 RealmService.shared.delete(self.myPlaceData[index])
                 self.checkFaveButton.onNext(false)
             }
@@ -164,6 +168,20 @@ final class PlaceInfoViewModel {
         
         let indicatorView = SPIndicatorView(title: "즐겨찾기 삭제됨", preset: .done)
         indicatorView.present(duration: 2.0, haptic: .success)
+    }
+    
+}
+
+
+//MARK: - News View Model
+
+// 뉴스 아이템(셀) 하나하나에 대한 뷰모델
+final class PlaceInfoItemViewModel {
+    
+    let publicData: PublicData
+    
+    init(_ publicData: PublicData) {
+        self.publicData = publicData
     }
     
 }
