@@ -110,7 +110,9 @@ final class PlaceInfoViewModel {
                 itemViewModel.fee, itemViewModel.infra, itemViewModel.organization,
                 itemViewModel.telephoneNumber, itemViewModel.homepage,
             ]
-        //case .marked:
+        case .marked:
+            self.titleArray = []
+            self.infoArray = []
         }
     }
     
@@ -136,6 +138,7 @@ final class PlaceInfoViewModel {
         case .park: text = "유형: 공원"
         case .strollWay: text = "유형: 산책로"
         case .recreationForest: text = "유형: 자연휴양림"
+        case .marked: text = "유형: 즐겨찾기"
         }
         return Observable<String>.just(text)
     }

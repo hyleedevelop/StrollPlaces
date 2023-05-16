@@ -166,31 +166,31 @@ final class AddMyPlaceViewModel {
             let finalImage = UIGraphicsImageRenderer(size: size).image { _ in
                 mapImage.draw(at: .zero)
                 
-                // [CLLocationCoordinate2D] -> [CGPoint]
+                // 좌표가 2개 이상인 경우에만 경로 그리기
                 let coordinates = self.getTrackPointForPolyline()
+                guard coordinates.count > 1 else { return }
+                
+                // [CLLocationCoordinate2D] -> [CGPoint]
+                // (mapView에서의 좌표 -> 이미지에서의 좌표)
                 let points = coordinates.map { coordinate in
                     snapshot.point(for: coordinate)
                 }
-                
+
                 // bezier path로 경로 포인트 사이를 잇는 선 그리기
                 let path = UIBezierPath()
+                path.lineWidth = K.Map.routeLineWidth
                 path.lineCapStyle = .round
-                path.lineJoinStyle = .miter
-                
+                path.lineJoinStyle = .round
+
                 path.move(to: points[0])
-                for index in 0...points.count-1 {
-                    path.addLine(to: points[index])
-                    //path.move(to: points[index])
+                let rangeMin = 1  // 첫번째를 제외하고 시작
+                let rangeMax = (points.count/2) - 1  // points는 lat/lon 두가지가 들어있으므로 2로 나눠야 함
+                for i in rangeMin...rangeMax {
+                    path.addLine(to: points[i])
                 }
-                
-//                for point in points.dropFirst() {
-//                    path.addLine(to: point)
-//                    print(point)
-//                }
-                
+
                 // stroke 하기
-                K.Color.themeBrown.set()
-                path.lineWidth = K.Map.routeLineWidth * 0.5
+                K.Map.routeLineColor.withAlphaComponent(0.75).setStroke()
                 path.stroke()
             }
             

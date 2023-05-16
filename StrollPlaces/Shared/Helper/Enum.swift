@@ -12,10 +12,10 @@ enum Selection: Int {
 }
 
 enum InfoType: Int, CaseIterable {
-    //case marked
     case park
     case strollWay
     case recreationForest
+    case marked
 }
 
 enum MyPlaceSorting: Int {

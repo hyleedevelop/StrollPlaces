@@ -289,7 +289,7 @@ extension DetailInfoViewController: MKMapViewDelegate {
                     annotation: annotation,
                     reuseIdentifier: identifier
                 )
-                view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.red
+                view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.blue
                 view.canShowCallout = false
                 //view.image = UIImage(systemName: "star.fill")
             }
@@ -307,9 +307,9 @@ extension DetailInfoViewController: MKMapViewDelegate {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = K.Color.themeBrown
+        renderer.strokeColor = K.Map.routeLineColor
         renderer.lineWidth = K.Map.routeLineWidth
-        renderer.alpha = 1.0
+        renderer.alpha = K.Map.routeLineAlpha
         
         return renderer
     }

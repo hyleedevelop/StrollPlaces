@@ -461,8 +461,8 @@
 			children = (
 				07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */,
 				0799CCD229BF59C0006AB70D /* PublicData.swift */,
-				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
 				0760D51E29D32ED100796D73 /* MyPlaceData.swift */,
+				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
 				077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */,
 				07AFB59029C012A600DD1C34 /* MoreCellData.swift */,
 				0774AA8129D94C790048C781 /* Realm */,

@@ -18,12 +18,13 @@ struct K {
         static let themeBlack: UIColor = #colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.2039215686, alpha: 1)
         static let themeGray: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
         static let themeNavy: UIColor = #colorLiteral(red: 0.3005333543, green: 0.357681036, blue: 0.5561813116, alpha: 1)
-        static let themeYellow: UIColor = #colorLiteral(red: 0.9882352941, green: 0.9616177446, blue: 0.2040017992, alpha: 1)
+        static let themeYellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.6784313725, blue: 0.3058823529, alpha: 1)
         static let themePurple: UIColor = #colorLiteral(red: 0.4682491422, green: 0.3311958313, blue: 0.8449422717, alpha: 1)
         static let themeWhite: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         static let themeGreen: UIColor = #colorLiteral(red: 0.1647058824, green: 0.6549019608, blue: 0.4588235294, alpha: 1)
-        static let themeBrown: UIColor = #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1)
+        static let themeBrown: UIColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
         static let themeSky: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        static let themeRed: UIColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
         static let backgroundGray: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
         static let mainColor = K.Color.themeGreen
@@ -60,8 +61,10 @@ struct K {
     
         static let noDataMessage: String = "정보없음"
         
-        static let placeColor: UIColor = K.Color.themeSky
+        static let placeColor: UIColor = K.Color.themeBrown
         static let routeLineWidth: CGFloat = 4.0
+        static let routeLineColor: UIColor = K.Color.themeRed
+        static let routeLineAlpha: CGFloat = 0.75
     }
     
     // Theme CollectionView 관련

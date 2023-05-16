@@ -78,6 +78,20 @@ extension MapViewController: UICollectionViewDataSource,
         cell.backView.layer.borderWidth = 2.0
         cell.themeLabel.textColor = K.Color.themeBlack
         cell.themeIcon.tintColor = K.Color.themeBlack
+        
+        if indexPath.row == 3 {
+            // 알림 메세지 보여주기
+            let alert = UIAlertController(
+                title: nil,
+                message: "즐겨찾기 기능은\n추후 구현될 예정입니다.",
+                preferredStyle: .alert
+            )
+            self.present(alert, animated: true, completion: nil)
+            Timer.scheduledTimer(
+                withTimeInterval: 2.0, repeats: false,
+                block: { _ in alert.dismiss(animated: true) }
+            )
+        }
     }
     
     // 셀이 해제되었을 때 실행할 내용

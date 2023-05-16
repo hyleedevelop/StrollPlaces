@@ -107,7 +107,7 @@ final class SplashViewController: UIViewController {
     private func goToNextViewController() {
         // ✅ for debugging...
         // --------------------------------------------------------------
-        //self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
+        self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
         // --------------------------------------------------------------
         
         let hideOnboardingScreen = self.userDefaults.bool(forKey: "hideOnboardingScreen")

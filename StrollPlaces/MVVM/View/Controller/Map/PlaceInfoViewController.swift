@@ -42,9 +42,12 @@ class PlaceInfoViewController: UIViewController {
     private lazy var faveButton: FaveButton = {
         let button = FaveButton(
             frame: CGRect(x:0, y:0, width: 30, height: 30),
-            faveIconNormal: UIImage(systemName: "heart.fill")
+            faveIconNormal: UIImage(systemName: "star.fill")
         )
-        //button.selectedColor = UIColor.yellow
+        button.selectedColor = K.Color.themeYellow
+        button.dotFirstColor = K.Color.themeYellow
+        button.dotSecondColor = UIColor.orange
+        button.circleToColor = K.Color.themeYellow
         button.delegate = self
         return button
     }()
@@ -141,6 +144,7 @@ class PlaceInfoViewController: UIViewController {
     
     internal var viewModel: PlaceInfoViewModel!
     var isDetailActivated = false
+    var isFaveButtonActivated = BehaviorSubject<Bool>(value: false)
     
     internal let maxDimmedAlpha: CGFloat = 0.15  // 값이 0이면 투명 -> 탭 해도 dismiss가 일어나지 않음
     //internal let defaultHeight: CGFloat = 150 + (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0)
@@ -338,21 +342,33 @@ class PlaceInfoViewController: UIViewController {
 //            })
 //            .disposed(by: rx.disposeBag)
         
-//        self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
-//            .throttle(.seconds(2), scheduler: MainScheduler.instance)
-//            .subscribe(
-//                onNext: {
-//                    //if ... {
-//                    //    let indicatorView = SPIndicatorView(title: "즐겨찾기 해제", preset: .done)
-//                    //}
-//                    //let indicatorView = SPIndicatorView(title: "즐겨찾기 등록", preset: .done)
-//                    //indicatorView.present(duration: 2.0, haptic: .success)
-//                },
-//                onError: { _ in
-//                    //let indicatorView = SPIndicatorView(title: "즐겨찾기 등록 실패", preset: .error)
-//                    //indicatorView.present(duration: 2.0, haptic: .error)
-//                })
-//            .disposed(by: rx.disposeBag)
+        self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
+            //.debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe(
+                onNext: {
+                    // 알림 메세지 보여주기
+                    let alert = UIAlertController(
+                        title: nil,
+                        message: "즐겨찾기 기능은\n추후 구현될 예정입니다.",
+                        preferredStyle: .alert
+                    )
+                    self.present(alert, animated: true, completion: nil)
+                    Timer.scheduledTimer(
+                        withTimeInterval: 2.0, repeats: false,
+                        block: { _ in alert.dismiss(animated: true) }
+                    )
+                    
+                    //if ... {
+                    //    let indicatorView = SPIndicatorView(title: "즐겨찾기 해제", preset: .done)
+                    //}
+                    //let indicatorView = SPIndicatorView(title: "등록 완료", preset: .done)
+                    //indicatorView.present(duration: 2.0, haptic: .success)
+                },
+                onError: { _ in
+                    //let indicatorView = SPIndicatorView(title: "등록 실패", preset: .error)
+                    //indicatorView.present(duration: 2.0, haptic: .error)
+                })
+            .disposed(by: rx.disposeBag)
     }
     
     //MARK: - indirectly called method
@@ -418,6 +434,8 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
 //extension PlaceInfoViewController: FaveButtonDelegate {
 //
 //    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
+//        print("즐겨찾기 버튼 클릭됨...")
+//
 //        // Realm DB에 즐겨찾기 장소 저장 또는 삭제하기
 //        _ = selected ? self.viewModel.addMyPlaceData() : self.viewModel.removeMyPlaceData()
 //    }

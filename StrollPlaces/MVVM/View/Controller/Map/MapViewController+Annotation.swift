@@ -217,7 +217,7 @@ extension MapViewController: MKMapViewDelegate {
         
         let renderer = MKPolylineRenderer(overlay: overlay)
         
-        renderer.strokeColor = K.Color.themeBrown
+        renderer.strokeColor = K.Map.routeLineColor
         renderer.lineWidth = K.Map.routeLineWidth
         renderer.alpha = 1.0
         

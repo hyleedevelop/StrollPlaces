@@ -169,7 +169,7 @@ class AddMyPlaceViewController: UIViewController {
         self.routeInfoBackView.layer.shadowRadius = 3
         self.routeInfoBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
         self.routeInfoBackView.layer.shadowOpacity = 0.3
-        self.routeInfoBackView.layer.borderColor = K.Color.mainColor.cgColor
+        self.routeInfoBackView.layer.borderColor = UIColor.black.cgColor
         self.routeInfoBackView.layer.borderWidth = 1
     }
     
@@ -265,7 +265,7 @@ class AddMyPlaceViewController: UIViewController {
                     .map { self.checkTextFieldIsValid($0, self.featureField) },  // Bool
                 ratingObservable
                     .map { self.checkstarRatingIsValid(value: $0) },  // Bool
-                resultSelector: { s1, s2, s3, s4 in s1 && s2 && s3 && s4 })
+                resultSelector: { e1, e2, e3, e4 in e1 && e2 && e3 && e4 })
             .subscribe(onNext: { [weak self] isAvailable in
                 guard let self = self else { return }
                 self.saveButton.isEnabled = isAvailable
@@ -408,7 +408,7 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
                 annotation: annotation,
                 reuseIdentifier: identifier
             )
-            view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.red
+            view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.blue
             view.canShowCallout = false
         }
         
@@ -422,9 +422,9 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
         guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
         let renderer = MKPolylineRenderer(polyline: routeLine)
         
-        renderer.strokeColor = K.Color.themeBrown
+        renderer.strokeColor = K.Map.routeLineColor
         renderer.lineWidth = K.Map.routeLineWidth
-        renderer.alpha = 1.0
+        renderer.alpha = K.Map.routeLineAlpha
         
         return renderer
     }

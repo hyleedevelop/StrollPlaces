@@ -279,7 +279,7 @@ final class MapViewModel {
             ThemeCellData(icon: UIImage(named: "icons8-park-96")!, title: "공원"),
             ThemeCellData(icon: UIImage(named: "icons8-forest-path-64")!, title: "산책로"),
             ThemeCellData(icon: UIImage(named: "icons8-log-cabin-80")!, title: "자연휴양림"),
-            //ThemeCellData(icon: UIImage(systemName: "star.fill")!, title: "즐겨찾기"),
+            ThemeCellData(icon: UIImage(named: "icons8-star-96")!, title: "즐겨찾기"),
         ]
         self.themeCellViewModel = themeCell.compactMap(ThemeCellViewModel.init)
     }
