@@ -54,7 +54,7 @@ class PlaceInfoViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .left
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -69,16 +69,6 @@ class PlaceInfoViewController: UIViewController {
         button.layer.cornerRadius = 15
         button.clipsToBounds = true
         return button
-    }()
-    
-    public let typeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        label.textColor = UIColor.darkGray
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        return label
     }()
     
     public let distanceLabel: UILabel = {
@@ -102,11 +92,11 @@ class PlaceInfoViewController: UIViewController {
     }()
     
     private lazy var labelStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [typeLabel, distanceLabel, expectedTimeLabel])
+        let sv = UIStackView(arrangedSubviews: [distanceLabel, expectedTimeLabel])
         sv.axis = .horizontal
-        sv.spacing = 10
-        sv.alignment = .fill
-        sv.distribution = .equalCentering
+        sv.spacing = 20
+        sv.alignment = .leading
+        sv.distribution = .fillProportionally
         return sv
     }()
     
@@ -240,7 +230,7 @@ class PlaceInfoViewController: UIViewController {
         self.labelStackView.snp.makeConstraints {
             $0.top.equalTo(self.faveButton.snp.bottom).offset(20)
             $0.left.equalTo(self.containerView.safeAreaLayoutGuide).offset(K.Shape.horizontalSafeAreaOffset)
-            $0.right.equalTo(self.containerView.safeAreaLayoutGuide).offset(-K.Shape.horizontalSafeAreaOffset)
+            $0.width.greaterThanOrEqualTo(100)
             $0.height.equalTo(18)
 //            $0.width.equalTo(390)
         }
@@ -286,18 +276,12 @@ class PlaceInfoViewController: UIViewController {
     
     private func setupBinding() {
         let placeName = self.viewModel.getPlaceName().asDriver(onErrorJustReturn: "알수없음")
-        let placeType = self.viewModel.getPlaceType().asDriver(onErrorJustReturn: "알수없음")
         let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
         let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
         
         // 장소명
         placeName
             .drive(self.nameLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        // 장소유형
-        placeType
-            .drive(self.typeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         // 거리

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 import SafariServices
 import AcknowList
 import SPIndicator
@@ -80,12 +81,33 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         cell.accessoryType = .none
         cell.selectionStyle = .none
         
-        if indexPath.section == 2 {
+        switch MoreCellSection(rawValue: indexPath.section) {
+        case .appSettings:
+            if indexPath.row == 0 {
+                cell.descriptionLabel.text = self.viewModel.getLabelTextForMapType()
+            }
+            if indexPath.row == 1 {
+                cell.descriptionLabel.text = self.viewModel.getLabelTextForMapRadius()
+            }
+            
+        case .feedback:
+            if indexPath.row == 0 {
+                
+            }
+            if indexPath.row == 1 {
+                
+            }
+            
+        case .aboutTheApp:
             if indexPath.row == 4 {
                 cell.descriptionLabel.text = "\(self.viewModel.getCurrentAppVersion()) " +
-                                             "(\(self.viewModel.getCurrentBuildNumber()))"
+                "(\(self.viewModel.getCurrentBuildNumber()))"
             }
+            
+        case .none:
+            break
         }
+        
         return cell
     }
     
@@ -95,33 +117,19 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
-            if indexPath.row == 2 {
-                // 진짜로 취소할 것인지 alert message 보여주고 확인받기
-                let alert = UIAlertController(title: "확인",
-                                              message: "산책길 보관함을 초기화할까요?\n모든 산책길 데이터가 삭제됩니다.",
-                                              preferredStyle: .alert)
-                let cancelAction = UIAlertAction(title: "아니요", style: .default)
-                let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
-                    self.viewModel.clearRealmDB()
-                    
-                    let indicatorView = SPIndicatorView(title: "삭제 완료", preset: .done)
-                    indicatorView.present(duration: 2.0, haptic: .success)
-                    
-                    // Tab Bar 뱃지의 숫자 업데이트 알리기
-                    NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
-                    
-                    // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-                    self.userDefaults.set(false, forKey: "myPlaceExist")
-                    NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
-                }
-                alert.addAction(okAction)
-                alert.addAction(cancelAction)
-                
-                // 메세지 보여주기
-                self.present(alert, animated: true, completion: nil)
+            if indexPath.row == 0 {
+                self.present(self.viewModel.getActionForMapType(), animated: true, completion: nil)
             }
+            if indexPath.row == 1 {
+                self.present(self.viewModel.getActionForMapRadius(), animated: true, completion: nil)
+            }
+            if indexPath.row == 2 {
+                self.present(self.viewModel.getActionForDBRemoval(), animated: true, completion: nil)
+            }
+            
         case .feedback:
-            let _ = "nothing"
+            self.showWillBeUpdatedMessage()
+            
         case .aboutTheApp:
             if indexPath.row == 0 {
                 self.showSafariView(urlString: K.More.helpURL)
@@ -138,6 +146,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 3 {
                 self.showSafariView(urlString: K.More.termsAndConditionsURL)
             }
+            
         case .none:
             break
         }

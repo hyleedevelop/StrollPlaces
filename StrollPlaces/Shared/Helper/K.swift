@@ -9,9 +9,10 @@ import UIKit
 import CoreLocation
 
 struct K {
+    
     struct App {
         static let splashScreenTime: Double = 3
-        static let appName = "가벼운 발걸음"
+        static let appName = "가벼운발걸음"
     }
     
     struct Color {
@@ -19,12 +20,12 @@ struct K {
         static let themeGray: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
         static let themeNavy: UIColor = #colorLiteral(red: 0.3005333543, green: 0.357681036, blue: 0.5561813116, alpha: 1)
         static let themeYellow: UIColor = #colorLiteral(red: 0.9529411765, green: 0.6784313725, blue: 0.3058823529, alpha: 1)
-        static let themePurple: UIColor = #colorLiteral(red: 0.4682491422, green: 0.3311958313, blue: 0.8449422717, alpha: 1)
+        static let themePurple: UIColor = #colorLiteral(red: 0.6039215686, green: 0.3764705882, blue: 0.9254901961, alpha: 1)
         static let themeWhite: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         static let themeGreen: UIColor = #colorLiteral(red: 0.1647058824, green: 0.6549019608, blue: 0.4588235294, alpha: 1)
-        static let themeBrown: UIColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
+        static let themeBrown: UIColor = #colorLiteral(red: 0.6549019608, green: 0.4588235294, blue: 0.1647058824, alpha: 1)
         static let themeSky: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        static let themeRed: UIColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+        static let themeRed: UIColor = #colorLiteral(red: 0.9843137255, green: 0.4196078431, blue: 0.6156862745, alpha: 1)
         static let backgroundGray: UIColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         
         static let mainColor = K.Color.themeGreen
@@ -48,8 +49,8 @@ struct K {
     
     // Mapkit, CoreLocation 관련
     struct Map {
-        static let defaultLatitude: Double = 37.88604
-        static let defaultLongitude: Double = 127.7454
+        static let defaultLatitude: Double = 37.5
+        static let defaultLongitude: Double = 127.0
         static let southKoreaCenterLatitude: Double = 36.34
         static let southKoreaCenterLongitude: Double = 127.77
         
@@ -61,10 +62,10 @@ struct K {
     
         static let noDataMessage: String = "정보없음"
         
-        static let placeColor: UIColor = K.Color.themeBrown
+        static let placeColor: UIColor = K.Color.themeRed
         static let routeLineWidth: CGFloat = 4.0
-        static let routeLineColor: UIColor = K.Color.themeRed
-        static let routeLineAlpha: CGFloat = 0.75
+        static let routeLineColor: UIColor = K.Color.themeSky
+        static let routeLineAlpha: CGFloat = 1.0
     }
     
     // Theme CollectionView 관련
@@ -137,4 +138,5 @@ struct K {
         static let sorryTitle = "죄송합니다."
         static let notifyLaterUpdateMessage = "곧 업데이트 예정입니다."
     }
+    
 }

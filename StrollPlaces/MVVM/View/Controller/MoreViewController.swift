@@ -12,15 +12,12 @@ import SnapKit
 import SafariServices
 import AcknowList
 import MessageUI
-//import GoogleMobileAds
-//import StoreKit
 
-class MoreViewController: UIViewController {
+final class MoreViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
     @IBOutlet weak var tableView: UITableView!
-    //@IBOutlet weak var bannerView: GADBannerView!
     
     //MARK: - property
     
@@ -51,6 +48,10 @@ class MoreViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     //MARK: - directly called method
     
     // NavigationBar 설정
@@ -71,6 +72,14 @@ class MoreViewController: UIViewController {
         self.tableView.backgroundColor = UIColor.white
         self.tableView.separatorStyle = .none
         //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        
+        self.viewModel.shouldReloadTableView.asObservable()
+            .subscribe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] needToBeReloaded in
+                guard let self = self else { return }
+                if needToBeReloaded { self.tableView.reloadData() }
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     //MARK: - indirectly called method

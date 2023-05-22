@@ -66,7 +66,6 @@
 		0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */; };
 		0799CCEA29BF65A9006AB70D /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE929BF65A9006AB70D /* Map.swift */; };
 		0799CCEC29BF6E10006AB70D /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCEB29BF6E10006AB70D /* DataType.swift */; };
-		079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 079AF4EF29C74931006C365B /* strollingMan.jpeg */; };
 		079AF4F229C74C9D006C365B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* SplashViewController.swift */; };
 		07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */; };
 		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
@@ -82,7 +81,6 @@
 		07AC1EE429E415C9006BEA03 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDA29BF5A6F006AB70D /* K.swift */; };
 		07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */; };
 		07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59029C012A600DD1C34 /* MoreCellData.swift */; };
-		07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */; };
 		07B1DEB92A00DDF100A27F9F /* DetailInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */; };
 		07B1DEBB2A00FC5600A27F9F /* DetailInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */; };
 		07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B2E3E429D156D300210207 /* MoreTableViewCell.swift */; };
@@ -213,7 +211,6 @@
 		0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellViewModel.swift; sourceTree = "<group>"; };
 		0799CCE929BF65A9006AB70D /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		0799CCEB29BF6E10006AB70D /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
-		079AF4EF29C74931006C365B /* strollingMan.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = strollingMan.jpeg; sourceTree = "<group>"; };
 		079AF4F129C74C9D006C365B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -226,7 +223,6 @@
 		07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityService.swift; sourceTree = "<group>"; };
 		07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		07AFB59029C012A600DD1C34 /* MoreCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCellData.swift; sourceTree = "<group>"; };
-		07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingValues.swift; sourceTree = "<group>"; };
 		07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoViewController.swift; sourceTree = "<group>"; };
 		07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoViewModel.swift; sourceTree = "<group>"; };
 		07B2E3E429D156D300210207 /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -475,7 +471,6 @@
 			children = (
 				0799CCDA29BF5A6F006AB70D /* K.swift */,
 				072D5BB929C2E26A0024B938 /* Enum.swift */,
-				07AFB59229C024BD00DD1C34 /* AppSettingValues.swift */,
 				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
 				077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */,
 				078480FC29FB97DD00A3CDB3 /* Artwork.swift */,
@@ -515,7 +510,6 @@
 				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
 				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
 				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
-				079AF4EF29C74931006C365B /* strollingMan.jpeg */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -731,7 +725,6 @@
 				07C16D1F29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib in Resources */,
 				077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */,
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
-				079AF4F029C74931006C365B /* strollingMan.jpeg in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
 				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
@@ -952,7 +945,6 @@
 				07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
 				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,
-				07AFB59329C024BD00DD1C34 /* AppSettingValues.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				070FFB0029D56B4900987285 /* AlertService.swift in Sources */,
 				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
@@ -1165,7 +1157,7 @@
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "가벼운 발걸음";
+				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
@@ -1205,7 +1197,7 @@
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "가벼운 발걸음";
+				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";

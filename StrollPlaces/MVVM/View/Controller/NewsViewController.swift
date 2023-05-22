@@ -12,6 +12,7 @@ import SnapKit
 import NVActivityIndicatorView
 import SafariServices
 import ViewAnimator
+import Lottie
 
 final class NewsViewController: UIViewController {
 
@@ -77,13 +78,13 @@ final class NewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationBar()
-        setupTableView()
-        setupRefreshControl()
-        setupLoadingIndicator()
-        setupScrollToTopView()
+        self.setupNavigationBar()
+        self.setupTableView()
+        self.setupRefreshControl()
+        self.setupLoadingIndicator()
+        self.setupScrollToTopView()
         
-        fetchNews(searchKeyword: K.News.keyword)
+        self.fetchNews(searchKeyword: K.News.keyword)
     }
     
     override func viewWillAppear(_ animated: Bool) {

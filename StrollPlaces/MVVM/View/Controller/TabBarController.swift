@@ -62,6 +62,22 @@ final class TabBarController: UITabBarController {
         self.tabBar.items![2].badgeColor = K.Color.themeGreen
     }
     
+    private func showSpringAnimation(imageView: UIImageView) {
+        DispatchQueue.main.async {
+            UIView.animate(
+                withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut
+            ) {
+                imageView.transform = CGAffineTransform.init(scaleX: 1.25, y: 1.25)
+                
+                UIView.animate(
+                    withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut
+                ) {
+                    imageView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+        }
+    }
+    
 }
 
 //MARK: - extension for TransitionableTab
@@ -75,6 +91,13 @@ extension TabBarController: TransitionableTab {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
+        
+        guard let index = tabBar.items?.firstIndex(of: item),
+              tabBar.subviews.count > index + 1,
+              let imageView = tabBar.subviews[index + 1].subviews.compactMap({ $0 as? UIImageView }).first
+        else { return }
+        
+        self.showSpringAnimation(imageView: imageView)
     }
     
 }

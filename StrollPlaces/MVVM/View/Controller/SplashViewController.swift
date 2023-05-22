@@ -24,7 +24,7 @@ final class SplashViewController: UIViewController {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "상쾌한 하루를 위한"
+        label.text = "나를 위한 산책 앱"
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .center
         label.textColor = UIColor.white
@@ -107,7 +107,7 @@ final class SplashViewController: UIViewController {
     private func goToNextViewController() {
         // ✅ for debugging...
         // --------------------------------------------------------------
-        self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
+        //self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
         // --------------------------------------------------------------
         
         let hideOnboardingScreen = self.userDefaults.bool(forKey: "hideOnboardingScreen")

@@ -30,6 +30,7 @@ extension MapViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 추적 권한 허용됨")
             self.locationManager.startUpdatingLocation()
+            self.moveToCurrentLocation()
         case .restricted, .notDetermined:
             print("위치 추적 권한 미설정")
         case .denied:
@@ -107,8 +108,8 @@ extension MapViewController: MKMapViewDelegate {
         if self.isUserTrackingModeOn {
             self.mapView.centerToLocation(
                 location: self.currentLocation,
-                deltaLat: 0.3.km,
-                deltaLon: 0.3.km)
+                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+                deltaLon: self.userDefaults.double(forKey: "mapRadius").km)
         }
     }
     
@@ -167,8 +168,7 @@ extension MapViewController: MKMapViewDelegate {
             )
             
             // 경로 계산하여 예상 거리 및 소요시간 데이터 넘겨주기
-            self.fetchRoute(method: AppSettingValues.shared.navigationMode,
-                            pickupCoordinate: startLocation,
+            self.fetchRoute(pickupCoordinate: startLocation,
                             destinationCoordinate: endLocation,
                             draw: false) { distance, time in
                 placeInfoViewController.viewModel.distance = distance
@@ -192,8 +192,7 @@ extension MapViewController: MKMapViewDelegate {
                 .subscribe(
                     onNext: {[weak self] in
                         guard let self = self else { return }
-                        self.fetchRoute(method: AppSettingValues.shared.navigationMode,
-                                        pickupCoordinate: startLocation,
+                        self.fetchRoute(pickupCoordinate: startLocation,
                                         destinationCoordinate: endLocation,
                                         draw: true) { _, _ in }
                         placeInfoViewController.animateDismissView()

@@ -26,10 +26,10 @@
                         <viewLayoutGuide key="safeArea" id="GUQ-8K-c6c"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="GUQ-8K-c6c" firstAttribute="bottom" secondItem="WbR-R0-frl" secondAttribute="bottom" id="06W-gk-I4U"/>
                             <constraint firstItem="WbR-R0-frl" firstAttribute="leading" secondItem="GUQ-8K-c6c" secondAttribute="leading" id="NtN-sZ-hSU"/>
+                            <constraint firstItem="GUQ-8K-c6c" firstAttribute="bottom" secondItem="WbR-R0-frl" secondAttribute="bottom" id="Tpx-xV-bRE"/>
                             <constraint firstItem="GUQ-8K-c6c" firstAttribute="trailing" secondItem="WbR-R0-frl" secondAttribute="trailing" id="aLy-Ph-SjX"/>
-                            <constraint firstItem="WbR-R0-frl" firstAttribute="top" secondItem="GUQ-8K-c6c" secondAttribute="top" id="sKH-aJ-AgB"/>
+                            <constraint firstItem="WbR-R0-frl" firstAttribute="top" secondItem="GUQ-8K-c6c" secondAttribute="top" id="sAo-IY-TKi"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>

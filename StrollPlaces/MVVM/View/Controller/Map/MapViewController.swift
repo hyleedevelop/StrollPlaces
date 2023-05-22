@@ -85,6 +85,7 @@ final class MapViewController: UIViewController {
     //MARK: - normal property
     
     internal let viewModel = MapViewModel()
+    internal let userDefaults = UserDefaults.standard
     
     internal lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -152,6 +153,14 @@ final class MapViewController: UIViewController {
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-35)
             $0.width.height.equalTo(45)
         }
+        
+        self.mapView.mapType = MKMapType(rawValue: UInt(self.userDefaults.integer(forKey: "mapType")))!
+        
+//        self.mapView.centerToLocation(
+//            location: self.currentLocation,
+//            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+//            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+//        )
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -159,6 +168,10 @@ final class MapViewController: UIViewController {
         self.locationManager.stopUpdatingLocation()
         
         self.menuButton.removeFromSuperview()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - directly called method
@@ -188,9 +201,10 @@ final class MapViewController: UIViewController {
         self.mapView.showsCompass = false
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(.follow, animated: true)
+        self.mapView.mapType = MKMapType(rawValue: UInt(self.userDefaults.integer(forKey: "mapType")))!
         
-//        self.locationManager.showsBackgroundLocationIndicator = true
-//        self.locationManager.allowsBackgroundLocationUpdates = true
+        //self.locationManager.showsBackgroundLocationIndicator = true
+        //self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.startUpdatingLocation()
         
         // 카메라 줌아웃 제한 설정
@@ -198,19 +212,33 @@ final class MapViewController: UIViewController {
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // 지도 영역 제한 설정
-        let region = MKCoordinateRegion(
-            center: K.Map.southKoreaCenterLocation.coordinate,
-            latitudinalMeters: 750.km,
-            longitudinalMeters: 750.km
-        )
-        self.mapView.setCameraBoundary(
-            MKMapView.CameraBoundary(coordinateRegion: region), animated: false
-        )
+//        let region = MKCoordinateRegion(
+//            center: K.Map.southKoreaCenterLocation.coordinate,
+//            latitudinalMeters: 750.km,
+//            longitudinalMeters: 750.km
+//        )
+//        self.mapView.setCameraBoundary(
+//            MKMapView.CameraBoundary(coordinateRegion: region), animated: false
+//        )
+        
+        // 기본 지도 표시 범위 = 500 m
+        if self.userDefaults.double(forKey: "mapRadius") == 0.0 {
+            self.userDefaults.set(0.5, forKey: "mapRadius")
+            self.mapView.centerToLocation(
+                location: self.currentLocation,
+                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+                deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+            )
+        }
+        
+        // Tap Gesture 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mapViewTapped))
+        self.mapView.addGestureRecognizer(tapGesture)
     }
     
     // CollectionView 설정
     private func setupCollectionView() {
-        self.mapView.addSubview(self.themeButtonCollectionView)
+        self.view.addSubview(self.themeButtonCollectionView)
         
         self.themeButtonCollectionView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(5)
@@ -245,8 +273,8 @@ final class MapViewController: UIViewController {
             guard let self = self else { return }
             self.mapView.centerToLocation(
                 location: self.currentLocation,
-                deltaLat: 0.5.km,
-                deltaLon: 0.5.km
+                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+                deltaLon: self.userDefaults.double(forKey: "mapRadius").km
             )
         }
         self.menuButton.addItem(
@@ -289,6 +317,29 @@ final class MapViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
+//    // Notification을 받았을 때 수행할 내용 설정
+//    private func setupNotificationObserver() {
+//        NotificationCenter.default.addObserver(
+//            self, selector: #selector(self.setupMapRadius),
+//            name: Notification.Name("mapRadius"), object: nil
+//        )
+//    }
+//
+//    @objc private func setupMapRadius() {
+//        self.mapView.centerToLocation(
+//            location: self.currentLocation,
+//            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+//            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+//        )
+//    }
+    
+    @objc private func mapViewTapped() {
+        // 기존에 경로를 표시하고 있었다면 제거
+        if !self.mapView.overlays.isEmpty {
+            self.mapView.removeOverlays(self.mapView.overlays)
+        }
+    }
+    
     //MARK: - indirectly called method
     
     // 현재 사용자의 위치로 지도 이동
@@ -299,8 +350,8 @@ final class MapViewController: UIViewController {
                          ?? K.Map.defaultLongitude) as Double
         self.mapView.centerToLocation(
             location: CLLocation(latitude: latitude, longitude: longitude),
-            deltaLat: 1.0.km,
-            deltaLon: 1.0.km
+            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
         )
     }
     
@@ -338,12 +389,12 @@ final class MapViewController: UIViewController {
     }
     
     // 지도에 경로 표시하기
-    internal func fetchRoute(method: MKDirectionsTransportType,
-                             pickupCoordinate: CLLocationCoordinate2D,
-                             destinationCoordinate: CLLocationCoordinate2D,
-                             draw: Bool,
-                             completion: @escaping ((Double, Double) -> Void)) {
-        
+    internal func fetchRoute(
+        pickupCoordinate: CLLocationCoordinate2D,
+        destinationCoordinate: CLLocationCoordinate2D,
+        draw: Bool,
+        completion: @escaping ((Double, Double) -> Void)
+    ) {
         let request = MKDirections.Request()
         request.source = MKMapItem(
             placemark: MKPlacemark(coordinate: pickupCoordinate, addressDictionary: nil)
@@ -352,14 +403,11 @@ final class MapViewController: UIViewController {
             placemark: MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
         )
         request.requestsAlternateRoutes = true
-        request.transportType = method
+        request.transportType = .automobile
         
         let directions = MKDirections(request: request)
         directions.calculate { [unowned self] response, error in
-            //guard let self = self else { return }
             guard let response = response else { return }
-            
-            //self.mapView.removeOverlays(self.mapView.overlays)
             
             // 단일 루트 얻기
             if let route = response.routes.first {
@@ -375,27 +423,10 @@ final class MapViewController: UIViewController {
                     
                     // 경로 그리기
                     self.mapView.addOverlay(route.polyline)
-
-                    // 출발(사용자의 현재 위치) 및 도착(해당 장소) 지점 표시하기
-                    let startAnnotation = Artwork(
-                        title: "출발",
-                        coordinate: pickupCoordinate
-                    )
-                    let endAnnotation = Artwork(
-                        title: "도착",
-                        coordinate: destinationCoordinate
-                    )
-                    
-                    self.mapView.addAnnotation(startAnnotation)
-                    self.mapView.addAnnotation(endAnnotation)
-
                 } else {  // 단순히 route 정보만 필요한 경우
                     completion(route.distance, route.expectedTravelTime)
                 }
             }
-            
-            //if you want to show multiple routes then you can get all routes in a loop in the following statement
-            //for route in unwrappedResponse.routes {}
         }
     }
     

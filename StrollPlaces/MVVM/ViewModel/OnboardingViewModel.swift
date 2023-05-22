@@ -17,15 +17,15 @@ final class OnboardingViewModel {
     
     init() {
         self.slide = [
-            OnboardingData(title: "내 주변의 산책할만한 장소 찾기",
-                           description: "전국 1만 7천개 이상의\n산책할만한 장소를 찾아볼 수 있습니다.",
-                           image: UIImage(imageLiteralResourceName: "demure-young-woman-walking")),
-            OnboardingData(title: "산책길 관련 소식 보기",
-                           description: "국내 산책길과 관련된 뉴스 기사들을\n한번에 확인할 수 있습니다.",
-                           image: UIImage(imageLiteralResourceName: "demure-young-woman-walking")),
-            OnboardingData(title: "나만의 산책길 만들어서 보관하기",
-                           description: "기존에는 없던 나만의 산책길을\n새롭게 만들어 저장할 수 있습니다.",
-                           image: UIImage(imageLiteralResourceName: "demure-young-woman-walking")),
+            OnboardingData(title: "가볍게 산책할만한 장소 찾기",
+                           description: "전국 약 17,000곳 이상의\n가볍게 산책하기 좋은 장소를 찾아보세요!",
+                           image: UIImage(imageLiteralResourceName: "onboarding_image_1")),
+            OnboardingData(title: "산책길 관련 소식 모아보기",
+                           description: "산책길과 관련된 다양한 소식을\n뉴스 기사를 통해 확인해보세요!",
+                           image: UIImage(imageLiteralResourceName: "onboarding_image_2")),
+            OnboardingData(title: "나만의 산책길 만들기",
+                           description: "기존에는 없던 나만의 산책길을\n직접 걸으면서 새롭게 만들어보세요!",
+                           image: UIImage(imageLiteralResourceName: "onboarding_image_3")),
         ]
     }
     

@@ -408,7 +408,7 @@ extension AddMyPlaceViewController: MKMapViewDelegate {
                 annotation: annotation,
                 reuseIdentifier: identifier
             )
-            view.markerTintColor = annotation.title == "출발" ? UIColor.green : UIColor.blue
+            view.markerTintColor = annotation.title == "출발" ? K.Color.themeRed : K.Color.themeGreen
             view.canShowCallout = false
         }
         

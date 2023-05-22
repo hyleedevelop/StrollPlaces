@@ -18,17 +18,9 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     //MARK: - initialize
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.setupImage()
     }
     
     //MARK: - directly called method
-    
-    
-    
-    private func setupImage() {
-        
-    }
     
     func setup(_ slide: OnboardingData) {
         self.slideImage.image = slide.image
