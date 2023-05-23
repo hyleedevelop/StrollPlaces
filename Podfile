@@ -6,21 +6,14 @@ target 'StrollPlaces' do
   use_frameworks!
 
   # Pods for StrollPlaces
-  pod 'AcknowList'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
   pod 'NSObject+Rx'
   pod 'RealmSwift'
   pod 'SnapKit'
-  #pod 'FirebaseAnalytics'
-  #pod 'FirebaseCrashlytics'
-  #pod 'FirebasePerformance'
-  #pod 'Google-Mobile-Ads-SDK'
   pod 'NVActivityIndicatorView'
   pod 'Cluster'
-  #pod 'PopOverMenu', '~> 3.0'
-  #pod 'DropDown'
   pod 'ViewAnimator'
   pod 'SPIndicator'
   pod 'lottie-ios'
@@ -30,9 +23,16 @@ target 'StrollPlaces' do
   pod 'FaveButton'
   pod 'Hero'
   pod 'Cosmos', '~> 23.0'
-  pod 'SettingsIconGenerator'
-  pod 'IVBezierPathRenderer'
   pod 'Floaty', '~> 4.2.0'
+  #pod 'AcknowList'
+  #pod 'FirebaseAnalytics'
+  #pod 'FirebaseCrashlytics'
+  #pod 'FirebasePerformance'
+  #pod 'Google-Mobile-Ads-SDK'
+  #pod 'PopOverMenu', '~> 3.0'
+  #pod 'DropDown'
+  #pod 'SettingsIconGenerator'
+  #pod 'IVBezierPathRenderer'
   
   target 'StrollPlacesTests' do
     inherit! :search_paths

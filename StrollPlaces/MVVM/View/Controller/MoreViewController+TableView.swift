@@ -8,7 +8,6 @@
 import UIKit
 import MapKit
 import SafariServices
-import AcknowList
 import SPIndicator
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
@@ -99,7 +98,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         case .aboutTheApp:
-            if indexPath.row == 4 {
+            if indexPath.row == 3 {
                 cell.descriptionLabel.text = "\(self.viewModel.getCurrentAppVersion()) " +
                 "(\(self.viewModel.getCurrentBuildNumber()))"
             }
@@ -135,15 +134,9 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 self.showSafariView(urlString: K.More.helpURL)
             }
             if indexPath.row == 1 {
-                //let acknowListViewController =
-                //AcknowListViewController(fileNamed: "Pods-CryptoSimulator-acknowledgements")
-                //navigationController?.pushViewController(acknowListViewController, animated: true)
-                self.showWillBeUpdatedMessage()
-            }
-            if indexPath.row == 2 {
                 self.showSafariView(urlString: K.More.privacyPolicyURL)
             }
-            if indexPath.row == 3 {
+            if indexPath.row == 2 {
                 self.showSafariView(urlString: K.More.termsAndConditionsURL)
             }
             

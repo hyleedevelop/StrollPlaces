@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import SafariServices
-import AcknowList
 import MessageUI
 
 final class MoreViewController: UIViewController {

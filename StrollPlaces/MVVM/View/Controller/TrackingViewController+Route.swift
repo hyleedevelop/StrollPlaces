@@ -8,7 +8,6 @@
 import UIKit
 import CoreLocation
 import MapKit
-import IVBezierPathRenderer
 
 //MARK: - extension for CLLocationManagerDelegate
 

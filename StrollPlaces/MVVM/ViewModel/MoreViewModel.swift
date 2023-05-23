@@ -39,7 +39,6 @@ final class MoreViewModel {
         
         aboutTheApp = [
             MoreCellData(title: "도움말", value: nil),
-            MoreCellData(title: "라이브러리", value: nil),
             MoreCellData(title: "개인정보 정책", value: nil),
             MoreCellData(title: "이용약관", value: nil),
             MoreCellData(title: "버전", value: nil),

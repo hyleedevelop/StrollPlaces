@@ -84,12 +84,16 @@ extension MapViewController: MKMapViewDelegate {
         } else {
             let identifier = "Pin"
             let annotationView = mapView.annotationView(
+            //    of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
                 of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
             )
             
             annotationView.canShowCallout = true
             annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
             annotationView.pinTintColor = K.Map.placeColor
+            //annotationView.image = UIImage(imageLiteralResourceName: "TabBarIcon1")
+            //annotationView.markerTintColor = K.Map.placeColor
+            //annotationView.glyphImage = UIImage(imageLiteralResourceName: "pin")
             return annotationView
             
         }

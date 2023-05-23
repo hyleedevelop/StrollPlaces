@@ -50,7 +50,6 @@
 		0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC9729BF584B006AB70D /* SceneDelegate.swift */; };
 		0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0799CC9B29BF584B006AB70D /* Main.storyboard */; };
 		0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0799CC9E29BF584C006AB70D /* Assets.xcassets */; };
-		0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */; };
 		0799CCAD29BF584C006AB70D /* StrollPlacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCAC29BF584C006AB70D /* StrollPlacesTests.swift */; };
 		0799CCB729BF584C006AB70D /* StrollPlacesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCB629BF584C006AB70D /* StrollPlacesUITests.swift */; };
 		0799CCB929BF584C006AB70D /* StrollPlacesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCB829BF584C006AB70D /* StrollPlacesUITestsLaunchTests.swift */; };
@@ -192,7 +191,6 @@
 		0799CC9729BF584B006AB70D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0799CC9C29BF584B006AB70D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0799CC9E29BF584C006AB70D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0799CCA129BF584C006AB70D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0799CCA329BF584C006AB70D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0799CCA829BF584C006AB70D /* StrollPlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StrollPlacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0799CCAC29BF584C006AB70D /* StrollPlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrollPlacesTests.swift; sourceTree = "<group>"; };
@@ -499,7 +497,6 @@
 		079AF4EC29C74683006C365B /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */,
 				0799CC9B29BF584B006AB70D /* Main.storyboard */,
 				07BAE44229CBE70A0048CE89 /* MapTab.storyboard */,
 				07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */,
@@ -721,7 +718,6 @@
 				07E8A8762A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv in Resources */,
 				07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */,
 				0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */,
-				0799CCA229BF584C006AB70D /* LaunchScreen.storyboard in Resources */,
 				07C16D1F29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib in Resources */,
 				077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */,
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
@@ -1019,14 +1015,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		0799CCA029BF584C006AB70D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0799CCA129BF584C006AB70D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1159,10 +1147,12 @@
 				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 허용 권한이 필요합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 접근 허용 권한이 필요합니다.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -1199,10 +1189,12 @@
 				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치정보를 사용하려고 합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 허용 권한이 필요합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 접근 허용 권한이 필요합니다.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

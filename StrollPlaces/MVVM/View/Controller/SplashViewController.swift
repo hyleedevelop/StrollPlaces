@@ -24,7 +24,7 @@ final class SplashViewController: UIViewController {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "나를 위한 산책 앱"
+        label.text = "나만을 위한 산책 앱"
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .center
         label.textColor = UIColor.white

@@ -1,5 +1,4 @@
 PODS:
-  - AcknowList (3.0.0)
   - Cluster (3.0.3)
   - Cosmos (23.0.0)
   - Differentiator (5.0.0)
@@ -7,7 +6,6 @@ PODS:
   - Floaty (4.2.0)
   - Hero (1.6.2)
   - IQKeyboardManagerSwift (6.5.10)
-  - IVBezierPathRenderer (0.1.1)
   - lottie-ios (4.1.3)
   - "NSObject+Rx (5.2.2)":
     - RxSwift (~> 6.2)
@@ -29,7 +27,6 @@ PODS:
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
-  - SettingsIconGenerator (1.0.2)
   - SkyFloatingLabelTextField (3.8.0)
   - SnapKit (5.6.0)
   - SPIndicator (1.6.4)
@@ -37,14 +34,12 @@ PODS:
   - ViewAnimator (3.1.0)
 
 DEPENDENCIES:
-  - AcknowList
   - Cluster
   - Cosmos (~> 23.0)
   - FaveButton
   - Floaty (~> 4.2.0)
   - Hero
   - IQKeyboardManagerSwift (= 6.5.10)
-  - IVBezierPathRenderer
   - lottie-ios
   - "NSObject+Rx"
   - NVActivityIndicatorView
@@ -52,7 +47,6 @@ DEPENDENCIES:
   - RxCocoa
   - RxDataSources
   - RxSwift
-  - SettingsIconGenerator
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
   - SPIndicator
@@ -61,7 +55,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AcknowList
     - Cluster
     - Cosmos
     - Differentiator
@@ -69,7 +62,6 @@ SPEC REPOS:
     - Floaty
     - Hero
     - IQKeyboardManagerSwift
-    - IVBezierPathRenderer
     - lottie-ios
     - "NSObject+Rx"
     - NVActivityIndicatorView
@@ -79,7 +71,6 @@ SPEC REPOS:
     - RxDataSources
     - RxRelay
     - RxSwift
-    - SettingsIconGenerator
     - SkyFloatingLabelTextField
     - SnapKit
     - SPIndicator
@@ -87,7 +78,6 @@ SPEC REPOS:
     - ViewAnimator
 
 SPEC CHECKSUMS:
-  AcknowList: 931531a3e9d66f202ae8e04819a62c50b818b03e
   Cluster: d72510594f60d901905953aafdc811d1888177ae
   Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
@@ -95,7 +85,6 @@ SPEC CHECKSUMS:
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   Hero: c69009dbc9e2f0472e081adc644dba05fcedae72
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
-  IVBezierPathRenderer: bdc981ad18bb3acb2c9fce0120ecfe9d30e20172
   lottie-ios: d0954d3150061f662ed0adf96ef98d7421864c47
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
@@ -105,13 +94,12 @@ SPEC CHECKSUMS:
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
-  SettingsIconGenerator: a991f0a0bc5de6696164150dac012bc64ebbfc76
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
   TransitionableTab: 54a5d0af475033bdb83959fde4e5d6201af7e2ab
   ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
 
-PODFILE CHECKSUM: d7786d3355bde62c70c0e8772894c4d2487a561c
+PODFILE CHECKSUM: 3641ccd761022cad6896b9deb1966869c55f6feb
 
 COCOAPODS: 1.11.3
