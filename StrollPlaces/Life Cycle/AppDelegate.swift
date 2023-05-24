@@ -7,6 +7,8 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import FirebaseCore
+import AppTrackingTransparency
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +31,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
 //        }
         //Thread.sleep(forTimeInterval: 2)
+        
+        // 앱 추적 권한 허용 요청
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .authorized:
+                    print("status = authorized")
+                case .denied:
+                    print("status = denied")
+                case .notDetermined:
+                    print("status = notDetermined")
+                case .restricted:
+                    print("status = restricted")
+                @unknown default:
+                    print("status = default")
+                }
+            }
+        }
+        
+        // Firebase 초기화
+        FirebaseApp.configure()
         
         return true
     }

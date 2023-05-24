@@ -127,7 +127,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         case .feedback:
-            self.showWillBeUpdatedMessage()
+            if indexPath.row == 0 {
+                self.showWillBeUpdatedMessage()
+            }
+            if indexPath.row == 1 {
+                self.contactMenuTapped()
+            }
             
         case .aboutTheApp:
             if indexPath.row == 0 {

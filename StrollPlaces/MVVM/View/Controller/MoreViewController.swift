@@ -105,7 +105,7 @@ final class MoreViewController: UIViewController {
 
 extension MoreViewController: MFMailComposeViewControllerDelegate {
 
-    private func contactMenuTapped() {
+    internal func contactMenuTapped() {
         if MFMailComposeViewController.canSendMail() {
             // 앱 이름 저장
             var appName: String? {

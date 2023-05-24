@@ -41,6 +41,7 @@
 		0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */; };
 		0780E72129C7F99E0030026F /* PlaceInfoViewController+Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */; };
 		078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078480FC29FB97DD00A3CDB3 /* Artwork.swift */; };
+		0785ED3D2A1DA1370018D247 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */; };
 		07866FA029E7E4180001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
 		07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
 		0790A42429D83161008C3923 /* TrackPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42329D83161008C3923 /* TrackPoint.swift */; };
@@ -182,6 +183,7 @@
 		0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PlaceInfoViewController+Modal.swift"; path = "Map/PlaceInfoViewController+Modal.swift"; sourceTree = "<group>"; };
 		078480FC29FB97DD00A3CDB3 /* Artwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
+		0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAttributes.swift; sourceTree = "<group>"; };
 		0790A42329D83161008C3923 /* TrackPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPoint.swift; sourceTree = "<group>"; };
 		0790A42529D83208008C3923 /* TrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackData.swift; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 			isa = PBXGroup;
 			children = (
 				0799CCA329BF584C006AB70D /* Info.plist */,
+				0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */,
 				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
 				07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */,
 				07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */,
@@ -589,6 +592,7 @@
 				0799CC9029BF584B006AB70D /* Resources */,
 				4DF3F305FB9B617114A5E612 /* [CP] Embed Pods Frameworks */,
 				07AC1EBF29E3D3EC006BEA03 /* Embed Foundation Extensions */,
+				0785ED3E2A1DA3ED0018D247 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -717,6 +721,7 @@
 			files = (
 				07E8A8762A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv in Resources */,
 				07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */,
+				0785ED3D2A1DA1370018D247 /* GoogleService-Info.plist in Resources */,
 				0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */,
 				07C16D1F29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib in Resources */,
 				077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */,
@@ -757,6 +762,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0785ED3E2A1DA3ED0018D247 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp ${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist -p ios ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\nfi\n";
+		};
 		4DF3F305FB9B617114A5E612 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1141,7 +1163,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
@@ -1183,7 +1206,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;

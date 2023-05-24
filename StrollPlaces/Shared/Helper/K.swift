@@ -127,7 +127,7 @@ struct K {
         static let aboutTheAppTitle = "앱 정보"
         
         static let helpURL =
-        "https://hyleenote.notion.site/Crypto-Calculator-5f6ae38726dd400c8b3a91a24da06795"
+        "https://hyleenote.notion.site/dd57dfa77b9d43b38e9dfea52e2bbd18"
         static let privacyPolicyURL =
         "https://hyleenote.notion.site/Privacy-Policy-98bd35e6626c4accbd609616553b071e"
         static let termsAndConditionsURL =

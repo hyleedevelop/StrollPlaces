@@ -130,7 +130,9 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.getLocationUsagePermission()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.getLocationUsagePermission()
+        }
         self.setupRealm()
         
         self.setupNavigationBar()
