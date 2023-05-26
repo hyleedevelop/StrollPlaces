@@ -319,12 +319,12 @@ class PlaceInfoViewController: UIViewController {
         // -> MapViewController+Annotation.swift에 구현되어 있음
         
         // "즐겨찾기 등록" 버튼을 눌렀을 때 실행할 이벤트
-//        self.viewModel.checkFaveButton
-//            .subscribe(onNext: { [weak self] isChecked in
-//                guard let self = self else { return }
-//                self.faveButton.isSelected = isChecked
-//            })
-//            .disposed(by: rx.disposeBag)
+        self.viewModel.checkFaveButton
+            .subscribe(onNext: { [weak self] isChecked in
+                guard let self = self else { return }
+                self.faveButton.isSelected = isChecked
+            })
+            .disposed(by: rx.disposeBag)
         
         self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
             //.debounce(.seconds(1), scheduler: MainScheduler.instance)

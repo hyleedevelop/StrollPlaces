@@ -157,9 +157,10 @@ extension MapViewController: MKMapViewDelegate {
             )
             
             // 데이터 보내기 (1): MapVC -> MapVM
+            print(pin.index ?? 0)
             self.viewModel.pinData = self.dataArray[pin.index]
             let placeInfoViewController = PlaceInfoViewController()
-            placeInfoViewController.viewModel = self.viewModel.sendPinData()
+            placeInfoViewController.viewModel = self.viewModel.sendPinData(pinNumber: pin.index ?? 0)
             
             // 현재 사용자의 위치와 핀의 위치 가져오기
             let startLocation = CLLocationCoordinate2D(

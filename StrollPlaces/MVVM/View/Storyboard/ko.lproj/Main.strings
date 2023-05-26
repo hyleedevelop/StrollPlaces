@@ -1,0 +1,27 @@
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "6BV-xt-53O"; */
+"6BV-xt-53O.title" = "Item";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "8nP-rc-xhe"; */
+"8nP-rc-xhe.title" = "Item";
+
+/* Class = "UIButton"; configuration.title = "다음"; ObjectID = "E6d-Mb-a7t"; */
+"E6d-Mb-a7t.configuration.title" = "다음";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "E6d-Mb-a7t"; */
+"E6d-Mb-a7t.normalTitle" = "Button";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "EvA-Jw-pAz"; */
+"EvA-Jw-pAz.title" = "Item";
+
+/* Class = "UILabel"; text = "설명"; ObjectID = "eTJ-Xa-pjP"; */
+"eTJ-Xa-pjP.text" = "설명";
+
+/* Class = "UILabel"; text = "제목"; ObjectID = "fZf-ZI-MOO"; */
+"fZf-ZI-MOO.text" = "제목";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "pVW-sb-mFv"; */
+"pVW-sb-mFv.title" = "Item";
+
+/* Class = "UIButton"; configuration.title = " 다음부터 보지 않기"; ObjectID = "uxj-pI-F5F"; */
+"uxj-pI-F5F.configuration.title" = " 다음부터 보지 않기";

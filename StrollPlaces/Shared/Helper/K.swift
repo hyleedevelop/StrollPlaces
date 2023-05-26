@@ -129,9 +129,9 @@ struct K {
         static let helpURL =
         "https://hyleenote.notion.site/dd57dfa77b9d43b38e9dfea52e2bbd18"
         static let privacyPolicyURL =
-        "https://hyleenote.notion.site/Privacy-Policy-98bd35e6626c4accbd609616553b071e"
+        "https://hyleenote.notion.site/f0331caedd05495698fdd865a470924d"
         static let termsAndConditionsURL =
-        "https://hyleenote.notion.site/Terms-Conditions-037cf1cf478f4925bdc69f5404091242"
+        "https://hyleenote.notion.site/4633e439fb704888952f9233840f2461"
         static let writeReviewURL =
         "https://apps.apple.com/app/id1668703292?action=write-review"
         

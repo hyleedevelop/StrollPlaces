@@ -14,42 +14,18 @@ final class MyPlace: Object {  // Object 상속 필수 ⭐️
     
     @Persisted(primaryKey: true) var _id: ObjectId
     
-    @Persisted var name: String
-    @Persisted var category: String
-    @Persisted var address: String
-    @Persisted var latitude: Double
-    @Persisted var longitude: Double
-    @Persisted var infra: String
-    @Persisted var organization: String
-    @Persisted var savedDate: String
+    @Persisted var pinNumber: Int
+    @Persisted var saveDate: String
     
     //MARK: - initializer
     
     convenience init(
-        name: String,
-        category: String,
-        address: String,
-        latitude: Double,
-        longitude: Double,
-        infra: String,
-        organization: String,
-        savedDate: String
+        pinNumber: Int,
+        saveDate: String
     ) {
         self.init()
-        self.name = name
-        self.category = category
-        self.address = address
-        self.latitude = latitude
-        self.longitude = longitude
-        self.infra = infra
-        self.organization = organization
-        self.savedDate = savedDate
+        self.pinNumber = pinNumber
+        self.saveDate = saveDate
     }
-    
-    //MARK: - directly called method
-    
-//    func appendMyPlace(point: TrackPoint) {
-//        self.points.append(point)
-//    }
     
 }

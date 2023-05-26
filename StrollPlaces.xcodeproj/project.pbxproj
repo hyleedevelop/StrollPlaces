@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0709557529D2B29200068C91 /* MyPlaceHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */; };
 		0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */; };
 		070FFB0029D56B4900987285 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FFAFF29D56B4900987285 /* AlertService.swift */; };
 		070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */; };
@@ -149,7 +148,6 @@
 
 /* Begin PBXFileReference section */
 		06DC4CC2BC10739BAF3EB5C9 /* Pods-StrollPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StrollPlaces.release.xcconfig"; path = "Target Support Files/Pods-StrollPlaces/Pods-StrollPlaces.release.xcconfig"; sourceTree = "<group>"; };
-		0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceHelpViewController.swift; sourceTree = "<group>"; };
 		0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewController.swift; sourceTree = "<group>"; };
 		070FFAFF29D56B4900987285 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackingViewController+Route.swift"; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 		0799CC9729BF584B006AB70D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0799CC9C29BF584B006AB70D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0799CC9E29BF584C006AB70D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0799CCA329BF584C006AB70D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0799CCA829BF584C006AB70D /* StrollPlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StrollPlacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0799CCAC29BF584C006AB70D /* StrollPlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrollPlacesTests.swift; sourceTree = "<group>"; };
 		0799CCB229BF584C006AB70D /* StrollPlacesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StrollPlacesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,7 +231,9 @@
 		07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoreTab.storyboard; sourceTree = "<group>"; };
 		07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewModel.swift; sourceTree = "<group>"; };
 		07D01A2129E65AAC00FE85D4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
+		07D890A22A1F94AD00EC7323 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		07E35C492A0BDFA00087A14C /* MyPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlace.swift; sourceTree = "<group>"; };
+		07E7279C2A210C90006FC690 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaParkData_qc_20230512.csv; sourceTree = "<group>"; };
 		07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230512.csv; sourceTree = "<group>"; };
 		07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230512.csv; sourceTree = "<group>"; };
@@ -414,7 +413,6 @@
 				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
 				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
 				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
-				0709557429D2B29200068C91 /* MyPlaceHelpViewController.swift */,
 				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
 				0799CCCD29BF5980006AB70D /* MoreViewController.swift */,
 				0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */,
@@ -540,12 +538,12 @@
 		07D2329A2A09289F006DE737 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				0799CCA329BF584C006AB70D /* Info.plist */,
 				0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */,
 				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
 				07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */,
 				07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */,
 				07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */,
+				07E7279C2A210C90006FC690 /* Info.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -697,6 +695,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 0799CC8929BF584B006AB70D;
 			packageReferences = (
@@ -973,7 +972,6 @@
 				0799CCEC29BF6E10006AB70D /* DataType.swift in Sources */,
 				0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */,
 				07AC1EE329E3E412006BEA03 /* TrackingLiveActivity.swift in Sources */,
-				0709557529D2B29200068C91 /* MyPlaceHelpViewController.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* Map.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1033,6 +1031,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0799CC9C29BF584B006AB70D /* Base */,
+				07D890A22A1F94AD00EC7323 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1044,6 +1043,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1104,6 +1104,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1163,16 +1164,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Shared/Resource/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 허용 권한이 필요합니다.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 장소를 찾거나 새로운 산책길 생성을 위해 현재 위치를 확인합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 주변의 장소를 찾거나 새로운 산책길 생성을 위해 현재 위치를 확인합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 접근 허용 권한이 필요합니다.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1206,15 +1207,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = StrollPlaces/Shared/Resource/Info.plist;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Shared/Resource/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 허용 권한이 필요합니다.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치를 지도에 표시하기 위해 위치정보를 가져옵니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자 주변의 장소를 찾거나 새로운 산책길 생성을 위해 현재 위치를 확인합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 주변의 장소를 찾거나 새로운 산책길 생성을 위해 현재 위치를 확인합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 접근 허용 권한이 필요합니다.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1253,9 +1254,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlacesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StrollPlaces.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StrollPlaces";
 			};
 			name = Debug;
@@ -1274,9 +1278,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlacesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StrollPlaces.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StrollPlaces";
 			};
 			name = Release;
@@ -1293,9 +1300,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlacesUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = StrollPlaces;
 			};
 			name = Debug;
@@ -1312,9 +1322,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlacesUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = StrollPlaces;
 			};
 			name = Release;

@@ -14,6 +14,7 @@ final class PlaceInfoViewModel {
     
     //MARK: - normal property
     
+    var pinNumber: Int
     let itemViewModel: PublicData
     var titleArray = [String]()
     var infoArray = [String]()
@@ -74,8 +75,9 @@ final class PlaceInfoViewModel {
     
     //MARK: - initializer
     
-    init(_ itemViewModel: PublicData) {
+    init(_ itemViewModel: PublicData, pinNumber: Int) {
         self.itemViewModel = itemViewModel
+        self.pinNumber = pinNumber
         self.createPlaceInfoDictionary()
     }
     
@@ -151,19 +153,13 @@ final class PlaceInfoViewModel {
     // Realm DB에 즐겨찾기 데이터 저장하기
     func addMyPlaceData() {
         let dataToAppend = MyPlace(
-            name: self.itemViewModel.name,
-            category: self.itemViewModel.category,
-            address: self.itemViewModel.address,
-            latitude: self.itemViewModel.lat!,
-            longitude: self.itemViewModel.lon!,
-            infra: self.itemViewModel.infra,
-            organization: self.itemViewModel.organization,
-            savedDate: "\(Date())"
+            pinNumber: self.pinNumber,
+            saveDate: "\(Date())"
         )
         RealmService.shared.create(dataToAppend)
         self.checkFaveButton.onNext(true)
         
-        let indicatorView = SPIndicatorView(title: "즐겨찾기 추가됨", preset: .done)
+        let indicatorView = SPIndicatorView(title: "등록 완료", preset: .done)
         indicatorView.present(duration: 2.0, haptic: .success)
     }
     
@@ -174,20 +170,20 @@ final class PlaceInfoViewModel {
         guard self.myPlaceData.count != 0 else { return }
         
         for index in 0..<self.myPlaceData.count {
-            if self.itemViewModel.name == self.myPlaceData[index].name {
+            if self.pinNumber == self.myPlaceData[index].pinNumber {
                 RealmService.shared.delete(self.myPlaceData[index])
                 self.checkFaveButton.onNext(false)
             }
         }
         
-        let indicatorView = SPIndicatorView(title: "즐겨찾기 삭제됨", preset: .done)
+        let indicatorView = SPIndicatorView(title: "해제 완료", preset: .done)
         indicatorView.present(duration: 2.0, haptic: .success)
     }
     
 }
 
 
-//MARK: - News View Model
+//MARK: - Place Info Item View Model
 
 // 뉴스 아이템(셀) 하나하나에 대한 뷰모델
 final class PlaceInfoItemViewModel {

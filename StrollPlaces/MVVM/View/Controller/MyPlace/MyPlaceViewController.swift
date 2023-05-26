@@ -285,15 +285,15 @@ class MyPlaceViewController: UIViewController {
     }
     
     // 나만의 산책길 생성 도움말 화면으로 이동
-    @objc private func pushToHelp() {
-        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPlaceHelpViewController") as? MyPlaceHelpViewController else { return }
-        nextVC.modalPresentationStyle = .overFullScreen
-        nextVC.hero.isEnabled = true
-        nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right),
-                                                   dismissing: .slide(direction: .left))
-        
-        self.present(nextVC, animated: true, completion: nil)
-    }
+//    @objc private func pushToHelp() {
+//        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPlaceHelpViewController") as? MyPlaceHelpViewController else { return }
+//        nextVC.modalPresentationStyle = .overFullScreen
+//        nextVC.hero.isEnabled = true
+//        nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right),
+//                                                   dismissing: .slide(direction: .left))
+//
+//        self.present(nextVC, animated: true, completion: nil)
+//    }
     
 }
 
