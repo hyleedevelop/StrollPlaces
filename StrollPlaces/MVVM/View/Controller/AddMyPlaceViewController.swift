@@ -46,11 +46,10 @@ class AddMyPlaceViewController: UIViewController {
     // 로딩 아이콘
     private let activityIndicator: NVActivityIndicatorView = {
         let activityIndicator = NVActivityIndicatorView(
-            frame: CGRect(x: 0, y: 0, width: 50, height: 50),
-            type: .ballRotateChase,
-            color: K.Color.themeYellow,
+            frame: CGRect(x: 0, y: 0, width: 40, height: 40),
+            type: .ballPulseSync,
+            color: K.Color.themeRed,
             padding: .zero)
-        activityIndicator.color = UIColor.black
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
@@ -69,13 +68,13 @@ class AddMyPlaceViewController: UIViewController {
         // Realm DB에서 데이터 가져오기
         self.viewModel.getTrackDataFromRealmDB()
         
-        setupNavigationBar()
-        setupMapView()
-        setupBackView()
-        setupLoadingIndicator()
-        setupLabel()
-        setupInputResponse()
-        setupButton()
+        self.setupNavigationBar()
+        self.setupMapView()
+        self.setupBackView()
+        self.setupActivityIndicator()
+        self.setupLabel()
+        self.setupInputResponse()
+        self.setupButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,12 +173,11 @@ class AddMyPlaceViewController: UIViewController {
     }
     
     // loading indicator 설정
-    private func setupLoadingIndicator() {
+    private func setupActivityIndicator() {
         self.view.addSubview(activityIndicator)
         
-        activityIndicator.snp.makeConstraints {
+        self.activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
-            $0.width.height.equalTo(50)
         }
     }
     
@@ -279,11 +277,13 @@ class AddMyPlaceViewController: UIViewController {
         self.saveButton.clipsToBounds = true
         
         self.saveButton.rx.controlEvent(.touchUpInside).asObservable()
-            .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
+                
                 // loading indicator 시작
-                activityIndicator.startAnimating()
+                DispatchQueue.main.async {
+                    self.activityIndicator.startAnimating()
+                }
                 
                 // DB 업데이트
                 self.viewModel.updateTrackData(
@@ -291,23 +291,26 @@ class AddMyPlaceViewController: UIViewController {
                     explanation: self.explanationField.text!,
                     feature: self.featureField.text!,
                     rating: self.starRating.rating
-                )
-                
-                // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
-                self.userDefaults.set(true, forKey: "myPlaceExist")
-                
-                // loading indicator 종료
-                self.activityIndicator.stopAnimating()
-                
-                // Tab Bar 뱃지의 숫자 업데이트 알리기
-                NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
-                
-                // 완료 메세지 표시
-                SPIndicatorView(title: "생성 완료", preset: .done)
-                    .present(duration: 2.0, haptic: .success)
-                
-                // 나만의 산책길 탭 메인화면으로 돌아가기
-                self.navigationController?.popToRootViewController(animated: true)
+                ) {
+                    // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
+                    self.userDefaults.set(true, forKey: "myPlaceExist")
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        // loading indicator 종료
+                        DispatchQueue.main.async {
+                            self.activityIndicator.stopAnimating()
+                        }
+                        
+                        // Tab Bar 뱃지의 숫자 업데이트 알리기
+                        NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
+                        
+                        // 완료 메세지 표시
+                        SPIndicatorService.shared.showIndicator(title: "생성 완료")
+                        
+                        // 나만의 산책길 탭 메인화면으로 돌아가기
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                }
             })
             .disposed(by: rx.disposeBag)
         

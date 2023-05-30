@@ -12,76 +12,18 @@ import SPIndicator
 
 final class PlaceInfoViewModel {
     
-    //MARK: - normal property
+    //MARK: - 생성자 관련
     
-    var pinNumber: Int
+    // 초기화가 필요한 속성
     let itemViewModel: PublicData
-    var titleArray = [String]()
-    var infoArray = [String]()
-    var myPlaceData = RealmService.shared.realm.objects(MyPlace.self)
+    var pinNumber: Int
     
-    let checkFaveButton = BehaviorSubject<Bool>(value: false)
-    
-    // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
-    // -> 경로 계산 결과가 나오기 전까지 기본값을 먼저 label에 표출
-    // -> 계산이 끝나면 didSet을 통해 새로운 label 업데이트
-    var estimatedDistance = BehaviorRelay<String>(value: "거리: 계산중...")
-    var estimatedTime = BehaviorRelay<String>(value: "소요시간: 계산중...")
-    
-    var distance: Double = -1 {
-        didSet {
-            if (1...) ~= self.distance {
-                self.estimatedDistance.accept(
-                    "거리: " + String(format: "%.1f", self.distance/1000.0) + "km"
-                )
-            }
-            else if (0..<1) ~= self.distance {
-                self.estimatedDistance.accept(
-                    "거리: " + String(format: "%.1f", self.distance) + "m"
-                )
-            } else {
-                self.estimatedDistance.accept("알수없음")
-            }
-        }
-    }
-    
-    var time: Double = -1 {
-        didSet {
-            //let minutes = self.time.truncatingRemainder(dividingBy: 60)
-
-            if (3600...) ~= self.time {
-                let hours = self.time / 3600
-                let minutes = self.time.truncatingRemainder(dividingBy: 3600) / 60
-                estimatedTime.accept(
-                    "소요시간: " + String(format: "%.0f", hours) + "시간 " +
-                    String(format: "%.0f", minutes) + "분"
-                )
-            } else if (60..<3600) ~= self.time {
-                let minutes = self.time / 60
-                estimatedTime.accept(
-                    "소요시간: " + String(format: "%.0f", minutes) + "분"
-                )
-            } else if (0..<60) ~= self.time {
-                estimatedTime.accept("소요시간: 1분 미만")
-            } else {
-                estimatedTime.accept("알수없음")
-            }
-        }
-    }
-    
-    var category: Observable<String> {
-        return Observable<String>.just(self.itemViewModel.category)
-    }
-    
-    //MARK: - initializer
-    
+    // 초기생성자
     init(_ itemViewModel: PublicData, pinNumber: Int) {
         self.itemViewModel = itemViewModel
         self.pinNumber = pinNumber
         self.createPlaceInfoDictionary()
     }
-    
-    //MARK: - directly called method
     
     // custom modal view를 통해 제공할 정보 초기화
     func createPlaceInfoDictionary() {
@@ -118,37 +60,87 @@ final class PlaceInfoViewModel {
         }
     }
     
-    // 항목 이름 얻기
-    func getTitleInfo() -> Observable<[String]> {
-        return Observable<[String]>.just(self.titleArray)
-    }
+    //MARK: - 일반 변수
     
-    // 정보 내용 얻기
-    func getSubtitleInfo() -> Observable<[String]> {
-        return Observable<[String]>.just(self.infoArray)
-    }
+    var titleArray = [String]()
+    var infoArray = [String]()
+    var myPlaceData = RealmService.shared.realm.objects(MyPlace.self)
+    var shouldCheckFaveButton = false
+    
+    //MARK: - Modal View 화면 관련
+    // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
+    // -> 경로 계산 결과가 나오기 전까지 기본값을 먼저 label에 표출
+    // -> 계산이 끝나면 didSet을 통해 새로운 label 업데이트
+    var estimatedDistance = BehaviorRelay<String>(value: "거리: 계산중...")
+    var estimatedTime = BehaviorRelay<String>(value: "소요시간: 계산중...")
     
     // 장소 이름 얻기
-    func getPlaceName() -> Observable<String> {
+    var placeName: Observable<String> {
         return Observable<String>.just(self.itemViewModel.name)
     }
     
-    // 장소 유형 얻기
-    func getPlaceType() -> Observable<String> {
-        var text = ""
-        switch self.itemViewModel.infoType {
-        case .park: text = "유형: 공원"
-        case .strollWay: text = "유형: 산책로"
-        case .recreationForest: text = "유형: 자연휴양림"
-        case .marked: text = "유형: 즐겨찾기"
+    // 거리
+    var distance: Double = -1 {
+        didSet {
+            if (1...) ~= self.distance {
+                self.estimatedDistance.accept(
+                    "거리: " + String(format: "%.1f", self.distance/1000.0) + "km"
+                )
+            }
+            else if (0..<1) ~= self.distance {
+                self.estimatedDistance.accept(
+                    "거리: " + String(format: "%.1f", self.distance) + "m"
+                )
+            } else {
+                self.estimatedDistance.accept("알수없음")
+            }
         }
-        return Observable<String>.just(text)
     }
     
-    // TableView에 표시할 정보의 개수 얻기
-    func getNumberOfPlaceInfo() -> Int {
+    // 소요시간
+    var time: Double = -1 {
+        didSet {
+            //let minutes = self.time.truncatingRemainder(dividingBy: 60)
+
+            if (3600...) ~= self.time {
+                let hours = self.time / 3600
+                let minutes = self.time.truncatingRemainder(dividingBy: 3600) / 60
+                estimatedTime.accept(
+                    "소요시간: " + String(format: "%.0f", hours) + "시간 " +
+                    String(format: "%.0f", minutes) + "분"
+                )
+            } else if (60..<3600) ~= self.time {
+                let minutes = self.time / 60
+                estimatedTime.accept(
+                    "소요시간: " + String(format: "%.0f", minutes) + "분"
+                )
+            } else if (0..<60) ~= self.time {
+                estimatedTime.accept("소요시간: 1분 미만")
+            } else {
+                estimatedTime.accept("알수없음")
+            }
+        }
+    }
+    
+    //MARK: - Custom Modal View를 확장했을 때의 TableView Cell 정보 관련
+    
+    // 개수 정보
+    let numberOfSections: Int = 1
+    var numberOfRows: Int {
         return self.infoArray.count
     }
+    
+    // 항목 이름 정보
+    var titleInfo: Observable<[String]> {
+        return Observable<[String]>.just(self.titleArray)
+    }
+    
+    // 항목 내용 정보
+    var subtitleInfo: Observable<[String]> {
+        return Observable<[String]>.just(self.infoArray)
+    }
+    
+    //MARK: - Realm DB 관련
     
     // Realm DB에 즐겨찾기 데이터 저장하기
     func addMyPlaceData() {
@@ -157,10 +149,8 @@ final class PlaceInfoViewModel {
             saveDate: "\(Date())"
         )
         RealmService.shared.create(dataToAppend)
-        self.checkFaveButton.onNext(true)
         
-        let indicatorView = SPIndicatorView(title: "등록 완료", preset: .done)
-        indicatorView.present(duration: 2.0, haptic: .success)
+        SPIndicatorService.shared.showIndicator(title: "등록 완료")
     }
     
     // Realm DB에서 즐겨찾기 데이터 삭제하기
@@ -169,17 +159,30 @@ final class PlaceInfoViewModel {
         // pinData의 name과 같은 name을 가지고 있는 myPlaceData 삭제
         guard self.myPlaceData.count != 0 else { return }
         
-        for index in 0..<self.myPlaceData.count {
+        // 뒤에서부터 삭제
+        for index in stride(from: self.myPlaceData.count-1, to: -1, by: -1) {
             if self.pinNumber == self.myPlaceData[index].pinNumber {
                 RealmService.shared.delete(self.myPlaceData[index])
-                self.checkFaveButton.onNext(false)
             }
         }
+  
+        // 즐겨찾기 장소가 제거되었으므로 MapView에서 핀을 제거하도록 알리기
+        NotificationCenter.default.post(name: Notification.Name("removeMarkedPin"), object: nil)
         
-        let indicatorView = SPIndicatorView(title: "해제 완료", preset: .done)
-        indicatorView.present(duration: 2.0, haptic: .success)
+        SPIndicatorService.shared.showIndicator(title: "삭제 완료")
     }
     
+    // Realm DB의 MyPlace에 저장된 모든 데이터의 pinNumber와
+    // 사용자가 현재 선택한 pinNumber의 일치 여부 확인
+    func checkPinNumber() -> Bool {
+        for index in 0..<self.myPlaceData.count {
+            if self.myPlaceData[index].pinNumber == self.pinNumber {
+                return true
+            }
+        }
+        return false
+    }
+        
 }
 
 

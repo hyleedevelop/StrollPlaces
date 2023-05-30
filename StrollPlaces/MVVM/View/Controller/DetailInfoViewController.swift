@@ -146,6 +146,8 @@ final class DetailInfoViewController: UIViewController {
         // hero animation
         self.hero.isEnabled = true
         self.nameLabel.hero.id = "nameLabel\(self.cellIndex)"
+        self.timeLabel.hero.id = "timeLabel\(self.cellIndex)"
+        self.distanceLabel.hero.id = "distanceLabel\(self.cellIndex)"
         
         // UI binding
         self.viewModel.nameRelay.asDriver(onErrorJustReturn: "nameRealy error")

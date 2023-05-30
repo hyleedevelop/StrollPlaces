@@ -11,7 +11,6 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import CoreLocation
-import SPIndicator
 import FaveButton
 
 class PlaceInfoViewController: UIViewController {
@@ -48,6 +47,7 @@ class PlaceInfoViewController: UIViewController {
         button.dotFirstColor = K.Color.themeYellow
         button.dotSecondColor = UIColor.orange
         button.circleToColor = K.Color.themeYellow
+        //button.isSelected = self.viewModel.isChecked
         button.delegate = self
         return button
     }()
@@ -134,11 +134,10 @@ class PlaceInfoViewController: UIViewController {
     
     internal var viewModel: PlaceInfoViewModel!
     var isDetailActivated = false
-    var isFaveButtonActivated = BehaviorSubject<Bool>(value: false)
+    var isFaveButtonActivated = false
     
     internal let maxDimmedAlpha: CGFloat = 0.15  // 값이 0이면 투명 -> 탭 해도 dismiss가 일어나지 않음
-    //internal let defaultHeight: CGFloat = 150 + (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0)
-
+    
     private let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
     
     internal let dismissibleHeight: CGFloat = 160
@@ -148,7 +147,6 @@ class PlaceInfoViewController: UIViewController {
     internal var maximumContainerHeightByButton: CGFloat = 500
     
     // Dynamic container constraint
-    //internal var containerViewHeightRelay = BehaviorRelay<CGFloat>(value: 190)
     internal var containerViewHeightConstraint: NSLayoutConstraint?
     internal var containerViewBottomConstraint: NSLayoutConstraint?
     
@@ -160,6 +158,7 @@ class PlaceInfoViewController: UIViewController {
         self.setupView()
         
         self.setupTopUI()
+        self.setupFaveButtonState()
         self.setupMiddleUI()
         self.setupBottomUI()
         
@@ -171,11 +170,17 @@ class PlaceInfoViewController: UIViewController {
         self.setupBinding()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.setupFaveButtonState()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        animateShowDimmedView()
-        animatePresentContainer()
+        self.animateShowDimmedView()
+        self.animatePresentContainer()
     }
     
     //MARK: - directly called method
@@ -225,6 +230,10 @@ class PlaceInfoViewController: UIViewController {
         }
     }
     
+    private func setupFaveButtonState() {
+        self.faveButton.isSelected = self.viewModel.checkPinNumber() ? true : false
+    }
+    
     private func setupMiddleUI() {
         self.containerView.addSubview(self.labelStackView)
         self.labelStackView.snp.makeConstraints {
@@ -234,18 +243,6 @@ class PlaceInfoViewController: UIViewController {
             $0.height.equalTo(18)
 //            $0.width.equalTo(390)
         }
-        
-//        self.typeLabel.snp.makeConstraints {
-//            $0.width.equalTo(120)
-//        }
-//
-//        self.distanceLabel.snp.makeConstraints {
-//            $0.width.equalTo(100)
-//        }
-//
-//        self.expectedTimeLabel.snp.makeConstraints {
-//            $0.width.equalTo(150)
-//        }
     }
     
     private func setupBottomUI() {
@@ -275,7 +272,7 @@ class PlaceInfoViewController: UIViewController {
     }
     
     private func setupBinding() {
-        let placeName = self.viewModel.getPlaceName().asDriver(onErrorJustReturn: "알수없음")
+        let placeName = self.viewModel.placeName.asDriver(onErrorJustReturn: "알수없음")
         let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
         let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
         
@@ -294,7 +291,7 @@ class PlaceInfoViewController: UIViewController {
             .drive(self.expectedTimeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        // "chevron" 버튼을 눌렀을 때 실행할 이벤트
+        // 펼치기/접기 버튼을 눌렀을 때 실행할 이벤트
         self.disclosureButton.rx.controlEvent(.touchUpInside).asObservable()
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
@@ -307,8 +304,8 @@ class PlaceInfoViewController: UIViewController {
                     UIView.animate(withDuration: 0.3) {
                         self.tableView.alpha = 0.0  // TableView 넣기
                     }
-                    self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
                     self.animateContainerHeight(self.defaultHeight)
+                    self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
                 }
                 
                 self.isDetailActivated.toggle()
@@ -319,39 +316,19 @@ class PlaceInfoViewController: UIViewController {
         // -> MapViewController+Annotation.swift에 구현되어 있음
         
         // "즐겨찾기 등록" 버튼을 눌렀을 때 실행할 이벤트
-        self.viewModel.checkFaveButton
-            .subscribe(onNext: { [weak self] isChecked in
-                guard let self = self else { return }
-                self.faveButton.isSelected = isChecked
-            })
-            .disposed(by: rx.disposeBag)
-        
         self.faveButton.rx.controlEvent(.touchUpInside).asObservable()
-            //.debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .subscribe(
-                onNext: {
-                    // 알림 메세지 보여주기
-                    let alert = UIAlertController(
-                        title: nil,
-                        message: "즐겨찾기 기능은\n추후 구현될 예정입니다.",
-                        preferredStyle: .alert
-                    )
-                    self.present(alert, animated: true, completion: nil)
-                    Timer.scheduledTimer(
-                        withTimeInterval: 2.0, repeats: false,
-                        block: { _ in alert.dismiss(animated: true) }
-                    )
-                    
-                    //if ... {
-                    //    let indicatorView = SPIndicatorView(title: "즐겨찾기 해제", preset: .done)
-                    //}
-                    //let indicatorView = SPIndicatorView(title: "등록 완료", preset: .done)
-                    //indicatorView.present(duration: 2.0, haptic: .success)
-                },
-                onError: { _ in
-                    //let indicatorView = SPIndicatorView(title: "등록 실패", preset: .error)
-                    //indicatorView.present(duration: 2.0, haptic: .error)
-                })
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                // Realm DB에 즐겨찾기 장소 저장 또는 삭제하기
+                if self.faveButton.isSelected {
+                    self.viewModel.addMyPlaceData()
+                } else {
+                    self.viewModel.removeMyPlaceData()
+                    //self.animateDismissView()
+                }
+            })
             .disposed(by: rx.disposeBag)
     }
     
@@ -369,33 +346,30 @@ class PlaceInfoViewController: UIViewController {
 extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.viewModel.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.getNumberOfPlaceInfo()
+        return self.viewModel.numberOfRows
     }
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 60
-//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PlaceInfoCell", for: indexPath) as? PlaceInfoTableViewCell else { fatalError() }
         
         // 데이터 보내기 (3): PlaceVM -> PlaceVC(바인딩)
-        self.viewModel.getTitleInfo()
+        self.viewModel.titleInfo
             .asDriver(onErrorJustReturn: ["알수없음"])
             .compactMap { $0[indexPath.row ] }
             .drive(cell.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.getSubtitleInfo()
+        self.viewModel.subtitleInfo
             .asDriver(onErrorJustReturn: ["알수없음"])
             .compactMap { $0[indexPath.row ] }
             .drive(cell.descriptionLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
+        // 자연휴양림의 경우 label을 클릭했을 때 홈페이지 연결 기능 적용
         if self.viewModel.itemViewModel.infoType == .recreationForest && indexPath.row == 7 {
             if self.viewModel.itemViewModel.homepage != K.Map.noDataMessage {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.visitWebPage))
@@ -412,16 +386,3 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-
-//MARK: - extension for FaveButtonDelegate
-
-//extension PlaceInfoViewController: FaveButtonDelegate {
-//
-//    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
-//        print("즐겨찾기 버튼 클릭됨...")
-//
-//        // Realm DB에 즐겨찾기 장소 저장 또는 삭제하기
-//        _ = selected ? self.viewModel.addMyPlaceData() : self.viewModel.removeMyPlaceData()
-//    }
-//
-//}

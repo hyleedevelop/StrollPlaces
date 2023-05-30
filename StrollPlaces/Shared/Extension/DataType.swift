@@ -81,4 +81,16 @@ extension String {
         }
     }
     
+    // string을 URLrequest 구조체로 변환
+    func toURLRequest() -> URLRequest {
+        let urlStringEncoded: String = self.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+        let queryURL: URL = URL(string: urlStringEncoded)!
+        var urlRequest = URLRequest(url: queryURL)
+        
+        urlRequest.addValue(K.News.naverClientID, forHTTPHeaderField: "X-Naver-Client-Id")
+        urlRequest.addValue(K.News.naverClientKEY, forHTTPHeaderField: "X-Naver-Client-Secret")
+        
+        return urlRequest
+    }
+    
 }

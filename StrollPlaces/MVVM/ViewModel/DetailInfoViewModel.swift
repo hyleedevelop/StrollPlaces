@@ -55,7 +55,7 @@ final class DetailInfoViewModel {
         self.timeRelay.accept(timeString)
         
         var distanceString: String {
-            let distance = RealmService.shared.realm.objects(TrackData.self).last?.distance ?? 0.0
+            let distance = RealmService.shared.realm.objects(TrackData.self)[index].distance
             if (..<1000) ~= distance {
                 return String(format: "%.1f", distance) + "m"
             } else {

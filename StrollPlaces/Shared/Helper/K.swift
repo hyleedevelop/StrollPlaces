@@ -63,8 +63,8 @@ struct K {
         static let noDataMessage: String = "정보없음"
         
         static let placeColor: UIColor = K.Color.themeRed
-        static let routeLineWidth: CGFloat = 4.0
-        static let routeLineColor: UIColor = K.Color.themeSky
+        static let routeLineWidth: CGFloat = 5.0
+        static let routeLineColor: UIColor = UIColor.systemIndigo
         static let routeLineAlpha: CGFloat = 1.0
     }
     
@@ -86,7 +86,7 @@ struct K {
         static let cornerRadiusOfSlideView: CGFloat = 20
         static let animationTime: CGFloat = 0.3
         static let detailButtonName = "상세정보 보기"
-        static let navigateButtonName = "경로 보기"
+        static let navigateButtonName = "이 장소까지의 경로 탐색"
         static let bookmarkButtonName = "즐겨찾기 등록"
     }
     
@@ -113,6 +113,7 @@ struct K {
     
     // 메세지 관련
     struct Message {
+        static let emailAddress = "hyleedevelop@gmail.com"
         static let errorTitle = "Error"
         static let resetMessage = "Are you sure you want to reset all input?"
         static let exportAsImageMessage = "Do you want to export the result as an image?"
@@ -133,7 +134,7 @@ struct K {
         static let termsAndConditionsURL =
         "https://hyleenote.notion.site/4633e439fb704888952f9233840f2461"
         static let writeReviewURL =
-        "https://apps.apple.com/app/id1668703292?action=write-review"
+        "https://apps.apple.com/app/id6449447429?action=write-review"
         
         static let sorryTitle = "죄송합니다."
         static let notifyLaterUpdateMessage = "곧 업데이트 예정입니다."

@@ -39,3 +39,9 @@ enum DateFormatType {
     case myPlace
     case news
 }
+
+enum MoreCellSection: Int, CaseIterable {
+    case appSettings = 0
+    case feedback
+    case aboutTheApp
+}

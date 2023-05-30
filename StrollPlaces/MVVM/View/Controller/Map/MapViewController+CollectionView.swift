@@ -18,12 +18,12 @@ extension MapViewController: UICollectionViewDataSource,
     
     // section의 개수
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return self.viewModel.numberOfSections
     }
         
     // section 내 아이템의 개수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.themeCellViewModel.count
+        return self.viewModel.numberOfItemsInSection
     }
     
     // 각 셀마다 실행할 내용
@@ -42,17 +42,9 @@ extension MapViewController: UICollectionViewDataSource,
         
         // 기본 선택값 = 공원
         if indexPath.item == 0 {
-            cell.backView.layer.shadowColor = UIColor.black.cgColor
-            cell.backView.layer.borderColor = UIColor.black.cgColor
-            cell.backView.layer.borderWidth = 2.0
-            cell.themeLabel.textColor = K.Color.themeBlack
-            cell.themeIcon.tintColor = K.Color.themeBlack
+            self.viewModel.changeCellUI(cell: cell, selected: true)
         } else {
-            cell.backView.layer.shadowColor = UIColor.black.cgColor
-            cell.backView.layer.borderColor = UIColor.black.cgColor
-            cell.backView.layer.borderWidth = 0.0
-            cell.themeLabel.textColor = K.Color.themeBlack
-            cell.themeIcon.tintColor = K.Color.themeBlack
+            self.viewModel.changeCellUI(cell: cell, selected: false)
         }
         cell.themeLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         
@@ -73,36 +65,13 @@ extension MapViewController: UICollectionViewDataSource,
             self.addAnnotations(with: InfoType(rawValue: indexPath.row)!)
         }
         
-        cell.backView.layer.shadowColor = UIColor.black.cgColor
-        cell.backView.layer.borderColor = UIColor.black.cgColor
-        cell.backView.layer.borderWidth = 2.0
-        cell.themeLabel.textColor = K.Color.themeBlack
-        cell.themeIcon.tintColor = K.Color.themeBlack
-        
-        if indexPath.row == 3 {
-            // 알림 메세지 보여주기
-            let alert = UIAlertController(
-                title: nil,
-                message: "즐겨찾기 기능은\n추후 구현될 예정입니다.",
-                preferredStyle: .alert
-            )
-            self.present(alert, animated: true, completion: nil)
-            Timer.scheduledTimer(
-                withTimeInterval: 2.0, repeats: false,
-                block: { _ in alert.dismiss(animated: true) }
-            )
-        }
+        self.viewModel.changeCellUI(cell: cell, selected: true)
     }
     
     // 셀이 해제되었을 때 실행할 내용
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ThemeCollectionViewCell
-
-        cell.backView.layer.shadowColor = UIColor.black.cgColor
-        cell.backView.layer.borderColor = UIColor.black.cgColor
-        cell.backView.layer.borderWidth = 0.0
-        cell.themeLabel.textColor = K.Color.themeBlack
-        cell.themeIcon.tintColor = K.Color.themeBlack
+        self.viewModel.changeCellUI(cell: cell, selected: false)
     }
     
 }
@@ -111,12 +80,12 @@ extension MapViewController: UICollectionViewDataSource,
 
 extension MapViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: 12, height: K.ThemeCV.cellHeight)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return self.viewModel.headerSize
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: 12, height: K.ThemeCV.cellHeight)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return self.viewModel.footerSize
     }
     
     // 각 셀의 사이즈 설정

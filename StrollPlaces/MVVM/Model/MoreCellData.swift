@@ -7,12 +7,6 @@
 
 import UIKit
 
-enum MoreCellSection: Int, CaseIterable {
-    case appSettings = 0
-    case feedback
-    case aboutTheApp
-}
-
 struct MoreCellData {
     let title: String?
     var value: String?

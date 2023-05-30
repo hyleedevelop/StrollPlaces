@@ -10,25 +10,18 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import MapKit
-import SPIndicator
+import SafariServices
+import MessageUI
 
 final class MoreViewModel {
     
-    //MARK: - normal property
-    
-    private let userDefaults = UserDefaults.standard
-    private let appSettings: [MoreCellData]!
-    private let feedback: [MoreCellData]!
-    private let aboutTheApp: [MoreCellData]!
-    let moreCellData: [[MoreCellData]]!
-    let shouldReloadTableView = BehaviorSubject<Bool>(value: false)
-    
-    //MARK: - initializer
+    //MARK: - 생성자
     
     init() {
         appSettings = [
             MoreCellData(title: "지도 종류", value: nil),
             MoreCellData(title: "지도 표시 범위", value: nil),
+            MoreCellData(title: "즐겨찾기 데이터 초기화", value: nil),
             MoreCellData(title: "MY산책길 데이터 초기화", value: nil),
         ]
 
@@ -47,21 +40,125 @@ final class MoreViewModel {
         moreCellData = [appSettings, feedback, aboutTheApp]
     }
     
-    //MARK: - directly called method
-
-//    func moreCellData(at index: Int) -> ThemeCellViewModel {
-//        return self.themeCellViewModel[index]
-//    }
+    //MARK: - 앱 설정 관련
     
-    func getNumberOfSections() -> Int {
-        return MoreCellSection.allCases.count
+    private let userDefaults = UserDefaults.standard
+    private let appSettings: [MoreCellData]!
+    private let feedback: [MoreCellData]!
+    private let aboutTheApp: [MoreCellData]!
+    let moreCellData: [[MoreCellData]]!
+    let shouldReloadTableView = BehaviorSubject<Bool>(value: false)
+    
+    // 현재 지도 표시 범위를 나타낼 텍스트
+    var labelTextForMapRadius: String {
+        let radius = self.userDefaults.double(forKey: "mapRadius")
+        var labelString = ""
+        
+        if radius == 0.2 {
+            labelString = "200 m"
+        } else if radius == 0.3 {
+            labelString = "300 m"
+        } else if radius == 0.5 {
+            labelString = "500 m"
+        } else if radius == 1.0 {
+            labelString = "1 km"
+        } else if radius == 2.0 {
+            labelString = "2 km"
+        }
+        
+        return labelString
     }
     
-    func getNumberOfRowsInSection(at section: Int) -> Int {
+    // 현재 지도 종류를 나타낼 텍스트
+    var labelTextForMapType: String {
+        let type = MKMapType(
+            rawValue: UInt(self.userDefaults.integer(forKey: "mapType"))
+        ) ?? .standard
+        var labelString = ""
+        
+        if type == .standard {
+            labelString = "표준"
+        } else if type == .satellite {
+            labelString = "위성"
+        } else if type == .hybrid {
+            labelString = "하이브리드"
+        }
+        
+        return labelString
+    }
+    
+    //MARK: - 앱 및 유저 디바이스 정보 관련
+    
+    // 앱 이름
+    var appName: String {
+        if let bundleDisplayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String {
+            return bundleDisplayName
+        } else if let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
+            return bundleName
+        } else {
+            return "알수없음"
+        }
+    }
+    
+    // 앱 버전
+    var appVersion: String {
+        if let bundleVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            return bundleVersion
+        } else {
+            return "알수없음"
+        }
+    }
+    
+    // 앱 빌드넘버
+    var buildNumber: String {
+        if let bundleBuildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
+            return bundleBuildNumber
+        } else {
+            return "알수없음"
+        }
+    }
+    
+    // 사용자의 기기 이름
+    var device: String {
+        var modelName = ProcessInfo.processInfo.environment["SIMULATOR_DEVICE_NAME"] ?? ""
+        let myDevice = UIDevice.current
+        let selName = "_\("deviceInfo")ForKey:"
+        let selector = NSSelectorFromString(selName)
+
+        if myDevice.responds(to: selector) {
+            modelName = String(describing: myDevice.perform(selector, with: "marketing-name").takeRetainedValue())
+            return modelName
+        } else {
+            return "알수없음"
+        }
+    }
+    
+    // 사용자의 기기 OS 버전
+    let iOSVersion = UIDevice.current.systemVersion
+    
+    //MARK: - TableView Cell 정보 관련
+    
+    // section의 개수
+    let numberOfSections: Int = MoreCellSection.allCases.count
+    
+    // section당 row의 개수
+    func numberOfRowsInSection(at section: Int) -> Int {
         return moreCellData[section].count
     }
     
-    func getTitleForHeaderInSection(at section: Int) -> String? {
+    // header 높이
+    func headerHeight(at section: Int) -> CGFloat {
+        return section == 0 ? 50 : 40
+    }
+    
+    // footer 높이
+    let footerHeight: CGFloat = 40
+    
+    // cell 높이
+    let cellHeight: CGFloat = 44
+    
+    // 텍스트 정보
+    func titleForHeaderInSection(at section: Int) -> String? {
         switch MoreCellSection(rawValue: section) {
         case .appSettings:
             return K.More.appSettingsTitle
@@ -74,38 +171,10 @@ final class MoreViewModel {
         }
     }
     
-    // 이 앱의 버전을 문자열로 가져오기
-    func getCurrentAppVersion() -> String {
-        if let info: [String: Any] = Bundle.main.infoDictionary,
-           let currentVersion: String = info["CFBundleShortVersionString"] as? String {
-            return currentVersion
-        }
-        return "nil"
-    }
-    
-    // 이 앱의 빌드 넘버를 문자열로 가져오기
-    func getCurrentBuildNumber() -> String {
-        if let info: [String: Any] = Bundle.main.infoDictionary,
-           let buildNumber: String = info["CFBundleVersion"] as? String {
-            return buildNumber
-        }
-        return "nil"
-    }
-    
-    func clearRealmDB() {
-        // 이미지 전체 삭제
-        let trackData = RealmService.shared.realm.objects(TrackData.self)
-        for index in 0..<trackData.count {
-            deleteImageFromDocumentDirectory(imageName: trackData[index]._id.stringValue)
-        }
-        
-        // 데이터 전체 삭제
-        let trackPoint = TrackPoint()
-        RealmService.shared.deleteAll(trackPoint)
-    }
+    //MARK: - Action 관련
     
     // 지도 종류 설정을 위한 Action 구성
-    func getActionForMapType() -> UIAlertController {
+    var actionForMapType: UIAlertController {
         let actionSheet = UIAlertController(
             title: "지도 종류 선택", message: nil, preferredStyle: .actionSheet
         )
@@ -136,7 +205,7 @@ final class MoreViewModel {
     }
     
     // 목적지 경로 기준 설정을 위한 Action 구성
-    func getActionForMapRadius() -> UIAlertController {
+    var actionForMapRadius: UIAlertController {
         let actionSheet = UIAlertController(
             title: "지도 표시 범위 선택", message: nil, preferredStyle: .actionSheet
         )
@@ -184,7 +253,7 @@ final class MoreViewModel {
     }
     
     // MY산책길 데이터 초기화를 위한 Action 구성
-    func getActionForDBRemoval() -> UIAlertController {
+    var actionForDBRemoval: UIAlertController {
         // 진짜로 취소할 것인지 alert message 보여주고 확인받기
         let alert = UIAlertController(
             title: "확인",
@@ -197,10 +266,8 @@ final class MoreViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.clearRealmDB()
-                
-                let indicatorView = SPIndicatorView(title: "삭제 완료", preset: .done)
-                indicatorView.present(duration: 2.0, haptic: .success)
+                self.clearMyPlaceDB()
+                SPIndicatorService.shared.showIndicator(title: "초기화 완료")
                 
                 // Tab Bar 뱃지의 숫자 업데이트 알리기
                 NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
@@ -214,46 +281,52 @@ final class MoreViewModel {
         return alert
     }
     
-    // 현재 지도 종류를 나타낼 텍스트 가져오기
-    func getLabelTextForMapType() -> String {
-        let type = MKMapType(
-            rawValue: UInt(self.userDefaults.integer(forKey: "mapType"))
-        ) ?? .standard
-        var labelString = ""
+    // 즐겨찾기 데이터 초기화를 위한 Action 구성
+    var actionForMarkRemoval: UIAlertController {
+        // 진짜로 취소할 것인지 alert message 보여주고 확인받기
+        let alert = UIAlertController(
+            title: "확인",
+            message: "즐겨찾기 데이터를 모두 초기화할까요?\n삭제한 데이터는 복구할 수 없습니다.",
+            preferredStyle: .alert
+        )
         
-        if type == .standard {
-            labelString = "표준"
-        } else if type == .satellite {
-            labelString = "위성"
-        } else if type == .hybrid {
-            labelString = "하이브리드"
-        }
+        alert.addAction(
+            UIAlertAction(title: "아니요", style: .default)
+        )
+        alert.addAction(
+            UIAlertAction(title: "네", style: .destructive) { _ in
+                self.clearMarkDB()
+                SPIndicatorService.shared.showIndicator(title: "초기화 완료")
+            }
+        )
         
-        return labelString
+        return alert
     }
     
-    // 현재 지도 표시 범위를 나타낼 텍스트 가져오기
-    func getLabelTextForMapRadius() -> String {
-        let radius = self.userDefaults.double(forKey: "mapRadius")
-        var labelString = ""
-        
-        if radius == 0.2 {
-            labelString = "200 m"
-        } else if radius == 0.3 {
-            labelString = "300 m"
-        } else if radius == 0.5 {
-            labelString = "500 m"
-        } else if radius == 1.0 {
-            labelString = "1 km"
-        } else if radius == 2.0 {
-            labelString = "2 km"
+    //MARK: - Realm DB 관련
+    
+    // MY산책길 관련 Realm DB 삭제
+    func clearMyPlaceDB() {
+        // 폴더 내 지도 이미지 삭제
+        let trackData = RealmService.shared.realm.objects(TrackData.self)
+        for index in 0..<trackData.count {
+            deleteImageFromDocumentDirectory(imageName: trackData[index]._id.stringValue)
         }
         
-        return labelString
+        // 오브젝트 내 데이터 삭제
+        RealmService.shared.deleteTrack()
     }
- 
-    //MARK: - indirectly called method
     
+    // 즐겨찾기 관련 Realm DB 삭제
+    func clearMarkDB() {
+        // 오브젝트 내 데이터 삭제
+        RealmService.shared.deleteMyPlace()
+        
+        // MapView 갱신 알리기
+        NotificationCenter.default.post(name: Notification.Name("reloadMap"), object: nil)
+    }
+    
+    // Document 폴더에 위치한 이미지 삭제
     private func deleteImageFromDocumentDirectory(imageName: String) {
         // 1. 폴더 경로 가져오기
         guard let documentDirectory = FileManager.default
@@ -270,6 +343,44 @@ final class MoreViewModel {
                 print("이미지를 삭제하지 못했습니다.")
             }
         }
+    }
+    
+    //MARK: - Redirection 관련
+    
+    // 메일 기본 양식
+    var messageBody: String {
+        return "* My Info *" + "\n" +
+        "App name: \(self.appName)" + "\n" +
+        "App version: \(self.appVersion) (\(self.buildNumber))" + "\n" +
+        "Device name: \(self.device)" + "\n" +
+        "Device OS version: \(self.iOSVersion)" + "\n"
+    }
+    
+    // 사파리로 웹페이지 연결
+    func showSafariView(viewController: UIViewController, urlString: String) {
+        let websiteURL = NSURL(string: urlString)
+        let webView = SFSafariViewController(url: websiteURL! as URL)
+        viewController.present(webView, animated: true, completion: nil)
+    }
+    
+    // 추후 업데이트 예정이라는 Alert Message 표시
+    func showWillBeUpdatedMessage(viewController: UIViewController) {
+        let alert = UIAlertController(title: K.More.sorryTitle,
+                                      message: K.More.notifyLaterUpdateMessage,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        viewController.present(alert, animated: true, completion: nil)
+    }
+    
+    // 에러 메세지 출력
+    func showEmailErrorMessage(controller: UIViewController) {
+        let sendMailErrorAlert = UIAlertController(title: K.Message.errorTitle,
+                                                   message: K.Message.sendEmailErrorMessage,
+                                                   preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "OK", style: .default)
+        sendMailErrorAlert.addAction(confirmAction)
+        controller.present(sendMailErrorAlert, animated: true, completion: nil)
     }
     
 }

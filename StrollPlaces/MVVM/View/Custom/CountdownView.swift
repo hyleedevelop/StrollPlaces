@@ -24,7 +24,7 @@ struct CountdownView: View {
                     .monospacedDigit()
                     .foregroundColor(Color(.white))
             } else {
-                Text("시작")
+                Text("GO!")
                     .font(Font.system(size: 35))
                     .monospacedDigit()
                     .fontWeight(.bold)

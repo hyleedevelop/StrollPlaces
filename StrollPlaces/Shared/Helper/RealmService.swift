@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Realm
 import RealmSwift
 
 final class RealmService {
@@ -61,7 +62,26 @@ final class RealmService {
         }
     }
     
-    // 전체 삭제
+    // 즐겨찾기 DB 삭제
+    func deleteMyPlace() {
+        let object = realm.objects(MyPlace.self)
+        try? realm.write {
+            realm.delete(object)
+        }
+    }
+    
+    // MY산책길 DB 삭제
+    func deleteTrack() {
+        let object1 = realm.objects(TrackPoint.self)
+        let object2 = realm.objects(TrackData.self)
+        
+        try? realm.write {
+            realm.delete(object1)
+            realm.delete(object2)
+        }
+    }
+    
+    // Realm DB 전체 삭제
     func deleteAll<T: Object>(_ object: T) {
         do {
             try realm.write {

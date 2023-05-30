@@ -147,17 +147,18 @@ extension MapViewController: MKMapViewDelegate {
 //
         // 핀을 선택했을 때
         } else if let pin = annotation as? Annotation {
+            self.currentPinNumber = pin.index ?? 0
+            
             let latitude = annotation.coordinate.latitude
             let longitude = annotation.coordinate.longitude
             
             self.mapView.centerToLocation(
                 location: CLLocation(latitude: latitude, longitude: longitude),
-                deltaLat: 0.5.km,
-                deltaLon: 0.5.km
+                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+                deltaLon: self.userDefaults.double(forKey: "mapRadius").km
             )
             
             // 데이터 보내기 (1): MapVC -> MapVM
-            print(pin.index ?? 0)
             self.viewModel.pinData = self.dataArray[pin.index]
             let placeInfoViewController = PlaceInfoViewController()
             placeInfoViewController.viewModel = self.viewModel.sendPinData(pinNumber: pin.index ?? 0)
@@ -173,9 +174,11 @@ extension MapViewController: MKMapViewDelegate {
             )
             
             // 경로 계산하여 예상 거리 및 소요시간 데이터 넘겨주기
-            self.fetchRoute(pickupCoordinate: startLocation,
-                            destinationCoordinate: endLocation,
-                            draw: false) { distance, time in
+            self.viewModel.fetchRoute(
+                mapView: self.mapView, pickupCoordinate: startLocation,
+                destinationCoordinate: endLocation,
+                draw: false
+            ) { distance, time in
                 placeInfoViewController.viewModel.distance = distance
                 placeInfoViewController.viewModel.time = time
             }
@@ -197,15 +200,28 @@ extension MapViewController: MKMapViewDelegate {
                 .subscribe(
                     onNext: {[weak self] in
                         guard let self = self else { return }
-                        self.fetchRoute(pickupCoordinate: startLocation,
-                                        destinationCoordinate: endLocation,
-                                        draw: true) { _, _ in }
-                        placeInfoViewController.animateDismissView()
-                        let indicatorView = SPIndicatorView(title: "경로 탐색 완료", preset: .done)
-                        indicatorView.present(duration: 2.0, haptic: .success)
+                        DispatchQueue.main.async {
+                            self.activityIndicator.startAnimating()
+                        }
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.viewModel.fetchRoute(
+                                mapView: self.mapView,
+                                pickupCoordinate: startLocation,
+                                destinationCoordinate: endLocation,
+                                draw: true
+                            ) { _, _ in
+                                DispatchQueue.main.async {
+                                    self.activityIndicator.stopAnimating()
+                                }
+                                SPIndicatorService.shared.showIndicator(title: "탐색 완료")
+                                placeInfoViewController.animateDismissView()
+                            }
+                        }
                     }, onError: { _ in
-                        let indicatorView = SPIndicatorView(title: "경로 탐색 실패", preset: .error)
-                        indicatorView.present(duration: 2.0, haptic: .error)
+                        self.activityIndicator.stopAnimating()
+                        SPIndicatorService.shared.showIndicator(title: "탐색 불가", type: .error)
+                        
                     }
                 )
                 .disposed(by: rx.disposeBag)
@@ -217,8 +233,6 @@ extension MapViewController: MKMapViewDelegate {
     
     // 경로 안내를 위한 polyline 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-    
-        
         let renderer = MKPolylineRenderer(overlay: overlay)
         
         renderer.strokeColor = K.Map.routeLineColor

@@ -18,6 +18,7 @@ import Lottie
 import Hero
 import RealmSwift
 import Floaty
+import NVActivityIndicatorView
 
 final class MapViewController: UIViewController {
 
@@ -82,6 +83,17 @@ final class MapViewController: UIViewController {
         return button
     }()
     
+    // 로딩 아이콘
+    internal let activityIndicator: NVActivityIndicatorView = {
+        let activityIndicator = NVActivityIndicatorView(
+            frame: CGRect(x: 0, y: 0, width: 40, height: 40),
+            type: .ballPulseSync,
+            color: K.Color.themeRed,
+            padding: .zero)
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+    
     //MARK: - normal property
     
     internal let viewModel = MapViewModel()
@@ -105,25 +117,22 @@ final class MapViewController: UIViewController {
     }()
     
     // 사용자의 현재 위치를 받아오고, 이를 중심으로 regionRadius 반경만큼의 영역을 보여주기
-    var currentLocation: CLLocation {
-        let latitude = ((locationManager.location?.coordinate.latitude) ?? K.Map.defaultLatitude) as Double
-        let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
+    internal var currentLocation: CLLocation {
+        let latitude = ((locationManager.location?.coordinate.latitude
+                        ) ?? K.Map.defaultLatitude) as Double
+        let longitude = ((locationManager.location?.coordinate.longitude
+                         ) ?? K.Map.defaultLongitude) as Double
         return CLLocation(latitude: latitude, longitude: longitude)
     }
-    var isUserTrackingModeOn: Bool = false
+    internal var isUserTrackingModeOn: Bool = false
     
     // 지도 및 CSV데이터 관련
-    var dataArray = [PublicData]()
-    var annotationArray = [Annotation]()
-    let region = (
-        center: CLLocationCoordinate2D(latitude: K.Map.southKoreaCenterLatitude,
-                                       longitude: K.Map.southKoreaCenterLongitude),
-        delta: 2.0
-    )
-    var annotationColor: UIColor!
+    internal var currentPinNumber: Int = 0
+    internal var dataArray = [PublicData]()
+    internal var annotationArray = [Annotation]()
     
     // annotation의 지도 표시 여부
-    var isAnnotationMarked = [Bool](repeating: false, count: InfoType.allCases.count)
+    internal var isAnnotationMarked = [Bool](repeating: false, count: InfoType.allCases.count)
     
     //MARK: - life cycle
     
@@ -140,9 +149,12 @@ final class MapViewController: UIViewController {
         self.setupCollectionView()
         self.setupMapControlButton()
         self.setupTrackingStopButton()
+        self.setupActivityIndicator()
         
         self.moveToCurrentLocation()
         self.addAnnotations(with: .park)
+        
+        self.setupNotificationObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -151,18 +163,14 @@ final class MapViewController: UIViewController {
         
         self.view.addSubview(self.menuButton)
         self.menuButton.snp.makeConstraints {
-            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-22.5)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-35)
-            $0.width.height.equalTo(45)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-20)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-40)
+            $0.width.height.equalTo(40)
         }
         
-        self.mapView.mapType = MKMapType(rawValue: UInt(self.userDefaults.integer(forKey: "mapType")))!
-        
-//        self.mapView.centerToLocation(
-//            location: self.currentLocation,
-//            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-//            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
-//        )
+        self.mapView.mapType = MKMapType(
+            rawValue: UInt(self.userDefaults.integer(forKey: "mapType"))
+        )!
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -203,6 +211,7 @@ final class MapViewController: UIViewController {
         self.mapView.showsCompass = false
         self.mapView.showsUserLocation = true
         self.mapView.setUserTrackingMode(.follow, animated: true)
+        self.mapView.overrideUserInterfaceStyle = .light
         self.mapView.mapType = MKMapType(rawValue: UInt(self.userDefaults.integer(forKey: "mapType")))!
         
         //self.locationManager.showsBackgroundLocationIndicator = true
@@ -297,7 +306,6 @@ final class MapViewController: UIViewController {
             $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-30)
         }
-        
     }
     
     // 위치 추적모드 표시 버튼 설정
@@ -319,21 +327,40 @@ final class MapViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-//    // Notification을 받았을 때 수행할 내용 설정
-//    private func setupNotificationObserver() {
-//        NotificationCenter.default.addObserver(
-//            self, selector: #selector(self.setupMapRadius),
-//            name: Notification.Name("mapRadius"), object: nil
-//        )
-//    }
-//
-//    @objc private func setupMapRadius() {
-//        self.mapView.centerToLocation(
-//            location: self.currentLocation,
-//            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-//            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
-//        )
-//    }
+    // activity indicator 설정
+    private func setupActivityIndicator() {
+        self.view.addSubview(activityIndicator)
+        
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
+    
+    // Notification을 받았을 때 수행할 내용 설정
+    private func setupNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(self.setupMapRadius),
+            name: Notification.Name("mapRadius"), object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(self.removeMarkedAnnotation),
+            name: Notification.Name("removeMarkedPin"), object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(self.removeAnnotations),
+            name: Notification.Name("reloadMap"), object: nil
+        )
+    }
+
+    @objc private func setupMapRadius() {
+        self.mapView.centerToLocation(
+            location: self.currentLocation,
+            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
+            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+        )
+    }
     
     @objc private func mapViewTapped() {
         // 기존에 경로를 표시하고 있었다면 제거
@@ -341,8 +368,6 @@ final class MapViewController: UIViewController {
             self.mapView.removeOverlays(self.mapView.overlays)
         }
     }
-    
-    //MARK: - indirectly called method
     
     // 현재 사용자의 위치로 지도 이동
     internal func moveToCurrentLocation() {
@@ -357,6 +382,8 @@ final class MapViewController: UIViewController {
         )
     }
     
+    //MARK: - 지도 위 annotation 추가/제거 관련
+    
     // annotation cluster 설정
     internal func addAnnotations(with type: InfoType) {
         // 앱을 최초로 실행할 때(dataArray가 비어있을 떄)만 데이터 불러오기
@@ -364,9 +391,12 @@ final class MapViewController: UIViewController {
             dataArray = viewModel.getPublicData()
         }
         
-        self.clusterManager.remove(annotationArray)
-        annotationArray.removeAll()
-        annotationArray = (0..<self.dataArray.count).map { index in
+        // 배열 비우기
+        self.clusterManager.remove(self.annotationArray)
+        self.annotationArray.removeAll()
+        
+        // 모든 장소에 대해 Annotation 생성 후 배열에 담기
+        self.annotationArray = (0..<self.dataArray.count).map { index in
             let annotation = Annotation()
             if let lat = self.dataArray[index].lat,
                let lon = self.dataArray[index].lon {
@@ -374,61 +404,42 @@ final class MapViewController: UIViewController {
                 annotation.title = self.dataArray[index].name
                 annotation.subtitle = "\(self.dataArray[index].infoType.rawValue)"
                 annotation.index = index
+                annotation.marked = false
+                
+                // Realm DB에 저장된 MyPlace의 pinNumber와 annotation의 index를 비교하여
+                // 즐겨찾기에 등록된 annotation 찾아내기
+                if type == .marked {
+                    for (_, value) in self.viewModel.myPlaceData.enumerated() {
+                        if value.pinNumber == index { annotation.marked = true }
+                    }
+                }
             }
             return annotation
         }
         
         // 선택한 테마에 해당하는 annotation만 추가하기
-        self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
+        if type == .marked {
+            self.clusterManager.add(annotationArray.filter { $0.marked == true })
+        } else {
+            self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
+        }
         self.clusterManager.reload(mapView: self.mapView)
-        isAnnotationMarked[type.rawValue] = true
+        self.isAnnotationMarked[type.rawValue] = true
     }
     
-    internal func removeAnnotations() {
-        self.clusterManager.remove(annotationArray)
-        self.clusterManager.reload(mapView: self.mapView)
-        self.annotationArray.removeAll()
-    }
-    
-    // 지도에 경로 표시하기
-    internal func fetchRoute(
-        pickupCoordinate: CLLocationCoordinate2D,
-        destinationCoordinate: CLLocationCoordinate2D,
-        draw: Bool,
-        completion: @escaping ((Double, Double) -> Void)
-    ) {
-        let request = MKDirections.Request()
-        request.source = MKMapItem(
-            placemark: MKPlacemark(coordinate: pickupCoordinate, addressDictionary: nil)
-        )
-        request.destination = MKMapItem(
-            placemark: MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
-        )
-        request.requestsAlternateRoutes = true
-        request.transportType = .automobile
+    @objc private func removeMarkedAnnotation() {
+        if self.themeButtonCollectionView.indexPathsForSelectedItems?.first?.row == 3 {
+            self.clusterManager.remove(annotationArray[self.currentPinNumber])
+            self.clusterManager.reload(mapView: self.mapView)
+        }
         
-        let directions = MKDirections(request: request)
-        directions.calculate { [unowned self] response, error in
-            guard let response = response else { return }
-            
-            // 단일 루트 얻기
-            if let route = response.routes.first {
-                if draw {  // route를 그려야 하는 경우
-                    // 출발지-도착지 경로를 보여줄 지도 영역 설정
-                    // (출발지-도착지 간 위경도 차이의 1.5배 크기의 영역을 보여주기)
-                    var rect = MKCoordinateRegion(route.polyline.boundingMapRect)
-                    rect.span.latitudeDelta = abs(pickupCoordinate.latitude -
-                                                  destinationCoordinate.latitude) * 1.5
-                    rect.span.longitudeDelta = abs(pickupCoordinate.longitude -
-                                                   destinationCoordinate.longitude) * 1.5
-                    self.mapView.setRegion(rect, animated: true)
-                    
-                    // 경로 그리기
-                    self.mapView.addOverlay(route.polyline)
-                } else {  // 단순히 route 정보만 필요한 경우
-                    completion(route.distance, route.expectedTravelTime)
-                }
-            }
+    }
+    
+    @objc internal func removeAnnotations() {
+        if self.themeButtonCollectionView.indexPathsForSelectedItems?.first?.row == 3 {
+            self.clusterManager.remove(annotationArray)
+            self.clusterManager.reload(mapView: self.mapView)
+            self.annotationArray.removeAll()
         }
     }
     

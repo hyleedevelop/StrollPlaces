@@ -100,7 +100,8 @@ final class AddMyPlaceViewModel {
     }
     
     // Realm DB에 데이터 추가하기
-    func updateTrackData(name: String, explanation: String, feature: String, rating: Double) {
+    func updateTrackData(name: String, explanation: String, feature: String, rating: Double,
+                         completion: @escaping () -> Void) {
         // TrackData의 id, name, explanation, feature 업데이트
         let realm = try! Realm()
         try! realm.write {
@@ -123,6 +124,7 @@ final class AddMyPlaceViewModel {
                 pointDB[index].id = self.primaryKey!.stringValue
             }
         }
+        completion()
     }
     
     // 임시로 저장했던 경로 데이터 지우기
@@ -190,7 +192,7 @@ final class AddMyPlaceViewModel {
                 }
 
                 // stroke 하기
-                K.Map.routeLineColor.withAlphaComponent(0.75).setStroke()
+                K.Map.routeLineColor.withAlphaComponent(1.0).setStroke()
                 path.stroke()
             }
             

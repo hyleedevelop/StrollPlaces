@@ -55,7 +55,6 @@ extension PlaceInfoViewController {
     }
     
     internal func animateDismissView() {
-        
         // hide blur view
         dimmedView.alpha = maxDimmedAlpha
         
@@ -172,7 +171,7 @@ extension PlaceInfoViewController {
     }
     
     @objc private func handleCloseAction() {
-        animateDismissView()
+        self.animateDismissView()
     }
             
 }

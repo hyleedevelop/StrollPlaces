@@ -284,17 +284,6 @@ class MyPlaceViewController: UIViewController {
         self.performSegue(withIdentifier: "ToTrackingViewController", sender: self)
     }
     
-    // 나만의 산책길 생성 도움말 화면으로 이동
-//    @objc private func pushToHelp() {
-//        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPlaceHelpViewController") as? MyPlaceHelpViewController else { return }
-//        nextVC.modalPresentationStyle = .overFullScreen
-//        nextVC.hero.isEnabled = true
-//        nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .right),
-//                                                   dismissing: .slide(direction: .left))
-//
-//        self.present(nextVC, animated: true, completion: nil)
-//    }
-    
 }
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
@@ -346,6 +335,8 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
 
         if let indexOfRealm = realmDB.firstIndex(where: { $0._id == sortedDataID } ) {
             cell.nameLabel.hero.id = "nameLabel\(indexOfRealm)"
+            cell.timeLabel.hero.id = "timeLabel\(indexOfRealm)"
+            cell.distanceLabel.hero.id = "distanceLabel\(indexOfRealm)"
         }
         
         return cell
@@ -406,12 +397,10 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
                 
                 // 화면 상단에 완료 메세지 보여주기
-                SPIndicatorView(title: "삭제 완료", preset: .done)
-                    .present(duration: 2.0, haptic: .success)
+                SPIndicatorService.shared.showIndicator(title: "삭제 완료")
             } else {
                 // 화면 상단에 에러 메세지 보여주기
-                SPIndicatorView(title: "삭제 실패", preset: .error)
-                    .present(duration: 2.0, haptic: .error)
+                SPIndicatorService.shared.showIndicator(title: "삭제 실패", type: .error)
             }
         }
         

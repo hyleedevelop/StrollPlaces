@@ -58,16 +58,15 @@ final class NewsViewController: UIViewController {
     // 로딩 아이콘
     private let activityIndicator: NVActivityIndicatorView = {
         let activityIndicator = NVActivityIndicatorView(
-            frame: CGRect(x: 0, y: 0, width: 50, height: 50),
-            type: .ballRotateChase,
-            color: K.Color.themeYellow,
+            frame: CGRect(x: 0, y: 0, width: 40, height: 40),
+            type: .ballPulseSync,
+            color: K.Color.themeRed,
             padding: .zero)
-        activityIndicator.color = UIColor.black
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
     
-    // 맨 위로 올리기 버튼
+    // 화면을 맨 위의 셀로 이동하는 버튼
     private let scrollToTopButton: UIButton = {
         let button = UIButton()
         return button
@@ -81,7 +80,7 @@ final class NewsViewController: UIViewController {
         self.setupNavigationBar()
         self.setupTableView()
         self.setupRefreshControl()
-        self.setupLoadingIndicator()
+        self.setupActivityIndicator()
         self.setupScrollToTopView()
         
         self.fetchNews(searchKeyword: K.News.keyword)
@@ -161,13 +160,12 @@ final class NewsViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    // loading indicator 설정
-    private func setupLoadingIndicator() {
+    // activity indicator 설정
+    private func setupActivityIndicator() {
         self.view.addSubview(activityIndicator)
         
         activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
-            $0.width.height.equalTo(50)
         }
     }
     
@@ -194,26 +192,14 @@ final class NewsViewController: UIViewController {
         // indicator 활성화
         self.activityIndicator.startAnimating()
         
-        // API 요청 설정
-        let request = createURLRequest(
-            urlString: "https://openapi.naver.com/v1/search/news.json?query=\(searchKeyword)&display=100&sort=date"
-        )
-        let resource = Resource<NewsResponse>(urlRequest: request)
+        // API 요청을 위한 resource 설정
+        var resource: Resource<NewsResponse> {
+            let urlString = "https://openapi.naver.com/v1/search/news.json?query=\(searchKeyword)&display=100&sort=date"
+            return Resource<NewsResponse>(urlRequest: urlString.toURLRequest())
+        }
         
         // 뉴스를 가져와서 TableView에 표출하기
-        displayNewsOnTableView(resource: resource)
-    }
-    
-    // URLRequest 구조체 생성
-    private func createURLRequest(urlString: String) -> URLRequest {
-        let urlStringEncoded: String = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
-        let queryURL: URL = URL(string: urlStringEncoded)!
-        var urlRequest = URLRequest(url: queryURL)
-        
-        urlRequest.addValue(K.News.naverClientID, forHTTPHeaderField: "X-Naver-Client-Id")
-        urlRequest.addValue(K.News.naverClientKEY, forHTTPHeaderField: "X-Naver-Client-Secret")
-        
-        return urlRequest
+        self.displayNewsOnTableView(resource: resource)
     }
     
     // API로 뉴스 가져오기 및 TableView 표출
@@ -223,19 +209,22 @@ final class NewsViewController: UIViewController {
             .subscribe(onNext: { [weak self] newsResponse in
                 guard let self = self else { return }
                 
-                let news = newsResponse.items
-                self.viewModel = NewsViewModel(news)
-                
-                // TableView 갱신
-                self.tableView.reloadData()
-                
-                // 셀 표출 관련 애니메이션
-                let cells = self.tableView.visibleCells(in: 0)
-                let animations = [AnimationType.vector(CGVector(dx: 0, dy: 20))]
-                UIView.animate(views: cells, animations: animations, duration: 1.0)
-                
-                // indicator 비활성화
-                self.activityIndicator.stopAnimating()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    // ViewModel 초기화
+                    self.viewModel = NewsViewModel(newsResponse.items)
+                    
+                    // TableView 갱신
+                    self.tableView.reloadData()
+                    
+                    // 셀 표출 관련 애니메이션
+                    let cells = self.tableView.visibleCells(in: 0)
+                    let animations = [AnimationType.vector(CGVector(dx: 0, dy: 20))]
+                    UIView.animate(views: cells, animations: animations, duration: 1.0)
+                    
+                    // indicator 비활성화
+                    self.activityIndicator.stopAnimating()
+
+                }
             })
             .disposed(by: rx.disposeBag)
     }
@@ -244,8 +233,8 @@ final class NewsViewController: UIViewController {
     internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         
-        // 스크롤 offset이 350 이상이면 버튼 나타내기
-        if offsetY >= 350 {
+        // 스크롤 offset이 400 이상이면 버튼 나타내기
+        if offsetY >= 400 {
             if self.scrollToTop {
                 self.scrollToTopView.snp.updateConstraints {
                     $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(25)
@@ -253,7 +242,7 @@ final class NewsViewController: UIViewController {
                 UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
                 self.scrollToTop = false
             }
-        // 스크롤 offset이 350 미만이면 버튼 숨기기
+        // 스크롤 offset이 400 미만이면 버튼 숨기기
         } else {
             if !self.scrollToTop {
                 self.scrollToTopView.snp.updateConstraints {

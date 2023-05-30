@@ -43,6 +43,7 @@
 		0785ED3D2A1DA1370018D247 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */; };
 		07866FA029E7E4180001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
 		07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */; };
+		078E13512A24C5BC00EB6B88 /* SPIndicatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078E13502A24C5BC00EB6B88 /* SPIndicatorService.swift */; };
 		0790A42429D83161008C3923 /* TrackPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42329D83161008C3923 /* TrackPoint.swift */; };
 		0790A42629D83208008C3923 /* TrackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790A42529D83208008C3923 /* TrackData.swift */; };
 		07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07987ED029C05772004B87F0 /* ThemeCellData.swift */; };
@@ -183,6 +184,7 @@
 		078480FC29FB97DD00A3CDB3 /* Artwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
 		0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingAttributes.swift; sourceTree = "<group>"; };
+		078E13502A24C5BC00EB6B88 /* SPIndicatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPIndicatorService.swift; sourceTree = "<group>"; };
 		0790A42329D83161008C3923 /* TrackPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPoint.swift; sourceTree = "<group>"; };
 		0790A42529D83208008C3923 /* TrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackData.swift; sourceTree = "<group>"; };
 		07987ED029C05772004B87F0 /* ThemeCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCellData.swift; sourceTree = "<group>"; };
@@ -408,12 +410,12 @@
 				075FE43C29C5B42F00A5694C /* MapViewController+Annotation.swift */,
 				0712E4AA29C6B3A000243DF8 /* PlaceInfoViewController.swift */,
 				0780E72029C7F99E0030026F /* PlaceInfoViewController+Modal.swift */,
+				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
 				0799CCCB29BF5979006AB70D /* MyPlaceViewController.swift */,
 				07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */,
 				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
 				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
 				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
-				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
 				0799CCCD29BF5980006AB70D /* MoreViewController.swift */,
 				0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */,
 			);
@@ -440,11 +442,11 @@
 				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
 				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
 				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
+				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
 				0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */,
 				07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */,
 				0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */,
 				0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */,
-				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
 				07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */,
 			);
 			path = ViewModel;
@@ -474,6 +476,7 @@
 				078480FC29FB97DD00A3CDB3 /* Artwork.swift */,
 				070FFAFF29D56B4900987285 /* AlertService.swift */,
 				0760D51C29D3296600796D73 /* RealmService.swift */,
+				078E13502A24C5BC00EB6B88 /* SPIndicatorService.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -539,11 +542,11 @@
 			isa = PBXGroup;
 			children = (
 				0785ED3C2A1DA1370018D247 /* GoogleService-Info.plist */,
+				07E7279C2A210C90006FC690 /* Info.plist */,
 				0799CC9E29BF584C006AB70D /* Assets.xcassets */,
 				07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */,
 				07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */,
 				07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */,
-				07E7279C2A210C90006FC690 /* Info.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -910,6 +913,7 @@
 				0760D51F29D32ED100796D73 /* MyPlaceData.swift in Sources */,
 				079AF4F229C74C9D006C365B /* SplashViewController.swift in Sources */,
 				0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */,
+				078E13512A24C5BC00EB6B88 /* SPIndicatorService.swift in Sources */,
 				072D5BBE29C304C60024B938 /* MapViewController+CollectionView.swift in Sources */,
 				0799CCC829BF595C006AB70D /* TabBarController.swift in Sources */,
 				07FD50C32A0A0B3200FFE3EC /* OnboardingData.swift in Sources */,
@@ -1164,7 +1168,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1186,7 +1190,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1207,7 +1211,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Shared/Resource/Info.plist";
@@ -1228,7 +1232,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

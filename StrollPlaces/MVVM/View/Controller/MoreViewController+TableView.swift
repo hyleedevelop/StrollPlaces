@@ -6,9 +6,6 @@
 //
 
 import UIKit
-import MapKit
-import SafariServices
-import SPIndicator
 
 //MARK: - extension for UITableViewDelegate, UITableViewDataSource
 
@@ -16,24 +13,20 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     
     // Section의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.viewModel.getNumberOfSections()
+        return self.viewModel.numberOfSections
     }
     
     // Section 내의 Cell 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.getNumberOfRowsInSection(at: section)
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.viewModel.getTitleForHeaderInSection(at: section)
+        return self.viewModel.numberOfRowsInSection(at: section)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 50 : 40
+        return self.viewModel.headerHeight(at: section)
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 40
+        return self.viewModel.footerHeight
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -44,7 +37,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         titleLabel.textColor = UIColor.black
-        titleLabel.text = self.viewModel.getTitleForHeaderInSection(at: section)
+        titleLabel.text = self.viewModel.titleForHeaderInSection(at: section)
         
         let headerView = UIView()
         headerView.addSubview(titleLabel)
@@ -61,12 +54,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         let footerView = UIView()
         footerView.addSubview(separatorView)
         
-        return section == self.viewModel.getNumberOfSections()-1 ? nil : footerView
+        return section == self.viewModel.numberOfSections-1 ? nil : footerView
     }
     
     // TableViewCell 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return self.viewModel.cellHeight
     }
     
     // TableViewCell에 표출할 내용
@@ -83,24 +76,19 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
             if indexPath.row == 0 {
-                cell.descriptionLabel.text = self.viewModel.getLabelTextForMapType()
+                cell.descriptionLabel.text = self.viewModel.labelTextForMapType
             }
             if indexPath.row == 1 {
-                cell.descriptionLabel.text = self.viewModel.getLabelTextForMapRadius()
+                cell.descriptionLabel.text = self.viewModel.labelTextForMapRadius
             }
             
         case .feedback:
-            if indexPath.row == 0 {
-                
-            }
-            if indexPath.row == 1 {
-                
-            }
+            break
             
         case .aboutTheApp:
             if indexPath.row == 3 {
-                cell.descriptionLabel.text = "\(self.viewModel.getCurrentAppVersion()) " +
-                "(\(self.viewModel.getCurrentBuildNumber()))"
+                cell.descriptionLabel.text =
+                "\(self.viewModel.appVersion) (\(self.viewModel.buildNumber))"
             }
             
         case .none:
@@ -117,18 +105,23 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
             if indexPath.row == 0 {
-                self.present(self.viewModel.getActionForMapType(), animated: true, completion: nil)
+                self.present(self.viewModel.actionForMapType, animated: true)
             }
             if indexPath.row == 1 {
-                self.present(self.viewModel.getActionForMapRadius(), animated: true, completion: nil)
+                self.present(self.viewModel.actionForMapRadius, animated: true)
             }
             if indexPath.row == 2 {
-                self.present(self.viewModel.getActionForDBRemoval(), animated: true, completion: nil)
+                self.present(self.viewModel.actionForMarkRemoval, animated: true)
+            }
+            if indexPath.row == 3 {
+                self.present(self.viewModel.actionForDBRemoval, animated: true)
             }
             
         case .feedback:
             if indexPath.row == 0 {
-                self.showWillBeUpdatedMessage()
+                self.viewModel.showSafariView(
+                    viewController: self, urlString: K.More.writeReviewURL
+                )
             }
             if indexPath.row == 1 {
                 self.contactMenuTapped()
@@ -136,13 +129,19 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             
         case .aboutTheApp:
             if indexPath.row == 0 {
-                self.showSafariView(urlString: K.More.helpURL)
+                self.viewModel.showSafariView(
+                    viewController: self, urlString: K.More.helpURL
+                )
             }
             if indexPath.row == 1 {
-                self.showSafariView(urlString: K.More.privacyPolicyURL)
+                self.viewModel.showSafariView(
+                    viewController: self, urlString: K.More.privacyPolicyURL
+                )
             }
             if indexPath.row == 2 {
-                self.showSafariView(urlString: K.More.termsAndConditionsURL)
+                self.viewModel.showSafariView(
+                    viewController: self, urlString: K.More.termsAndConditionsURL
+                )
             }
             
         case .none:
