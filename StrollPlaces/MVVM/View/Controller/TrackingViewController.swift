@@ -201,35 +201,8 @@ final class TrackingViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
-                // 진짜로 리셋할 것인지 alert message 보여주고 확인받기
-                let alert = UIAlertController(
-                    title: "확인",
-                    message: "경로 생성을 중단할까요?\n지금까지 기록한 경로는 삭제됩니다.",
-                    preferredStyle: .alert
-                )
-                let cancelAction = UIAlertAction(title: "아니요", style: .default)
-                let okAction = UIAlertAction(title: "네", style: .destructive) { _ in
-                    // 타이머 중단
-                    self.viewModel.stopTimer()
-                    // 경로 데이터 초기화
-                    self.viewModel.clearTrackDataArray()
-                    // 지도 위의 경로 표시 제거
-                    self.mapView.removeOverlays(self.mapView.overlays)
-                    // 추적 모드 해제
-                    self.isTrackingAllowed = false
-                    // 잠금화면의 live activity 중단
-                    LiveActivityService.shared.deactivate()
-                    // navigation bar 숨기기 해제
-                    self.navigationController?.navigationBar.isHidden = false
-                    // 이전 화면으로 돌아가기
-                    self.navigationController?.popViewController(animated: true)
-                }
-                alert.addAction(okAction)
-                alert.addAction(cancelAction)
-                
-                // 메세지 보여주기
-                self.present(alert, animated: true, completion: nil)
-
+                self.viewModel.getActionForStopTracking(viewController: self, mapView: self.mapView)
+                self.isTrackingAllowed = false
             })
             .disposed(by: rx.disposeBag)
     }

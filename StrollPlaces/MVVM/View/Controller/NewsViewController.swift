@@ -90,7 +90,7 @@ final class NewsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Navigation Bar 기본 설정
-        navigationController?.applyCommonSettings()
+        navigationController?.applyCustomSettings()
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -106,7 +106,7 @@ final class NewsViewController: UIViewController {
     // NavigationBar 설정
     private func setupNavigationBar() {
         // Navigation Bar 기본 설정
-        navigationController?.applyCommonSettings()
+        navigationController?.applyCustomSettings()
         
         // 좌측 상단에 위치한 타이틀 설정
         navigationItem.makeLeftSideTitle(title: "산책길 관련 소식")

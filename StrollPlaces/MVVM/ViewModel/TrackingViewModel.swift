@@ -11,10 +11,11 @@ import RxCocoa
 import NSObject_Rx
 import RealmSwift
 import CoreLocation
+import MapKit
 
 final class TrackingViewModel {
     
-    //MARK: - property
+    //MARK: - 속성 선언
     
     private var hours: Int = 0
     private var minutes: Int = 0
@@ -66,13 +67,13 @@ final class TrackingViewModel {
     var distanceRelay = BehaviorRelay<String>(value: "0.0m")
     var locationRelay = BehaviorRelay<String>(value: "-")
     
-    //MARK: - initializer
+    //MARK: - 생성자 관련
     
     init() {
         
     }
     
-    //MARK: - directly called method
+    //MARK: - 타이머 관련
     
     // 타이머 시작
     func startTimer() {
@@ -122,6 +123,14 @@ final class TrackingViewModel {
         self.locationRelay.accept("위치 파악중")
     }
     
+    // 타이머 초기화
+    private func invalidateTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    //MARK: - Realm DB 관련
+    
     // Realm DB에 경로 데이터 저장하기
     func createTrackData() {
         let dataToAppend = TrackData(
@@ -145,6 +154,8 @@ final class TrackingViewModel {
         self.distance = 0.0
         self.count = 0
     }
+    
+    //MARK: - 지도 관련
     
     // 경로 추가 및 이동거리(현재 지점 <-> 이전 지점) 누적 계산
     func appendTrackPoint(currentLatitude: Double,
@@ -184,14 +195,6 @@ final class TrackingViewModel {
         self.count += 1
     }
     
-    //MARK: - indirectly called method
-    
-    // 타이머 초기화
-    private func invalidateTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-    
     // 두 지점의 위도 및 경도를 받아서 거리를 계산
     private func getDistanceBetweenTwoPoints(startLat: Double, startLon: Double,
                                              endLat: Double, endLon: Double) -> CLLocationDistance {
@@ -212,6 +215,39 @@ final class TrackingViewModel {
                 locationRelay.accept("위치 파악 불가")
             }
         }
+    }
+    
+    //MARK: - Action 관련
+    
+    // 즐겨찾기 데이터 초기화를 위한 Action 구성
+    func getActionForStopTracking(viewController: UIViewController, mapView: MKMapView) {
+        let alert = UIAlertController(
+            title: "확인",
+            message: "경로 생성을 중단할까요?\n지금까지 기록한 경로는 삭제됩니다.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "아니요", style: .default)
+        )
+        alert.addAction(
+            UIAlertAction(title: "네", style: .destructive) { _ in
+                // 타이머 중단
+                self.stopTimer()
+                // 경로 데이터 초기화
+                self.clearTrackDataArray()
+                // 지도 위의 경로 표시 제거
+                mapView.removeOverlays(mapView.overlays)
+                // 잠금화면의 live activity 중단
+                LiveActivityService.shared.deactivate()
+                // navigation bar 숨기기 해제
+                viewController.navigationController?.navigationBar.isHidden = false
+                // 이전 화면으로 돌아가기
+                viewController.navigationController?.popViewController(animated: true)
+            }
+        )
+        
+        viewController.present(alert, animated: true, completion: nil)
     }
     
 }

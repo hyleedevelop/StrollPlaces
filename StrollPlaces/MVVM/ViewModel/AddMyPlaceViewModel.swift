@@ -12,10 +12,11 @@ import NSObject_Rx
 import RealmSwift
 import CoreLocation
 import MapKit
+import SkyFloatingLabelTextField
 
 final class AddMyPlaceViewModel {
     
-    //MARK: - property
+    //MARK: - 속성 선언
     
     var trackData = RealmService.shared.realm.objects(TrackData.self)
     private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
@@ -26,13 +27,30 @@ final class AddMyPlaceViewModel {
     var timeRelay = BehaviorRelay<String>(value: "알수없음")
     var distanceRelay = BehaviorRelay<String>(value: "알수없음")
     
-    //MARK: - initializer
+    //MARK: - 생성자 관련
+    
+    let startAnnotation: Artwork!
+    let endAnnotation: Artwork!
     
     init() {
+        self.startAnnotation = Artwork(
+            title: "출발",
+            coordinate: CLLocationCoordinate2D(
+                latitude: self.trackData.last?.points.first?.latitude ?? 0.0,
+                longitude: self.trackData.last?.points.first?.longitude ?? 0.0
+            )
+        )
         
+        self.endAnnotation = Artwork(
+            title: "도착",
+            coordinate: CLLocationCoordinate2D(
+                latitude: self.trackData.last?.points.last?.latitude ?? 0.0,
+                longitude: self.trackData.last?.points.last?.longitude ?? 0.0
+            )
+        )
     }
     
-    //MARK: - directly called method
+    //MARK: - Realm DB 관련
     
     // Realm DB에 임시저장 해놓은 경로 데이터를 받아 relay에서 요소 방출
     func getTrackDataFromRealmDB() {
@@ -61,42 +79,6 @@ final class AddMyPlaceViewModel {
             }
         }
         self.distanceRelay.accept(distanceString)
-    }
-    
-    // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
-    func getTrackPointForPolyline() -> [CLLocationCoordinate2D] {
-        // Realm DB에서 자료 읽기 및 빈 배열 생성
-        let trackPoint = RealmService.shared.realm.objects(TrackData.self).last?.points
-        
-        // List<TrackPoint> (위도+경도) -> CLLocationCoordinate2D (좌표)
-        guard let tp = trackPoint else { fatalError("could not find track points...") }
-        for index in 0..<tp.count {
-            let coordinate = CLLocationCoordinate2DMake(tp[index].latitude,
-                                                        tp[index].longitude)
-            self.points.append(coordinate)
-        }
-        
-        return self.points
-    }
-    
-    // 경로를 보여줄 영역 정보 가져오기
-    func getDeltaCoordinate() -> (Double, Double)? {
-        var latitudeArray = [Double]()
-        var longitudeArray = [Double]()
-        
-        for index in 0..<self.points.count {
-            latitudeArray.append(self.points[index].latitude)
-            longitudeArray.append(self.points[index].longitude)
-        }
-        
-        if latitudeArray.max() != nil, latitudeArray.min() != nil,
-           longitudeArray.max() != nil, longitudeArray.min() != nil {
-            let latitudeDelta = abs(latitudeArray.max()! - latitudeArray.min()!) * 1.5
-            let longitudeDelta = abs(longitudeArray.max()! - longitudeArray.min()!) * 1.5
-            return (latitudeDelta, longitudeDelta)
-        } else {
-            return nil
-        }
     }
     
     // Realm DB에 데이터 추가하기
@@ -151,6 +133,127 @@ final class AddMyPlaceViewModel {
         return self.trackData.firstIndex(where: { $0.name == name } ) == nil ? true : false
     }
     
+    //MARK: - 입력값에 대한 유효성 검사 관련
+    
+    // TextField에 입력된 문자열에 대한 유효성 검사
+    func checkTextFieldIsValid(_ text: String, _ textField: SkyFloatingLabelTextField, isNameField: Bool) -> Bool {
+        if isNameField {
+            // 문자열 길이가 적절한지 판단
+            let isLengthValid: Bool = (2...10) ~= text.count
+            // 문자열이 기존의 Realm DB에 저장된 산책길 이름과 중복되지 않는지 판단
+            let isUniqueName: Bool = self.checkIfThereIsTheSameName(name: text)
+            
+            // 텍스트필드 아래에 에러 메세지 표출
+            if !isLengthValid {
+                textField.errorMessage = "2글자 이상, 10글자 이하"
+            } else {
+                textField.errorMessage = !isUniqueName ? "중복되는 이름" : nil
+            }
+            
+            return isLengthValid && isUniqueName
+        } else {
+            // 문자열 길이가 적절한지 판단
+            let isLengthValid: Bool = (2...20) ~= text.count
+            
+            // 텍스트필드 아래에 에러 메세지 표출
+            textField.errorMessage = !isLengthValid ? "2글자 이상, 20글자 이하" : nil
+            
+            return isLengthValid
+        }
+    }
+    
+    // TextField의 글자수 제한을 넘기면 초과되는 부분은 입력되지 않도록 설정
+    func limitTextFieldLength(_ text: String, _ textField: UITextField, isNameField: Bool) -> String {
+        let maxLength: Int = isNameField ? 10 : 20
+        if text.count > maxLength {
+            let index = text.index(text.startIndex, offsetBy: maxLength)
+            textField.text = String(text[..<index])
+            return String(text[..<index])
+        } else {
+            return text
+        }
+    }
+    
+    // 산책길 난이도 별점에 대한 유효성 검사
+    func checkstarRatingIsValid(value: Double) -> Bool {
+        return (1.0...5.0) ~= value ? true : false
+    }
+    
+    //MARK: - 지도 관련
+    
+    // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
+    func getTrackPointForPolyline() -> [CLLocationCoordinate2D] {
+        // Realm DB에서 자료 읽기 및 빈 배열 생성
+        let trackPoint = RealmService.shared.realm.objects(TrackData.self).last?.points
+        
+        // List<TrackPoint> (위도+경도) -> CLLocationCoordinate2D (좌표)
+        guard let tp = trackPoint else { fatalError("could not find track points...") }
+        for index in 0..<tp.count {
+            let coordinate = CLLocationCoordinate2DMake(tp[index].latitude,
+                                                        tp[index].longitude)
+            self.points.append(coordinate)
+        }
+        
+        return self.points
+    }
+    
+    // 경로를 보여줄 영역 정보 가져오기
+    func getDeltaCoordinate() -> (Double, Double)? {
+        var latitudeArray = [Double]()
+        var longitudeArray = [Double]()
+        
+        for index in 0..<self.points.count {
+            latitudeArray.append(self.points[index].latitude)
+            longitudeArray.append(self.points[index].longitude)
+        }
+        
+        if latitudeArray.max() != nil, latitudeArray.min() != nil,
+           longitudeArray.max() != nil, longitudeArray.min() != nil {
+            let latitudeDelta = abs(latitudeArray.max()! - latitudeArray.min()!) * 1.5
+            let longitudeDelta = abs(longitudeArray.max()! - longitudeArray.min()!) * 1.5
+            return (latitudeDelta, longitudeDelta)
+        } else {
+            return nil
+        }
+    }
+    
+    // MKAnnotationView 생성
+    func getAnnotationView(mapView: MKMapView, annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? Artwork else { return nil }
+        
+        let identifier = "artwork"
+        var view: MKMarkerAnnotationView
+        
+        if let dequeuedView = mapView
+            .dequeueReusableAnnotationView(withIdentifier: identifier) as? RouteAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = MKMarkerAnnotationView(
+                annotation: annotation,
+                reuseIdentifier: identifier
+            )
+            view.markerTintColor = annotation.title == "출발" ? K.Color.themeRed : K.Color.themeGreen
+            view.canShowCallout = false
+        }
+        
+        return view
+    }
+    
+    // MKOverlayRenderer 생성
+    func getOverlayRenderer(mapView: MKMapView, overlay: MKOverlay) -> MKOverlayRenderer {
+        guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
+        let renderer = MKPolylineRenderer(polyline: routeLine)
+        
+        renderer.strokeColor = K.Map.routeLineColor
+        renderer.lineWidth = K.Map.routeLineWidth
+        renderer.alpha = K.Map.routeLineAlpha
+        
+        return renderer
+    }
+    
+    //MARK: - 이미지 파일 관련
+    
     // 경로가 표시된 지도 이미지를 Document 폴더에 저장히기(new)
     func saveMapViewAsImage(region: MKCoordinateRegion, size: CGSize) {
         let options = MKMapSnapshotter.Options()
@@ -200,8 +303,6 @@ final class AddMyPlaceViewModel {
             self.saveRenderedImageToDocumentDirectory(image: finalImage)
         }
     }
-    
-    //MARK: - indirectly called method
     
     // 경로가 표시된 지도 이미지를 Document 폴더에 저장하기
     func saveRenderedImageToDocumentDirectory(image: UIImage) {
@@ -257,4 +358,29 @@ final class AddMyPlaceViewModel {
         }
     }
     
+    //MARK: - Action 관련
+    
+    // 즐겨찾기 데이터 초기화를 위한 Action 구성
+    func actionForMarkRemoval(viewController: UIViewController) {
+        // 진짜로 취소할 것인지 alert message 보여주고 확인받기
+        let alert = UIAlertController(
+            title: "확인",
+            message: "지금까지 작성한 내용을\n모두 삭제할까요?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "아니요", style: .default)
+        )
+        alert.addAction(
+            UIAlertAction(title: "네", style: .destructive) { _ in
+                // Realm DB에 임시로 저장했던 경로 삭제하기
+                self.clearTemporaryTrackData()
+                // 이전화면(경로만들기)로 돌아가기
+                viewController.navigationController?.popToRootViewController(animated: true)
+            }
+        )
+        
+        viewController.present(alert, animated: true, completion: nil)
+    }
 }

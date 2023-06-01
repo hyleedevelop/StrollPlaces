@@ -17,6 +17,11 @@ final class MoreViewModel {
     
     //MARK: - 생성자
     
+    private let appSettings: [MoreCellData]!
+    private let feedback: [MoreCellData]!
+    private let aboutTheApp: [MoreCellData]!
+    let moreCellData: [[MoreCellData]]!
+    
     init() {
         appSettings = [
             MoreCellData(title: "지도 종류", value: nil),
@@ -43,10 +48,6 @@ final class MoreViewModel {
     //MARK: - 앱 설정 관련
     
     private let userDefaults = UserDefaults.standard
-    private let appSettings: [MoreCellData]!
-    private let feedback: [MoreCellData]!
-    private let aboutTheApp: [MoreCellData]!
-    let moreCellData: [[MoreCellData]]!
     let shouldReloadTableView = BehaviorSubject<Bool>(value: false)
     
     // 현재 지도 표시 범위를 나타낼 텍스트

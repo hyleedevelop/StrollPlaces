@@ -12,7 +12,8 @@ import SnapKit
 
 extension UINavigationController {
     
-    func applyCommonSettings() {
+    // 커스텀 설정
+    func applyCustomSettings() {
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.shadowColor = UIColor.systemGray5
         standardAppearance.backgroundColor = UIColor.white
@@ -34,14 +35,34 @@ extension UINavigationController {
         //self.extendedLayoutIncludesOpaqueBars = true
     }
     
+    // 기본 설정
+    func applyDefaultSettings() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.shadowColor = .clear
+        navigationBarAppearance.backgroundColor = UIColor.white
+        
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.isTranslucent = false
+        
+        navigationController?.setNeedsStatusBarAppearanceUpdate()
+
+        navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        navigationItem.standardAppearance = navigationBarAppearance
+        
+        self.extendedLayoutIncludesOpaqueBars = true
+    }
+    
 }
 
 //MARK: - UINavigationItem
 
 extension UINavigationItem {
  
+    // 화면 왼쪽에 커스텀 타이틀 생성
     func makeLeftSideTitle(title: String) {
-        // 커스텀 타이틀 지정
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.black
         titleLabel.text = title
@@ -49,6 +70,7 @@ extension UINavigationItem {
         self.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)
     }
     
+    // 화면 오른쪽에 일반 버튼 생성 (SFSymbol 아이콘)
     func makeSFSymbolButton(_ target: Any?, action: Selector, symbolName: String) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: symbolName), for: .normal)
@@ -63,6 +85,7 @@ extension UINavigationItem {
         return barButtonItem
     }
     
+    // 화면 오른쪽에 메뉴 버튼 생성 (SFSymbol 아이콘)
     func makeSFSymbolButton(_ target: Any?, menu: UIMenu, symbolName: String) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: symbolName), for: .normal)
@@ -78,6 +101,7 @@ extension UINavigationItem {
         return barButtonItem
     }
     
+    // 화면 오른쪽에 일반 버튼 생성 (커스텀 아이콘)
     func makeCustomSymbolButton(_ target: Any?, action: Selector, symbolName: String) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: symbolName), for: .normal)
@@ -92,6 +116,7 @@ extension UINavigationItem {
         return barButtonItem
     }
     
+    // 화면 오른쪽에 메뉴 버튼 생성 (커스텀 아이콘)
     func makeCustomSymbolButton(_ target: Any?, menu: UIMenu, symbolName: String) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: symbolName), for: .normal)

@@ -17,7 +17,7 @@ extension URLRequest {
     
     static func load<T>(resource: Resource<T>) -> Observable<T> {
         return Observable.just(resource.urlRequest)
-            .flatMap { urlRequest -> Observable<Data> in
+            .flatMap { urlRequest -> Observable<Data> in                
                 return URLSession.shared.rx.data(request: urlRequest)
             }
             .map { data -> T in

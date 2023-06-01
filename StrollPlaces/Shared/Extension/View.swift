@@ -25,7 +25,6 @@ extension UIView {
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
     
-    
     // 아래에서 위로 끌어올리면서 화면을 펼치기
     func slideUpShow(_ duration: CGFloat){
         self.alpha = 1
