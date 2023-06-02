@@ -47,7 +47,6 @@ class PlaceInfoViewController: UIViewController {
         button.dotFirstColor = K.Color.themeYellow
         button.dotSecondColor = UIColor.orange
         button.circleToColor = K.Color.themeYellow
-        //button.isSelected = self.viewModel.isChecked
         button.delegate = self
         return button
     }()
@@ -266,7 +265,6 @@ class PlaceInfoViewController: UIViewController {
         self.tableView.snp.makeConstraints {
             $0.top.equalTo(self.navigateButton.snp_bottomMargin).offset(25)
             $0.left.right.equalTo(self.containerView.safeAreaLayoutGuide)
-            //$0.height.equalTo(300)
             $0.bottom.equalTo(self.containerView.safeAreaLayoutGuide).offset(-20)
         }
     }

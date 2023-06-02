@@ -36,21 +36,22 @@ extension UINavigationController {
     }
     
     // 기본 설정
-    func applyDefaultSettings() {
+    func applyDefaultSettings(hideBar: Bool) {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
         navigationBarAppearance.shadowColor = .clear
         navigationBarAppearance.backgroundColor = UIColor.white
         
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.isTranslucent = false
+        self.navigationBar.standardAppearance = navigationBarAppearance
+        self.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        self.navigationBar.prefersLargeTitles = false
+        self.navigationBar.isTranslucent = false
+        self.navigationBar.isHidden = hideBar
         
-        navigationController?.setNeedsStatusBarAppearanceUpdate()
+        self.setNeedsStatusBarAppearanceUpdate()
 
-        navigationItem.scrollEdgeAppearance = navigationBarAppearance
-        navigationItem.standardAppearance = navigationBarAppearance
+        self.navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        self.navigationItem.standardAppearance = navigationBarAppearance
         
         self.extendedLayoutIncludesOpaqueBars = true
     }

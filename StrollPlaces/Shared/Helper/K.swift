@@ -114,11 +114,10 @@ struct K {
     // 메세지 관련
     struct Message {
         static let emailAddress = "hyleedevelop@gmail.com"
-        static let errorTitle = "Error"
-        static let resetMessage = "Are you sure you want to reset all input?"
+        static let errorTitle = "오류"
         static let exportAsImageMessage = "Do you want to export the result as an image?"
-        static let sendEmailErrorMessage = "Check your e-mail settings."
-        static let notifyLaterUpdate = "This will be updated soon."
+        static let sendEmailErrorMessage = "이메일 설정을 확인하시기 바랍니다."
+        static let notifyLaterUpdate = "곧 업데이트 예정입니다."
     }
     
     // 더보기 탭 관련

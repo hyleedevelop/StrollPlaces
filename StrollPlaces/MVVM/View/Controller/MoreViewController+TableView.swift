@@ -30,31 +30,11 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let yPosition: CGFloat = section == 0 ? 20 : 10
-        let titleLabel = UILabel(frame: CGRect(
-            x: 10, y: yPosition, width: tableView.frame.width, height: 18
-        ))
-        titleLabel.textAlignment = .left
-        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        titleLabel.textColor = UIColor.black
-        titleLabel.text = self.viewModel.titleForHeaderInSection(at: section)
-        
-        let headerView = UIView()
-        headerView.addSubview(titleLabel)
-        
-        return headerView
+        return self.viewModel.headerInSection(tableView: tableView, at: section)
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let separatorView = UIView(frame: CGRect(
-            x: -20, y: 20, width: tableView.frame.width, height: 1
-        ))
-        separatorView.backgroundColor = UIColor.systemGray5
-        
-        let footerView = UIView()
-        footerView.addSubview(separatorView)
-        
-        return section == self.viewModel.numberOfSections-1 ? nil : footerView
+        return self.viewModel.footerInSection(tableView: tableView, at: section)
     }
     
     // TableViewCell 높이 설정
@@ -124,7 +104,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 )
             }
             if indexPath.row == 1 {
-                self.contactMenuTapped()
+                self.viewModel.contactMenuTapped(viewController: self)
             }
             
         case .aboutTheApp:

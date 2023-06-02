@@ -217,41 +217,6 @@ final class AddMyPlaceViewModel {
         }
     }
     
-    // MKAnnotationView 생성
-    func getAnnotationView(mapView: MKMapView, annotation: MKAnnotation) -> MKAnnotationView? {
-        guard let annotation = annotation as? Artwork else { return nil }
-        
-        let identifier = "artwork"
-        var view: MKMarkerAnnotationView
-        
-        if let dequeuedView = mapView
-            .dequeueReusableAnnotationView(withIdentifier: identifier) as? RouteAnnotationView {
-            dequeuedView.annotation = annotation
-            view = dequeuedView
-        } else {
-            view = MKMarkerAnnotationView(
-                annotation: annotation,
-                reuseIdentifier: identifier
-            )
-            view.markerTintColor = annotation.title == "출발" ? K.Color.themeRed : K.Color.themeGreen
-            view.canShowCallout = false
-        }
-        
-        return view
-    }
-    
-    // MKOverlayRenderer 생성
-    func getOverlayRenderer(mapView: MKMapView, overlay: MKOverlay) -> MKOverlayRenderer {
-        guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
-        let renderer = MKPolylineRenderer(polyline: routeLine)
-        
-        renderer.strokeColor = K.Map.routeLineColor
-        renderer.lineWidth = K.Map.routeLineWidth
-        renderer.alpha = K.Map.routeLineAlpha
-        
-        return renderer
-    }
-    
     //MARK: - 이미지 파일 관련
     
     // 경로가 표시된 지도 이미지를 Document 폴더에 저장히기(new)

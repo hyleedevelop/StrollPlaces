@@ -68,6 +68,7 @@ final class PlaceInfoViewModel {
     var shouldCheckFaveButton = false
     
     //MARK: - Modal View 화면 관련
+    
     // 현재 위치에서 멀리 떨어져있는 annotation을 선택하면 경로를 계산하는데 시간이 살짝 소요됨
     // -> 경로 계산 결과가 나오기 전까지 기본값을 먼저 label에 표출
     // -> 계산이 끝나면 didSet을 통해 새로운 label 업데이트

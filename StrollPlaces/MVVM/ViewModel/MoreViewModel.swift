@@ -137,7 +137,7 @@ final class MoreViewModel {
     // 사용자의 기기 OS 버전
     let iOSVersion = UIDevice.current.systemVersion
     
-    //MARK: - TableView Cell 정보 관련
+    //MARK: - TableView Cell 관련
     
     // section의 개수
     let numberOfSections: Int = MoreCellSection.allCases.count
@@ -158,8 +158,25 @@ final class MoreViewModel {
     // cell 높이
     let cellHeight: CGFloat = 44
     
+    // custom header view
+    func headerInSection(tableView: UITableView, at section: Int) -> UIView? {
+        let yPosition: CGFloat = section == 0 ? 20 : 10
+        let titleLabel = UILabel(frame: CGRect(
+            x: 10, y: yPosition, width: tableView.frame.width, height: 18
+        ))
+        titleLabel.textAlignment = .left
+        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        titleLabel.textColor = UIColor.black
+        titleLabel.text = self.titleForHeaderInSection(at: section)
+        
+        let headerView = UIView()
+        headerView.addSubview(titleLabel)
+        
+        return headerView
+    }
+    
     // 텍스트 정보
-    func titleForHeaderInSection(at section: Int) -> String? {
+    private func titleForHeaderInSection(at section: Int) -> String? {
         switch MoreCellSection(rawValue: section) {
         case .appSettings:
             return K.More.appSettingsTitle
@@ -170,6 +187,19 @@ final class MoreViewModel {
         case .none:
             return nil
         }
+    }
+    
+    // custom footer view
+    func footerInSection(tableView: UITableView, at section: Int) -> UIView? {
+        let separatorView = UIView(frame: CGRect(
+            x: -20, y: 20, width: tableView.frame.width, height: 1
+        ))
+        separatorView.backgroundColor = UIColor.systemGray5
+        
+        let footerView = UIView()
+        footerView.addSubview(separatorView)
+        
+        return section == self.numberOfSections-1 ? nil : footerView
     }
     
     //MARK: - Action 관련
@@ -304,6 +334,37 @@ final class MoreViewModel {
         return alert
     }
     
+    // 추후 업데이트 예정이라는 Alert Message 표시
+    func showWillBeUpdatedMessage(viewController: UIViewController) {
+        let alert = UIAlertController(title: K.More.sorryTitle,
+                                      message: K.More.notifyLaterUpdateMessage,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        viewController.present(alert, animated: true, completion: nil)
+    }
+    
+    // 문의사항 메뉴 클릭 시 이메일 쓰기
+    func contactMenuTapped(viewController: UIViewController) {
+        if MFMailComposeViewController.canSendMail() {
+            let compseViewController = MFMailComposeViewController()
+            compseViewController.mailComposeDelegate = (viewController as! any MFMailComposeViewControllerDelegate)
+            compseViewController.setToRecipients([K.Message.emailAddress])
+            compseViewController.setSubject("[App Contact Email] ")
+            compseViewController.setMessageBody(self.messageBody, isHTML: false)
+
+            viewController.present(compseViewController, animated: true, completion: nil)
+        }
+        else {
+            let sendMailErrorAlert = UIAlertController(title: K.Message.errorTitle,
+                                                       message: K.Message.sendEmailErrorMessage,
+                                                       preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "OK", style: .default)
+            sendMailErrorAlert.addAction(confirmAction)
+            viewController.present(sendMailErrorAlert, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: - Realm DB 관련
     
     // MY산책길 관련 Realm DB 삭제
@@ -346,7 +407,7 @@ final class MoreViewModel {
         }
     }
     
-    //MARK: - Redirection 관련
+    //MARK: - 이메일/브라우저 관련
     
     // 메일 기본 양식
     var messageBody: String {
@@ -362,26 +423,6 @@ final class MoreViewModel {
         let websiteURL = NSURL(string: urlString)
         let webView = SFSafariViewController(url: websiteURL! as URL)
         viewController.present(webView, animated: true, completion: nil)
-    }
-    
-    // 추후 업데이트 예정이라는 Alert Message 표시
-    func showWillBeUpdatedMessage(viewController: UIViewController) {
-        let alert = UIAlertController(title: K.More.sorryTitle,
-                                      message: K.More.notifyLaterUpdateMessage,
-                                      preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(action)
-        viewController.present(alert, animated: true, completion: nil)
-    }
-    
-    // 에러 메세지 출력
-    func showEmailErrorMessage(controller: UIViewController) {
-        let sendMailErrorAlert = UIAlertController(title: K.Message.errorTitle,
-                                                   message: K.Message.sendEmailErrorMessage,
-                                                   preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "OK", style: .default)
-        sendMailErrorAlert.addAction(confirmAction)
-        controller.present(sendMailErrorAlert, animated: true, completion: nil)
     }
     
 }

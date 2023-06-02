@@ -10,6 +10,7 @@
 		0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */; };
 		070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */; };
 		0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */; };
+		0712FED92A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712FED82A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift */; };
 		0718B96229D08F7500D5CDDE /* NewsTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0718B96129D08F7500D5CDDE /* NewsTab.storyboard */; };
 		0718B96429D0940F00D5CDDE /* MoreViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */; };
 		072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D5BB929C2E26A0024B938 /* Enum.swift */; };
@@ -33,6 +34,7 @@
 		077C1BF029CDEEC600DA3218 /* NewsCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */; };
 		077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */; };
 		077C1BF429CDF52B00DA3218 /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */; };
+		0780B4622A298F7B00633C63 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780B4612A298F7B00633C63 /* MapService.swift */; };
 		0780E71E29C7F28B0030026F /* PlaceInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */; };
 		0780E71F29C7F28B0030026F /* PlaceInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */; };
 		078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078480FC29FB97DD00A3CDB3 /* Artwork.swift */; };
@@ -92,7 +94,6 @@
 		07CDB0A629CF11BD00F139BB /* MoreTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */; };
 		07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */; };
 		07D01A2229E65AAC00FE85D4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D01A2129E65AAC00FE85D4 /* CountdownView.swift */; };
-		07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */ = {isa = PBXBuildFile; productRef = 07E3383129FAA2FC00880DAA /* Screenshots */; };
 		07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E35C492A0BDFA00087A14C /* MyPlace.swift */; };
 		07E8A8762A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */; };
 		07E8A87A2A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv in Resources */ = {isa = PBXBuildFile; fileRef = 07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */; };
@@ -152,6 +153,7 @@
 		0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewController.swift; sourceTree = "<group>"; };
 		070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackingViewController+Route.swift"; sourceTree = "<group>"; };
 		0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
+		0712FED82A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPlaceViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		0718B96129D08F7500D5CDDE /* NewsTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsTab.storyboard; sourceTree = "<group>"; };
 		0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoreViewController+TableView.swift"; sourceTree = "<group>"; };
 		072D5BB929C2E26A0024B938 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellData.swift; sourceTree = "<group>"; };
 		077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
+		0780B4612A298F7B00633C63 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoTableViewCell.swift; sourceTree = "<group>"; };
 		0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceInfoTableViewCell.xib; sourceTree = "<group>"; };
 		078480FC29FB97DD00A3CDB3 /* Artwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
@@ -264,7 +267,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07E3383229FAA2FC00880DAA /* Screenshots in Frameworks */,
 				07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,6 +415,7 @@
 				07AF72C92A28F65B008EB64D /* PlaceInfoViewController+Modal.swift */,
 				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
 				07AF72C02A28F4ED008EB64D /* MyPlaceViewController.swift */,
+				0712FED82A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift */,
 				07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */,
 				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
 				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
@@ -475,6 +478,7 @@
 				0712E4AC29C6CA0A00243DF8 /* CustomAnnotation.swift */,
 				077C1BDF29CD8B0700DA3218 /* RouteAnnotation.swift */,
 				078480FC29FB97DD00A3CDB3 /* Artwork.swift */,
+				0780B4612A298F7B00633C63 /* MapService.swift */,
 				0760D51C29D3296600796D73 /* RealmService.swift */,
 				078E13502A24C5BC00EB6B88 /* SPIndicatorService.swift */,
 			);
@@ -602,7 +606,6 @@
 			);
 			name = StrollPlaces;
 			packageProductDependencies = (
-				07E3383129FAA2FC00880DAA /* Screenshots */,
 			);
 			productName = StrollPlaces;
 			productReference = 0799CC9229BF584B006AB70D /* StrollPlaces.app */;
@@ -702,7 +705,6 @@
 			);
 			mainGroup = 0799CC8929BF584B006AB70D;
 			packageReferences = (
-				07E3383029FAA2FC00880DAA /* XCRemoteSwiftPackageReference "Screenshots" */,
 			);
 			productRefGroup = 0799CC9329BF584B006AB70D /* Products */;
 			projectDirPath = "";
@@ -955,6 +957,7 @@
 				072D5BE229C33B910024B938 /* ClusterAnnotationView.swift in Sources */,
 				077C1BF029CDEEC600DA3218 /* NewsCellData.swift in Sources */,
 				077C1BF329CDF52B00DA3218 /* NewsTableViewCell.swift in Sources */,
+				0712FED92A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift in Sources */,
 				07AFB59129C012A600DD1C34 /* MoreCellData.swift in Sources */,
 				07FD50C52A0A0B8B00FFE3EC /* OnboardingViewModel.swift in Sources */,
 				07CEA61F29C97BB3009CF3A7 /* PlaceInfoViewModel.swift in Sources */,
@@ -966,6 +969,7 @@
 				07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
 				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,
+				0780B4622A298F7B00633C63 /* MapService.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
@@ -1443,25 +1447,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		07E3383029FAA2FC00880DAA /* XCRemoteSwiftPackageReference "Screenshots" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dequin-cl/Screenshots.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		07E3383129FAA2FC00880DAA /* Screenshots */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 07E3383029FAA2FC00880DAA /* XCRemoteSwiftPackageReference "Screenshots" */;
-			productName = Screenshots;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0799CC8A29BF584B006AB70D /* Project object */;
 }

@@ -139,11 +139,11 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.getLocationUsagePermission()
         }
-        self.setupRealm()
-        
         self.setupNavigationBar()
         self.setupMapView()
         self.setupCollectionView()
@@ -151,7 +151,9 @@ final class MapViewController: UIViewController {
         self.setupTrackingStopButton()
         self.setupActivityIndicator()
         
-        self.moveToCurrentLocation()
+        MapService.shared.moveToCurrentLocation(
+            manager: self.locationManager, mapView: self.mapView
+        )
         self.addAnnotations(with: .park)
         
         self.setupNotificationObserver()
@@ -186,51 +188,24 @@ final class MapViewController: UIViewController {
     
     //MARK: - directly called method
     
-    // Realm DB 설정
-    private func setupRealm() {
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
-    }
-    
     // NavigationBar 설정
     private func setupNavigationBar() {
-        // 기본 설정
-        //navigationController?.applyCommonSettings()
-        //navigationController?.setNavigationBarHidden(true, animated: false)
-        navigationController?.navigationBar.isHidden = true
+        self.navigationController?.applyDefaultSettings(hideBar: true)
     }
     
     // 지도 관련 설정
     private func setupMapView() {
         self.mapView.delegate = self
-        self.mapView.overrideUserInterfaceStyle = .light
-        self.mapView.isZoomEnabled = true
-        self.mapView.isRotateEnabled = true
-        self.mapView.isScrollEnabled = true
-        self.mapView.isPitchEnabled = false
-        self.mapView.isUserInteractionEnabled = true
-        self.mapView.showsCompass = false
-        self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(.follow, animated: true)
-        self.mapView.overrideUserInterfaceStyle = .light
+        self.mapView.applyDefaultSettings(
+            viewController: self, trackingMode: .follow, showsUserLocation: true
+        )
         self.mapView.mapType = MKMapType(rawValue: UInt(self.userDefaults.integer(forKey: "mapType")))!
         
-        //self.locationManager.showsBackgroundLocationIndicator = true
-        //self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.startUpdatingLocation()
         
         // 카메라 줌아웃 제한 설정
         let zoomRange = MKMapView.CameraZoomRange(maxCenterCoordinateDistance: 2000.km)
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
-        
-        // 지도 영역 제한 설정
-//        let region = MKCoordinateRegion(
-//            center: K.Map.southKoreaCenterLocation.coordinate,
-//            latitudinalMeters: 750.km,
-//            longitudinalMeters: 750.km
-//        )
-//        self.mapView.setCameraBoundary(
-//            MKMapView.CameraBoundary(coordinateRegion: region), animated: false
-//        )
         
         // 기본 지도 표시 범위 = 500 m
         if self.userDefaults.double(forKey: "mapRadius") == 0.0 {
@@ -367,19 +342,6 @@ final class MapViewController: UIViewController {
         if !self.mapView.overlays.isEmpty {
             self.mapView.removeOverlays(self.mapView.overlays)
         }
-    }
-    
-    // 현재 사용자의 위치로 지도 이동
-    internal func moveToCurrentLocation() {
-        let latitude = ((locationManager.location?.coordinate.latitude)
-                        ?? K.Map.defaultLatitude) as Double
-        let longitude = ((locationManager.location?.coordinate.longitude)
-                         ?? K.Map.defaultLongitude) as Double
-        self.mapView.centerToLocation(
-            location: CLLocation(latitude: latitude, longitude: longitude),
-            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
-        )
     }
     
     //MARK: - 지도 위 annotation 추가/제거 관련

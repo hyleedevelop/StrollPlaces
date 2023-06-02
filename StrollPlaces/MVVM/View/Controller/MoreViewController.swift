@@ -87,20 +87,7 @@ final class MoreViewController: UIViewController {
 
 extension MoreViewController: MFMailComposeViewControllerDelegate {
 
-    internal func contactMenuTapped() {
-        if MFMailComposeViewController.canSendMail() {
-            let compseViewController = MFMailComposeViewController()
-            compseViewController.mailComposeDelegate = self
-            compseViewController.setToRecipients([K.Message.emailAddress])
-            compseViewController.setSubject("[App Contact Email] ")
-            compseViewController.setMessageBody(self.viewModel.messageBody, isHTML: false)
-
-            self.present(compseViewController, animated: true, completion: nil)
-        }
-        else {
-            self.viewModel.showEmailErrorMessage(controller: self)
-        }
-    }
+    
 
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult, error: Error?) {

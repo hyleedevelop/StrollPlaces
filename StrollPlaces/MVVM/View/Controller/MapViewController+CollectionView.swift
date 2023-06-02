@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-//MARK: - Extension for UICollectionViewDataSource, UICollectionViewDelegate
+//MARK: - extension for UICollectionViewDataSource, UICollectionViewDelegate
 
 extension MapViewController: UICollectionViewDataSource,
                              UICollectionViewDelegate {

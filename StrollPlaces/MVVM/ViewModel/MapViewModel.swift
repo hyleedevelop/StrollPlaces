@@ -284,51 +284,6 @@ final class MapViewModel {
         return PlaceInfoViewModel(self.pinData, pinNumber: pinNumber)
     }
     
-    //MARK: - 경로 안내 관련
-    
-    // 지도에 경로 표시하기
-    func fetchRoute(
-        mapView: MKMapView,
-        pickupCoordinate: CLLocationCoordinate2D,
-        destinationCoordinate: CLLocationCoordinate2D,
-        draw: Bool,
-        completion: @escaping ((Double, Double) -> Void)
-    ) {
-        let request = MKDirections.Request()
-        request.source = MKMapItem(
-            placemark: MKPlacemark(coordinate: pickupCoordinate, addressDictionary: nil)
-        )
-        request.destination = MKMapItem(
-            placemark: MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
-        )
-        request.requestsAlternateRoutes = true
-        request.transportType = .automobile
-        
-        let directions = MKDirections(request: request)
-        directions.calculate { response, error in
-            guard let response = response else { return }
-            
-            // 단일 루트 얻기
-            if let route = response.routes.first {
-                if draw {  // route를 그려야 하는 경우
-                    // 출발지-도착지 경로를 보여줄 지도 영역 설정
-                    // (출발지-도착지 간 위경도 차이의 1.5배 크기의 영역을 보여주기)
-                    var rect = MKCoordinateRegion(route.polyline.boundingMapRect)
-                    rect.span.latitudeDelta = abs(pickupCoordinate.latitude -
-                                                  destinationCoordinate.latitude) * 1.5
-                    rect.span.longitudeDelta = abs(pickupCoordinate.longitude -
-                                                   destinationCoordinate.longitude) * 1.5
-                    mapView.setRegion(rect, animated: true)
-                    
-                    // 경로 그리기
-                    mapView.addOverlay(route.polyline)
-                }
-                
-                completion(route.distance, route.expectedTravelTime)
-            }
-        }
-    }
-    
     //MARK: - UICollectionView 관련
     
     // section의 개수

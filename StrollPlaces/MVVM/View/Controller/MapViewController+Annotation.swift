@@ -30,7 +30,9 @@ extension MapViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 추적 권한 허용됨")
             self.locationManager.startUpdatingLocation()
-            self.moveToCurrentLocation()
+            MapService.shared.moveToCurrentLocation(
+                manager: self.locationManager, mapView: self.mapView
+            )
         case .restricted, .notDetermined:
             print("위치 추적 권한 미설정")
         case .denied:
@@ -84,16 +86,12 @@ extension MapViewController: MKMapViewDelegate {
         } else {
             let identifier = "Pin"
             let annotationView = mapView.annotationView(
-            //    of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
                 of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
             )
             
             annotationView.canShowCallout = true
             annotationView.detailCalloutAccessoryView = UIButton(type: .detailDisclosure)
             annotationView.pinTintColor = K.Map.placeColor
-            //annotationView.image = UIImage(imageLiteralResourceName: "TabBarIcon1")
-            //annotationView.markerTintColor = K.Map.placeColor
-            //annotationView.glyphImage = UIImage(imageLiteralResourceName: "pin")
             return annotationView
             
         }
@@ -174,7 +172,7 @@ extension MapViewController: MKMapViewDelegate {
             )
             
             // 경로 계산하여 예상 거리 및 소요시간 데이터 넘겨주기
-            self.viewModel.fetchRoute(
+            MapService.shared.fetchRoute(
                 mapView: self.mapView, pickupCoordinate: startLocation,
                 destinationCoordinate: endLocation,
                 draw: false
@@ -198,14 +196,14 @@ extension MapViewController: MKMapViewDelegate {
             placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside).asObservable()
                 .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
                 .subscribe(
-                    onNext: {[weak self] in
+                    onNext: { [weak self] in
                         guard let self = self else { return }
                         DispatchQueue.main.async {
                             self.activityIndicator.startAnimating()
                         }
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            self.viewModel.fetchRoute(
+                            MapService.shared.fetchRoute(
                                 mapView: self.mapView,
                                 pickupCoordinate: startLocation,
                                 destinationCoordinate: endLocation,
@@ -233,13 +231,7 @@ extension MapViewController: MKMapViewDelegate {
     
     // 경로 안내를 위한 polyline 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        
-        renderer.strokeColor = K.Map.routeLineColor
-        renderer.lineWidth = K.Map.routeLineWidth
-        renderer.alpha = 1.0
-        
-        return renderer
+        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
     }
      
 }

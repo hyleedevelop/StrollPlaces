@@ -55,9 +55,9 @@ final class TrackingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
         self.setupNavigationBar()
-        self.setupRealm()
         self.getLocationUsagePermission()
         self.setupMapView()
         self.setupBackView()
@@ -65,7 +65,9 @@ final class TrackingViewController: UIViewController {
         self.setupTimerButton()
         self.setupCloseButton()
         
-        self.moveToCurrentLocation()
+        MapService.shared.moveToCurrentLocation(
+            manager: self.locationManager, mapView: self.mapView
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,28 +86,15 @@ final class TrackingViewController: UIViewController {
     
     // NavigationBar 설정
     private func setupNavigationBar() {
-        // 기본 설정
-        //navigationController?.applyCommonSettings()
-        //navigationController?.setNavigationBarHidden(true, animated: false)
-        navigationController?.navigationBar.isHidden = true
-    }
-    
-    // Realm DB 설정
-    private func setupRealm() {
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
+        self.navigationController?.applyDefaultSettings(hideBar: true)
     }
     
     // 지도 및 경로 관련 설정
     private func setupMapView() {
         self.mapView.delegate = self
-        self.mapView.isZoomEnabled = true
-        self.mapView.isRotateEnabled = true
-        self.mapView.isScrollEnabled = true
-        self.mapView.isPitchEnabled = false
-        self.mapView.isUserInteractionEnabled = true
-        self.mapView.showsCompass = false
-        self.mapView.showsUserLocation = true
-        self.mapView.setUserTrackingMode(.follow, animated: true)
+        self.mapView.applyDefaultSettings(
+            viewController: self, trackingMode: .follow, showsUserLocation: true
+        )
         
         self.locationManager.startUpdatingLocation()
         
@@ -115,17 +104,7 @@ final class TrackingViewController: UIViewController {
     }
     
     private func setupBackView() {
-        //self.closeButtonBackView.layer.cornerRadius = self.closeButtonBackView.frame.height / 2.0
-        //self.closeButtonBackView.clipsToBounds = true
-        
-        self.labelBackView.layer.cornerRadius = K.Shape.largeCornerRadius
-        self.labelBackView.clipsToBounds = true
-        self.labelBackView.layer.masksToBounds = false
-        self.labelBackView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        self.labelBackView.layer.shadowColor = UIColor.black.cgColor
-        self.labelBackView.layer.shadowOpacity = 0.5
-        self.labelBackView.layer.shadowRadius = 5
-        self.labelBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.labelBackView.setHalfRoundedCornerBackView()
     }
     
     // label 설정
@@ -201,23 +180,12 @@ final class TrackingViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
-                self.viewModel.getActionForStopTracking(viewController: self, mapView: self.mapView)
+                self.viewModel.getActionForStopTracking(
+                    viewController: self, mapView: self.mapView
+                )
                 self.isTrackingAllowed = false
             })
             .disposed(by: rx.disposeBag)
-    }
-    
-    // 현재 사용자의 위치로 지도 이동
-    internal func moveToCurrentLocation() {
-        let latitude = ((locationManager.location?.coordinate.latitude)
-                        ?? K.Map.defaultLatitude) as Double
-        let longitude = ((locationManager.location?.coordinate.longitude)
-                         ?? K.Map.defaultLongitude) as Double
-        self.mapView.centerToLocation(
-            location: CLLocation(latitude: latitude, longitude: longitude),
-            deltaLat: 0.5.km,
-            deltaLon: 0.5.km
-        )
     }
     
     //MARK: - indirectly called method
@@ -251,8 +219,7 @@ final class TrackingViewController: UIViewController {
             .debug("카운트다운")
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { count in
-                let generator = UIImpactFeedbackGenerator(style: .heavy)
-                generator.impactOccurred()
+                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 
                 if count == 0.0 {
                     UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseIn) {

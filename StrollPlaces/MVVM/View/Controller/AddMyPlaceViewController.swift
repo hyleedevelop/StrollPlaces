@@ -16,7 +16,6 @@ import RealmSwift
 import SkyFloatingLabelTextField
 import SPIndicator
 import NVActivityIndicatorView
-import Screenshots
 import Cosmos
 
 class AddMyPlaceViewController: UIViewController {
@@ -86,19 +85,17 @@ class AddMyPlaceViewController: UIViewController {
     
     // NavigationBar 설정
     private func setupNavigationBar() {
-        navigationController?.applyDefaultSettings()
-        navigationController?.navigationBar.isHidden = false
+        self.navigationController?.applyDefaultSettings(hideBar: false)
     }
     
     private func setupMapView() {
+        self.mapView.applyDefaultSettings(
+            viewController: self, trackingMode: .none, showsUserLocation: false
+        )
         self.mapView.layer.cornerRadius = 5
         self.mapView.clipsToBounds = true
         self.mapView.layer.borderColor = K.Color.themeGray.cgColor
         self.mapView.layer.borderWidth = 0.5
-        self.mapView.showsUserLocation = false
-        self.mapView.setUserTrackingMode(.none, animated: true)
-        self.mapView.isZoomEnabled = true
-        self.mapView.delegate = self
         
         // 각 지점들을 기록하고 그 지점들 사이를 선으로 연결
         let points: [CLLocationCoordinate2D] = self.viewModel.getTrackPointForPolyline()
@@ -107,8 +104,8 @@ class AddMyPlaceViewController: UIViewController {
         // 지도에 선 나타내기(addOverlay 시 아래의 rendererFor 함수가 호출됨)
         self.mapView.addOverlay(routeLine)
         
-        mapView.addAnnotation(self.viewModel.startAnnotation)
-        mapView.addAnnotation(self.viewModel.endAnnotation)
+        self.mapView.addAnnotation(self.viewModel.startAnnotation)
+        self.mapView.addAnnotation(self.viewModel.endAnnotation)
         
         // 지도를 나타낼 영역 설정
         guard let deltaCoordinate = self.viewModel.getDeltaCoordinate() else { return }
@@ -300,12 +297,12 @@ class AddMyPlaceViewController: UIViewController {
 extension AddMyPlaceViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return self.viewModel.getAnnotationView(mapView: mapView, annotation: annotation)
+        return MapService.shared.getAnnotationView(mapView: mapView, annotation: annotation)
     }
     
     // 경로를 표시하기 위한 polyline의 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        return self.viewModel.getOverlayRenderer(mapView: mapView, overlay: overlay)
+        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
     }
     
 }

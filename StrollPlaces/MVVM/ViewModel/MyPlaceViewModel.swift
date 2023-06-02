@@ -22,7 +22,7 @@ final class MyPlaceViewModel {
     private let userDefaults = UserDefaults.standard
     var isRemoveButtonHidden = BehaviorSubject<Bool>(value: true)
     
-    //MARK: - initializer
+    //MARK: - 생성자 관련
     
     init() {
         // TrackData와 TrackPoint의 인스턴스 생성
@@ -43,7 +43,7 @@ final class MyPlaceViewModel {
         )
     }
     
-    //MARK: - directly called method
+    //MARK: - Action 관련
     
     // context menu item 초기화
     private func initializeContextMenuItems(stateOn: Int) {
@@ -94,7 +94,7 @@ final class MyPlaceViewModel {
     }
     
     // 나만의 산책길 목록 정렬을 위한 context menu 설정
-    func getSortContextMenu() -> UIMenu {
+    var sortContextMenu: UIMenu {
         return UIMenu(title: "정렬 방법", options: [.singleSelection], children: self.sortMenuItems)
     }
     
@@ -103,10 +103,31 @@ final class MyPlaceViewModel {
         return self.sortMenuItems
     }
     
-    // 나만의 산책길 데이터 개수 가져오기
-    func getNumberOfMyPlaces() -> Int {
+    //MARK: - Collection View 관련
+    
+    // section의 개수
+    var numberOfSections: Int {
+        return 1
+    }
+    
+    // section 내 아이템의 개수
+    var numberOfItemsInSection: Int {
         return self.itemViewModel.trackData.count
     }
+    
+    func sortedTrackList(index: Int) -> TrackData {
+        return self.itemViewModel.sortedTrackData[index]
+    }
+    
+    func sortedID(index: Int) -> ObjectId {
+        return self.itemViewModel.sortedTrackData[index]._id
+    }
+    
+    var realmDB: Results<TrackData> {
+        return self.itemViewModel.sortedTrackData
+    }
+    
+    //MARK: - Realm DB 관련
     
     // 특정 row의 TrackData 삭제하기
     func removeTrackData(at row: Int) {
@@ -136,7 +157,9 @@ final class MyPlaceViewModel {
         }
     }
     
-    // 지도 스냅샷 이미지 불러오기
+    //MARK: - 스크린샷 이미지 관련
+    
+    // 지도 스크린샷 이미지 불러오기
     func loadImageFromDocumentDirectory(imageName: String) -> UIImage? {
         // 1. 폴더 경로 가져오기
         let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
@@ -152,8 +175,6 @@ final class MyPlaceViewModel {
         
         return nil
     }
-    
-    //MARK: - indirectly called method
     
     private func deleteImageFromDocumentDirectory(imageName: String) {
         // 1. 폴더 경로 가져오기
@@ -173,8 +194,6 @@ final class MyPlaceViewModel {
     }
     
 }
-
-
 
 //MARK: - CollectionView Cell에 대한 ViewModel
 

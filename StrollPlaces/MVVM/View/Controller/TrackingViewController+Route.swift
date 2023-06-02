@@ -35,7 +35,9 @@ extension TrackingViewController: CLLocationManagerDelegate {
     
     // 사용자의 위치가 업데이트 될 때 수행할 내용
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.moveToCurrentLocation()
+        MapService.shared.moveToCurrentLocation(
+            manager: self.locationManager, mapView: self.mapView
+        )
         
         guard let location = locations.last else { return }
         
@@ -80,15 +82,7 @@ extension TrackingViewController: MKMapViewDelegate {
     
     // 경로를 표시하기 위한 polyline의 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        guard let routeLine = overlay as? MKPolyline else { return MKOverlayRenderer() }
-        let renderer = MKPolylineRenderer(polyline: routeLine)
-//        let renderer = IVBezierPathRenderer(overlay: routeLine)
-        
-        renderer.strokeColor = K.Map.routeLineColor
-        renderer.lineWidth = K.Map.routeLineWidth
-        renderer.alpha = K.Map.routeLineAlpha
-        
-        return renderer
+        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
     }
     
 }

@@ -7,6 +7,8 @@
 
 import UIKit
 
+//MARK: - extension for UIView
+
 extension UIView {
     
     //MARK: - slide view 관련
@@ -67,6 +69,18 @@ extension UIView {
         gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradient.frame = bounds
         self.layer.addSublayer(gradient)
+    }
+    
+    // half-rounded corner를 가진 BackView 설정
+    func setHalfRoundedCornerBackView() {
+        self.layer.cornerRadius = K.Shape.largeCornerRadius
+        self.clipsToBounds = true
+        self.layer.masksToBounds = false
+        self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowRadius = 5
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
     
 }

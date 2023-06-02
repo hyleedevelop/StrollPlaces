@@ -79,8 +79,9 @@ final class OnboardingViewController: UIViewController {
         self.nextButton.changeAttributes(buttonTitle: "다음", interaction: true)
         
         self.hideNextTimeButton.isHidden = true
-        self.hideNextTimeButton.setImage(UIImage(systemName: "square"),
-                                         for: .normal)
+        self.hideNextTimeButton.setImage(
+            UIImage(systemName: "square"), for: .normal
+        )
     }
     
     //MARK: - IB action
@@ -116,13 +117,10 @@ final class OnboardingViewController: UIViewController {
         
         self.isHideNextTimeChecked.toggle()
     }
-    
-    //MARK: - directly called method
-   
-    
+
 }
 
-//MARK: - extension for
+//MARK: - extension for OnboardingViewController
 
 extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
