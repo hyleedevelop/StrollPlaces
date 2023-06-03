@@ -151,7 +151,7 @@ final class PlaceInfoViewModel {
         )
         RealmService.shared.create(dataToAppend)
         
-        SPIndicatorService.shared.showIndicator(title: "등록 완료")
+        SPIndicatorService.shared.showSuccessIndicator(title: "등록 완료")
     }
     
     // Realm DB에서 즐겨찾기 데이터 삭제하기
@@ -170,7 +170,7 @@ final class PlaceInfoViewModel {
         // 즐겨찾기 장소가 제거되었으므로 MapView에서 핀을 제거하도록 알리기
         NotificationCenter.default.post(name: Notification.Name("removeMarkedPin"), object: nil)
         
-        SPIndicatorService.shared.showIndicator(title: "삭제 완료")
+        SPIndicatorService.shared.showSuccessIndicator(title: "삭제 완료")
     }
     
     // Realm DB의 MyPlace에 저장된 모든 데이터의 pinNumber와

@@ -180,8 +180,12 @@ class AddMyPlaceViewController: UIViewController {
             .asSignal(onErrorJustReturn: "없음")
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let str = self.viewModel.limitTextFieldLength($0, self.nameField, isNameField: true)
-                let isValid = self.viewModel.checkTextFieldIsValid(str, self.nameField, isNameField: true)
+                let str = self.viewModel.limitTextFieldLength(
+                    text: $0, textField: self.nameField, isNameField: true
+                )
+                let isValid = self.viewModel.checkTextFieldIsValid(
+                    text: str, textField: self.nameField, isNameField: true
+                )
                 self.nameCheckLabel.text = isValid ? "✅" : ""
             })
             .disposed(by: rx.disposeBag)
@@ -191,8 +195,12 @@ class AddMyPlaceViewController: UIViewController {
             .asSignal(onErrorJustReturn: "없음")
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let str = self.viewModel.limitTextFieldLength($0, self.explanationField, isNameField: false)
-                let isValid = self.viewModel.checkTextFieldIsValid(str, self.explanationField, isNameField: false)
+                let str = self.viewModel.limitTextFieldLength(
+                    text: $0, textField: self.explanationField, isNameField: false
+                )
+                let isValid = self.viewModel.checkTextFieldIsValid(
+                    text: str, textField: self.explanationField, isNameField: false
+                )
                 self.explanationCheckLabel.text = isValid ? "✅" : ""
             })
             .disposed(by: rx.disposeBag)
@@ -202,15 +210,17 @@ class AddMyPlaceViewController: UIViewController {
             .asSignal(onErrorJustReturn: "없음")
             .emit(onNext: { [weak self] in
                 guard let self = self else { return }
-                let str = self.viewModel.limitTextFieldLength($0, self.featureField, isNameField: false)
-                let isValid = self.viewModel.checkTextFieldIsValid(str, self.featureField, isNameField: false)
+                let str = self.viewModel.limitTextFieldLength(
+                    text: $0, textField: self.featureField, isNameField: false
+                )
+                let isValid = self.viewModel.checkTextFieldIsValid(text: str, textField: self.featureField, isNameField: false)
                 self.featureCheckLabel.text = isValid ? "✅" : ""
             })
             .disposed(by: rx.disposeBag)
         
         // 문제 해결하기
         ratingObservable
-            .map { self.viewModel.checkstarRatingIsValid(value: $0) }
+            .map { self.viewModel.checkStarRatingIsValid(value: $0) }
             .subscribe(onNext: { [weak self] isValid in
                 guard let self = self else { return }
                 self.ratingCheckLabel.text = isValid ? "✅" : ""
@@ -222,13 +232,19 @@ class AddMyPlaceViewController: UIViewController {
         Observable
             .combineLatest(
                 nameObservable
-                    .map { self.viewModel.checkTextFieldIsValid($0, self.nameField, isNameField: true) },  // Bool
+                    .map { self.viewModel.checkTextFieldIsValid(
+                        text: $0, textField: self.nameField, isNameField: true
+                    ) },
                 explanationObservable
-                    .map { self.viewModel.checkTextFieldIsValid($0, self.explanationField, isNameField: false) },  // Bool
+                    .map { self.viewModel.checkTextFieldIsValid(
+                        text: $0, textField: self.explanationField, isNameField: false
+                    ) },
                 featureObservable
-                    .map { self.viewModel.checkTextFieldIsValid($0, self.featureField, isNameField: false) },  // Bool
+                    .map { self.viewModel.checkTextFieldIsValid(
+                        text: $0, textField: self.featureField, isNameField: false
+                    ) },
                 ratingObservable
-                    .map { self.viewModel.checkstarRatingIsValid(value: $0) },  // Bool
+                    .map { self.viewModel.checkStarRatingIsValid(value: $0) },  // Bool
                 resultSelector: { e1, e2, e3, e4 in e1 && e2 && e3 && e4 })
             .subscribe(onNext: { [weak self] isAvailable in
                 guard let self = self else { return }
@@ -271,7 +287,7 @@ class AddMyPlaceViewController: UIViewController {
                         NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
                         
                         // 완료 메세지 표시
-                        SPIndicatorService.shared.showIndicator(title: "생성 완료")
+                        SPIndicatorService.shared.showSuccessIndicator(title: "생성 완료")
                         
                         // 나만의 산책길 탭 메인화면으로 돌아가기
                         self.navigationController?.popToRootViewController(animated: true)
@@ -297,12 +313,12 @@ class AddMyPlaceViewController: UIViewController {
 extension AddMyPlaceViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return MapService.shared.getAnnotationView(mapView: mapView, annotation: annotation)
+        return self.viewModel.annotationView(mapView: mapView, annotation: annotation)
     }
     
     // 경로를 표시하기 위한 polyline의 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
+        return self.viewModel.overlayRenderer(mapView: mapView, overlay: overlay)
     }
     
 }

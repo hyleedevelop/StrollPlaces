@@ -127,56 +127,23 @@ final class AddMyPlaceViewModel {
         self.deleteImageFromDocumentDirectory(imageName: imageName)
     }
     
-    // 입력한 산책길 이름이 Realm DB에 저장된 산책길 이름과 중복되는지 체크
-    func checkIfThereIsTheSameName(name: String) -> Bool {
-        self.trackData = RealmService.shared.realm.objects(TrackData.self)
-        return self.trackData.firstIndex(where: { $0.name == name } ) == nil ? true : false
-    }
+    
     
     //MARK: - 입력값에 대한 유효성 검사 관련
     
     // TextField에 입력된 문자열에 대한 유효성 검사
-    func checkTextFieldIsValid(_ text: String, _ textField: SkyFloatingLabelTextField, isNameField: Bool) -> Bool {
-        if isNameField {
-            // 문자열 길이가 적절한지 판단
-            let isLengthValid: Bool = (2...10) ~= text.count
-            // 문자열이 기존의 Realm DB에 저장된 산책길 이름과 중복되지 않는지 판단
-            let isUniqueName: Bool = self.checkIfThereIsTheSameName(name: text)
-            
-            // 텍스트필드 아래에 에러 메세지 표출
-            if !isLengthValid {
-                textField.errorMessage = "2글자 이상, 10글자 이하"
-            } else {
-                textField.errorMessage = !isUniqueName ? "중복되는 이름" : nil
-            }
-            
-            return isLengthValid && isUniqueName
-        } else {
-            // 문자열 길이가 적절한지 판단
-            let isLengthValid: Bool = (2...20) ~= text.count
-            
-            // 텍스트필드 아래에 에러 메세지 표출
-            textField.errorMessage = !isLengthValid ? "2글자 이상, 20글자 이하" : nil
-            
-            return isLengthValid
-        }
+    func checkTextFieldIsValid(text: String, textField: SkyFloatingLabelTextField, isNameField: Bool) -> Bool {
+        return InputValidationService.shared.validateInputText(text: text, textField: textField, isNameField: isNameField)
     }
     
     // TextField의 글자수 제한을 넘기면 초과되는 부분은 입력되지 않도록 설정
-    func limitTextFieldLength(_ text: String, _ textField: UITextField, isNameField: Bool) -> String {
-        let maxLength: Int = isNameField ? 10 : 20
-        if text.count > maxLength {
-            let index = text.index(text.startIndex, offsetBy: maxLength)
-            textField.text = String(text[..<index])
-            return String(text[..<index])
-        } else {
-            return text
-        }
+    func limitTextFieldLength(text: String, textField: UITextField, isNameField: Bool) -> String {
+        return InputValidationService.shared.limitInputText(text: text, textField: textField, isNameField: isNameField)
     }
     
     // 산책길 난이도 별점에 대한 유효성 검사
-    func checkstarRatingIsValid(value: Double) -> Bool {
-        return (1.0...5.0) ~= value ? true : false
+    func checkStarRatingIsValid(value: Double) -> Bool {
+        return InputValidationService.shared.checkStarRatingIsValid(value: value)
     }
     
     //MARK: - 지도 관련
@@ -215,6 +182,16 @@ final class AddMyPlaceViewModel {
         } else {
             return nil
         }
+    }
+    
+    // MKAnnotationView 생성
+    func annotationView(mapView: MKMapView, annotation: MKAnnotation) -> MKAnnotationView? {
+        return MapService.shared.getAnnotationView(mapView: mapView, annotation: annotation)
+    }
+    
+    // MKOverlayRenderer 생성
+    func overlayRenderer(mapView: MKMapView, overlay: MKOverlay) -> MKOverlayRenderer {
+        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
     }
     
     //MARK: - 이미지 파일 관련

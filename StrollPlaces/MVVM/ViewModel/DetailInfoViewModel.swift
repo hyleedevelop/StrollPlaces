@@ -139,6 +139,16 @@ final class DetailInfoViewModel {
         }
     }
     
+    // MKAnnotationView 생성
+    func annotationView(mapView: MKMapView, annotation: MKAnnotation) -> MKAnnotationView? {
+        return MapService.shared.getAnnotationView(mapView: mapView, annotation: annotation)
+    }
+    
+    // MKOverlayRenderer 생성
+    func overlayRenderer(mapView: MKMapView, overlay: MKOverlay) -> MKOverlayRenderer {
+        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
+    }
+    
     //MARK: - Realm DB 관련
     
     // 상세정보 화면에서 편집 버튼을 통해 Realm DB 업데이트 하기
@@ -170,20 +180,24 @@ final class DetailInfoViewModel {
         var currentText = ""
         var message = ""
         var placeHolder = ""
+        var isNameField = false
         
         switch item {
         case .name:
             currentText = self.trackData[cellIndex].name
             message = "산책길 이름을 다음과 같이 변경합니다."
             placeHolder = "산책길 이름"
+            isNameField = true
         case .explanation:
             currentText = self.trackData[cellIndex].explanation
             message = "간단한 소개를 다음과 같이 변경합니다."
             placeHolder = "간단한 소개"
+            isNameField = false
         case .feature:
             currentText = self.trackData[cellIndex].feature
             message = "특이사항을 다음과 같이 변경합니다."
             placeHolder = "특이사항"
+            isNameField = false
         }
         
         // alert message 보여주고 입력값 받기
@@ -194,7 +208,30 @@ final class DetailInfoViewModel {
         let okAction = UIAlertAction(title: "저장", style: .default) { _ in
             // TextField에서 입력받은 값을 전달하여 Realm DB의 업데이트 수행
             guard let text = alert.textFields![0].text else { return }
-            self.updateDB(index: cellIndex, newValue: text, item: item)
+
+            let isValidLength = InputValidationService.shared.validateLength(text: text, textField: alert.textFields![0], isNameField: isNameField)
+            let isUniqueName = InputValidationService.shared.validateUniqueName(text: text, textField: alert.textFields![0], isNameField: isNameField)
+            
+            // 유효성 검사 결과에 따라 메세지를 다르게 출력
+            if isNameField {
+                if isUniqueName {
+                    if isValidLength {
+                        self.updateDB(index: cellIndex, newValue: text, item: item)
+                        SPIndicatorService.shared.showSuccessIndicator(title: "변경 완료")
+                    } else {
+                        SPIndicatorService.shared.showErrorIndicator(title: "변경 실패", message: "2~10글자로 입력")
+                    }
+                } else {
+                    SPIndicatorService.shared.showErrorIndicator(title: "변경 실패", message: "중복되는 이름")
+                }
+            } else {
+                if isValidLength {
+                    self.updateDB(index: cellIndex, newValue: text, item: item)
+                    SPIndicatorService.shared.showSuccessIndicator(title: "변경 완료")
+                } else {
+                    SPIndicatorService.shared.showErrorIndicator(title: "변경 실패", message: "2~20글자로 입력")
+                }
+            }
         }
         
         // TextField와 Action Button 추가

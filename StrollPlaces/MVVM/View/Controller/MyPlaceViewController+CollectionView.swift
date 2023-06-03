@@ -32,9 +32,11 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         let dataSource = self.viewModel.sortedTrackList(index: indexPath.row)
         
         cell.starRating.rating = dataSource.rating
+        
         cell.mainImage.image = self.viewModel.loadImageFromDocumentDirectory(
             imageName: dataSource._id.stringValue
         )
+        
         cell.nameLabel.text = dataSource.name.count == 0 ? "제목없음" : dataSource.name
         cell.timeLabel.text = "\(dataSource.time)"
         cell.distanceLabel.text = dataSource.distance < 1000.0
@@ -43,6 +45,7 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.dateLabel.text = Date().getTimeIntervalString(
             since: dataSource.date.toDate(mode: .myPlace)!
         )
+        
         cell.moreButton.showsMenuAsPrimaryAction = true
         cell.moreButton.menu = self.getMoreContextMenu(index: indexPath.row,
                                                        sender: cell.moreButton)
@@ -114,10 +117,10 @@ extension MyPlaceViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
                 
                 // 화면 상단에 완료 메세지 보여주기
-                SPIndicatorService.shared.showIndicator(title: "삭제 완료")
+                SPIndicatorService.shared.showSuccessIndicator(title: "삭제 완료")
             } else {
                 // 화면 상단에 에러 메세지 보여주기
-                SPIndicatorService.shared.showIndicator(title: "삭제 실패", type: .error)
+                SPIndicatorService.shared.showSuccessIndicator(title: "삭제 실패", type: .error)
             }
         }
         

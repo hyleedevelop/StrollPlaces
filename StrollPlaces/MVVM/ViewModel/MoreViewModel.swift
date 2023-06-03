@@ -298,7 +298,7 @@ final class MoreViewModel {
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
                 self.clearMyPlaceDB()
-                SPIndicatorService.shared.showIndicator(title: "초기화 완료")
+                SPIndicatorService.shared.showSuccessIndicator(title: "초기화 완료")
                 
                 // Tab Bar 뱃지의 숫자 업데이트 알리기
                 NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
@@ -327,7 +327,7 @@ final class MoreViewModel {
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
                 self.clearMarkDB()
-                SPIndicatorService.shared.showIndicator(title: "초기화 완료")
+                SPIndicatorService.shared.showSuccessIndicator(title: "초기화 완료")
             }
         )
         

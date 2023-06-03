@@ -124,7 +124,7 @@ final class MyPlaceViewModel {
     }
     
     var realmDB: Results<TrackData> {
-        return self.itemViewModel.sortedTrackData
+        return self.itemViewModel.trackData
     }
     
     //MARK: - Realm DB 관련

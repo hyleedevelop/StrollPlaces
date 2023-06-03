@@ -212,13 +212,13 @@ extension MapViewController: MKMapViewDelegate {
                                 DispatchQueue.main.async {
                                     self.activityIndicator.stopAnimating()
                                 }
-                                SPIndicatorService.shared.showIndicator(title: "탐색 완료")
+                                SPIndicatorService.shared.showSuccessIndicator(title: "탐색 완료")
                                 placeInfoViewController.animateDismissView()
                             }
                         }
                     }, onError: { _ in
                         self.activityIndicator.stopAnimating()
-                        SPIndicatorService.shared.showIndicator(title: "탐색 불가", type: .error)
+                        SPIndicatorService.shared.showSuccessIndicator(title: "탐색 불가", type: .error)
                         
                     }
                 )

@@ -198,12 +198,12 @@ final class DetailInfoViewController: UIViewController {
 extension DetailInfoViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return MapService.shared.getAnnotationView(mapView: mapView, annotation: annotation)
+        return self.viewModel.annotationView(mapView: mapView, annotation: annotation)
     }
     
     // 경로를 표시하기 위한 polyline의 렌더링 설정
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        return MapService.shared.getOverlayRenderer(mapView: mapView, overlay: overlay)
+        return self.viewModel.overlayRenderer(mapView: mapView, overlay: overlay)
     }
     
 }
