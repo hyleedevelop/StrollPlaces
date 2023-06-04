@@ -24,6 +24,11 @@
 		075FE44129C5B63A00A5694C /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* View.swift */; };
 		0760D51D29D3296600796D73 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0760D51C29D3296600796D73 /* RealmService.swift */; };
 		0760D51F29D32ED100796D73 /* MyPlaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0760D51E29D32ED100796D73 /* MyPlaceData.swift */; };
+		076DB0AA2A2C7D8F008F5DC9 /* FeedTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 076DB0A92A2C7D8F008F5DC9 /* FeedTab.storyboard */; };
+		076DB0AC2A2C7DF1008F5DC9 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076DB0AB2A2C7DF1008F5DC9 /* FeedViewController.swift */; };
+		076DB0AE2A2C8E70008F5DC9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076DB0AD2A2C8E70008F5DC9 /* LoginViewController.swift */; };
+		076DB0DD2A2C9F67008F5DC9 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076DB0DC2A2C9F67008F5DC9 /* FeedViewModel.swift */; };
+		076DB0E12A2CA3C7008F5DC9 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076DB0E02A2CA3C7008F5DC9 /* LoginViewModel.swift */; };
 		0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */; };
 		0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */; };
 		0774AA8729D97CEF0048C781 /* MyPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */; };
@@ -162,12 +167,18 @@
 		072E054229FFDD7900F30E2C /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		0731E1CD29D430AF0057E12B /* TrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
 		07375B772A28AF3800BB5D7A /* MethodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodTests.swift; sourceTree = "<group>"; };
+		073938BB2A2CCD5C006B5EDA /* StrollPlacesDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StrollPlacesDebug.entitlements; sourceTree = "<group>"; };
 		073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidationService.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		075729B02A067CA00011D127 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		075FE44029C5B63A00A5694C /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		0760D51C29D3296600796D73 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		0760D51E29D32ED100796D73 /* MyPlaceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceData.swift; sourceTree = "<group>"; };
+		076DB0A92A2C7D8F008F5DC9 /* FeedTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FeedTab.storyboard; sourceTree = "<group>"; };
+		076DB0AB2A2C7DF1008F5DC9 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		076DB0AD2A2C8E70008F5DC9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		076DB0DC2A2C9F67008F5DC9 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		076DB0E02A2CA3C7008F5DC9 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewModel.swift; sourceTree = "<group>"; };
 		0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyPlaceViewModel.swift; sourceTree = "<group>"; };
 		0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceViewModel.swift; sourceTree = "<group>"; };
@@ -311,34 +322,287 @@
 			path = "Life Cycle";
 			sourceTree = "<group>";
 		};
-		075AF8162A125FBD00354CEE /* Shared */ = {
+		075AF8172A125FCF00354CEE /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				07D2329A2A09289F006DE737 /* Resource */,
-				0799CCD929BF5A62006AB70D /* Extension */,
-				0799CCD829BF5A5E006AB70D /* Helper */,
+				076DB0C22A2C9153008F5DC9 /* Shared */,
+				076DB0C42A2C919C008F5DC9 /* 0. BeforeLogin */,
+				076DB0BE2A2C90AB008F5DC9 /* 1. Map */,
+				076DB0C32A2C9175008F5DC9 /* 2. MyPlace */,
+				076DB0C82A2C924D008F5DC9 /* 3. News */,
+				076DB0D42A2C9365008F5DC9 /* 4. Feed */,
+				076DB0D02A2C930A008F5DC9 /* 5. More */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		076DB0BE2A2C90AB008F5DC9 /* 1. Map */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0BF2A2C90B3008F5DC9 /* Model */,
+				076DB0C02A2C90C8008F5DC9 /* View */,
+				076DB0C12A2C90CE008F5DC9 /* ViewModel */,
+			);
+			path = "1. Map";
+			sourceTree = "<group>";
+		};
+		076DB0BF2A2C90B3008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		076DB0C02A2C90C8008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07BAE44229CBE70A0048CE89 /* MapTab.storyboard */,
+				07AF72C22A28F577008EB64D /* MapViewController.swift */,
+				07AF72C62A28F613008EB64D /* MapViewController+CollectionView.swift */,
+				07AF72C42A28F5FA008EB64D /* MapViewController+Annotation.swift */,
+				07AF72C82A28F65B008EB64D /* PlaceInfoViewController.swift */,
+				07AF72C92A28F65B008EB64D /* PlaceInfoViewController+Modal.swift */,
+				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
+				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0C12A2C90CE008F5DC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
+				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
+				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		076DB0C22A2C9153008F5DC9 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0D92A2C9BC9008F5DC9 /* Model */,
+				076DB0D82A2C9BC2008F5DC9 /* View */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		075AF8172A125FCF00354CEE /* MVVM */ = {
+		076DB0C32A2C9175008F5DC9 /* 2. MyPlace */ = {
 			isa = PBXGroup;
 			children = (
-				0799CCD129BF59A0006AB70D /* Model */,
-				0799CCC529BF5941006AB70D /* View */,
-				0799CCD029BF5996006AB70D /* ViewModel */,
+				076DB0CF2A2C92B4008F5DC9 /* Model */,
+				076DB0CE2A2C92B2008F5DC9 /* View */,
+				076DB0CD2A2C92AE008F5DC9 /* ViewModel */,
 			);
-			path = MVVM;
+			path = "2. MyPlace";
 			sourceTree = "<group>";
 		};
-		0774AA8129D94C790048C781 /* Realm */ = {
+		076DB0C42A2C919C008F5DC9 /* 0. BeforeLogin */ = {
 			isa = PBXGroup;
 			children = (
-				07E35C492A0BDFA00087A14C /* MyPlace.swift */,
-				0790A42329D83161008C3923 /* TrackPoint.swift */,
-				0790A42529D83208008C3923 /* TrackData.swift */,
+				076DB0C72A2C91B6008F5DC9 /* Model */,
+				076DB0C62A2C91B1008F5DC9 /* View */,
+				076DB0C52A2C91AC008F5DC9 /* ViewModel */,
 			);
-			path = Realm;
+			path = "0. BeforeLogin";
+			sourceTree = "<group>";
+		};
+		076DB0C52A2C91AC008F5DC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */,
+				076DB0E02A2CA3C7008F5DC9 /* LoginViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		076DB0C62A2C91B1008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0799CC9B29BF584B006AB70D /* Main.storyboard */,
+				07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */,
+				079AF4F129C74C9D006C365B /* SplashViewController.swift */,
+				07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */,
+				076DB0AD2A2C8E70008F5DC9 /* LoginViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0C72A2C91B6008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		076DB0C82A2C924D008F5DC9 /* 3. News */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0CB2A2C925E008F5DC9 /* Model */,
+				076DB0CA2A2C925A008F5DC9 /* View */,
+				076DB0C92A2C9255008F5DC9 /* ViewModel */,
+			);
+			path = "3. News";
+			sourceTree = "<group>";
+		};
+		076DB0C92A2C9255008F5DC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		076DB0CA2A2C925A008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0718B96129D08F7500D5CDDE /* NewsTab.storyboard */,
+				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
+				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
+				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0CB2A2C925E008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		076DB0CD2A2C92AE008F5DC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */,
+				07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */,
+				0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */,
+				0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		076DB0CE2A2C92B2008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */,
+				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
+				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
+				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
+				07AF72C02A28F4ED008EB64D /* MyPlaceViewController.swift */,
+				0712FED82A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift */,
+				07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */,
+				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
+				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
+				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
+				07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0CF2A2C92B4008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0760D51E29D32ED100796D73 /* MyPlaceData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		076DB0D02A2C930A008F5DC9 /* 5. More */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0D32A2C9328008F5DC9 /* Model */,
+				076DB0D22A2C9326008F5DC9 /* View */,
+				076DB0D12A2C9321008F5DC9 /* ViewModel */,
+			);
+			path = "5. More";
+			sourceTree = "<group>";
+		};
+		076DB0D12A2C9321008F5DC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		076DB0D22A2C9326008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */,
+				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
+				0799CCCD29BF5980006AB70D /* MoreViewController.swift */,
+				0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */,
+				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0D32A2C9328008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				07AFB59029C012A600DD1C34 /* MoreCellData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		076DB0D42A2C9365008F5DC9 /* 4. Feed */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0D72A2C9377008F5DC9 /* Model */,
+				076DB0D62A2C9375008F5DC9 /* View */,
+				076DB0D52A2C9373008F5DC9 /* ViewModel */,
+			);
+			path = "4. Feed";
+			sourceTree = "<group>";
+		};
+		076DB0D52A2C9373008F5DC9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0DC2A2C9F67008F5DC9 /* FeedViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		076DB0D62A2C9375008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				076DB0A92A2C7D8F008F5DC9 /* FeedTab.storyboard */,
+				076DB0AB2A2C7DF1008F5DC9 /* FeedViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0D72A2C9377008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		076DB0D82A2C9BC2008F5DC9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCC729BF595C006AB70D /* TabBarController.swift */,
+				07D01A2129E65AAC00FE85D4 /* CountdownView.swift */,
+				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
+				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		076DB0D92A2C9BC9008F5DC9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0799CCD229BF59C0006AB70D /* PublicData.swift */,
+				07E35C492A0BDFA00087A14C /* MyPlace.swift */,
+				0790A42529D83208008C3923 /* TrackData.swift */,
+				0790A42329D83161008C3923 /* TrackPoint.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		0799CC8929BF584B006AB70D = {
@@ -368,9 +632,12 @@
 		0799CC9429BF584B006AB70D /* StrollPlaces */ = {
 			isa = PBXGroup;
 			children = (
+				073938BB2A2CCD5C006B5EDA /* StrollPlacesDebug.entitlements */,
 				075AF8152A125FA100354CEE /* Life Cycle */,
-				075AF8162A125FBD00354CEE /* Shared */,
-				075AF8172A125FCF00354CEE /* MVVM */,
+				07D2329A2A09289F006DE737 /* Resource */,
+				0799CCD929BF5A62006AB70D /* Extension */,
+				0799CCD829BF5A5E006AB70D /* Helper */,
+				075AF8172A125FCF00354CEE /* Main */,
 			);
 			path = StrollPlaces;
 			sourceTree = "<group>";
@@ -391,85 +658,6 @@
 				0799CCB829BF584C006AB70D /* StrollPlacesUITestsLaunchTests.swift */,
 			);
 			path = StrollPlacesUITests;
-			sourceTree = "<group>";
-		};
-		0799CCC529BF5941006AB70D /* View */ = {
-			isa = PBXGroup;
-			children = (
-				07D232992A092871006DE737 /* Custom */,
-				079AF4EC29C74683006C365B /* Storyboard */,
-				0799CCC629BF5947006AB70D /* Controller */,
-				0799CCCF29BF5987006AB70D /* Cell */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		0799CCC629BF5947006AB70D /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				079AF4F129C74C9D006C365B /* SplashViewController.swift */,
-				07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */,
-				0799CCC729BF595C006AB70D /* TabBarController.swift */,
-				07AF72C22A28F577008EB64D /* MapViewController.swift */,
-				07AF72C62A28F613008EB64D /* MapViewController+CollectionView.swift */,
-				07AF72C42A28F5FA008EB64D /* MapViewController+Annotation.swift */,
-				07AF72C82A28F65B008EB64D /* PlaceInfoViewController.swift */,
-				07AF72C92A28F65B008EB64D /* PlaceInfoViewController+Modal.swift */,
-				077C1BE929CDEC7800DA3218 /* NewsViewController.swift */,
-				07AF72C02A28F4ED008EB64D /* MyPlaceViewController.swift */,
-				0712FED82A2A33D5005BFD75 /* MyPlaceViewController+CollectionView.swift */,
-				07B1DEB82A00DDF100A27F9F /* DetailInfoViewController.swift */,
-				0731E1CD29D430AF0057E12B /* TrackingViewController.swift */,
-				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
-				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
-				0799CCCD29BF5980006AB70D /* MoreViewController.swift */,
-				0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		0799CCCF29BF5987006AB70D /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */,
-				0799CCD429BF59F3006AB70D /* ThemeCollectionViewCell.swift */,
-				0780E71C29C7F28B0030026F /* PlaceInfoTableViewCell.swift */,
-				07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */,
-				077C1BF129CDF52B00DA3218 /* NewsTableViewCell.swift */,
-				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		0799CCD029BF5996006AB70D /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */,
-				0799CCDC29BF5D02006AB70D /* MapViewModel.swift */,
-				0799CCDE29BF5D5D006AB70D /* ThemeCellViewModel.swift */,
-				07CEA61E29C97BB3009CF3A7 /* PlaceInfoViewModel.swift */,
-				077C1BED29CDEE5500DA3218 /* NewsViewModel.swift */,
-				0774AA8629D97CEF0048C781 /* MyPlaceViewModel.swift */,
-				07B1DEBA2A00FC5600A27F9F /* DetailInfoViewModel.swift */,
-				0774AA8229D97CCF0048C781 /* TrackingViewModel.swift */,
-				0774AA8429D97CD70048C781 /* AddMyPlaceViewModel.swift */,
-				07AFB58E29C011DD00DD1C34 /* MoreViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		0799CCD129BF59A0006AB70D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */,
-				0799CCD229BF59C0006AB70D /* PublicData.swift */,
-				0760D51E29D32ED100796D73 /* MyPlaceData.swift */,
-				07987ED029C05772004B87F0 /* ThemeCellData.swift */,
-				077C1BEF29CDEEC600DA3218 /* NewsCellData.swift */,
-				07AFB59029C012A600DD1C34 /* MoreCellData.swift */,
-				0774AA8129D94C790048C781 /* Realm */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		0799CCD829BF5A5E006AB70D /* Helper */ = {
@@ -504,23 +692,6 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		079AF4EC29C74683006C365B /* Storyboard */ = {
-			isa = PBXGroup;
-			children = (
-				0799CC9B29BF584B006AB70D /* Main.storyboard */,
-				07BAE44229CBE70A0048CE89 /* MapTab.storyboard */,
-				07BAE44429CBE8D60048CE89 /* MyPlaceTab.storyboard */,
-				0718B96129D08F7500D5CDDE /* NewsTab.storyboard */,
-				07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */,
-				0799CCD529BF59F3006AB70D /* ThemeCollectionViewCell.xib */,
-				0780E71D29C7F28B0030026F /* PlaceInfoTableViewCell.xib */,
-				07C16D1D29FE48FA00EFA39E /* MyPlaceCollectionViewCell.xib */,
-				077C1BF229CDF52B00DA3218 /* NewsTableViewCell.xib */,
-				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
-			);
-			path = Storyboard;
-			sourceTree = "<group>";
-		};
 		07AC1EC829E3D526006BEA03 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,16 +704,6 @@
 				07AC1ED229E3D527006BEA03 /* Info.plist */,
 			);
 			path = Tracking;
-			sourceTree = "<group>";
-		};
-		07D232992A092871006DE737 /* Custom */ = {
-			isa = PBXGroup;
-			children = (
-				07D01A2129E65AAC00FE85D4 /* CountdownView.swift */,
-				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
-				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
-			);
-			path = Custom;
 			sourceTree = "<group>";
 		};
 		07D2329A2A09289F006DE737 /* Resource */ = {
@@ -737,6 +898,7 @@
 				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
 				07E8A87A2A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv in Resources */,
+				076DB0AA2A2C7D8F008F5DC9 /* FeedTab.storyboard in Resources */,
 				07B2E3E729D156D300210207 /* MoreTableViewCell.xib in Resources */,
 				0718B96229D08F7500D5CDDE /* NewsTab.storyboard in Resources */,
 				07BAE44529CBE8D60048CE89 /* MyPlaceTab.storyboard in Resources */,
@@ -935,6 +1097,7 @@
 				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
 				0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */,
 				07AF72C72A28F613008EB64D /* MapViewController+CollectionView.swift in Sources */,
+				076DB0AE2A2C8E70008F5DC9 /* LoginViewController.swift in Sources */,
 				0751436829C201CD00109B8E /* Image.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
 				0774AA8729D97CEF0048C781 /* MyPlaceViewModel.swift in Sources */,
@@ -954,6 +1117,7 @@
 				07FD50C12A0A064F00FFE3EC /* OnboardingViewController.swift in Sources */,
 				075FE44129C5B63A00A5694C /* View.swift in Sources */,
 				07AFB58F29C011DD00DD1C34 /* MoreViewModel.swift in Sources */,
+				076DB0AC2A2C7DF1008F5DC9 /* FeedViewController.swift in Sources */,
 				0709557729D2B2A300068C91 /* AddMyPlaceViewController.swift in Sources */,
 				075729B12A067CA00011D127 /* Date.swift in Sources */,
 				07B1DEB92A00DDF100A27F9F /* DetailInfoViewController.swift in Sources */,
@@ -973,10 +1137,12 @@
 				07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
 				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,
+				076DB0DD2A2C9F67008F5DC9 /* FeedViewModel.swift in Sources */,
 				0780B4622A298F7B00633C63 /* MapService.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,
 				07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */,
 				0760D51D29D3296600796D73 /* RealmService.swift in Sources */,
+				076DB0E12A2CA3C7008F5DC9 /* LoginViewModel.swift in Sources */,
 				07C16D1E29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift in Sources */,
 				070FFB0229D5D8D000987285 /* TrackingViewController+Route.swift in Sources */,
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
@@ -1175,12 +1341,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = StrollPlaces/StrollPlacesDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Shared/Resource/Info.plist";
+				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Resource/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 허용 권한이 필요합니다.";
@@ -1198,7 +1365,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1219,10 +1386,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YJF2RZ2K47;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Shared/Resource/Info.plist";
+				INFOPLIST_FILE = "/Users/eric/iOS/project-alone/StrollPlaces/StrollPlaces/Resource/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "가벼운발걸음";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 허용 권한이 필요합니다.";
@@ -1240,7 +1407,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
