@@ -83,4 +83,17 @@ extension UIView {
         self.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
     
+    // 소셜 로그인 버튼에 해당하는 뷰의 기본 설정 적용
+    func applySocialLoginButtonFormat() {
+        self.layer.cornerRadius = self.bounds.height / 2.0
+        self.clipsToBounds = true
+        self.layer.masksToBounds = false
+        //self.layer.borderColor = UIColor.systemGray6.cgColor
+        //self.layer.borderWidth = 0.0
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.2
+        self.layer.shadowRadius = 3
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+    }
+    
 }

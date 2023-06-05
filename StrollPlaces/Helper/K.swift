@@ -11,6 +11,7 @@ import CoreLocation
 struct K {
     
     struct App {
+        //static let splashScreenTime: Double = 1
         static let splashScreenTime: Double = 3
         static let appName = "가벼운발걸음"
     }

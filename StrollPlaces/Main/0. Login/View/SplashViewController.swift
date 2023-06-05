@@ -19,6 +19,7 @@ final class SplashViewController: UIViewController {
         label.font = .systemFont(ofSize: 30, weight: .bold)
         label.textAlignment = .center
         label.textColor = UIColor.white
+        label.heroID = "mainTitle"
         return label
     }()
     
@@ -28,6 +29,7 @@ final class SplashViewController: UIViewController {
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .center
         label.textColor = UIColor.white
+        label.heroID = "subTitle"
         return label
     }()
     

@@ -3,7 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,17 +18,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PtN-hb-tPl">
-                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <rect key="frame" x="0.0" y="200.66666666666669" width="393" height="568.33333333333326"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="lxL-OW-Y3m" userLabel="Label Stack View">
+                                <rect key="frame" x="20" y="123.00000000000001" width="353" height="57.666666666666671"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name님" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Wz-P2-2j0">
+                                        <rect key="frame" x="0.0" y="0.0" width="353" height="28.666666666666668"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="환영합니다!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pl8-he-0uL">
+                                        <rect key="frame" x="0.0" y="33.666666666666657" width="353" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vRS-wh-Ho9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="PtN-hb-tPl" firstAttribute="top" secondItem="vRS-wh-Ho9" secondAttribute="top" id="EsE-EW-hiy"/>
+                            <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="lxL-OW-Y3m" secondAttribute="trailing" constant="20" id="DpQ-yU-q62"/>
+                            <constraint firstItem="lxL-OW-Y3m" firstAttribute="top" secondItem="vRS-wh-Ho9" secondAttribute="top" constant="20" id="FZg-dV-n2X"/>
+                            <constraint firstItem="lxL-OW-Y3m" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" constant="20" id="Lif-tq-Vbw"/>
                             <constraint firstItem="vRS-wh-Ho9" firstAttribute="bottom" secondItem="PtN-hb-tPl" secondAttribute="bottom" id="a2B-dy-2bn"/>
                             <constraint firstItem="vRS-wh-Ho9" firstAttribute="trailing" secondItem="PtN-hb-tPl" secondAttribute="trailing" id="cQ2-oy-xzJ"/>
                             <constraint firstItem="PtN-hb-tPl" firstAttribute="leading" secondItem="vRS-wh-Ho9" secondAttribute="leading" id="kd5-yE-dcf"/>
+                            <constraint firstItem="PtN-hb-tPl" firstAttribute="top" secondItem="lxL-OW-Y3m" secondAttribute="bottom" constant="20" id="yd6-9j-0xN"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
@@ -36,6 +56,7 @@
                     <navigationItem key="navigationItem" id="wiu-Wk-RP1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="nicknameLabel" destination="4Wz-P2-2j0" id="vBt-BR-w4t"/>
                         <outlet property="tableView" destination="PtN-hb-tPl" id="WDv-6l-XVn"/>
                     </connections>
                 </viewController>

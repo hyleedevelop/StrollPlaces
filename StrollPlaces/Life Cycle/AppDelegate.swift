@@ -8,6 +8,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import FirebaseCore
+import FirebaseAuth
 import AppTrackingTransparency
 
 @main
@@ -52,6 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Firebase 초기화
         FirebaseApp.configure()
+        
+        // Firebase에서 사용자가 이미 로그인 되어있는지 확인
+        if let user = FirebaseAuth.Auth.auth().currentUser {
+            print("로그인 되어 있음", user.uid, user.email ?? "-")
+        }
         
         return true
     }

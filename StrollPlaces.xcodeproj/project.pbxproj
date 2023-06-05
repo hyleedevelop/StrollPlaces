@@ -19,6 +19,9 @@
 		0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0731E1CD29D430AF0057E12B /* TrackingViewController.swift */; };
 		07375B782A28AF3800BB5D7A /* MethodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07375B772A28AF3800BB5D7A /* MethodTests.swift */; };
 		073BD2002A2AE8AE0023BD57 /* InputValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */; };
+		074CBCFE2A2DDA3A002B5B80 /* UserAccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBCFD2A2DDA3A002B5B80 /* UserAccountData.swift */; };
+		074CBD002A2DE023002B5B80 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBCFF2A2DE023002B5B80 /* NicknameViewController.swift */; };
+		074CBD022A2E2619002B5B80 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */; };
 		0751436829C201CD00109B8E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* Image.swift */; };
 		075729B12A067CA00011D127 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075729B02A067CA00011D127 /* Date.swift */; };
 		075FE44129C5B63A00A5694C /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* View.swift */; };
@@ -169,6 +172,9 @@
 		07375B772A28AF3800BB5D7A /* MethodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodTests.swift; sourceTree = "<group>"; };
 		073938BB2A2CCD5C006B5EDA /* StrollPlacesDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StrollPlacesDebug.entitlements; sourceTree = "<group>"; };
 		073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidationService.swift; sourceTree = "<group>"; };
+		074CBCFD2A2DDA3A002B5B80 /* UserAccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountData.swift; sourceTree = "<group>"; };
+		074CBCFF2A2DE023002B5B80 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
+		074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		075729B02A067CA00011D127 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		075FE44029C5B63A00A5694C /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -326,7 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				076DB0C22A2C9153008F5DC9 /* Shared */,
-				076DB0C42A2C919C008F5DC9 /* 0. BeforeLogin */,
+				076DB0C42A2C919C008F5DC9 /* 0. Login */,
 				076DB0BE2A2C90AB008F5DC9 /* 1. Map */,
 				076DB0C32A2C9175008F5DC9 /* 2. MyPlace */,
 				076DB0C82A2C924D008F5DC9 /* 3. News */,
@@ -398,14 +404,14 @@
 			path = "2. MyPlace";
 			sourceTree = "<group>";
 		};
-		076DB0C42A2C919C008F5DC9 /* 0. BeforeLogin */ = {
+		076DB0C42A2C919C008F5DC9 /* 0. Login */ = {
 			isa = PBXGroup;
 			children = (
 				076DB0C72A2C91B6008F5DC9 /* Model */,
 				076DB0C62A2C91B1008F5DC9 /* View */,
 				076DB0C52A2C91AC008F5DC9 /* ViewModel */,
 			);
-			path = "0. BeforeLogin";
+			path = "0. Login";
 			sourceTree = "<group>";
 		};
 		076DB0C52A2C91AC008F5DC9 /* ViewModel */ = {
@@ -413,6 +419,7 @@
 			children = (
 				07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */,
 				076DB0E02A2CA3C7008F5DC9 /* LoginViewModel.swift */,
+				074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -423,8 +430,9 @@
 				0799CC9B29BF584B006AB70D /* Main.storyboard */,
 				07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */,
 				079AF4F129C74C9D006C365B /* SplashViewController.swift */,
-				07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */,
 				076DB0AD2A2C8E70008F5DC9 /* LoginViewController.swift */,
+				074CBCFF2A2DE023002B5B80 /* NicknameViewController.swift */,
+				07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -601,6 +609,7 @@
 				07E35C492A0BDFA00087A14C /* MyPlace.swift */,
 				0790A42529D83208008C3923 /* TrackData.swift */,
 				0790A42329D83161008C3923 /* TrackPoint.swift */,
+				074CBCFD2A2DDA3A002B5B80 /* UserAccountData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1093,6 +1102,7 @@
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
 				072E054329FFDD7900F30E2C /* NavigationBar.swift in Sources */,
 				077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */,
+				074CBD022A2E2619002B5B80 /* NicknameViewModel.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,
 				0799CCDF29BF5D5D006AB70D /* ThemeCellViewModel.swift in Sources */,
 				0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */,
@@ -1101,6 +1111,7 @@
 				0751436829C201CD00109B8E /* Image.swift in Sources */,
 				0799CCD629BF59F3006AB70D /* ThemeCollectionViewCell.swift in Sources */,
 				0774AA8729D97CEF0048C781 /* MyPlaceViewModel.swift in Sources */,
+				074CBCFE2A2DDA3A002B5B80 /* UserAccountData.swift in Sources */,
 				077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */,
 				0790A42429D83161008C3923 /* TrackPoint.swift in Sources */,
 				077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */,
@@ -1137,6 +1148,7 @@
 				07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
 				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,
+				074CBD002A2DE023002B5B80 /* NicknameViewController.swift in Sources */,
 				076DB0DD2A2C9F67008F5DC9 /* FeedViewModel.swift in Sources */,
 				0780B4622A298F7B00633C63 /* MapService.swift in Sources */,
 				0712E4AD29C6CA0A00243DF8 /* CustomAnnotation.swift in Sources */,

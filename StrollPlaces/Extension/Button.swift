@@ -24,11 +24,4 @@ extension UIButton {
         }
     }
     
-    func applySocialLoginButtonFormat() {
-        self.clipsToBounds = true
-        self.layer.cornerRadius = 5
-        self.layer.borderColor = UIColor.lightGray.cgColor
-        self.layer.borderWidth = 0.5
-    }
-    
 }

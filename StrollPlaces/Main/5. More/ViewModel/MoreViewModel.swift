@@ -15,7 +15,11 @@ import MessageUI
 
 final class MoreViewModel {
     
-    //MARK: - 생성자
+    //MARK: - 속성 관련
+    
+    private let userDefaults = UserDefaults.standard
+    
+    //MARK: - 생성자 관련
     
     private let appSettings: [MoreCellData]!
     private let feedback: [MoreCellData]!
@@ -45,9 +49,14 @@ final class MoreViewModel {
         moreCellData = [appSettings, feedback, aboutTheApp]
     }
     
+    //MARK: - 사용자 계정 관련
+    
+    var nicknameString: String {
+        return self.userDefaults.string(forKey: "userNickname") ?? "닉네임없음"
+    }
+    
     //MARK: - 앱 설정 관련
     
-    private let userDefaults = UserDefaults.standard
     let shouldReloadTableView = BehaviorSubject<Bool>(value: false)
     
     // 현재 지도 표시 범위를 나타낼 텍스트

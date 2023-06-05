@@ -9,6 +9,7 @@ target 'StrollPlaces' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
+  pod 'RxGesture'
   pod 'NSObject+Rx'
   pod 'RealmSwift'
   pod 'SnapKit'

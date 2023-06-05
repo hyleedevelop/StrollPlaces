@@ -16,6 +16,7 @@ final class MoreViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
+    @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     //MARK: - property
@@ -28,8 +29,9 @@ final class MoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNavigationBar()
-        setupTableView()
+        self.setupNavigationBar()
+        self.setupLabel()
+        self.setupTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +62,11 @@ final class MoreViewController: UIViewController {
         
         // 좌측 상단에 위치한 타이틀 설정
         navigationItem.makeLeftSideTitle(title: "더보기")
+    }
+    
+    // Label 설정
+    private func setupLabel() {
+        self.nicknameLabel.text = "\(self.viewModel.nicknameString)님"
     }
     
     // TableView 설정

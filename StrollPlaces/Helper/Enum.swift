@@ -52,3 +52,8 @@ enum LoginType {
     case google
     case apple
 }
+
+enum UserInfoType {
+    case name
+    case email
+}
