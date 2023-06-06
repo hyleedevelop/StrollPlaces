@@ -7,8 +7,16 @@
 
 import UIKit
 import SkyFloatingLabelTextField
+import FirebaseAuth
+import FirebaseFirestore
+import RxSwift
 
 final class NicknameViewModel {
+    
+    //MARK: - 속성 관련
+    
+    private let userDefaults = UserDefaults.standard
+    
     
     //MARK: - 생성자 관련
     
@@ -19,8 +27,9 @@ final class NicknameViewModel {
     //MARK: - 입력값에 대한 유효성 검사 관련
     
     // TextField에 입력된 문자열에 대한 유효성 검사
-    func checkTextFieldIsValid(text: String, textField: SkyFloatingLabelTextField, isNameField: Bool) -> Bool {
-        return InputValidationService.shared.validateInputText(text: text, textField: textField, isNameField: isNameField)
+    func checkTextFieldIsValid(text: String, textField: SkyFloatingLabelTextField, isNameField: Bool) -> Observable<Bool> {
+        let isEnabled = InputValidationService.shared.validateInputText(text: text, textField: textField, isNameField: isNameField)
+        return Observable<Bool>.just(isEnabled)
     }
     
     // TextField의 글자수 제한을 넘기면 초과되는 부분은 입력되지 않도록 설정
@@ -42,4 +51,29 @@ final class NicknameViewModel {
         viewController.present(nextVC, animated: true, completion: nil)
     }
     
+    //MARK: - Firebase DB 관련
+    
+    var isUserRegistered = BehaviorSubject<Bool>(value: false)
+    
+    func createUserDB(nickname: String) {
+        guard let uid = Auth.auth().currentUser?.uid,
+              let email = Auth.auth().currentUser?.email else { return }
+        
+        let firestoreDB = Firestore.firestore()
+        firestoreDB
+            .collection(K.FS.collectionName)
+            .addDocument(data: [
+                K.FS.uidField: uid,
+                K.FS.emailField: email,
+                K.FS.nicknameField: nickname,
+                K.FS.signupDateField: Date().timeIntervalSince1970
+            ]) { error in
+                if let errorMessage = error {
+                    print("There was an issue saving data to firestore, \(errorMessage)")
+                } else {
+                    self.isUserRegistered.onNext(true)
+                }
+            }
+            
+    }
 }

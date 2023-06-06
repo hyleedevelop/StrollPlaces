@@ -13,16 +13,16 @@ import FirebaseAuth
 
 final class LoginViewModel {
 
+    //MARK: - 속성 관련
+    
+    private let userDefaults = UserDefaults.standard
+    var currentNonce: String?
+    
     //MARK: - 생성자 관련
     
     init() {
         
     }
-    
-    //MARK: - 속성 관련
-    
-    private let userDefaults = UserDefaults.standard
-    var currentNonce: String?
 
     //MARK: - 사용자 계정 정보 관련
     
@@ -35,55 +35,13 @@ final class LoginViewModel {
     var appleIDRequest: ASAuthorizationAppleIDRequest {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        let nonce = randomNonceString()
+        let nonce = CryptoService.shared.randomNonceString()
         
         request.requestedScopes = [.fullName, .email]
-        request.nonce = sha256(nonce)
+        request.nonce = CryptoService.shared.sha256(nonce)
         self.currentNonce = nonce
         
         return request
-    }
-    
-    func sha256(_ input: String) -> String {
-        let inputData = Data(input.utf8)
-        let hashedData = SHA256.hash(data: inputData)
-        let hashString = hashedData.compactMap {
-            return String(format: "%02x", $0)
-        }.joined()
-        
-        return hashString
-    }
-    
-    private func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
-        let charset: Array<Character> =
-        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        var result = ""
-        var remainingLength = length
-        
-        while remainingLength > 0 {
-            let randoms: [UInt8] = (0 ..< 16).map { _ in
-                var random: UInt8 = 0
-                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if errorCode != errSecSuccess {
-                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
-                }
-                return random
-            }
-            
-            randoms.forEach { random in
-                if remainingLength == 0 {
-                    return
-                }
-                
-                if random < charset.count {
-                    result.append(charset[Int(random)])
-                    remainingLength -= 1
-                }
-            }
-        }
-        
-        return result
     }
     
     /*
@@ -160,35 +118,17 @@ final class LoginViewModel {
     
     // 다음 화면으로 이동
     func goToNextViewController(viewController: UIViewController) {
-        // ✅ for debugging...
-        // --------------------------------------------------------------
-        //self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
-        // --------------------------------------------------------------
+        guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "NicknameViewController") as? NicknameViewController else { return }
         
-        let onboardingScreenShouldBeHidden = self.userDefaults.bool(forKey: "hideOnboardingScreen")
-        
-        if onboardingScreenShouldBeHidden {
-            guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "TabBar")
-                    as? UITabBarController else { return }
-            
-            nextVC.modalPresentationStyle = .fullScreen
-            nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
-                                                       dismissing: .zoomOut)
-            viewController.present(nextVC, animated: true, completion: nil)
-        } else {
-            guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
-                    as? OnboardingViewController else { return }
-            
-            nextVC.modalPresentationStyle = .fullScreen
-            nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .down),
-                                                       dismissing: .slide(direction: .down))
-            viewController.present(nextVC, animated: true, completion: nil)
-        }
+        nextVC.modalPresentationStyle = .fullScreen
+        nextVC.hero.isEnabled = true
+        nextVC.hero.modalAnimationType = .selectBy(presenting: .fade,
+                                                   dismissing: .fade)
+        viewController.present(nextVC, animated: true, completion: nil)
     }
     
     //MARK: - Action 관련
+    
     func showAlertMessage(success authenticationIsSuccessful: Bool) {
         if authenticationIsSuccessful {
             SPIndicatorService.shared.showSuccessIndicator(title: "로그인 성공")

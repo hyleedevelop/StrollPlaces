@@ -33,35 +33,39 @@ class NicknameViewController: UIViewController {
     
     //MARK: - directly called method
 
+    // TextField 설정
     private func setupTextField() {
+        // 닉네임을 조건에 맞게 입력 시 저장 버튼 활성화
         self.nicknameField.rx.text.orEmpty
             .skip(1)
-            .asSignal(onErrorJustReturn: "")
-            .emit(onNext: { [weak self] in
-                guard let self = self else { return }
-                let str = self.viewModel.limitTextFieldLength(
-                    text: $0, textField: self.nicknameField, isNameField: true
-                )
-                let isValid = self.viewModel.checkTextFieldIsValid(
+            .flatMap { str -> Observable<Bool> in
+                return self.viewModel.checkTextFieldIsValid(
                     text: str, textField: self.nicknameField, isNameField: true
-                )
+                )}
+            .bind(onNext: { isEnabled in
+                self.saveButton.isEnabled = isEnabled
             })
             .disposed(by: rx.disposeBag)
     }
     
+    // Button 설정
     private func setupButton() {
+        // 저장 버튼 클릭 시 Firebase에 유저 등록
         self.saveButton.rx.tap
+            .asObservable()
             .subscribe(onNext: {
-                self.registerUserToFirebase()
+                self.viewModel.createUserDB(nickname: self.nicknameField.text ?? "닉네임없음")
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // 사용자 등록 처리가 성공적으로 종료된 경우 다음 화면으로 이동
+        self.viewModel.isUserRegistered
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] allowed in
+                guard let self = self else { return }
                 self.viewModel.goToNextViewController(viewController: self)
             })
             .disposed(by: rx.disposeBag)
-    }
-    
-    //MARK: - indirectly called method
-    
-    private func registerUserToFirebase() {
-        // 📍 Firebase DB에 사용자가 입력한 닉네임과 UID를 함께 저장하도록 구현
     }
 
 }

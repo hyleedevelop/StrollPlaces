@@ -72,6 +72,8 @@
 		0799CCEA29BF65A9006AB70D /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCE929BF65A9006AB70D /* Map.swift */; };
 		0799CCEC29BF6E10006AB70D /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCEB29BF6E10006AB70D /* DataType.swift */; };
 		079AF4F229C74C9D006C365B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* SplashViewController.swift */; };
+		07AA18CC2A2F168200073F0A /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA18CB2A2F168200073F0A /* SplashViewModel.swift */; };
+		07AA18CE2A2F411600073F0A /* CryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA18CD2A2F411600073F0A /* CryptoService.swift */; };
 		07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */; };
 		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
 		07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */; };
@@ -227,6 +229,8 @@
 		0799CCE929BF65A9006AB70D /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		0799CCEB29BF6E10006AB70D /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		079AF4F129C74C9D006C365B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		07AA18CB2A2F168200073F0A /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		07AA18CD2A2F411600073F0A /* CryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoService.swift; sourceTree = "<group>"; };
 		07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -417,6 +421,7 @@
 		076DB0C52A2C91AC008F5DC9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				07AA18CB2A2F168200073F0A /* SplashViewModel.swift */,
 				07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */,
 				076DB0E02A2CA3C7008F5DC9 /* LoginViewModel.swift */,
 				074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */,
@@ -428,11 +433,11 @@
 			isa = PBXGroup;
 			children = (
 				0799CC9B29BF584B006AB70D /* Main.storyboard */,
-				07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */,
 				079AF4F129C74C9D006C365B /* SplashViewController.swift */,
 				076DB0AD2A2C8E70008F5DC9 /* LoginViewController.swift */,
 				074CBCFF2A2DE023002B5B80 /* NicknameViewController.swift */,
 				07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */,
+				07FD50C62A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -681,6 +686,7 @@
 				0760D51C29D3296600796D73 /* RealmService.swift */,
 				073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */,
 				078E13502A24C5BC00EB6B88 /* SPIndicatorService.swift */,
+				07AA18CD2A2F411600073F0A /* CryptoService.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1096,6 +1102,7 @@
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
 				07AC1EE129E3E3FC006BEA03 /* LiveActivityService.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
+				07AA18CE2A2F411600073F0A /* CryptoService.swift in Sources */,
 				07AF72CB2A28F65B008EB64D /* PlaceInfoViewController+Modal.swift in Sources */,
 				07AF72CA2A28F65B008EB64D /* PlaceInfoViewController.swift in Sources */,
 				078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */,
@@ -1145,6 +1152,7 @@
 				07AF72C32A28F577008EB64D /* MapViewController.swift in Sources */,
 				07B2E3E629D156D300210207 /* MoreTableViewCell.swift in Sources */,
 				0718B96429D0940F00D5CDDE /* MoreViewController+TableView.swift in Sources */,
+				07AA18CC2A2F168200073F0A /* SplashViewModel.swift in Sources */,
 				07E35C4A2A0BDFA00087A14C /* MyPlace.swift in Sources */,
 				0799CCCE29BF5980006AB70D /* MoreViewController.swift in Sources */,
 				0774AA8329D97CCF0048C781 /* TrackingViewModel.swift in Sources */,

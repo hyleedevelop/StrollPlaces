@@ -44,7 +44,7 @@ final class SplashViewController: UIViewController {
     
     //MARK: - normal property
     
-    private let userDefaults = UserDefaults.standard
+    private let viewModel = SplashViewModel()
     
     //MARK: - life cycle
     
@@ -108,19 +108,8 @@ final class SplashViewController: UIViewController {
     // 다음 화면으로 이동
     private func goToNextViewController() {
         DispatchQueue.main.asyncAfter(deadline: .now() + K.App.splashScreenTime) {
-            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
-            
-            nextVC.modalPresentationStyle = .fullScreen
-            nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
-                                                       dismissing: .zoomOut)
-            self.present(nextVC, animated: true, completion: nil)
+            self.viewModel.goToNextViewController(viewController: self)
         }
     }
 
 }
-
-
-
-//guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController")
-//        as? LoginViewController else { return }

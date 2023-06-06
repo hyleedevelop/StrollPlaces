@@ -8,6 +8,6 @@
 import UIKit
 
 struct MoreCellData {
-    let title: String?
+    let title: String
     var value: String?
 }

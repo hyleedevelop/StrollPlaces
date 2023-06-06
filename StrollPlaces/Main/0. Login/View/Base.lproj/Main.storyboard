@@ -13,7 +13,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="cFd-EL-QAg">
             <objects>
-                <tabBarController storyboardIdentifier="TabBar" automaticallyAdjustsScrollViewInsets="NO" id="bQ4-pL-CNo" customClass="TabBarController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="bQ4-pL-CNo" customClass="TabBarController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="ybz-ri-Za1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -83,7 +83,7 @@
         <!--Splash View Controller-->
         <scene sceneID="ISP-Mm-OU2">
             <objects>
-                <viewController id="aPK-Hq-T5x" customClass="SplashViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplashViewController" id="aPK-Hq-T5x" customClass="SplashViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Toj-4r-U3P">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -93,7 +93,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M6r-OL-CTY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2824" y="-27"/>
+            <point key="canvasLocation" x="-3480" y="-27"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="uv3-qb-e1c">
+            <objects>
+                <viewController id="sNB-cQ-GdC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bTN-9e-v5N">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="OFK-Az-6Ez"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TP4-2m-8f0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1469" y="-27"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="STf-EX-Zie">
@@ -221,7 +236,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zUN-dY-82x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-818" y="-27"/>
+            <point key="canvasLocation" x="-799" y="-27"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="T89-5t-GF0">
@@ -331,12 +346,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjd-9u-bLJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2153" y="-27"/>
+            <point key="canvasLocation" x="-2808" y="-27"/>
         </scene>
         <!--Nickname View Controller-->
         <scene sceneID="qPY-FB-ahS">
             <objects>
-                <viewController id="TiB-CV-s1v" customClass="NicknameViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NicknameViewController" id="TiB-CV-s1v" customClass="NicknameViewController" customModule="StrollPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k9n-mE-rA2">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -357,7 +372,7 @@
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ia-JE-4Ke">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ia-JE-4Ke">
                                 <rect key="frame" x="20" y="327" width="353" height="50"/>
                                 <color key="backgroundColor" red="0.1647058824" green="0.65490196079999996" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -388,7 +403,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMW-3S-q1y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1483" y="-27"/>
+            <point key="canvasLocation" x="-2138" y="-27"/>
         </scene>
         <!--MyPlaceTab-->
         <scene sceneID="ITu-1R-zFe">
@@ -421,6 +436,11 @@
             <point key="canvasLocation" x="640" y="131"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="zc8-Nu-asv">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+    </designables>
     <resources>
         <image name="login_icon_apple_88" width="44" height="44"/>
         <image name="login_icon_google_88" width="88" height="88"/>

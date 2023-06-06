@@ -11,6 +11,7 @@ import RxCocoa
 import SnapKit
 import SafariServices
 import MessageUI
+import AuthenticationServices
 
 final class MoreViewController: UIViewController {
 
@@ -32,6 +33,7 @@ final class MoreViewController: UIViewController {
         self.setupNavigationBar()
         self.setupLabel()
         self.setupTableView()
+        self.setupUserLogout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,7 +68,9 @@ final class MoreViewController: UIViewController {
     
     // Label 설정
     private func setupLabel() {
-        self.nicknameLabel.text = "\(self.viewModel.nicknameString)님"
+        self.viewModel.nicknameString
+            .bind(to: self.nicknameLabel.rx.text)
+            .disposed(by: rx.disposeBag)
     }
     
     // TableView 설정
@@ -80,12 +84,45 @@ final class MoreViewController: UIViewController {
         //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         
         self.viewModel.shouldReloadTableView.asObservable()
+            .filter { $0 == true }
             .subscribe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] needToBeReloaded in
+            .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                if needToBeReloaded { self.tableView.reloadData() }
+                self.tableView.reloadData()
             })
             .disposed(by: rx.disposeBag)
+    }
+    
+    // 사용자 로그아웃 설정
+    private func setupUserLogout() {
+        self.viewModel.logoutSubject
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.viewModel.requestFirebaseRevoke(viewController: self)
+                //self.deleteCurrentUser(with: .apple)
+            })
+            .disposed(by: rx.disposeBag)
+    }
+    
+    //MARK: - indirectly called method
+    
+    // 소셜 로그인 요청하기
+    func deleteCurrentUser(with type: LoginType) {
+        switch type {
+        case .google:
+            break
+
+        case .apple:
+            let request = self.viewModel.appleIDRequest
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+            authorizationController.performRequests()
+            
+            //self.viewModel.goToSplashViewController(viewController: self)
+        }
     }
     
 }
@@ -100,4 +137,20 @@ extension MoreViewController: MFMailComposeViewControllerDelegate {
                                didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
+}
+
+//MARK: - extension for ASAuthorizationControllerDelegate
+
+extension MoreViewController: ASAuthorizationControllerDelegate {
+
+    // Apple 로그아웃 성공시 실행할 내용
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+    }
+    
+    // Apple 로그아웃 실패시 실행할 내용
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        
+    }
+    
 }

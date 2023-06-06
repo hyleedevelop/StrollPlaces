@@ -58,9 +58,11 @@
                     <connections>
                         <outlet property="nicknameLabel" destination="4Wz-P2-2j0" id="vBt-BR-w4t"/>
                         <outlet property="tableView" destination="PtN-hb-tPl" id="WDv-6l-XVn"/>
+                        <segue destination="KQy-Y6-5QR" kind="unwind" identifier="ToLoginViewController" unwindAction="unwindToHome:" id="zGp-bh-Bcb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tyq-OG-jNB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="KQy-Y6-5QR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2764.1221374045799" y="635.91549295774655"/>
         </scene>

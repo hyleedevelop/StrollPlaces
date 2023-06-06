@@ -47,8 +47,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath)
                 as? MoreTableViewCell else { fatalError("Unable to find MoreCell") }
         
-        cell.titleLabel.text = self.viewModel.moreCellData[indexPath.section][indexPath.row].title
-        cell.descriptionLabel.text = self.viewModel.moreCellData[indexPath.section][indexPath.row].value
+        cell.titleLabel.text = self.viewModel.cellItemTitle(indexPath: indexPath)
+        cell.descriptionLabel.text = self.viewModel.cellItemValue(indexPath: indexPath)
                 
         cell.accessoryType = .none
         cell.selectionStyle = .none
@@ -95,6 +95,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             }
             if indexPath.row == 3 {
                 self.present(self.viewModel.actionForDBRemoval, animated: true)
+            }
+            if indexPath.row == 4 {
+                self.present(self.viewModel.actionForLogout, animated: true)
+            }
+            if indexPath.row == 5 {
+                self.present(self.viewModel.actionForWithdrawal, animated: true)
             }
             
         case .feedback:

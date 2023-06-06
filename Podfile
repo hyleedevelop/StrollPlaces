@@ -32,6 +32,7 @@ target 'StrollPlaces' do
   pod 'FirebaseAuth'
   pod 'FirebaseDatabase'
   pod 'FirebaseStorage'
+  pod 'FirebaseFirestore'
   pod 'Fusuma'
   #pod 'AcknowList'
   #pod 'Google-Mobile-Ads-SDK'

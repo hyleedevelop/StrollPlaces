@@ -38,15 +38,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ATTrackingManager.requestTrackingAuthorization { status in
                 switch status {
                 case .authorized:
-                    print("status = authorized")
+                    print("앱 추적 권한 = authorized")
                 case .denied:
-                    print("status = denied")
+                    print("앱 추적 권한 = denied")
                 case .notDetermined:
-                    print("status = notDetermined")
+                    print("앱 추적 권한 = notDetermined")
                 case .restricted:
-                    print("status = restricted")
+                    print("앱 추적 권한 = restricted")
                 @unknown default:
-                    print("status = default")
+                    print("앱 추적 권한 = default")
                 }
             }
         }
@@ -56,7 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Firebase에서 사용자가 이미 로그인 되어있는지 확인
         if let user = FirebaseAuth.Auth.auth().currentUser {
-            print("로그인 되어 있음", user.uid, user.email ?? "-")
+            UserDefaults.standard.setValue(true, forKey: "isUserAlreadyLoggedIn")
+            print("사용자 로그인 되어 있음", user.uid, user.email ?? "-")
+        } else {
+            UserDefaults.standard.setValue(false, forKey: "isUserAlreadyLoggedIn")
+            print("사용자 로그인 되어 있지 않음")
         }
         
         return true

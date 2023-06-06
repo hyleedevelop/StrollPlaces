@@ -47,8 +47,6 @@ enum MoreCellSection: Int, CaseIterable {
 }
 
 enum LoginType {
-    case naver
-    case kakao
     case google
     case apple
 }

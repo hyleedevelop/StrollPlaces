@@ -20,7 +20,6 @@ final class OnboardingViewController: UIViewController {
     //MARK: - normal property
     
     private let viewModel = OnboardingViewModel()
-    private let userDefaults = UserDefaults.standard
     
     private var currentPage = 0 {
         didSet {
@@ -41,9 +40,9 @@ final class OnboardingViewController: UIViewController {
     private var isHideNextTimeChecked = false {
         didSet {
             if self.isHideNextTimeChecked {
-                self.userDefaults.setValue(true, forKey: "hideOnboardingScreen")
+                UserDefaults.standard.setValue(true, forKey: "hideOnboardingScreen")
             } else {
-                self.userDefaults.setValue(false, forKey: "hideOnboardingScreen")
+                UserDefaults.standard.setValue(false, forKey: "hideOnboardingScreen")
             }
         }
     }
@@ -89,7 +88,7 @@ final class OnboardingViewController: UIViewController {
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         // 마지막 페이지인 경우
         if self.currentPage == self.viewModel.slide.count - 1 {
-            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBar")
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController")
                     as? UITabBarController else { return }
             
             nextVC.modalPresentationStyle = .fullScreen
@@ -125,20 +124,20 @@ final class OnboardingViewController: UIViewController {
 extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.slide.count
+        return self.viewModel.numberOfItemsInSection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OnboardingCollectionViewCell", for: indexPath)
                 as? OnboardingCollectionViewCell else { fatalError() }
         
-        cell.setup(self.viewModel.slide[indexPath.row])
+        cell.setup(self.viewModel.cellItem(at: indexPath.row))
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        return self.viewModel.cellSize(collectionView: collectionView)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

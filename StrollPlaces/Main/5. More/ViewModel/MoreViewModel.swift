@@ -12,12 +12,17 @@ import RealmSwift
 import MapKit
 import SafariServices
 import MessageUI
+import FirebaseAuth
+import FirebaseFirestore
+import AuthenticationServices
+
 
 final class MoreViewModel {
     
     //MARK: - 속성 관련
     
-    private let userDefaults = UserDefaults.standard
+    var currentNonce: String?
+    let logoutSubject = BehaviorSubject<Bool>(value: false)
     
     //MARK: - 생성자 관련
     
@@ -32,6 +37,8 @@ final class MoreViewModel {
             MoreCellData(title: "지도 표시 범위", value: nil),
             MoreCellData(title: "즐겨찾기 데이터 초기화", value: nil),
             MoreCellData(title: "MY산책길 데이터 초기화", value: nil),
+            MoreCellData(title: "로그아웃", value: nil),
+            MoreCellData(title: "회원탈퇴", value: nil),
         ]
 
         feedback = [
@@ -51,8 +58,9 @@ final class MoreViewModel {
     
     //MARK: - 사용자 계정 관련
     
-    var nicknameString: String {
-        return self.userDefaults.string(forKey: "userNickname") ?? "닉네임없음"
+    var nicknameString: Observable<String> {
+        let nickname = UserDefaults.standard.string(forKey: "userNickname") ?? "닉네임없음"
+        return Observable<String>.just("\(nickname)님")
     }
     
     //MARK: - 앱 설정 관련
@@ -61,7 +69,7 @@ final class MoreViewModel {
     
     // 현재 지도 표시 범위를 나타낼 텍스트
     var labelTextForMapRadius: String {
-        let radius = self.userDefaults.double(forKey: "mapRadius")
+        let radius = UserDefaults.standard.double(forKey: "mapRadius")
         var labelString = ""
         
         if radius == 0.2 {
@@ -82,7 +90,7 @@ final class MoreViewModel {
     // 현재 지도 종류를 나타낼 텍스트
     var labelTextForMapType: String {
         let type = MKMapType(
-            rawValue: UInt(self.userDefaults.integer(forKey: "mapType"))
+            rawValue: UInt(UserDefaults.standard.integer(forKey: "mapType"))
         ) ?? .standard
         var labelString = ""
         
@@ -164,9 +172,6 @@ final class MoreViewModel {
     // footer 높이
     let footerHeight: CGFloat = 40
     
-    // cell 높이
-    let cellHeight: CGFloat = 44
-    
     // custom header view
     func headerInSection(tableView: UITableView, at section: Int) -> UIView? {
         let yPosition: CGFloat = section == 0 ? 20 : 10
@@ -184,6 +189,32 @@ final class MoreViewModel {
         return headerView
     }
     
+    // custom footer view
+    func footerInSection(tableView: UITableView, at section: Int) -> UIView? {
+        let separatorView = UIView(frame: CGRect(
+            x: -20, y: 20, width: tableView.frame.width, height: 1
+        ))
+        separatorView.backgroundColor = UIColor.systemGray5
+        
+        let footerView = UIView()
+        footerView.addSubview(separatorView)
+        
+        return section == self.numberOfSections-1 ? nil : footerView
+    }
+    
+    // cell 높이
+    let cellHeight: CGFloat = 44
+    
+    // cell 아이템 제목
+    func cellItemTitle(indexPath: IndexPath) -> String {
+        return self.moreCellData[indexPath.section][indexPath.row].title
+    }
+    
+    // cell 아이템 값
+    func cellItemValue(indexPath: IndexPath) -> String {
+        return self.moreCellData[indexPath.section][indexPath.row].value ?? ""
+    }
+    
     // 텍스트 정보
     private func titleForHeaderInSection(at section: Int) -> String? {
         switch MoreCellSection(rawValue: section) {
@@ -198,19 +229,6 @@ final class MoreViewModel {
         }
     }
     
-    // custom footer view
-    func footerInSection(tableView: UITableView, at section: Int) -> UIView? {
-        let separatorView = UIView(frame: CGRect(
-            x: -20, y: 20, width: tableView.frame.width, height: 1
-        ))
-        separatorView.backgroundColor = UIColor.systemGray5
-        
-        let footerView = UIView()
-        footerView.addSubview(separatorView)
-        
-        return section == self.numberOfSections-1 ? nil : footerView
-    }
-    
     //MARK: - Action 관련
     
     // 지도 종류 설정을 위한 Action 구성
@@ -221,19 +239,19 @@ final class MoreViewModel {
         
         actionSheet.addAction(
             UIAlertAction(title: "표준", style: .default, handler: { _ in
-                self.userDefaults.set(0, forKey: "mapType")
+                UserDefaults.standard.set(0, forKey: "mapType")
                 self.shouldReloadTableView.onNext(true)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "위성", style: .default, handler: { _ in
-                self.userDefaults.set(1, forKey: "mapType")
+                UserDefaults.standard.set(1, forKey: "mapType")
                 self.shouldReloadTableView.onNext(true)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "하이브리드", style: .default, handler: { _ in
-                self.userDefaults.set(2, forKey: "mapType")
+                UserDefaults.standard.set(2, forKey: "mapType")
                 self.shouldReloadTableView.onNext(true)
             })
         )
@@ -252,35 +270,35 @@ final class MoreViewModel {
         
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 200 m", style: .default, handler: { _ in
-                self.userDefaults.set(0.2, forKey: "mapRadius")
+                UserDefaults.standard.set(0.2, forKey: "mapRadius")
                 self.shouldReloadTableView.onNext(true)
                 NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 300 m", style: .default, handler: { _ in
-                self.userDefaults.set(0.3, forKey: "mapRadius")
+                UserDefaults.standard.set(0.3, forKey: "mapRadius")
                 self.shouldReloadTableView.onNext(true)
                 NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 500 m", style: .default, handler: { _ in
-                self.userDefaults.set(0.5, forKey: "mapRadius")
+                UserDefaults.standard.set(0.5, forKey: "mapRadius")
                 self.shouldReloadTableView.onNext(true)
                 NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 1 km", style: .default, handler: { _ in
-                self.userDefaults.set(1.0, forKey: "mapRadius")
+                UserDefaults.standard.set(1.0, forKey: "mapRadius")
                 self.shouldReloadTableView.onNext(true)
                 NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 2 km", style: .default, handler: { _ in
-                self.userDefaults.set(2.0, forKey: "mapRadius")
+                UserDefaults.standard.set(2.0, forKey: "mapRadius")
                 self.shouldReloadTableView.onNext(true)
                 NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
             })
@@ -290,6 +308,28 @@ final class MoreViewModel {
         )
         
         return actionSheet
+    }
+    
+    // 즐겨찾기 데이터 초기화를 위한 Action 구성
+    var actionForMarkRemoval: UIAlertController {
+        // 진짜로 취소할 것인지 alert message 보여주고 확인받기
+        let alert = UIAlertController(
+            title: "확인",
+            message: "즐겨찾기 데이터를 모두 초기화할까요?\n삭제한 데이터는 복구할 수 없습니다.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "아니요", style: .default)
+        )
+        alert.addAction(
+            UIAlertAction(title: "네", style: .destructive) { _ in
+                self.clearMarkDB()
+                SPIndicatorService.shared.showSuccessIndicator(title: "초기화 완료")
+            }
+        )
+        
+        return alert
     }
     
     // MY산책길 데이터 초기화를 위한 Action 구성
@@ -313,7 +353,7 @@ final class MoreViewModel {
                 NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
                 
                 // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-                self.userDefaults.set(false, forKey: "myPlaceExist")
+                UserDefaults.standard.set(false, forKey: "myPlaceExist")
                 NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
             }
         )
@@ -321,12 +361,11 @@ final class MoreViewModel {
         return alert
     }
     
-    // 즐겨찾기 데이터 초기화를 위한 Action 구성
-    var actionForMarkRemoval: UIAlertController {
-        // 진짜로 취소할 것인지 alert message 보여주고 확인받기
+    // 로그아웃을 위한 Action 구성
+    var actionForLogout: UIAlertController {
         let alert = UIAlertController(
             title: "확인",
-            message: "즐겨찾기 데이터를 모두 초기화할까요?\n삭제한 데이터는 복구할 수 없습니다.",
+            message: "현재 사용중인 계정을 로그아웃 할까요?",
             preferredStyle: .alert
         )
         
@@ -335,8 +374,27 @@ final class MoreViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.clearMarkDB()
-                SPIndicatorService.shared.showSuccessIndicator(title: "초기화 완료")
+                self.logoutSubject.onNext(true)
+            }
+        )
+        
+        return alert
+    }
+    
+    // 회원탈퇴를 위한 Action 구성
+    var actionForWithdrawal: UIAlertController {
+        let alert = UIAlertController(
+            title: "확인",
+            message: "회원을 탈퇴하시겠습니까?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "아니요", style: .default)
+        )
+        alert.addAction(
+            UIAlertAction(title: "네", style: .destructive) { _ in
+                print("회원 탈퇴 처리됨...")
             }
         )
         
@@ -373,6 +431,51 @@ final class MoreViewModel {
             viewController.present(sendMailErrorAlert, animated: true, completion: nil)
         }
     }
+    
+    //MARK: - Apple 로그인 관련
+    
+    var appleIDRequest: ASAuthorizationAppleIDRequest {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        let nonce = CryptoService.shared.randomNonceString()
+        
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = CryptoService.shared.sha256(nonce)
+        self.currentNonce = nonce
+        
+        return request
+    }
+    
+    //MARK: - Firebase DB 관련
+    
+    var userNickname: String {
+        let firebaseDB = Firestore.firestore()
+        firebaseDB
+            .collection("Users")
+            .getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                }
+            }
+        }
+        return ""
+    }
+    
+    func requestFirebaseRevoke(viewController: UIViewController) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            viewController.performSegue(
+                withIdentifier: "ToLoginViewController", sender: viewController
+            )
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+
     
     //MARK: - Realm DB 관련
     

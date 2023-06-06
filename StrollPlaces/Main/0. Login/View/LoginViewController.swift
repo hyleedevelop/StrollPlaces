@@ -34,6 +34,15 @@ final class LoginViewController: UIViewController {
         self.setupButton()
     }
     
+    deinit {
+        print("LoginViewController 메모리 해제됨")
+    }
+    
+    //MARK: - IBAction
+    @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
+        print("unwinding to LoginViewController...")
+    }
+    
     //MARK: - directly called method
     
     // NavigationBar 설정
@@ -80,15 +89,21 @@ final class LoginViewController: UIViewController {
     
     // 소셜 로그인 요청하기
     private func requestAuthorization(with type: LoginType) {
-        print(#function)
-        
         switch type {
-        case .naver:
-            self.isLoginAllowed.onNext(true)
-        case .kakao:
-            self.isLoginAllowed.onNext(true)
         case .google:
-            self.isLoginAllowed.onNext(true)
+            // 테스트용 코드 --------------
+            //self.isLoginAllowed.onNext(true)
+            
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
+                    as? OnboardingViewController else { return }
+            
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.hero.isEnabled = true
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
+                                                       dismissing: .zoomOut)
+            self.present(nextVC, animated: true, completion: nil)
+            // ------------------------
+            
         case .apple:
             let request = self.viewModel.appleIDRequest
             let authorizationController = ASAuthorizationController(authorizationRequests: [request])
@@ -97,7 +112,6 @@ final class LoginViewController: UIViewController {
             authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
             authorizationController.performRequests()
         }
-
     }
     
 }
@@ -108,8 +122,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 
     // Apple 로그인 인증 성공시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let credential = authorization.credential
-                as? ASAuthorizationAppleIDCredential else { return }
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
 
         /*
         // 이메일 (맨 처음 시도) 가져오기
@@ -129,19 +142,23 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let name = "\(fullName.familyName ?? "") \(fullName.givenName ?? "")"
             print(name)
         }
-         */
         
+        // 사용자 정보
+        let userIdentifier = credential.user
+        let userName = credential.fullName
+        let userEmail = credential.email
+         */
+         
         // Firebase 인증 수행
         self.viewModel.requestFirebaseAuthorization(credential: credential)
         
-        
-        self.viewModel.setUserInfo(nickname: "Eric")
+        // 로그인이 허용되었을 경우 true 이벤트 방출
         self.isLoginAllowed.onNext(true)
     }
     
     // Apple 로그인 인증 실패시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("애플 로그인 실패...")
+        self.viewModel.showAlertMessage(success: false)
     }
     
 }

@@ -246,9 +246,9 @@ class AddMyPlaceViewController: UIViewController {
                 ratingObservable
                     .map { self.viewModel.checkStarRatingIsValid(value: $0) },  // Bool
                 resultSelector: { e1, e2, e3, e4 in e1 && e2 && e3 && e4 })
-            .subscribe(onNext: { [weak self] isAvailable in
+            .subscribe(onNext: { [weak self] isEnabled in
                 guard let self = self else { return }
-                self.saveButton.isEnabled = isAvailable
+                self.saveButton.isEnabled = isEnabled
             })
             .disposed(by: rx.disposeBag)
     }

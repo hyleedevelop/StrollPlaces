@@ -140,4 +140,14 @@ struct K {
         static let notifyLaterUpdateMessage = "곧 업데이트 예정입니다."
     }
     
+    // Firebase 관련
+    struct FS {
+        static let collectionName = "Users"
+        
+        static let uidField = "uid"
+        static let emailField = "email"
+        static let nicknameField = "nickname"
+        static let signupDateField = "signupDate"
+    }
+    
 }

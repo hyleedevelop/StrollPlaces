@@ -31,8 +31,20 @@ final class OnboardingViewModel {
     
     //MARK: - directly called method
     
-//    func getItem(at index: Int) -> OnboardingData {
-//        return self.onboardingData[index]
-//    }
+    //MARK: - Collection View 관련
+    
+    var numberOfItemsInSection: Int {
+        return self.slide.count
+    }
+    
+    func cellItem(at index: Int) -> OnboardingData {
+        return self.slide[index]
+    }
+    
+    func cellSize(collectionView: UICollectionView) -> CGSize {
+        return CGSize(
+            width: collectionView.frame.width, height: collectionView.frame.height
+        )
+    }
     
 }
