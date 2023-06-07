@@ -13,9 +13,15 @@ import RxSwift
 
 final class NicknameViewModel {
     
-    //MARK: - 속성 관련
+    //MARK: - in 속성 관련
     
-    private let userDefaults = UserDefaults.standard
+    
+    //MARK: - out 속성 관련
+    
+    var isUserRegistered = BehaviorSubject<Bool>(value: false)
+    
+    //MARK: - 내부 속성 관련
+    
     
     
     //MARK: - 생성자 관련
@@ -53,20 +59,18 @@ final class NicknameViewModel {
     
     //MARK: - Firebase DB 관련
     
-    var isUserRegistered = BehaviorSubject<Bool>(value: false)
-    
     func createUserDB(nickname: String) {
         guard let uid = Auth.auth().currentUser?.uid,
               let email = Auth.auth().currentUser?.email else { return }
         
         let firestoreDB = Firestore.firestore()
         firestoreDB
-            .collection(K.FS.collectionName)
+            .collection(K.Login.collectionName)
             .addDocument(data: [
-                K.FS.uidField: uid,
-                K.FS.emailField: email,
-                K.FS.nicknameField: nickname,
-                K.FS.signupDateField: Date().timeIntervalSince1970
+                K.Login.uidField: uid,
+                K.Login.emailField: email,
+                K.Login.nicknameField: nickname,
+                K.Login.signupDateField: Date().timeIntervalSince1970
             ]) { error in
                 if let errorMessage = error {
                     print("There was an issue saving data to firestore, \(errorMessage)")

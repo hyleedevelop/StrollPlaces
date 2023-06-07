@@ -23,8 +23,8 @@ final class SplashViewModel {
         let isOnboardingHidden = UserDefaults.standard.bool(forKey: "hideOnboardingScreen")
         var nextVC: UIViewController = UIViewController()
         
-        print("isUserAlreadyLoggedIn: ", isUserAlreadyLoggedIn)
-        print("isOnboardingHidden: ", isOnboardingHidden)
+        print("isUserAlreadyLoggedIn: \(isUserAlreadyLoggedIn)")
+        print("isOnboardingHidden: \(isOnboardingHidden)")
         
         if isUserAlreadyLoggedIn {
             if isOnboardingHidden {

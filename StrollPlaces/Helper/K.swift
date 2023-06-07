@@ -14,6 +14,8 @@ struct K {
         //static let splashScreenTime: Double = 1
         static let splashScreenTime: Double = 3
         static let appName = "가벼운발걸음"
+        static let appBundleID = "com.hyleedevelop.StrollPlaces"
+        static let appTeamID = "YJF2RZ2K47"
     }
     
     struct Color {
@@ -141,8 +143,12 @@ struct K {
     }
     
     // Firebase 관련
-    struct FS {
+    struct Login {
+        static let appleKeyID = "AXVMC7CMQB"
+        static let keyFileName = "AuthKey_AXVMC7CMQB"
+        
         static let collectionName = "Users"
+        static let documentName = "info"
         
         static let uidField = "uid"
         static let emailField = "email"

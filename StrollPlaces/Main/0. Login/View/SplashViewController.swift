@@ -11,6 +11,12 @@ import Lottie
 
 final class SplashViewController: UIViewController {
 
+    //MARK: - IB Action
+    
+    @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
+        print("unwinding to SplashViewController...")
+    }
+    
     //MARK: - UI property
     
     private let titleLabel: UILabel = {
@@ -54,6 +60,11 @@ final class SplashViewController: UIViewController {
         self.setupView()
         self.setupLabel()
         self.setupAnimationView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         self.goToNextViewController()
     }
     
@@ -95,14 +106,16 @@ final class SplashViewController: UIViewController {
             $0.bottom.equalTo(self.subtitleLabel.snp.top).offset(-50)
         }
         
-        self.initialAnimationView.play { _ in
-            UIView.animate(withDuration: 1, animations: {
-                self.initialAnimationView.alpha = 0
-            }, completion: { _ in
-                self.initialAnimationView.isHidden = true
-                self.initialAnimationView.removeFromSuperview()
-            })
-        }
+        self.initialAnimationView.play()
+        
+//        self.initialAnimationView.play { _ in
+//            UIView.animate(withDuration: 1, animations: {
+//                self.initialAnimationView.alpha = 0
+//            }, completion: { _ in
+//                self.initialAnimationView.isHidden = true
+//                self.initialAnimationView.removeFromSuperview()
+//            })
+//        }
     }
     
     // 다음 화면으로 이동

@@ -58,7 +58,7 @@
                     <connections>
                         <outlet property="nicknameLabel" destination="4Wz-P2-2j0" id="vBt-BR-w4t"/>
                         <outlet property="tableView" destination="PtN-hb-tPl" id="WDv-6l-XVn"/>
-                        <segue destination="KQy-Y6-5QR" kind="unwind" identifier="ToLoginViewController" unwindAction="unwindToHome:" id="zGp-bh-Bcb"/>
+                        <segue destination="KQy-Y6-5QR" kind="unwind" identifier="ToSplashViewController" unwindAction="unwindToHome:" id="ict-Rh-0Ql"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tyq-OG-jNB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

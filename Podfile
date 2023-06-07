@@ -34,6 +34,8 @@ target 'StrollPlaces' do
   pod 'FirebaseStorage'
   pod 'FirebaseFirestore'
   pod 'Fusuma'
+  pod 'SwiftJWT'
+  pod 'Alamofire'
   #pod 'AcknowList'
   #pod 'Google-Mobile-Ads-SDK'
   #pod 'PopOverMenu', '~> 3.0'

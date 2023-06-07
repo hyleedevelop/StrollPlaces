@@ -12,6 +12,7 @@ import SnapKit
 import SafariServices
 import MessageUI
 import AuthenticationServices
+import Alamofire
 
 final class MoreViewController: UIViewController {
 
@@ -34,6 +35,7 @@ final class MoreViewController: UIViewController {
         self.setupLabel()
         self.setupTableView()
         self.setupUserLogout()
+        self.setupUserSignout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,10 +51,6 @@ final class MoreViewController: UIViewController {
         
         // Navigation Bar 기본 설정
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - directly called method
@@ -93,45 +91,41 @@ final class MoreViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    // 사용자 로그아웃 설정
+    // 로그아웃 설정
     private func setupUserLogout() {
         self.viewModel.logoutSubject
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.viewModel.requestFirebaseRevoke(viewController: self)
-                //self.deleteCurrentUser(with: .apple)
+                self.performSegue(
+                    withIdentifier: "ToSplashViewController", sender: self
+                )
+            })
+            .disposed(by: rx.disposeBag)
+    }
+    
+    // 회원탈퇴 설정
+    private func setupUserSignout() {
+        self.viewModel.signoutSubject
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.makeRevokeEvent()
+                //self.viewModel.requestFirebaseRevoke(viewController: self)
             })
             .disposed(by: rx.disposeBag)
     }
     
     //MARK: - indirectly called method
     
-    // 소셜 로그인 요청하기
-    func deleteCurrentUser(with type: LoginType) {
-        switch type {
-        case .google:
-            break
 
-        case .apple:
-            let request = self.viewModel.appleIDRequest
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-            
-            authorizationController.delegate = self
-            authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
-            authorizationController.performRequests()
-            
-            //self.viewModel.goToSplashViewController(viewController: self)
-        }
-    }
     
 }
 
 //MARK: - extension for MFMailComposeViewControllerDelegate
 
 extension MoreViewController: MFMailComposeViewControllerDelegate {
-
-    
 
     func mailComposeController(_ controller: MFMailComposeViewController,
                                didFinishWith result: MFMailComposeResult, error: Error?) {

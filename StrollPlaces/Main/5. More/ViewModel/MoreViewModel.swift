@@ -15,20 +15,28 @@ import MessageUI
 import FirebaseAuth
 import FirebaseFirestore
 import AuthenticationServices
+import Alamofire
 
 
 final class MoreViewModel {
     
-    //MARK: - 속성 관련
+    //MARK: - in 속성 관련
+    
+    
+    //MARK: - out 속성 관련
     
     var currentNonce: String?
     let logoutSubject = BehaviorSubject<Bool>(value: false)
+    let signoutSubject = BehaviorSubject<Bool>(value: false)
     
-    //MARK: - 생성자 관련
+    //MARK: - 내부 속성 관련
     
     private let appSettings: [MoreCellData]!
     private let feedback: [MoreCellData]!
     private let aboutTheApp: [MoreCellData]!
+    
+    //MARK: - 생성자 관련
+
     let moreCellData: [[MoreCellData]]!
     
     init() {
@@ -394,7 +402,7 @@ final class MoreViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                print("회원 탈퇴 처리됨...")
+                self.signoutSubject.onNext(true)
             }
         )
         
@@ -468,14 +476,10 @@ final class MoreViewModel {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            viewController.performSegue(
-                withIdentifier: "ToLoginViewController", sender: viewController
-            )
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }
-
     
     //MARK: - Realm DB 관련
     

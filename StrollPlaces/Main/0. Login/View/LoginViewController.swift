@@ -38,11 +38,6 @@ final class LoginViewController: UIViewController {
         print("LoginViewController 메모리 해제됨")
     }
     
-    //MARK: - IBAction
-    @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
-        print("unwinding to LoginViewController...")
-    }
-    
     //MARK: - directly called method
     
     // NavigationBar 설정
@@ -50,7 +45,7 @@ final class LoginViewController: UIViewController {
         self.navigationController?.applyDefaultSettings(hideBar: true)
     }
     
-    // 각종 버튼 설정
+    // (뷰로 만든) 커스텀버튼 설정
     private func setupButton() {
         // 구글 로그인을 시도한 경우
         self.googleLoginButton.applySocialLoginButtonFormat()
@@ -105,9 +100,11 @@ final class LoginViewController: UIViewController {
             // ------------------------
             
         case .apple:
+            // 1. OpenID authorization 요청에 필요한 객체 생성
             let request = self.viewModel.appleIDRequest
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
             
+            // 2. 이 ViewController에서 로그인 창을 띄우기 위한 준비
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
             authorizationController.delegate = self
             authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
             authorizationController.performRequests()
@@ -120,43 +117,76 @@ final class LoginViewController: UIViewController {
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
 
-    // Apple 로그인 인증 성공시 실행할 내용
+    // Apple 로그인 성공 시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
-
-        /*
-        // 이메일 (맨 처음 시도) 가져오기
-        if let email = credential.email {
-            print(email)
-
-        // 이메일 (두번째 시도부터) 가져오기
-        } else {
-            // credential.identityToken은 jwt로 되어있고, 해당 토큰을 decode 후 email에 접근해야한다.
-            guard let tokenString = String(data: credential.identityToken ?? Data(), encoding: .utf8) else { return }
-            let email = self.viewModel.decode(jwtToken: tokenString)["email"] as? String ?? ""
-            print(email)
-        }
-
-        // 이름 가져오기
-        if let fullName = credential.fullName {
-            let name = "\(fullName.familyName ?? "") \(fullName.givenName ?? "")"
-            print(name)
+        
+        // 1. 사용자의 정보 가져오기
+        
+        // 인증 성공 이후 제공되는 정보
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        
+        // 사용자에 대한 고유 식별자 (항상 변하지 않는 값)
+        let userIdentifier = appleIDCredential.user
+        // 사용자의 이름
+        let fullName = appleIDCredential.fullName ?? PersonNameComponents()
+        // 사용자의 이메일
+        let email = appleIDCredential.email ?? "없음"
+        
+        // authorizationCode는 일회용이고 5분간 유효함
+        if let authorizationCode = appleIDCredential.authorizationCode,
+           let identityToken = appleIDCredential.identityToken,
+           let authCodeString = String(data: authorizationCode, encoding: .utf8),
+           let identifyTokenString = String(data: identityToken, encoding: .utf8) {
+            // UserDefaults에 저장했다가 나중에 회원탈퇴 시 활용
+            let code = String(decoding: authorizationCode, as: UTF8.self)
+            //UserDefaults.standard.setValue(code, forKey: "theAuthorizationCode")
+            UserDefaults.standard.setValue(code, forKey: "theAuthorizationCode")
+            print("Code - \(code)")
+            
+//            self.viewModel.getAppleRefreshToken(code: code) { data in
+//                UserDefaults.standard.set(data.refresh_token, forKey: "AppleRefreshToken")
+//            }
+            
+            print("authorizationCode: \(authorizationCode)")
+            print("identityToken: \(identityToken)")
+            print("authCodeString: \(authCodeString)")
+            print("identifyTokenString: \(identifyTokenString)")
         }
         
-        // 사용자 정보
-        let userIdentifier = credential.user
-        let userName = credential.fullName
-        let userEmail = credential.email
-         */
-         
-        // Firebase 인증 수행
-        self.viewModel.requestFirebaseAuthorization(credential: credential)
+        print("useridentifier: \(userIdentifier)")
+        print("fullName: \(fullName)")
+        print("email: \(email)")
+
+        // 2. 사용자의 식별자를 이용해 경우에 따른 로그인 처리
+        
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: userIdentifier) { credentialState, error in
+            switch credentialState {
+            case .authorized:
+                // The Apple ID credential is valid. Show Home UI Here
+                print("credentialState = authorized")
+                break
+            case .revoked:
+                // The Apple ID credential is revoked. Show SignIn UI Here.
+                print("credentialState = revoked")
+                break
+            case .notFound:
+                // No credential was found. Show SignIn UI Here.
+                print("credentialState = notFound")
+                break
+            default:
+                break
+            }
+        }
+        
+        // Firebase에서도 인증 수행
+        self.viewModel.requestFirebaseAuthorization(credential: appleIDCredential)
         
         // 로그인이 허용되었을 경우 true 이벤트 방출
         self.isLoginAllowed.onNext(true)
     }
     
-    // Apple 로그인 인증 실패시 실행할 내용
+    // Apple 로그인 실패 시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         self.viewModel.showAlertMessage(success: false)
     }

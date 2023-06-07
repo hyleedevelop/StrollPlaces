@@ -103,7 +103,7 @@ extension MapViewController: MKMapViewDelegate {
         if let location = locations.last {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
-            print(#function, latitude, longitude, separator: ", ")
+            //print(#function, latitude, longitude, separator: ", ")
         }
         
         // 위치 추적 모드 실행
