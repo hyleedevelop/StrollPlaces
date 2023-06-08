@@ -66,11 +66,12 @@ final class NicknameViewModel {
         let firestoreDB = Firestore.firestore()
         firestoreDB
             .collection(K.Login.collectionName)
-            .addDocument(data: [
+            .document(email)
+            .setData([
                 K.Login.uidField: uid,
                 K.Login.emailField: email,
                 K.Login.nicknameField: nickname,
-                K.Login.signupDateField: Date().timeIntervalSince1970
+                K.Login.signupDateField: Timestamp(date: Date())
             ]) { error in
                 if let errorMessage = error {
                     print("There was an issue saving data to firestore, \(errorMessage)")

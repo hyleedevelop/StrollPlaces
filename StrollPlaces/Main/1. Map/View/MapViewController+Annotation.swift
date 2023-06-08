@@ -28,15 +28,15 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            print("위치 추적 권한 허용됨")
+            print("Privacy - Location usage: authorized")
             self.locationManager.startUpdatingLocation()
             MapService.shared.moveToCurrentLocation(
                 manager: self.locationManager, mapView: self.mapView
             )
         case .restricted, .notDetermined:
-            print("위치 추적 권한 미설정")
+            print("Privacy - Location usage: notDetermined")
         case .denied:
-            print("위치 추적 권한 거부됨")
+            print("Privacy - Location usage: denied")
         default:
             break
         }

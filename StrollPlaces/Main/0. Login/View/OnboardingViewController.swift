@@ -88,7 +88,7 @@ final class OnboardingViewController: UIViewController {
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         // 마지막 페이지인 경우
         if self.currentPage == self.viewModel.slide.count - 1 {
-            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController")
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "UITabBarController")
                     as? UITabBarController else { return }
             
             nextVC.modalPresentationStyle = .fullScreen

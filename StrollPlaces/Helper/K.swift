@@ -156,4 +156,11 @@ struct K {
         static let signupDateField = "signupDate"
     }
     
+    // UserDefaults key 관련
+    struct UserDefaults {
+        static let signupStatus = "isUserAlreadySignedUp"
+        static let loginStatus = "isUserAlreadyLoggedIn"
+        static let hideOnboarding = "hideOnboardingScreen"
+    }
+    
 }

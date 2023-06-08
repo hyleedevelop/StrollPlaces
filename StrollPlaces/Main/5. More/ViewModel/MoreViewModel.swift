@@ -26,8 +26,9 @@ final class MoreViewModel {
     //MARK: - out 속성 관련
     
     var currentNonce: String?
-    let logoutSubject = BehaviorSubject<Bool>(value: false)
+    let startLogout = BehaviorSubject<Bool>(value: false)
     let signoutSubject = BehaviorSubject<Bool>(value: false)
+    let userNickname = BehaviorRelay<String>(value: "닉네임없음")
     
     //MARK: - 내부 속성 관련
     
@@ -62,13 +63,10 @@ final class MoreViewModel {
         ]
         
         moreCellData = [appSettings, feedback, aboutTheApp]
-    }
-    
-    //MARK: - 사용자 계정 관련
-    
-    var nicknameString: Observable<String> {
-        let nickname = UserDefaults.standard.string(forKey: "userNickname") ?? "닉네임없음"
-        return Observable<String>.just("\(nickname)님")
+        
+        // Firebase에서 사용자가 이미 로그인 되어있는 경우
+        // 이메일 값을 이용해 닉네임 값을 가져와서 Relay의 이벤트로 방출
+        self.getUserNickname()
     }
     
     //MARK: - 앱 설정 관련
@@ -382,7 +380,7 @@ final class MoreViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.logoutSubject.onNext(true)
+                self.startLogout.onNext(true)
             }
         )
         
@@ -456,28 +454,31 @@ final class MoreViewModel {
     
     //MARK: - Firebase DB 관련
     
-    var userNickname: String {
-        let firebaseDB = Firestore.firestore()
-        firebaseDB
-            .collection("Users")
-            .getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
+    func getUserNickname() {
+        if let userEmail = FirebaseAuth.Auth.auth().currentUser?.email {
+            Firestore
+                .firestore()
+                .collection(K.Login.collectionName)
+                .document(userEmail)
+                .getDocument { document, error in
+                    guard let nickname = document?.get(K.Login.nicknameField) as? String else { return }
+                    self.userNickname.accept(nickname)
                 }
-            }
         }
-        return ""
     }
     
-    func requestFirebaseRevoke(viewController: UIViewController) {
+    @discardableResult
+    func requestFirebaseRevoke(viewController: UIViewController) -> Observable<Bool> {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
+            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.signupStatus)
+            return Observable<Bool>.just(true)
         } catch let signOutError as NSError {
+            SPIndicatorService.shared.showErrorIndicator(title: "로그아웃 실패", message: "잘못된 요청")
             print("Error signing out: %@", signOutError)
+            return Observable<Bool>.just(false)
         }
     }
     

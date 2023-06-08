@@ -84,27 +84,56 @@ final class LoginViewModel {
         }
     }
     
+    
+    
     //MARK: - 화면 이동 관련
     
     // 다음 화면으로 이동
     func goToNextViewController(viewController: UIViewController) {
-        guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "NicknameViewController") as? NicknameViewController else { return }
+        let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signupStatus)
+        let hideOnboarding = UserDefaults.standard.bool(forKey: K.UserDefaults.hideOnboarding)
         
-        nextVC.modalPresentationStyle = .fullScreen
-        nextVC.hero.isEnabled = true
-        nextVC.hero.modalAnimationType = .selectBy(presenting: .fade,
-                                                   dismissing: .fade)
-        viewController.present(nextVC, animated: true, completion: nil)
+        print("사용자가 이미 회원가입 되어 있습니까?: \(isUserAlreadySignedUp)")
+        print("앱 사용방법 설명이 필요없습니까?: \(hideOnboarding)")
+        
+        if isUserAlreadySignedUp {
+            
+            if hideOnboarding {
+                // (1) 유저가 이미 등록되어 있고, 앱 사용방법 설명이 필요 없는 경우
+                guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "UITabBarController") as? UITabBarController else { return }
+                nextVC.modalPresentationStyle = .fullScreen
+                nextVC.hero.isEnabled = true
+                nextVC.hero.modalAnimationType = .selectBy(presenting: .fade,
+                                                           dismissing: .fade)
+                viewController.present(nextVC, animated: true, completion: nil)
+                
+            } else {
+                // (2) 유저가 이미 등록되어 있고, 앱 사용방법 설명이 필요한 경우
+                guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController") as? OnboardingViewController else { return }
+                nextVC.modalPresentationStyle = .fullScreen
+                nextVC.hero.isEnabled = true
+                nextVC.hero.modalAnimationType = .selectBy(presenting: .fade,
+                                                           dismissing: .fade)
+                viewController.present(nextVC, animated: true, completion: nil)
+            }
+            
+        } else {
+            // (3) 유저가 등록되어있지 않은 경우
+            guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "NicknameViewController") as? NicknameViewController else { return }
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.hero.isEnabled = true
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .fade,
+                                                       dismissing: .fade)
+            viewController.present(nextVC, animated: true, completion: nil)
+            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.hideOnboarding)
+        }
+
     }
     
     //MARK: - Action 관련
     
-    func showAlertMessage(success authenticationIsSuccessful: Bool) {
-        if authenticationIsSuccessful {
-            SPIndicatorService.shared.showSuccessIndicator(title: "로그인 성공")
-        } else {
-            SPIndicatorService.shared.showErrorIndicator(title: "로그인 실패", message: "인증 불가")
-        }
+    func showErrorMessage() {
+        SPIndicatorService.shared.showErrorIndicator(title: "로그인 실패", message: "인증 불가")
     }
 
 }

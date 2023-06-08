@@ -14,7 +14,7 @@ final class SplashViewController: UIViewController {
     //MARK: - IB Action
     
     @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
-        print("unwinding to SplashViewController...")
+        print("Unwinding to SplashViewController")
     }
     
     //MARK: - UI property

@@ -32,10 +32,10 @@ final class MoreViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupNavigationBar()
-        self.setupLabel()
         self.setupTableView()
-        self.setupUserLogout()
-        self.setupUserSignout()
+        self.setupUserProfile()
+        self.setupUserLogoutProcess()
+        self.setupUserSignoutProcess()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,13 +64,6 @@ final class MoreViewController: UIViewController {
         navigationItem.makeLeftSideTitle(title: "더보기")
     }
     
-    // Label 설정
-    private func setupLabel() {
-        self.viewModel.nicknameString
-            .bind(to: self.nicknameLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-    }
-    
     // TableView 설정
     private func setupTableView() {
         self.tableView.dataSource = self
@@ -91,28 +84,33 @@ final class MoreViewController: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
+    // 사용자 프로필 설정
+    private func setupUserProfile() {
+        self.viewModel.userNickname
+            .map { $0 + "님" }
+            .bind(to: self.nicknameLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+    }
+    
     // 로그아웃 설정
-    private func setupUserLogout() {
-        self.viewModel.logoutSubject
+    private func setupUserLogoutProcess() {
+        self.viewModel.startLogout
             .filter { $0 == true }
+            .flatMap { _ in self.viewModel.requestFirebaseRevoke(viewController: self) }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.viewModel.requestFirebaseRevoke(viewController: self)
-                self.performSegue(
-                    withIdentifier: "ToSplashViewController", sender: self
-                )
+                self.performSegue(withIdentifier: "ToSplashViewController", sender: self)
             })
             .disposed(by: rx.disposeBag)
     }
     
     // 회원탈퇴 설정
-    private func setupUserSignout() {
+    private func setupUserSignoutProcess() {
         self.viewModel.signoutSubject
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.makeRevokeEvent()
-                //self.viewModel.requestFirebaseRevoke(viewController: self)
             })
             .disposed(by: rx.disposeBag)
     }
