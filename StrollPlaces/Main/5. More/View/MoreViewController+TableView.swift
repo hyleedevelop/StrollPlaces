@@ -100,7 +100,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(self.viewModel.actionForLogout, animated: true)
             }
             if indexPath.row == 5 {
-                self.present(self.viewModel.actionForWithdrawal, animated: true)
+                self.present(self.viewModel.actionForSignout, animated: true)
             }
             
         case .feedback:

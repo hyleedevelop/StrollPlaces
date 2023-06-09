@@ -24,12 +24,6 @@ final class LoginViewModel {
     init() {
         
     }
-
-    //MARK: - 사용자 계정 정보 관련
-    
-    func setUserInfo(nickname: String) {
-        self.userDefaults.setValue(nickname, forKey: "userNickname")
-    }
     
     //MARK: - 애플 로그인 관련
     

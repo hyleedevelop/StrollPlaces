@@ -38,10 +38,11 @@ class NicknameViewController: UIViewController {
         // 닉네임을 조건에 맞게 입력 시 저장 버튼 활성화
         self.nicknameField.rx.text.orEmpty
             .skip(1)
-            .flatMap { str -> Observable<Bool> in
+            .flatMap { text in
                 return self.viewModel.checkTextFieldIsValid(
-                    text: str, textField: self.nicknameField, isNameField: true
-                )}
+                    text: text, textField: self.nicknameField, isNameField: true
+                )
+            }
             .bind(onNext: { isEnabled in
                 self.saveButton.isEnabled = isEnabled
             })
@@ -50,11 +51,14 @@ class NicknameViewController: UIViewController {
     
     // Button 설정
     private func setupButton() {
+        self.saveButton.layer.cornerRadius = 5
+        self.saveButton.clipsToBounds = true
+        
         // 저장 버튼 클릭 시 Firebase에 유저 등록
         self.saveButton.rx.tap
             .asObservable()
             .subscribe(onNext: {
-                self.viewModel.createUserDB(nickname: self.nicknameField.text ?? "닉네임없음")
+                self.viewModel.createUserData(nickname: self.nicknameField.text ?? "닉네임없음")
             })
             .disposed(by: rx.disposeBag)
         

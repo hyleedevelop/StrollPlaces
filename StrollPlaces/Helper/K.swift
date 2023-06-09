@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import AuthenticationServices
 
 struct K {
     
@@ -154,6 +155,8 @@ struct K {
         static let emailField = "email"
         static let nicknameField = "nickname"
         static let signupDateField = "signupDate"
+        
+        static var authorization: ASAuthorization? = nil
     }
     
     // UserDefaults key 관련
@@ -161,6 +164,8 @@ struct K {
         static let signupStatus = "isUserAlreadySignedUp"
         static let loginStatus = "isUserAlreadyLoggedIn"
         static let hideOnboarding = "hideOnboardingScreen"
+        static let authCode = "theAuthorizationCode"
+        static let clientSecret = "AppleClientSecret"
     }
     
 }

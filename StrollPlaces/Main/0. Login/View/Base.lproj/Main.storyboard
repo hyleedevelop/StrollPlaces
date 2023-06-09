@@ -342,9 +342,11 @@
                     <connections>
                         <outlet property="appleLoginButton" destination="HBo-W1-OEy" id="oII-q3-WfG"/>
                         <outlet property="googleLoginButton" destination="Brh-pH-CvE" id="DIj-tR-Bmg"/>
+                        <segue destination="cJd-jX-6hJ" kind="unwind" unwindAction="unwindToHome:" id="kWQ-qr-UxN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjd-9u-bLJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="cJd-jX-6hJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-2808" y="-27"/>
         </scene>

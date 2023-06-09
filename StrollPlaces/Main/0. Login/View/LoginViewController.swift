@@ -19,6 +19,12 @@ final class LoginViewController: UIViewController {
     
     @IBOutlet weak var googleLoginButton: UIView!
     @IBOutlet weak var appleLoginButton: UIView!
+
+    //MARK: - IB Action
+    
+    @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
+        print("Unwinding to LoginViewController")
+    }
     
     //MARK: - normal property
     
@@ -64,27 +70,9 @@ final class LoginViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         // 로그인이 허용 되었을 경우
-//        Observable
-//            .combineLatest(
-//                // extension 부분에서 모든 처리가 끝나고 받은 로그인 허용 여부에 대한 이벤트
-//                self.isLoginAllowed.map { $0 },
-//                // 사용자의 신규 회원등록 필요 여부에 대한 이벤트
-//                Observable<Bool>.just(
-//                    UserDefaults.standard.bool(forKey: K.UserDefaults.signupStatus)
-//                ),
-//                resultSelector: { e1, e2 in e1 && e2 })
-//            .subscribe(onNext: { [weak self] meetAllConditions in
-//                guard let self = self else { return }
-//                if meetAllConditions {
-//                    self.viewModel.goToNextViewController(viewController: self, alreadySignedUp: true)
-//                } else {
-//                    self.viewModel.showErrorMessage()
-//                }
-//            })
-//            .disposed(by: rx.disposeBag)
-        
         self.isLoginAllowed.asObservable()
-            .subscribe(onNext: { [weak self] allowed in
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.viewModel.goToNextViewController(viewController: self)
             })
@@ -93,7 +81,7 @@ final class LoginViewController: UIViewController {
 
     //MARK: - indirectly called method
     
-    // 소셜 로그인 요청하기
+    // 로그인을 위한 인증 요청하기
     private func requestAuthorization(with type: LoginType) {
         switch type {
         case .google:
@@ -130,8 +118,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 
     // requestAuthorization() 메서드에서 Apple 로그인 성공 시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
         // 1. 사용자의 정보 가져오기
+        
+        K.Login.authorization = authorization
         
         // 인증 성공 이후 제공되는 정보
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
@@ -176,11 +165,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             case .authorized:
                 // The Apple ID credential is valid. Show Home UI Here
                 print("credentialState: authorized")
-                UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
             case .revoked:
                 // The Apple ID credential is revoked. Show SignIn UI Here.
                 print("credentialState: revoked")
-                UserDefaults.standard.setValue(false, forKey: K.UserDefaults.signupStatus)
             case .notFound:
                 // No credential was found. Show SignIn UI Here.
                 print("credentialState: notFound")

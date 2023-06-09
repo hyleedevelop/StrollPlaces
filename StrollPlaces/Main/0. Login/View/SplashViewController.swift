@@ -10,12 +10,6 @@ import SnapKit
 import Lottie
 
 final class SplashViewController: UIViewController {
-
-    //MARK: - IB Action
-    
-    @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
-        print("Unwinding to SplashViewController")
-    }
     
     //MARK: - UI property
     

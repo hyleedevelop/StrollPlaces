@@ -15,6 +15,7 @@ extension MoreViewController {
         let jwtString = CryptoService.shared.createJWT()
         
         guard let authCode = UserDefaults.standard.string(forKey: "theAuthorizationCode") else { return }
+        //guard let authCode = UserDefaults.standard.string(forKey: K.UserDefaults.authCode) else { return }
         
         self.getAppleRefreshToken(code: authCode) { output in
             let clientSecret = jwtString
@@ -23,13 +24,21 @@ extension MoreViewController {
                 print("Client_Secret - \(clientSecret)")
                 print("Refresh_Token - \(refreshToken)")
                 
-                // Apple API 통신
+                // Apple API 통신 시도
                 self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
+                    /* Apple Token 삭제가 성공한 경우, 회원탈퇴 절차의 가장 마지막에 실행할 내용 */
                     print("Apple revoke token Success")
-                    self.performSegue(
-                        withIdentifier: "ToSplashViewController", sender: self
-                    )
-                    self.viewModel.requestFirebaseRevoke(viewController: self)
+                    
+                    // 2. Firebase Firestore에서 사용자 데이터 삭제
+                    self.viewModel.deleteUserData()
+                    
+                    // 3. Firebase Authorization에서 우선 로그아웃 처리
+                    self.viewModel.requestFirebaseSignout(viewController: self)
+                    UserDefaults.standard.setValue(false, forKey: K.UserDefaults.signupStatus)
+                    
+                    // 1. 더보기 탭에서 벗어나 앱의 첫 실행화면으로 돌아가기
+                    self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
+                    /* ------------------------------ */
                 }
             } else{
                 SPIndicatorService.shared.showErrorIndicator(title: "회원탈퇴 실패", message: "회원탈퇴를 진행 불가")
@@ -41,11 +50,12 @@ extension MoreViewController {
     // 1. Apple Refresh Token 받기
     private func getAppleRefreshToken(code: String, completion: @escaping (AppleTokenResponse) -> Void) {
         guard let secret = UserDefaults.standard.string(forKey: "AppleClientSecret") else { return }
+        //guard let secret = UserDefaults.standard.string(forKey: K.UserDefaults.clientSecret) else { return }
         
         let url = "https://appleid.apple.com/auth/token?client_id=\(K.App.appBundleID)&client_secret=\(secret)&code=\(code)&grant_type=authorization_code"
         let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
         
-        print("🗝 clientSecret - \(UserDefaults.standard.string(forKey: "AppleClientSecret") ?? "값없음")")
+        print("🗝 clientSecret - \(secret)")
         print("🗝 authCode - \(code)")
         
         AF.request(url,
@@ -67,12 +77,13 @@ extension MoreViewController {
                     }
                         
                 case .failure(_):
+                    SPIndicatorService.shared.showErrorIndicator(title: "탈퇴 실패", message: "애플 토큰 오류")
                     print("애플 토큰 발급 실패 - \(response.error.debugDescription)")
                 }
             }
     }
     
-    // 2. Apple Token 폐지
+    // 2. Apple Token 삭제
     internal func revokeAppleToken(clientSecret: String, token: String, completion: @escaping () -> Void) {
         
         let url = "https://appleid.apple.com/auth/revoke?client_id=\(K.App.appBundleID)&client_secret=\(clientSecret)&token=\(token)&token_type_hint=refresh_token"

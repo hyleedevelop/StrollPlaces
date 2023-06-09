@@ -18,13 +18,14 @@ final class MoreViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
+    @IBOutlet weak var profileBackView: UIView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     //MARK: - property
     
     internal let viewModel = MoreViewModel()
-    internal let userDefaults = UserDefaults.standard
+    private let isSignoutAllowed = BehaviorSubject<Bool>(value: false)
     
     //MARK: - life cycle
     
@@ -36,6 +37,7 @@ final class MoreViewController: UIViewController {
         self.setupUserProfile()
         self.setupUserLogoutProcess()
         self.setupUserSignoutProcess()
+        self.viewModel.getUserNickname()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,27 +88,45 @@ final class MoreViewController: UIViewController {
     
     // 사용자 프로필 설정
     private func setupUserProfile() {
+        self.profileBackView.backgroundColor = #colorLiteral(red: 0.9855152965, green: 0.4191898108, blue: 0.6166006327, alpha: 1)
+        
         self.viewModel.userNickname
-            .map { $0 + "님" }
+            .map { $0 + "님 환영합니다!" }
             .bind(to: self.nicknameLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
     
     // 로그아웃 설정
     private func setupUserLogoutProcess() {
+        // 애플 로그아웃을 시도한 경우 (AlertAction에서 "네"를 선택한 경우)
         self.viewModel.startLogout
             .filter { $0 == true }
-            .flatMap { _ in self.viewModel.requestFirebaseRevoke(viewController: self) }
+            .flatMap { _ -> Observable<Bool> in
+                return self.viewModel.requestFirebaseSignout(viewController: self)
+            }
+            .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.performSegue(withIdentifier: "ToSplashViewController", sender: self)
+                UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
+                self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
             })
             .disposed(by: rx.disposeBag)
     }
     
     // 회원탈퇴 설정
     private func setupUserSignoutProcess() {
+        // 애플 회원탈퇴를 시도한 경우 (AlertAction에서 "네"를 선택한 경우)
         self.viewModel.signoutSubject
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.requestAuthorization(with: .apple)
+                self.viewModel.requestFirebaseAuthorization()
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // requestAuthorization()에서 회원탈퇴가 허용 되었을 경우
+        self.isSignoutAllowed.asObservable()
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -117,8 +137,65 @@ final class MoreViewController: UIViewController {
     
     //MARK: - indirectly called method
     
+    // 회원탈퇴를 위한 인증 요청하기
+    private func requestAuthorization(with type: LoginType) {
+        switch type {
+        case .google:
+            // 테스트용 코드 --------------
+            //self.isLoginAllowed.onNext(true)
 
+            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
+                    as? OnboardingViewController else { return }
+
+            nextVC.modalPresentationStyle = .fullScreen
+            nextVC.hero.isEnabled = true
+            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
+                                                       dismissing: .zoomOut)
+            self.present(nextVC, animated: true, completion: nil)
+            // ------------------------
+
+        case .apple:
+            // 1. OpenID authorization 요청에 필요한 객체 생성
+            let request = self.viewModel.appleIDRequest
+
+            // 2. 이 ViewController에서 로그인 창을 띄우기 위한 준비
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+            authorizationController.performRequests()
+        }
+    }
+
+}
+
+////MARK: - extension for ASAuthorizationControllerDelegate
+//
+extension MoreViewController: ASAuthorizationControllerDelegate {
+
+    // Apple 로그아웃 성공시 실행할 내용
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+
+//        // 인증 성공 이후 제공되는 정보
+//        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+//
+//        // Firebase에서도 인증 수행
+////        self.viewModel.requestFirebaseAuthorization(
+////            credential: authorization.credential, authorization: authorization
+////        )
+//
+        // 회원탈퇴가 허용되었을 경우 true 이벤트 방출
+        self.isSignoutAllowed.onNext(true)
+//    }
+//
+//    // Apple 로그아웃 실패시 실행할 내용
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+
+    }
     
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        
+    }
+
 }
 
 //MARK: - extension for MFMailComposeViewControllerDelegate
@@ -129,20 +206,4 @@ extension MoreViewController: MFMailComposeViewControllerDelegate {
                                didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
-}
-
-//MARK: - extension for ASAuthorizationControllerDelegate
-
-extension MoreViewController: ASAuthorizationControllerDelegate {
-
-    // Apple 로그아웃 성공시 실행할 내용
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
-    }
-    
-    // Apple 로그아웃 실패시 실행할 내용
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        
-    }
-    
 }

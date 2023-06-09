@@ -59,7 +59,7 @@ final class NicknameViewModel {
     
     //MARK: - Firebase DB 관련
     
-    func createUserDB(nickname: String) {
+    func createUserData(nickname: String) {
         guard let uid = Auth.auth().currentUser?.uid,
               let email = Auth.auth().currentUser?.email else { return }
         
