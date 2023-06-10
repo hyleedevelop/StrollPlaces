@@ -166,6 +166,9 @@ struct K {
         static let hideOnboarding = "hideOnboardingScreen"
         static let authCode = "theAuthorizationCode"
         static let clientSecret = "AppleClientSecret"
+        static let userIdentifier = "UserIdentifier"
+        static let userIdentityToken = "UserIdentityToken"
+        static let userEmail = "UserEmail"
     }
     
 }

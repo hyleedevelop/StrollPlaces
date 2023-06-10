@@ -28,8 +28,8 @@ final class MoreViewModel {
     
     var currentNonce: String?
     let startLogout = BehaviorSubject<Bool>(value: false)
-    let signoutSubject = BehaviorSubject<Bool>(value: false)
-    let userNickname = BehaviorRelay<String>(value: "닉네임없음")
+    let startSignout = BehaviorSubject<Bool>(value: false)
+    let userNickname = BehaviorRelay<String>(value: "")
     
     //MARK: - 내부 속성 관련
     
@@ -368,7 +368,7 @@ final class MoreViewModel {
     var actionForLogout: UIAlertController {
         let alert = UIAlertController(
             title: "확인",
-            message: "현재 사용중인 계정을 로그아웃 할까요?",
+            message: "현재 사용중인 계정에서\n로그아웃 할까요?",
             preferredStyle: .alert
         )
         
@@ -388,7 +388,7 @@ final class MoreViewModel {
     var actionForSignout: UIAlertController {
         let alert = UIAlertController(
             title: "확인",
-            message: "탈퇴 시 모든 데이터가 삭제됩니다.\n그래도 탈퇴하시겠습니까?",
+            message: "회원님의 모든 정보가 삭제됩니다.\n지금 탈퇴할까요?",
             preferredStyle: .alert
         )
         
@@ -397,7 +397,7 @@ final class MoreViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.signoutSubject.onNext(true)
+                self.startSignout.onNext(true)
             }
         )
         
@@ -461,30 +461,30 @@ final class MoreViewModel {
             .document(userEmail)
             .getDocument { document, error in
                 guard let nickname = document?.get(K.Login.nicknameField) as? String else { return }
-                self.userNickname.accept(nickname)
+                self.userNickname.accept("\(nickname)님 환영합니다!")
             }
     }
     
     func requestFirebaseAuthorization() {
         guard let authorization = K.Login.authorization else { return }
-        
+
         // 1. 승인코드 가져오기
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             print("Unable to retrieve AppleIDCredential")
             return
         }
-        
+
         // 2. 현재 nonce가 설정되어 있는지 확인
         guard let nonce = currentNonce else {
             fatalError("Invalid state: A login callback was received, but no login request was sent.")
         }
-        
+
         // 3. 인증코드 가져오기
         guard let appleAuthCode = appleIDCredential.authorizationCode else {
             print("Unable to fetch authorization code")
             return
           }
-        
+
         // 4. 가져온 인증코드 인코딩하기
         guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
             print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
@@ -513,12 +513,19 @@ final class MoreViewModel {
     // Firestore에서 사용자 데이터 삭제
     func deleteUserData() {
         guard let userEmail = Auth.auth().currentUser?.email else { return }
-        print("\(#function): \(userEmail)")
+        //guard let userEmail = UserDefaults.standard.string(forKey: K.UserDefaults.userEmail) else { return }
+        
         Firestore
             .firestore()
             .collection(K.Login.collectionName)
             .document(userEmail)
-            .delete()
+            .delete { error in
+                guard let error = error else { return }
+                print(error.localizedDescription)
+            }
+        
+        // 저장해둔 사용자 이메일 제거 (제거하지 않으면 회원탈퇴 이후 로그인 과정이 꼬일 수 있음)
+        //UserDefaults.standard.setValue(nil, forKey: K.UserDefaults.userEmail)
     }
     
     //MARK: - Realm DB 관련

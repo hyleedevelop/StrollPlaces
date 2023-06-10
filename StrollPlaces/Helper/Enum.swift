@@ -55,3 +55,8 @@ enum UserInfoType {
     case name
     case email
 }
+
+enum SignupOrLogin {
+    case signup
+    case login
+}

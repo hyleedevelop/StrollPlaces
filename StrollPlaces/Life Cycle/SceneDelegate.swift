@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import FirebaseAuth
+import AuthenticationServices
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -28,8 +28,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+//        // 사용자의 식별자 가져오기
+//        if let userIdentifier = UserDefaults.standard.value(forKey: K.UserDefaults.userIdentifier) as? String {
+//
+//            ASAuthorizationAppleIDProvider()
+//                .getCredentialState(forUserID: userIdentifier) { credentialState, error in
+//                    switch credentialState {
+//                    case .authorized:
+//                        print("credentialState: authorized")
+//                        DispatchQueue.main.async {
+//                            //authorized된 상태이므로 바로 로그인 완료 화면으로 이동
+//                            self.window?.rootViewController = UITabBarController()
+//                        }
+//                    case .revoked:
+//                        // The Apple ID credential is revoked. Show SignIn UI Here.
+//                        print("credentialState: revoked")
+//                    case .notFound:
+//                        // No credential was found. Show SignIn UI Here.
+//                        print("credentialState: notFound")
+//                        break
+//                    default:
+//                        break
+//                    }
+//                }
+//        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

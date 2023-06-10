@@ -14,8 +14,7 @@ extension MoreViewController {
     internal func makeRevokeEvent() {
         let jwtString = CryptoService.shared.createJWT()
         
-        guard let authCode = UserDefaults.standard.string(forKey: "theAuthorizationCode") else { return }
-        //guard let authCode = UserDefaults.standard.string(forKey: K.UserDefaults.authCode) else { return }
+        guard let authCode = UserDefaults.standard.string(forKey: K.UserDefaults.authCode) else { return }
         
         self.getAppleRefreshToken(code: authCode) { output in
             let clientSecret = jwtString
@@ -28,16 +27,19 @@ extension MoreViewController {
                 self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
                     /* Apple Token 삭제가 성공한 경우, 회원탈퇴 절차의 가장 마지막에 실행할 내용 */
                     print("Apple revoke token Success")
-                    
-                    // 2. Firebase Firestore에서 사용자 데이터 삭제
-                    self.viewModel.deleteUserData()
-                    
-                    // 3. Firebase Authorization에서 우선 로그아웃 처리
+                   
+                    // 2. Firebase Authorization에서 우선 로그아웃 처리
                     self.viewModel.requestFirebaseSignout(viewController: self)
+                    UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
                     UserDefaults.standard.setValue(false, forKey: K.UserDefaults.signupStatus)
                     
-                    // 1. 더보기 탭에서 벗어나 앱의 첫 실행화면으로 돌아가기
-                    self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
+                    // 1. Firebase Firestore에서 사용자 데이터 삭제
+                    self.viewModel.deleteUserData()
+                    
+                    // 3. 더보기 탭에서 벗어나 앱의 첫 실행화면으로 돌아가기
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
+                    }
                     /* ------------------------------ */
                 }
             } else{
@@ -49,8 +51,7 @@ extension MoreViewController {
     
     // 1. Apple Refresh Token 받기
     private func getAppleRefreshToken(code: String, completion: @escaping (AppleTokenResponse) -> Void) {
-        guard let secret = UserDefaults.standard.string(forKey: "AppleClientSecret") else { return }
-        //guard let secret = UserDefaults.standard.string(forKey: K.UserDefaults.clientSecret) else { return }
+        guard let secret = UserDefaults.standard.string(forKey: K.UserDefaults.clientSecret) else { return }
         
         let url = "https://appleid.apple.com/auth/token?client_id=\(K.App.appBundleID)&client_secret=\(secret)&code=\(code)&grant_type=authorization_code"
         let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]

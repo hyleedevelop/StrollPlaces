@@ -91,7 +91,6 @@ final class MoreViewController: UIViewController {
         self.profileBackView.backgroundColor = #colorLiteral(red: 0.9855152965, green: 0.4191898108, blue: 0.6166006327, alpha: 1)
         
         self.viewModel.userNickname
-            .map { $0 + "님 환영합니다!" }
             .bind(to: self.nicknameLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
@@ -108,6 +107,7 @@ final class MoreViewController: UIViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
+                UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
                 self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
             })
             .disposed(by: rx.disposeBag)
@@ -115,17 +115,17 @@ final class MoreViewController: UIViewController {
     
     // 회원탈퇴 설정
     private func setupUserSignoutProcess() {
-        // 애플 회원탈퇴를 시도한 경우 (AlertAction에서 "네"를 선택한 경우)
-        self.viewModel.signoutSubject
+        // Apple Signout (1): 애플 회원탈퇴 메뉴를 클릭한 경우
+        self.viewModel.startSignout.asObservable()
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.requestAuthorization(with: .apple)
-                self.viewModel.requestFirebaseAuthorization()
+                //self.viewModel.requestFirebaseAuthorization()
             })
             .disposed(by: rx.disposeBag)
         
-        // requestAuthorization()에서 회원탈퇴가 허용 되었을 경우
+        // Apple Signout (4): requestAuthorization()에서 회원탈퇴가 허용 되었을 경우
         self.isSignoutAllowed.asObservable()
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
@@ -137,7 +137,7 @@ final class MoreViewController: UIViewController {
     
     //MARK: - indirectly called method
     
-    // 회원탈퇴를 위한 인증 요청하기
+    // Apple Signout (2): Apple ID 사용 중단 요청하기 전 계정 인증 요청
     private func requestAuthorization(with type: LoginType) {
         switch type {
         case .google:
@@ -172,26 +172,20 @@ final class MoreViewController: UIViewController {
 //
 extension MoreViewController: ASAuthorizationControllerDelegate {
 
-    // Apple 로그아웃 성공시 실행할 내용
+    // Apple Signout (3): Apple ID 사용 중단 요청하기 전 계정 인증 성공시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
 
 //        // 인증 성공 이후 제공되는 정보
-//        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
-//
-//        // Firebase에서도 인증 수행
-////        self.viewModel.requestFirebaseAuthorization(
-////            credential: authorization.credential, authorization: authorization
-////        )
-//
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+
+        // Firebase에서도 인증 수행
+        self.viewModel.requestFirebaseAuthorization()
+
         // 회원탈퇴가 허용되었을 경우 true 이벤트 방출
         self.isSignoutAllowed.onNext(true)
-//    }
-//
-//    // Apple 로그아웃 실패시 실행할 내용
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-
     }
-    
+
+    // Apple 로그아웃 실패시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         
     }

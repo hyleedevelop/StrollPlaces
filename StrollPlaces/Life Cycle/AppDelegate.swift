@@ -10,6 +10,7 @@ import IQKeyboardManagerSwift
 import FirebaseCore
 import FirebaseAuth
 import AppTrackingTransparency
+import AuthenticationServices
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -56,9 +57,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Firebase에서 사용자가 이미 로그인 되어있는지 확인
         if let user = FirebaseAuth.Auth.auth().currentUser {
+            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
             UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
             print("사용자 로그인 되어 있음", user.uid, user.email ?? "-")
         } else {
+            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
             UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
             print("사용자 로그인 되어 있지 않음")
         }

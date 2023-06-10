@@ -94,7 +94,7 @@ final class CryptoService {
         
         UserDefaults.standard.set(signedJWT, forKey: "AppleClientSecret")
         
-        print("🗝 singedJWT - \(signedJWT)")
+        print("🗝 signedJWT - \(signedJWT)")
         return signedJWT
     }
 

@@ -7,9 +7,11 @@
 
 import UIKit
 import CryptoKit
+import RxSwift
 import SkyFloatingLabelTextField
 import AuthenticationServices
 import FirebaseAuth
+import FirebaseFirestore
 import Alamofire
 
 final class LoginViewModel {
@@ -18,6 +20,8 @@ final class LoginViewModel {
     
     private let userDefaults = UserDefaults.standard
     var currentNonce: String?
+    let isUserAlreadySignedUp = BehaviorSubject<Bool>(value: false)
+    let isLoginAllowed = BehaviorSubject<Bool>(value: false)
     
     //MARK: - 생성자 관련
     
@@ -69,6 +73,7 @@ final class LoginViewModel {
             // 인증 결과에서 Firebase 사용자를 검색하고 사용자 정보를 표시할 수 있다.
             if let user = authDataResult?.user {
                 print("애플 로그인 성공!", user.uid, user.email ?? "-")
+                self.isLoginAllowed.onNext(true)
             }
             
             if error != nil {
@@ -76,24 +81,39 @@ final class LoginViewModel {
                 return
             }
         }
+        
     }
     
-    
+    // 사용자의 이메일 값을 이용해 닉네임 값을 가져와서 Relay의 이벤트로 방출
+    private func checkUserEmail() {
+        guard let userEmail = Auth.auth().currentUser?.email else { return }
+        
+        Firestore
+            .firestore()
+            .collection(K.Login.collectionName)
+            .document(userEmail)
+            .getDocument { document, error in
+                guard let nickname = document?.get(K.Login.nicknameField) as? String else { return }
+                //self.isUserAlreadySignedUp.onNext(nickname)
+            }
+    }
     
     //MARK: - 화면 이동 관련
     
     // 다음 화면으로 이동
     func goToNextViewController(viewController: UIViewController) {
         let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signupStatus)
+        let isUserAlreadyLoggedIn = UserDefaults.standard.bool(forKey: K.UserDefaults.loginStatus)
         let hideOnboarding = UserDefaults.standard.bool(forKey: K.UserDefaults.hideOnboarding)
         
         print("사용자가 이미 회원가입 되어 있습니까?: \(isUserAlreadySignedUp)")
+        print("사용자가 이미 로그인 되어 있습니까?: \(isUserAlreadyLoggedIn)")
         print("앱 사용방법 설명이 필요없습니까?: \(hideOnboarding)")
         
-        if isUserAlreadySignedUp {
-            
+        if isUserAlreadySignedUp || isUserAlreadyLoggedIn {
             if hideOnboarding {
                 // (1) 유저가 이미 등록되어 있고, 앱 사용방법 설명이 필요 없는 경우
+                
                 guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "UITabBarController") as? UITabBarController else { return }
                 nextVC.modalPresentationStyle = .fullScreen
                 nextVC.hero.isEnabled = true
@@ -122,12 +142,6 @@ final class LoginViewModel {
             UserDefaults.standard.setValue(false, forKey: K.UserDefaults.hideOnboarding)
         }
 
-    }
-    
-    //MARK: - Action 관련
-    
-    func showErrorMessage() {
-        SPIndicatorService.shared.showErrorIndicator(title: "로그인 실패", message: "인증 불가")
     }
 
 }

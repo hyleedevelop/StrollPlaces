@@ -62,9 +62,9 @@ final class NicknameViewModel {
     func createUserData(nickname: String) {
         guard let uid = Auth.auth().currentUser?.uid,
               let email = Auth.auth().currentUser?.email else { return }
-        
-        let firestoreDB = Firestore.firestore()
-        firestoreDB
+
+        Firestore
+            .firestore()
             .collection(K.Login.collectionName)
             .document(email)
             .setData([
