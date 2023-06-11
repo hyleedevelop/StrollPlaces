@@ -138,18 +138,6 @@ final class MoreViewController: UIViewController {
     private func requestAuthorization(with type: LoginType) {
         switch type {
         case .google:
-            // 테스트용 코드 --------------
-//            self.isLoginAllowed.onNext(true)
-//
-//            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
-//                    as? OnboardingViewController else { return }
-//
-//            nextVC.modalPresentationStyle = .fullScreen
-//            nextVC.hero.isEnabled = true
-//            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
-//                                                       dismissing: .zoomOut)
-//            self.present(nextVC, animated: true, completion: nil)
-            // ------------------------
             break
 
         case .apple:
