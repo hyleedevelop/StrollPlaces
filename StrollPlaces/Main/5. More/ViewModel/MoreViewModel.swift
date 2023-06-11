@@ -13,7 +13,6 @@ import MapKit
 import SafariServices
 import MessageUI
 import FirebaseCore
-import FirebaseAuth
 import FirebaseFirestore
 import AuthenticationServices
 import Alamofire
@@ -453,7 +452,7 @@ final class MoreViewModel {
     
     // 사용자의 이메일 값을 이용해 닉네임 값을 가져와서 Relay의 이벤트로 방출
     func getUserNickname() {
-        guard let userEmail = Auth.auth().currentUser?.email else { return }
+        guard let userEmail = UserDefaults.standard.string(forKey: K.UserDefaults.userEmail) else { return }
         
         Firestore
             .firestore()
@@ -465,55 +464,9 @@ final class MoreViewModel {
             }
     }
     
-    func requestFirebaseAuthorization() {
-        guard let authorization = K.Login.authorization else { return }
-
-        // 1. 승인코드 가져오기
-        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            print("Unable to retrieve AppleIDCredential")
-            return
-        }
-
-        // 2. 현재 nonce가 설정되어 있는지 확인
-        guard let nonce = currentNonce else {
-            fatalError("Invalid state: A login callback was received, but no login request was sent.")
-        }
-
-        // 3. 인증코드 가져오기
-        guard let appleAuthCode = appleIDCredential.authorizationCode else {
-            print("Unable to fetch authorization code")
-            return
-          }
-
-        // 4. 가져온 인증코드 인코딩하기
-        guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
-            print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
-            return
-        }
-        
-        // 5. credential을 이용해 Firebase Auth에 등록되었던 사용자 삭제
-        FirebaseAuth.Auth.auth().currentUser?.delete()
-    }
-    
-    @discardableResult
-    func requestFirebaseSignout(viewController: UIViewController) -> Observable<Bool> {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            // 로그아웃 -> 회원가입은 되어있는 상태에서 로그인만 해제
-            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
-            return Observable<Bool>.just(true)
-        } catch let signOutError as NSError {
-            SPIndicatorService.shared.showErrorIndicator(title: "로그아웃 실패", message: "잘못된 요청")
-            print("Error signing out: %@", signOutError)
-            return Observable<Bool>.just(false)
-        }
-    }
-    
     // Firestore에서 사용자 데이터 삭제
-    func deleteUserData() {
-        guard let userEmail = Auth.auth().currentUser?.email else { return }
-        //guard let userEmail = UserDefaults.standard.string(forKey: K.UserDefaults.userEmail) else { return }
+    func deleteUserData(completion: () -> Void) {
+        guard let userEmail = UserDefaults.standard.string(forKey: K.UserDefaults.userEmail) else { return }
         
         Firestore
             .firestore()
@@ -524,8 +477,7 @@ final class MoreViewModel {
                 print(error.localizedDescription)
             }
         
-        // 저장해둔 사용자 이메일 제거 (제거하지 않으면 회원탈퇴 이후 로그인 과정이 꼬일 수 있음)
-        //UserDefaults.standard.setValue(nil, forKey: K.UserDefaults.userEmail)
+        completion()
     }
     
     //MARK: - Realm DB 관련

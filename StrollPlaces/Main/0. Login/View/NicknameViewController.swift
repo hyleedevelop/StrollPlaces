@@ -54,7 +54,7 @@ class NicknameViewController: UIViewController {
         self.saveButton.layer.cornerRadius = 5
         self.saveButton.clipsToBounds = true
         
-        // 저장 버튼 클릭 시 Firebase에 유저 등록
+        // 저장 버튼 클릭 시
         self.saveButton.rx.tap
             .asObservable()
             .subscribe(onNext: {

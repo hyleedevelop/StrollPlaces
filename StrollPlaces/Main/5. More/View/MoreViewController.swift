@@ -25,7 +25,7 @@ final class MoreViewController: UIViewController {
     //MARK: - property
     
     internal let viewModel = MoreViewModel()
-    private let isSignoutAllowed = BehaviorSubject<Bool>(value: false)
+    private let authorizationCode = PublishSubject<String>()
     
     //MARK: - life cycle
     
@@ -97,13 +97,10 @@ final class MoreViewController: UIViewController {
     
     // 로그아웃 설정
     private func setupUserLogoutProcess() {
-        // 애플 로그아웃을 시도한 경우 (AlertAction에서 "네"를 선택한 경우)
+        // 로그아웃을 시도한 경우
         self.viewModel.startLogout
             .filter { $0 == true }
-            .flatMap { _ -> Observable<Bool> in
-                return self.viewModel.requestFirebaseSignout(viewController: self)
-            }
-            .filter { $0 == true }
+            .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
@@ -121,16 +118,16 @@ final class MoreViewController: UIViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.requestAuthorization(with: .apple)
-                //self.viewModel.requestFirebaseAuthorization()
             })
             .disposed(by: rx.disposeBag)
         
         // Apple Signout (4): requestAuthorization()에서 회원탈퇴가 허용 되었을 경우
-        self.isSignoutAllowed.asObservable()
-            .filter { $0 == true }
-            .subscribe(onNext: { [weak self] _ in
+        self.authorizationCode.asObservable()
+            .subscribe(onNext: { [weak self] code in
                 guard let self = self else { return }
-                self.makeRevokeEvent()
+                self.makeRevokeEvent(code: code)
+                // 저장되어있던 이메일 정보 삭제
+                UserDefaults.standard.setValue(nil, forKey: K.UserDefaults.userEmail)
             })
             .disposed(by: rx.disposeBag)
     }
@@ -142,17 +139,18 @@ final class MoreViewController: UIViewController {
         switch type {
         case .google:
             // 테스트용 코드 --------------
-            //self.isLoginAllowed.onNext(true)
-
-            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
-                    as? OnboardingViewController else { return }
-
-            nextVC.modalPresentationStyle = .fullScreen
-            nextVC.hero.isEnabled = true
-            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
-                                                       dismissing: .zoomOut)
-            self.present(nextVC, animated: true, completion: nil)
+//            self.isLoginAllowed.onNext(true)
+//
+//            guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController")
+//                    as? OnboardingViewController else { return }
+//
+//            nextVC.modalPresentationStyle = .fullScreen
+//            nextVC.hero.isEnabled = true
+//            nextVC.hero.modalAnimationType = .selectBy(presenting: .zoom,
+//                                                       dismissing: .zoomOut)
+//            self.present(nextVC, animated: true, completion: nil)
             // ------------------------
+            break
 
         case .apple:
             // 1. OpenID authorization 요청에 필요한 객체 생성
@@ -164,30 +162,34 @@ final class MoreViewController: UIViewController {
             authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
             authorizationController.performRequests()
         }
+
     }
 
 }
 
-////MARK: - extension for ASAuthorizationControllerDelegate
-//
+//MARK: - extension for ASAuthorizationControllerDelegate
+
 extension MoreViewController: ASAuthorizationControllerDelegate {
 
     // Apple Signout (3): Apple ID 사용 중단 요청하기 전 계정 인증 성공시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
 
-//        // 인증 성공 이후 제공되는 정보
+        // 인증 성공 이후 제공되는 정보
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
-
-        // Firebase에서도 인증 수행
-        self.viewModel.requestFirebaseAuthorization()
-
+        
         // 회원탈퇴가 허용되었을 경우 true 이벤트 방출
-        self.isSignoutAllowed.onNext(true)
+        // ⭐️ authorizationCode는 일회용이고 인증 후 5분간만 유효함
+        if let authCode = appleIDCredential.authorizationCode {
+            let code = String(decoding: authCode, as: UTF8.self)
+            UserDefaults.standard.setValue(code, forKey: K.UserDefaults.authCode)
+            K.Login.authorization = authorization
+            self.authorizationCode.onNext(code)
+        }
     }
 
     // Apple 로그아웃 실패시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        
+        SPIndicatorService.shared.showErrorIndicator(title: "로그아웃 실패", message: "인증 취소됨")
     }
 
 }

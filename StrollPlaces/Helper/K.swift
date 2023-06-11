@@ -161,10 +161,10 @@ struct K {
     
     // UserDefaults key 관련
     struct UserDefaults {
-        static let signupStatus = "isUserAlreadySignedUp"
-        static let loginStatus = "isUserAlreadyLoggedIn"
-        static let hideOnboarding = "hideOnboardingScreen"
-        static let authCode = "theAuthorizationCode"
+        static let signupStatus = "IsUserAlreadySignedUp"
+        static let loginStatus = "IsUserAlreadyLoggedIn"
+        static let hideOnboarding = "HideOnboardingScreen"
+        static let authCode = "TheAuthorizationCode"
         static let clientSecret = "AppleClientSecret"
         static let userIdentifier = "UserIdentifier"
         static let userIdentityToken = "UserIdentityToken"

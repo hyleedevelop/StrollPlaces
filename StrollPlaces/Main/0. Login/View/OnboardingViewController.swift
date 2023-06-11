@@ -40,9 +40,9 @@ final class OnboardingViewController: UIViewController {
     private var isHideNextTimeChecked = false {
         didSet {
             if self.isHideNextTimeChecked {
-                UserDefaults.standard.setValue(true, forKey: "hideOnboardingScreen")
+                UserDefaults.standard.setValue(true, forKey: K.UserDefaults.hideOnboarding)
             } else {
-                UserDefaults.standard.setValue(false, forKey: "hideOnboardingScreen")
+                UserDefaults.standard.setValue(false, forKey: K.UserDefaults.hideOnboarding)
             }
         }
     }

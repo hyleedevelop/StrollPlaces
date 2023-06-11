@@ -55,16 +55,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Firebase 초기화
         FirebaseApp.configure()
         
-        // Firebase에서 사용자가 이미 로그인 되어있는지 확인
-        if let user = FirebaseAuth.Auth.auth().currentUser {
-            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
-            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
-            print("사용자 로그인 되어 있음", user.uid, user.email ?? "-")
-        } else {
-            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
-            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
-            print("사용자 로그인 되어 있지 않음")
-        }
+        // Firebase에서 사용자가 이미 회원가입 되어있는지 확인
+//        //let userEmail = UserDefaults.standard.string(forKey: K.UserDefaults.userEmail)
+//        //if userEmail != nil || userEmail != "no email" {
+//        if let user = FirebaseAuth.Auth.auth().currentUser {
+//            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
+//            UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
+//            print("사용자 등록 되어있음")
+//            //print("사용자 로그인 되어 있음", user.uid, user.email ?? "-")
+//        } else {
+//            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.signupStatus)
+//            UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
+//            print("사용자 등록 되어있지 않음")
+//        }
         
         return true
     }

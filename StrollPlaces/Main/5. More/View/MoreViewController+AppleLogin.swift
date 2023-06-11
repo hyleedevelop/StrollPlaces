@@ -11,39 +11,36 @@ import AuthenticationServices
 
 extension MoreViewController {
     
-    internal func makeRevokeEvent() {
+    internal func makeRevokeEvent(code: String) {
         let jwtString = CryptoService.shared.createJWT()
         
-        guard let authCode = UserDefaults.standard.string(forKey: K.UserDefaults.authCode) else { return }
-        
-        self.getAppleRefreshToken(code: authCode) { output in
+        self.getAppleRefreshToken(code: code) { output in
             let clientSecret = jwtString
             
-            if let refreshToken = output.refresh_token {
-                print("Client_Secret - \(clientSecret)")
-                print("Refresh_Token - \(refreshToken)")
+            guard let refreshToken = output.refresh_token else {
+                SPIndicatorService.shared.showErrorIndicator(title: "회원탈퇴 실패", message: "회원탈퇴를 진행 불가")
+                return
+            }
+            
+            print("Client_Secret - \(clientSecret)")
+            print("Refresh_Token - \(refreshToken)")
+            
+            // Apple API 통신 시도
+            self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
+                print("Apple revoke token Success")
                 
-                // Apple API 통신 시도
-                self.revokeAppleToken(clientSecret: clientSecret, token: refreshToken) {
-                    /* Apple Token 삭제가 성공한 경우, 회원탈퇴 절차의 가장 마지막에 실행할 내용 */
-                    print("Apple revoke token Success")
-                   
-                    // 2. Firebase Authorization에서 우선 로그아웃 처리
-                    self.viewModel.requestFirebaseSignout(viewController: self)
+                // Firebase Firestore에서 사용자 데이터 삭제
+                self.viewModel.deleteUserData {
+                    // UserDefaults 값 초기화
                     UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
                     UserDefaults.standard.setValue(false, forKey: K.UserDefaults.signupStatus)
-                    
-                    // 1. Firebase Firestore에서 사용자 데이터 삭제
-                    self.viewModel.deleteUserData()
-                    
-                    // 3. 더보기 탭에서 벗어나 앱의 첫 실행화면으로 돌아가기
-                    DispatchQueue.main.async {
-                        self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
-                    }
-                    /* ------------------------------ */
+                    UserDefaults.standard.setValue(nil, forKey: K.UserDefaults.userEmail)
                 }
-            } else{
-                SPIndicatorService.shared.showErrorIndicator(title: "회원탈퇴 실패", message: "회원탈퇴를 진행 불가")
+                
+                // 더보기 탭에서 벗어나 앱의 첫 실행화면으로 돌아가기
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
+                }
             }
             
         }

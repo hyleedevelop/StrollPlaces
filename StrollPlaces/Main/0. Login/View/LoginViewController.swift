@@ -41,6 +41,7 @@ final class LoginViewController: UIViewController {
     //MARK: - normal property
     
     private let viewModel = LoginViewModel()
+    private let isLoginAllowed = BehaviorSubject<Bool>(value: false)
     
     //MARK: - life cycle
     
@@ -48,9 +49,13 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupNavigationBar()
-        self.setupLoginProcess()
         self.setupButton()
-        self.setupLoginProcess()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.setupAutomaticLogin()
     }
     
     //MARK: - directly called method
@@ -60,16 +65,21 @@ final class LoginViewController: UIViewController {
         self.navigationController?.applyDefaultSettings(hideBar: true)
     }
     
-    private func setupLoginProcess() {
+    // 자동로그인 설정
+    private func setupAutomaticLogin() {
         self.view.addSubview(activityIndicator)
         self.activityIndicator.snp.makeConstraints {
             $0.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
         }
         
+        let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signupStatus)
         let isUserAlreadyLoggedIn = UserDefaults.standard.bool(forKey: K.UserDefaults.loginStatus)
         
+        print("isUserAlreadySignedUp: \(isUserAlreadySignedUp)")
+        print("isUserAlreadyLoggedIn: \(isUserAlreadyLoggedIn)")
+        
         // 사용자가 이미 로그인 되어있는 경우에만 바로 다음화면으로 넘어가도록 설정
-        if isUserAlreadyLoggedIn {
+        if isUserAlreadySignedUp && isUserAlreadyLoggedIn {
             // 로그인 버튼 비활성화 및 로딩 애니메이션 활성화
             DispatchQueue.main.async {
                 self.googleLoginButton.isUserInteractionEnabled = false
@@ -77,7 +87,7 @@ final class LoginViewController: UIViewController {
                 self.activityIndicator.startAnimating()
             }
             
-            // 1초 뒤 로딩 애니메이션 비활성화 및 다음 화면으로 이동
+            // 로딩 애니메이션 비활성화 및 다음 화면으로 이동
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 self.activityIndicator.stopAnimating()
                 self.googleLoginButton.isUserInteractionEnabled = true
@@ -116,9 +126,8 @@ final class LoginViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         // Apple Login (5): Firebase에서도 인증이 완료된 경우
-        self.viewModel.isLoginAllowed.asObservable()
+        self.isLoginAllowed.asObservable()
             .filter { $0 == true }
-            .map { _ in self.activityIndicator.startAnimating() }
             .delay(.milliseconds(700), scheduler: MainScheduler.instance)
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
@@ -156,7 +165,7 @@ final class LoginViewController: UIViewController {
             // 2. 이 ViewController에서 로그인 창을 띄우기 위한 준비
             let authorizationController = ASAuthorizationController(authorizationRequests: [request])
             authorizationController.delegate = self
-            authorizationController.presentationContextProvider = self
+            authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
             authorizationController.performRequests()
         }
     }
@@ -165,22 +174,18 @@ final class LoginViewController: UIViewController {
 
 //MARK: - extension for ASAuthorizationControllerDelegate
 
-extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-
-    // 애플 로그인 창을 띄울 위치
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-            return self.view.window!
-        }
+extension LoginViewController: ASAuthorizationControllerDelegate {
     
     // Apple Login (3): Apple 계정 인증 성공 시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        self.activityIndicator.startAnimating()
+        
         // 1. 사용자의 정보 가져오기
         
         // authorization: controller로부터 받은 인증 성공 정보에 대한 캡슐화된 객체
         K.Login.authorization = authorization
         
         var userIdentifier: String = ""
-        var userEmail: String = ""
         
         // 인증 성공 이후 제공되는 정보
         switch authorization.credential {
@@ -194,29 +199,32 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             let fullName = appleIDCredential.fullName ?? PersonNameComponents()
             
             // (3) 사용자의 이메일
-            userEmail = appleIDCredential.email ?? "no email"
-            UserDefaults.standard.setValue(userEmail, forKey: K.UserDefaults.userEmail)
+            // (3-1) 최초로 이메일 가져오기
+            if let userEmail = appleIDCredential.email {
+                print(userEmail)
+                UserDefaults.standard.setValue(userEmail, forKey: K.UserDefaults.userEmail)
+            // (3-2) 두번째 부터 이메일 가져오는 방법
+            } else {
+                // credential.identityToken은 jwt로 되어있고, 해당 토큰을 decode 후 email에 접근해야함
+                guard let tokenString = String(data: appleIDCredential.identityToken ?? Data(), encoding: .utf8) else { return }
+                let userEmail = self.viewModel.decode(jwtToken: tokenString)["email"] as? String ?? ""
+                print(userEmail)
+                UserDefaults.standard.setValue(userEmail, forKey: K.UserDefaults.userEmail)
+            }
             
-            // authorizationCode는 일회용이고 5분간 유효함
+            // ⭐️ authorizationCode는 일회용이고 인증 후 5분간만 유효함
             if let authorizationCode = appleIDCredential.authorizationCode,
                let identityToken = appleIDCredential.identityToken,
                let authCodeString = String(data: authorizationCode, encoding: .utf8),
                let identifyTokenString = String(data: identityToken, encoding: .utf8) {
                 let code = String(decoding: authorizationCode, as: UTF8.self)
-                UserDefaults.standard.setValue(code, forKey: K.UserDefaults.authCode)
                 
-                print("AuthorizationCode: \(authorizationCode)")
-                print("IdentityToken: \(identityToken)")
-                print("AuthCodeString: \(authCodeString)")
-                print("IdentifyTokenString: \(identifyTokenString)")
+                UserDefaults.standard.setValue(code, forKey: K.UserDefaults.authCode)
+                K.Login.authorization = authorization
             }
             
-            print("Useridentifier: \(userIdentifier)")
-            print("FullName: \(fullName)")
-            print("Email: \(userEmail)")
-            
             // Apple Login (4): FirebaseAuth 인증 요청
-            self.viewModel.requestFirebaseAuthorization(credential: appleIDCredential)
+            self.isLoginAllowed.onNext(true)
             
         case let passwordCredential as ASPasswordCredential:
             // Sign in using an existing iCloud Keychain credential.
@@ -239,6 +247,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 case .authorized:
                     // The Apple ID credential is valid. Show Home UI Here
                     print("credentialState: authorized")
+                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
                 
                 case .revoked:
                     // The Apple ID credential is revoked. Show SignIn UI Here.
@@ -258,7 +267,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
     
     // Apple 로그인 실패 시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        SPIndicatorService.shared.showErrorIndicator(title: "로그인 실패", message: "인증 불가")
+        SPIndicatorService.shared.showErrorIndicator(title: "로그인 실패", message: "인증 취소됨")
     }
     
 }

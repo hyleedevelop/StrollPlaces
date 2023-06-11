@@ -19,6 +19,8 @@
 		0731E1CE29D430AF0057E12B /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0731E1CD29D430AF0057E12B /* TrackingViewController.swift */; };
 		07375B782A28AF3800BB5D7A /* MethodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07375B772A28AF3800BB5D7A /* MethodTests.swift */; };
 		073BD2002A2AE8AE0023BD57 /* InputValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */; };
+		07427CDD2A35B7AC00116299 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07427CDB2A35B7AC00116299 /* FeedTableViewCell.swift */; };
+		07427CDE2A35B7AC00116299 /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07427CDC2A35B7AC00116299 /* FeedTableViewCell.xib */; };
 		074CBCFE2A2DDA3A002B5B80 /* UserAccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBCFD2A2DDA3A002B5B80 /* UserAccountData.swift */; };
 		074CBD002A2DE023002B5B80 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBCFF2A2DE023002B5B80 /* NicknameViewController.swift */; };
 		074CBD022A2E2619002B5B80 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */; };
@@ -177,6 +179,8 @@
 		07375B772A28AF3800BB5D7A /* MethodTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodTests.swift; sourceTree = "<group>"; };
 		073938BB2A2CCD5C006B5EDA /* StrollPlacesDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StrollPlacesDebug.entitlements; sourceTree = "<group>"; };
 		073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidationService.swift; sourceTree = "<group>"; };
+		07427CDB2A35B7AC00116299 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		07427CDC2A35B7AC00116299 /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
 		074CBCFD2A2DDA3A002B5B80 /* UserAccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountData.swift; sourceTree = "<group>"; };
 		074CBCFF2A2DE023002B5B80 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
@@ -268,7 +272,7 @@
 		07E8A8752A0E740A00DE6D9F /* SouthKoreaParkData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaParkData_qc_20230512.csv; sourceTree = "<group>"; };
 		07E8A8792A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaStrollWayData_qc_20230512.csv; sourceTree = "<group>"; };
 		07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230512.csv; sourceTree = "<group>"; };
-		07F4970A2A30172D00630082 /* AuthKey_AXVMC7CMQB.p8 */ = {isa = PBXFileReference; lastKnownFileType = file; name = AuthKey_AXVMC7CMQB.p8; path = resources/Key/AuthKey_AXVMC7CMQB.p8; sourceTree = SOURCE_ROOT; };
+		07F4970A2A30172D00630082 /* AuthKey_AXVMC7CMQB.p8 */ = {isa = PBXFileReference; lastKnownFileType = text; name = AuthKey_AXVMC7CMQB.p8; path = resources/Key/AuthKey_AXVMC7CMQB.p8; sourceTree = SOURCE_ROOT; };
 		07F4970C2A30188E00630082 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
 		07F4970E2A3026E100630082 /* MoreViewController+AppleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoreViewController+AppleLogin.swift"; sourceTree = "<group>"; };
 		07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -592,7 +596,9 @@
 			isa = PBXGroup;
 			children = (
 				076DB0A92A2C7D8F008F5DC9 /* FeedTab.storyboard */,
+				07427CDC2A35B7AC00116299 /* FeedTableViewCell.xib */,
 				076DB0AB2A2C7DF1008F5DC9 /* FeedViewController.swift */,
+				07427CDB2A35B7AC00116299 /* FeedTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -920,6 +926,7 @@
 				07F4970B2A30172D00630082 /* AuthKey_AXVMC7CMQB.p8 in Resources */,
 				0799CC9F29BF584C006AB70D /* Assets.xcassets in Resources */,
 				0799CCD729BF59F3006AB70D /* ThemeCollectionViewCell.xib in Resources */,
+				07427CDE2A35B7AC00116299 /* FeedTableViewCell.xib in Resources */,
 				07BAE44329CBE70A0048CE89 /* MapTab.storyboard in Resources */,
 				0799CC9D29BF584B006AB70D /* Main.storyboard in Resources */,
 				07E8A87A2A0E764600DE6D9F /* SouthKoreaStrollWayData_qc_20230512.csv in Resources */,
@@ -1118,6 +1125,7 @@
 				078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */,
 				0799CCDB29BF5A6F006AB70D /* K.swift in Sources */,
 				072E054329FFDD7900F30E2C /* NavigationBar.swift in Sources */,
+				07427CDD2A35B7AC00116299 /* FeedTableViewCell.swift in Sources */,
 				077C1BEE29CDEE5500DA3218 /* NewsViewModel.swift in Sources */,
 				074CBD022A2E2619002B5B80 /* NicknameViewModel.swift in Sources */,
 				072D5BBA29C2E26A0024B938 /* Enum.swift in Sources */,

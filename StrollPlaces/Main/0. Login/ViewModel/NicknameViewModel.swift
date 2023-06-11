@@ -60,16 +60,17 @@ final class NicknameViewModel {
     //MARK: - Firebase DB 관련
     
     func createUserData(nickname: String) {
-        guard let uid = Auth.auth().currentUser?.uid,
-              let email = Auth.auth().currentUser?.email else { return }
-
+//        guard let uid = Auth.auth().currentUser?.uid,
+//              let email = Auth.auth().currentUser?.email else { return }
+        guard let userEmail = UserDefaults.standard.string(forKey: K.UserDefaults.userEmail) else { return }
+        
         Firestore
             .firestore()
             .collection(K.Login.collectionName)
-            .document(email)
+            .document(userEmail)
             .setData([
-                K.Login.uidField: uid,
-                K.Login.emailField: email,
+                //K.Login.uidField: uid,
+                K.Login.emailField: userEmail,
                 K.Login.nicknameField: nickname,
                 K.Login.signupDateField: Timestamp(date: Date())
             ]) { error in
@@ -77,6 +78,8 @@ final class NicknameViewModel {
                     print("There was an issue saving data to firestore, \(errorMessage)")
                 } else {
                     self.isUserRegistered.onNext(true)
+                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
+                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
                 }
             }
             
