@@ -76,7 +76,7 @@ final class SplashViewController: UIViewController {
         self.titleLabel.snp.makeConstraints {
             $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
             $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-150)  //
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-150)
             $0.height.equalTo(30)
         }
         
@@ -96,20 +96,11 @@ final class SplashViewController: UIViewController {
         self.initialAnimationView.snp.makeConstraints {
             $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
             $0.right.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(150)  //
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(150)
             $0.bottom.equalTo(self.subtitleLabel.snp.top).offset(-50)
         }
         
         self.initialAnimationView.play()
-        
-//        self.initialAnimationView.play { _ in
-//            UIView.animate(withDuration: 1, animations: {
-//                self.initialAnimationView.alpha = 0
-//            }, completion: { _ in
-//                self.initialAnimationView.isHidden = true
-//                self.initialAnimationView.removeFromSuperview()
-//            })
-//        }
     }
     
     // 다음 화면으로 이동

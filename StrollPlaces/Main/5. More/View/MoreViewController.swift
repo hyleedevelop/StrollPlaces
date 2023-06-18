@@ -22,7 +22,7 @@ final class MoreViewController: UIViewController {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    //MARK: - property
+    //MARK: - Property
     
     internal let viewModel = MoreViewModel()
     private let authorizationCode = PublishSubject<String>()
@@ -31,10 +31,10 @@ final class MoreViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.setupNavigationBar()
         self.setupTableView()
-        self.setupUserProfile()
+        self.setupUserProfileView()
         self.setupUserLogoutProcess()
         self.setupUserSignoutProcess()
         self.viewModel.getUserNickname()
@@ -87,7 +87,7 @@ final class MoreViewController: UIViewController {
     }
     
     // 사용자 프로필 설정
-    private func setupUserProfile() {
+    private func setupUserProfileView() {
         self.profileBackView.backgroundColor = #colorLiteral(red: 0.9855152965, green: 0.4191898108, blue: 0.6166006327, alpha: 1)
         
         self.viewModel.userNickname
@@ -98,7 +98,7 @@ final class MoreViewController: UIViewController {
     // 로그아웃 설정
     private func setupUserLogoutProcess() {
         // 로그아웃을 시도한 경우
-        self.viewModel.startLogout
+        self.viewModel.isLogoutRequested.asObservable()
             .filter { $0 == true }
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
@@ -125,7 +125,7 @@ final class MoreViewController: UIViewController {
         self.authorizationCode.asObservable()
             .subscribe(onNext: { [weak self] code in
                 guard let self = self else { return }
-                self.makeRevokeEvent(code: code)
+                self.goToLoginViewController()
                 // 저장되어있던 이메일 정보 삭제
                 UserDefaults.standard.setValue(nil, forKey: K.UserDefaults.userEmail)
             })
@@ -141,16 +141,22 @@ final class MoreViewController: UIViewController {
             break
 
         case .apple:
-            // 1. OpenID authorization 요청에 필요한 객체 생성
-            let request = self.viewModel.appleIDRequest
-
-            // 2. 이 ViewController에서 로그인 창을 띄우기 위한 준비
+            // Create an instance of ASAuthorizationAppleIDRequest.
+            let request = AuthorizationService.shared.appleIDRequest
+            
+            // Preparing to display the sign-in view in LoginViewController.
             let authorizationController = ASAuthorizationController(authorizationRequests: [request])
             authorizationController.delegate = self
             authorizationController.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+            
+            // Present the sign-in(or sign-up) view.
             authorizationController.performRequests()
         }
-
+    }
+    
+    // If login process has successfully done, let's go to the HomeViewController.
+    private func goToLoginViewController() {
+        self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
     }
 
 }
@@ -162,15 +168,12 @@ extension MoreViewController: ASAuthorizationControllerDelegate {
     // Apple Signout (3): Apple ID 사용 중단 요청하기 전 계정 인증 성공시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
 
-        // 인증 성공 이후 제공되는 정보
+        // The information provided after successful authentication
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
         
-        // 회원탈퇴가 허용되었을 경우 true 이벤트 방출
-        // ⭐️ authorizationCode는 일회용이고 인증 후 5분간만 유효함
-        if let authCode = appleIDCredential.authorizationCode {
-            let code = String(decoding: authCode, as: UTF8.self)
-            UserDefaults.standard.setValue(code, forKey: K.UserDefaults.authCode)
-            K.Login.authorization = authorization
+        // ⭐️ The authorization code is disposable and valid for only 5 minutes after authentication.
+        if let authorizationCode = appleIDCredential.authorizationCode {
+            let code = String(decoding: authorizationCode, as: UTF8.self)
             self.authorizationCode.onNext(code)
         }
     }

@@ -18,7 +18,7 @@ import AuthenticationServices
 import Alamofire
 
 
-final class MoreViewModel {
+final class MoreViewModel: CommonViewModel {
     
     //MARK: - in 속성 관련
     
@@ -26,7 +26,7 @@ final class MoreViewModel {
     //MARK: - out 속성 관련
     
     var currentNonce: String?
-    let startLogout = BehaviorSubject<Bool>(value: false)
+    let isLogoutRequested = PublishSubject<Bool>()
     let startSignout = BehaviorSubject<Bool>(value: false)
     let userNickname = BehaviorRelay<String>(value: "")
     
@@ -40,14 +40,14 @@ final class MoreViewModel {
 
     let moreCellData: [[MoreCellData]]!
     
-    init() {
+    override init() {
         appSettings = [
             MoreCellData(title: "지도 종류", value: nil),
             MoreCellData(title: "지도 표시 범위", value: nil),
             MoreCellData(title: "즐겨찾기 데이터 초기화", value: nil),
             MoreCellData(title: "MY산책길 데이터 초기화", value: nil),
             MoreCellData(title: "로그아웃", value: nil),
-            MoreCellData(title: "회원탈퇴", value: nil),
+            MoreCellData(title: "계정 삭제", value: nil),
         ]
 
         feedback = [
@@ -71,7 +71,7 @@ final class MoreViewModel {
     
     // 현재 지도 표시 범위를 나타낼 텍스트
     var labelTextForMapRadius: String {
-        let radius = UserDefaults.standard.double(forKey: "mapRadius")
+        let radius = UserDefaults.standard.double(forKey: K.UserDefaults.mapRadius)
         var labelString = ""
         
         if radius == 0.2 {
@@ -92,7 +92,7 @@ final class MoreViewModel {
     // 현재 지도 종류를 나타낼 텍스트
     var labelTextForMapType: String {
         let type = MKMapType(
-            rawValue: UInt(UserDefaults.standard.integer(forKey: "mapType"))
+            rawValue: UInt(UserDefaults.standard.integer(forKey: K.UserDefaults.mapType))
         ) ?? .standard
         var labelString = ""
         
@@ -241,19 +241,19 @@ final class MoreViewModel {
         
         actionSheet.addAction(
             UIAlertAction(title: "표준", style: .default, handler: { _ in
-                UserDefaults.standard.set(0, forKey: "mapType")
+                UserDefaults.standard.set(0, forKey: K.UserDefaults.mapType)
                 self.shouldReloadTableView.onNext(true)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "위성", style: .default, handler: { _ in
-                UserDefaults.standard.set(1, forKey: "mapType")
+                UserDefaults.standard.set(1, forKey: K.UserDefaults.mapType)
                 self.shouldReloadTableView.onNext(true)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "하이브리드", style: .default, handler: { _ in
-                UserDefaults.standard.set(2, forKey: "mapType")
+                UserDefaults.standard.set(2, forKey: K.UserDefaults.mapType)
                 self.shouldReloadTableView.onNext(true)
             })
         )
@@ -272,37 +272,37 @@ final class MoreViewModel {
         
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 200 m", style: .default, handler: { _ in
-                UserDefaults.standard.set(0.2, forKey: "mapRadius")
+                UserDefaults.standard.set(0.2, forKey: K.UserDefaults.mapRadius)
                 self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 300 m", style: .default, handler: { _ in
-                UserDefaults.standard.set(0.3, forKey: "mapRadius")
+                UserDefaults.standard.set(0.3, forKey: K.UserDefaults.mapRadius)
                 self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 500 m", style: .default, handler: { _ in
-                UserDefaults.standard.set(0.5, forKey: "mapRadius")
+                UserDefaults.standard.set(0.5, forKey: K.UserDefaults.mapRadius)
                 self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 1 km", style: .default, handler: { _ in
-                UserDefaults.standard.set(1.0, forKey: "mapRadius")
+                UserDefaults.standard.set(1.0, forKey: K.UserDefaults.mapRadius)
                 self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
             })
         )
         actionSheet.addAction(
             UIAlertAction(title: "사용자 중심 2 km", style: .default, handler: { _ in
-                UserDefaults.standard.set(2.0, forKey: "mapRadius")
+                UserDefaults.standard.set(2.0, forKey: K.UserDefaults.mapRadius)
                 self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name("mapRadius"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
             })
         )
         actionSheet.addAction(
@@ -355,7 +355,7 @@ final class MoreViewModel {
                 NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
                 
                 // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-                UserDefaults.standard.set(false, forKey: "myPlaceExist")
+                UserDefaults.standard.set(false, forKey: K.UserDefaults.myPlaceExist)
                 NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
             }
         )
@@ -376,18 +376,18 @@ final class MoreViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.startLogout.onNext(true)
+                self.isLogoutRequested.onNext(true)
             }
         )
         
         return alert
     }
     
-    // 회원탈퇴를 위한 Action 구성
+    // 계정 삭제를 위한 Action 구성
     var actionForSignout: UIAlertController {
         let alert = UIAlertController(
             title: "확인",
-            message: "회원님의 모든 정보가 삭제됩니다.\n지금 탈퇴할까요?",
+            message: "회원님의 모든 정보가 삭제됩니다.\n그래도 계정을 삭제할까요?",
             preferredStyle: .alert
         )
         
@@ -439,10 +439,10 @@ final class MoreViewModel {
     var appleIDRequest: ASAuthorizationAppleIDRequest {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        let nonce = CryptoService.shared.randomNonceString()
+        let nonce = AuthorizationService.shared.randomNonceString()
         
         request.requestedScopes = [.fullName, .email]
-        request.nonce = CryptoService.shared.sha256(nonce)
+        request.nonce = AuthorizationService.shared.sha256(nonce)
         self.currentNonce = nonce
         
         return request
@@ -456,10 +456,10 @@ final class MoreViewModel {
         
         Firestore
             .firestore()
-            .collection(K.Login.collectionName)
+            .collection(K.Authorization.collectionName)
             .document(userEmail)
             .getDocument { document, error in
-                guard let nickname = document?.get(K.Login.nicknameField) as? String else { return }
+                guard let nickname = document?.get(K.Authorization.nicknameField) as? String else { return }
                 self.userNickname.accept("\(nickname)님 환영합니다!")
             }
     }
@@ -470,7 +470,7 @@ final class MoreViewModel {
         
         Firestore
             .firestore()
-            .collection(K.Login.collectionName)
+            .collection(K.Authorization.collectionName)
             .document(userEmail)
             .delete { error in
                 guard let error = error else { return }

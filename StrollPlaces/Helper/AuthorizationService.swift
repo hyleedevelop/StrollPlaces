@@ -1,0 +1,220 @@
+//
+//  CryptoService.swift
+//  StrollPlaces
+//
+//  Created by Eric on 2023/06/06.
+//
+
+import UIKit
+import RxSwift
+import AuthenticationServices
+import CryptoKit
+import SwiftJWT
+import Alamofire
+
+final class AuthorizationService {
+    
+    static let shared = AuthorizationService()
+    private init() {}
+    
+    //MARK: - Sign in with Apple ID
+    
+    var currentNonce: String?
+    
+    // Request.
+    var appleIDRequest: ASAuthorizationAppleIDRequest {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        let nonce = self.randomNonceString()
+        
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = self.sha256(nonce)
+        self.currentNonce = nonce
+        
+        return request
+    }
+    
+    // Create random nonce string.
+    func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset: Array<Character> =
+        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remainingLength = length
+        
+        while remainingLength > 0 {
+            let randoms: [UInt8] = (0 ..< 16).map { _ in
+                var random: UInt8 = 0
+                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+                if errorCode != errSecSuccess {
+                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+                }
+                return random
+            }
+            
+            randoms.forEach { random in
+                if remainingLength == 0 {
+                    return
+                }
+                
+                if random < charset.count {
+                    result.append(charset[Int(random)])
+                    remainingLength -= 1
+                }
+            }
+        }
+        
+        return result
+    }
+    
+    // Get hash string.
+    func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            return String(format: "%02x", $0)
+        }.joined()
+        
+        return hashString
+    }
+    
+    //MARK: - JWT decoding
+    
+    // Rx
+    let decodedData = PublishSubject<AppleTokenResponse?>()
+    
+    // Decode JWT (1).
+    func decode(jwtToken jwt: String) -> [String: Any] {
+        let segments = jwt.components(separatedBy: ".")
+        return decodeJWTPart(segments[1]) ?? [:]
+    }
+    
+    // Decode JWT (2).
+    func decodeJWTPart(_ value: String) -> [String: Any]? {
+        guard let bodyData = base64UrlDecode(value),
+              let json = try? JSONSerialization.jsonObject(with: bodyData, options: []),
+              let payload = json as? [String: Any] else {
+            return nil
+        }
+        
+        return payload
+    }
+    
+    func base64UrlDecode(_ value: String) -> Data? {
+        var base64 = value
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        let length = Double(base64.lengthOfBytes(using: String.Encoding.utf8))
+        let requiredLength = 4 * ceil(length / 4.0)
+        let paddingLength = requiredLength - length
+        if paddingLength > 0 {
+            let padding = "".padding(toLength: Int(paddingLength), withPad: "=", startingAt: 0)
+            base64 = base64 + padding
+        }
+        return Data(base64Encoded: base64, options: .ignoreUnknownCharacters)
+    }
+    
+    // Create JWT(JSON Web Token) string.
+    func createJWT() {
+        let myHeader = Header(kid: K.Authorization.appleKeyID)  // ⭐️ write your own apple key ID (xxxxxxxxxx)
+        struct MyClaims: Claims {
+            let iss: String
+            let iat: Int
+            let exp: Int
+            let aud: String
+            let sub: String
+        }
+        
+        var dateComponent = DateComponents()
+        dateComponent.month = 6
+        let iat = Int(Date().timeIntervalSince1970)
+        let exp = iat + 3600
+        
+        let myClaims = MyClaims(iss: K.App.appTeamID,  // ⭐️ write your own app team ID (xxxxxxxxxx)
+                                iat: iat,
+                                exp: exp,
+                                aud: "https://appleid.apple.com",
+                                sub: K.App.appBundleID)  // ⭐️ write your own app bundle ID (com.xxx.xxx)
+        var myJWT = JWT(header: myHeader, claims: myClaims)
+        
+        // Key file (.p8 file) is required for JWT issuance.
+        guard let url = Bundle.main.url(forResource: K.Authorization.keyFileName, withExtension: "p8") else { return }  // ⭐️ write your own key file name (AuthKey_xxxxxxxxxx)
+        let privateKey: Data = try! Data(contentsOf: url, options: .alwaysMapped)
+        
+        let jwtSigner = JWTSigner.es256(privateKey: privateKey)
+        let signedJWT = try! myJWT.sign(using: jwtSigner)
+        
+        UserDefaults.standard.setValue(signedJWT, forKey: K.UserDefaults.clientSecret)
+        
+        print("🗝 signedJWT - \(signedJWT)")
+    }
+    
+    //MARK: - Membership withdrawal
+    
+    // Rx
+    let isAppleTokenRevoked = PublishSubject<Bool>()
+    
+    // Receive Apple refresh token.
+    func getAppleRefreshToken(code: String) {
+        guard let secret = UserDefaults.standard.string(forKey: K.UserDefaults.clientSecret) else { return }
+        
+        let url = "https://appleid.apple.com/auth/token?" +
+                  "client_id=\(K.App.appBundleID)&" +
+                  "client_secret=\(secret)&" +
+                  "code=\(code)&" +
+                  "grant_type=authorization_code"
+        let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
+        
+        print("🗝 clientSecret - \(secret)")
+        print("🗝 authorizationCode - \(code)")
+        
+        AF.request(url,
+                   method: .post,
+                   encoding: JSONEncoding.default,
+                   headers: header)
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            switch response.result {
+            case .success(let output):
+                if let decodedData = try? JSONDecoder().decode(AppleTokenResponse.self, from: output) {
+                    if decodedData.refresh_token == nil{
+                        print("Failed to get refresh token.")
+                    } else {
+                        self.decodedData.onNext(decodedData)
+                    }
+                }
+                
+            case .failure(_):
+                print("Failed to withdraw from membership: \(response.error.debugDescription)")
+            }
+        }
+    }
+    
+    // Revoke Apple refresh token.
+    func revokeAppleToken(clientSecret: String, token: String) {
+        let url = "https://appleid.apple.com/auth/revoke?" +
+                  "client_id=\(K.App.appBundleID)&" +
+                  "client_secret=\(clientSecret)&" +
+                  "token=\(token)&" +
+                  "token_type_hint=refresh_token"
+        let header: HTTPHeaders = ["Content-Type": "application/x-www-form-urlencoded"]
+        
+        AF.request(url,
+                   method: .post,
+                   headers: header)
+        .validate(statusCode: 200..<300)
+        .responseData { response in
+            guard let statusCode = response.response?.statusCode else {
+                print("Status code is not 200.")
+                return
+            }
+            
+            if statusCode == 200 {
+                print("Apple token has successfully revoked.")
+                self.isAppleTokenRevoked.onNext(true)
+            }
+        }
+    }
+    
+}

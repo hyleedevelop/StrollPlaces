@@ -15,7 +15,7 @@ import NVActivityIndicatorView
 //import FirebaseAuth
 
 final class LoginViewController: UIViewController {
-
+    
     //MARK: - IB Outlet & Action
     
     @IBAction func unwindToHome(_ unwindSegue: UIStoryboardSegue) {
@@ -38,10 +38,10 @@ final class LoginViewController: UIViewController {
         return activityIndicator
     }()
     
-    //MARK: - normal property
+    //MARK: - Other property
     
     private let viewModel = LoginViewModel()
-    private let isLoginAllowed = BehaviorSubject<Bool>(value: false)
+    private let isSignInAllowed = PublishSubject<Bool>()
     
     //MARK: - life cycle
     
@@ -78,7 +78,7 @@ final class LoginViewController: UIViewController {
         print("isUserAlreadySignedUp: \(isUserAlreadySignedUp)")
         print("isUserAlreadyLoggedIn: \(isUserAlreadyLoggedIn)")
         
-        // 사용자가 이미 로그인 되어있는 경우에만 바로 다음화면으로 넘어가도록 설정
+        // 회원 가입된 사용자가 로그인 되어있는 경우에만 바로 다음화면으로 넘어가도록 설정
         if isUserAlreadySignedUp && isUserAlreadyLoggedIn {
             // 로그인 버튼 비활성화 및 로딩 애니메이션 활성화
             DispatchQueue.main.async {
@@ -99,7 +99,6 @@ final class LoginViewController: UIViewController {
     
     // (뷰로 만든) 커스텀버튼 설정
     private func setupButton() {
-        // UI 설정
         self.googleLoginButton.applySocialLoginButtonFormat()
         self.appleLoginButton.applySocialLoginButtonFormat()
         self.googleLoginButton.isUserInteractionEnabled = true
@@ -126,7 +125,7 @@ final class LoginViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         // Apple Login (5): Firebase에서도 인증이 완료된 경우
-        self.isLoginAllowed.asObservable()
+        self.isSignInAllowed.asObservable()
             .filter { $0 == true }
             .delay(.milliseconds(700), scheduler: MainScheduler.instance)
             .subscribe(on: MainScheduler.instance)
@@ -141,7 +140,7 @@ final class LoginViewController: UIViewController {
 
     //MARK: - indirectly called method
     
-    // Apple Login (2): 로그인을 위한 인증 요청하기
+    // Request authorization for sign-in.
     private func requestAuthorization(with type: LoginType) {
         switch type {
         case .google:
@@ -160,7 +159,7 @@ final class LoginViewController: UIViewController {
             
         case .apple:
             // 1. OpenID authorization 요청에 필요한 객체 생성
-            let request = self.viewModel.appleIDRequest
+            let request = AuthorizationService.shared.appleIDRequest
             
             // 2. 이 ViewController에서 로그인 창을 띄우기 위한 준비
             let authorizationController = ASAuthorizationController(authorizationRequests: [request])
@@ -178,53 +177,76 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     // Apple Login (3): Apple 계정 인증 성공 시 실행할 내용
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        self.activityIndicator.startAnimating()
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
         
-        // 1. 사용자의 정보 가져오기
-        
-        // authorization: controller로부터 받은 인증 성공 정보에 대한 캡슐화된 객체
-        K.Login.authorization = authorization
-        
-        var userIdentifier: String = ""
+        // 📌 Step 1: After success of authorization, retrieve user information from Apple ID Server.
+        // (https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple#3383773)
         
         // 인증 성공 이후 제공되는 정보
         switch authorization.credential {
             
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            // (1) 사용자에 대한 고유 식별자 (항상 변하지 않는 값)
-            userIdentifier = appleIDCredential.user
-            UserDefaults.standard.setValue(userIdentifier, forKey: K.UserDefaults.userIdentifier)
+            // Info #1: Identifier (unique to the user and never changing)
+            let userIdentifier = appleIDCredential.user
             
-            // (2) 사용자의 이름
-            let fullName = appleIDCredential.fullName ?? PersonNameComponents()
-            
-            // (3) 사용자의 이메일
-            // (3-1) 최초로 이메일 가져오기
-            if let userEmail = appleIDCredential.email {
-                print(userEmail)
-                UserDefaults.standard.setValue(userEmail, forKey: K.UserDefaults.userEmail)
-            // (3-2) 두번째 부터 이메일 가져오는 방법
-            } else {
-                // credential.identityToken은 jwt로 되어있고, 해당 토큰을 decode 후 email에 접근해야함
-                guard let tokenString = String(data: appleIDCredential.identityToken ?? Data(), encoding: .utf8) else { return }
-                let userEmail = self.viewModel.decode(jwtToken: tokenString)["email"] as? String ?? ""
-                print(userEmail)
-                UserDefaults.standard.setValue(userEmail, forKey: K.UserDefaults.userEmail)
+            // Info #2: Name
+            if let fullName = appleIDCredential.fullName {
+                if let givenName = fullName.givenName,
+                   let familyName = fullName.familyName {
+                    UserDefaults.standard.setValue("\(givenName) \(familyName)", forKey: K.UserDefaults.userName)
+                    print("user name: \(givenName) \(familyName)")
+                }
             }
             
-            // ⭐️ authorizationCode는 일회용이고 인증 후 5분간만 유효함
+            // Info #3: Email
+            if let userEmail = appleIDCredential.email {
+                UserDefaults.standard.setValue(userEmail, forKey: K.UserDefaults.userEmail)
+                print("user email: \(userEmail)")
+            } else {
+                guard let tokenString = String(data: appleIDCredential.identityToken ?? Data(), encoding: .utf8) else { return }
+                let userEmail = AuthorizationService.shared.decode(jwtToken: tokenString)["email"] as? String ?? ""
+                print("user email: \(userEmail)")
+            }
+            
+            // ⭐️ The authorization code is disposable and valid for only 5 minutes after authentication.
             if let authorizationCode = appleIDCredential.authorizationCode,
                let identityToken = appleIDCredential.identityToken,
                let authCodeString = String(data: authorizationCode, encoding: .utf8),
                let identifyTokenString = String(data: identityToken, encoding: .utf8) {
-                let code = String(decoding: authorizationCode, as: UTF8.self)
-                
-                UserDefaults.standard.setValue(code, forKey: K.UserDefaults.authCode)
-                K.Login.authorization = authorization
+                print("🗝 authrizationCode - \(authCodeString)")
+                print("🗝 identifyToken - \(identifyTokenString)")
             }
             
-            // Apple Login (4): FirebaseAuth 인증 요청
-            self.isLoginAllowed.onNext(true)
+            // 📌 Step 2: Returns the credential state for the given user to handle in a completion handler.
+            // (https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/verifying_a_user#3383776)
+            ASAuthorizationAppleIDProvider()
+                .getCredentialState(forUserID: userIdentifier) { credentialState, error in
+                    switch credentialState {
+                    case .authorized:
+                        // Create and save client secret (JWT) in UserDefaults for later token revocation.
+                        AuthorizationService.shared.createJWT()
+                        // If sign-in is allowed, emit true element.
+                        self.isSignInAllowed.onNext(true)
+                        
+                        // The Apple ID credential is valid. Show Home UI Here
+                        print("credentialState: authorized")
+                        UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
+                    
+                    case .revoked:
+                        // The Apple ID credential is revoked. Show SignIn UI Here.
+                        print("credentialState: revoked")
+                    
+                    case .notFound:
+                        // No credential was found. Show SignIn UI Here.
+                        print("credentialState: notFound")
+                        break
+                    
+                    default:
+                        break
+                    }
+                }
             
         case let passwordCredential as ASPasswordCredential:
             // Sign in using an existing iCloud Keychain credential.
@@ -234,34 +256,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             print("Username: \(username)")
             print("Password: \(password)")
             
+            // Create and save client secret (JWT) in UserDefaults for later token revocation.
+            AuthorizationService.shared.createJWT()
+            // If sign-in is allowed, emit true element.
+            self.isSignInAllowed.onNext(true)
+            
         default:
             break
             
         }
-        
-        // 2. 사용자의 식별자를 이용해 경우에 따른 로그인 처리
-        
-        ASAuthorizationAppleIDProvider()
-            .getCredentialState(forUserID: userIdentifier) { credentialState, error in
-                switch credentialState {
-                case .authorized:
-                    // The Apple ID credential is valid. Show Home UI Here
-                    print("credentialState: authorized")
-                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
-                
-                case .revoked:
-                    // The Apple ID credential is revoked. Show SignIn UI Here.
-                    print("credentialState: revoked")
-                
-                case .notFound:
-                    // No credential was found. Show SignIn UI Here.
-                    print("credentialState: notFound")
-                    break
-                
-                default:
-                    break
-                }
-            }
 
     }
     

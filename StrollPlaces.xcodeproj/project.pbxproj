@@ -26,6 +26,8 @@
 		074CBD022A2E2619002B5B80 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */; };
 		0751436829C201CD00109B8E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751436729C201CD00109B8E /* Image.swift */; };
 		075729B12A067CA00011D127 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075729B02A067CA00011D127 /* Date.swift */; };
+		075ED46F2A3F4C1700331BE5 /* ViewModelBindableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075ED46E2A3F4C1700331BE5 /* ViewModelBindableType.swift */; };
+		075ED4712A3F501200331BE5 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075ED4702A3F501200331BE5 /* CommonViewModel.swift */; };
 		075FE44129C5B63A00A5694C /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075FE44029C5B63A00A5694C /* View.swift */; };
 		0760D51D29D3296600796D73 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0760D51C29D3296600796D73 /* RealmService.swift */; };
 		0760D51F29D32ED100796D73 /* MyPlaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0760D51E29D32ED100796D73 /* MyPlaceData.swift */; };
@@ -75,7 +77,7 @@
 		0799CCEC29BF6E10006AB70D /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCEB29BF6E10006AB70D /* DataType.swift */; };
 		079AF4F229C74C9D006C365B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF4F129C74C9D006C365B /* SplashViewController.swift */; };
 		07AA18CC2A2F168200073F0A /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA18CB2A2F168200073F0A /* SplashViewModel.swift */; };
-		07AA18CE2A2F411600073F0A /* CryptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA18CD2A2F411600073F0A /* CryptoService.swift */; };
+		07AA18CE2A2F411600073F0A /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA18CD2A2F411600073F0A /* AuthorizationService.swift */; };
 		07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */; };
 		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
 		07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */; };
@@ -186,6 +188,8 @@
 		074CBD012A2E2619002B5B80 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		0751436729C201CD00109B8E /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		075729B02A067CA00011D127 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		075ED46E2A3F4C1700331BE5 /* ViewModelBindableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindableType.swift; sourceTree = "<group>"; };
+		075ED4702A3F501200331BE5 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		075FE44029C5B63A00A5694C /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		0760D51C29D3296600796D73 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		0760D51E29D32ED100796D73 /* MyPlaceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceData.swift; sourceTree = "<group>"; };
@@ -237,7 +241,7 @@
 		0799CCEB29BF6E10006AB70D /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
 		079AF4F129C74C9D006C365B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		07AA18CB2A2F168200073F0A /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
-		07AA18CD2A2F411600073F0A /* CryptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoService.swift; sourceTree = "<group>"; };
+		07AA18CD2A2F411600073F0A /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -346,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				076DB0C22A2C9153008F5DC9 /* Shared */,
+				075ED46D2A3F4BF400331BE5 /* ViewModel */,
 				076DB0C42A2C919C008F5DC9 /* 0. Login */,
 				076DB0BE2A2C90AB008F5DC9 /* 1. Map */,
 				076DB0C32A2C9175008F5DC9 /* 2. MyPlace */,
@@ -354,6 +359,15 @@
 				076DB0D02A2C930A008F5DC9 /* 5. More */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		075ED46D2A3F4BF400331BE5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				075ED46E2A3F4C1700331BE5 /* ViewModelBindableType.swift */,
+				075ED4702A3F501200331BE5 /* CommonViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		076DB0BE2A2C90AB008F5DC9 /* 1. Map */ = {
@@ -700,7 +714,7 @@
 				0760D51C29D3296600796D73 /* RealmService.swift */,
 				073BD1FF2A2AE8AE0023BD57 /* InputValidationService.swift */,
 				078E13502A24C5BC00EB6B88 /* SPIndicatorService.swift */,
-				07AA18CD2A2F411600073F0A /* CryptoService.swift */,
+				07AA18CD2A2F411600073F0A /* AuthorizationService.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1119,7 +1133,7 @@
 				07987ED129C05772004B87F0 /* ThemeCellData.swift in Sources */,
 				07AC1EE129E3E3FC006BEA03 /* LiveActivityService.swift in Sources */,
 				0799CCD329BF59C0006AB70D /* PublicData.swift in Sources */,
-				07AA18CE2A2F411600073F0A /* CryptoService.swift in Sources */,
+				07AA18CE2A2F411600073F0A /* AuthorizationService.swift in Sources */,
 				07AF72CB2A28F65B008EB64D /* PlaceInfoViewController+Modal.swift in Sources */,
 				07AF72CA2A28F65B008EB64D /* PlaceInfoViewController.swift in Sources */,
 				078480FD29FB97DD00A3CDB3 /* Artwork.swift in Sources */,
@@ -1138,8 +1152,10 @@
 				0774AA8729D97CEF0048C781 /* MyPlaceViewModel.swift in Sources */,
 				074CBCFE2A2DDA3A002B5B80 /* UserAccountData.swift in Sources */,
 				077C1BE029CD8B0700DA3218 /* RouteAnnotation.swift in Sources */,
+				075ED46F2A3F4C1700331BE5 /* ViewModelBindableType.swift in Sources */,
 				0790A42429D83161008C3923 /* TrackPoint.swift in Sources */,
 				077C1BEA29CDEC7800DA3218 /* NewsViewController.swift in Sources */,
+				075ED4712A3F501200331BE5 /* CommonViewModel.swift in Sources */,
 				07FD50CD2A0A448E00FFE3EC /* Button.swift in Sources */,
 				07FD50C72A0A0F3C00FFE3EC /* OnboardingCollectionViewCell.swift in Sources */,
 				0790A42629D83208008C3923 /* TrackData.swift in Sources */,
