@@ -60,3 +60,9 @@ enum SignupOrLogin {
     case signup
     case login
 }
+
+enum MapType: Int, CaseIterable {
+    case standard = 0
+    case satellite = 1
+    case hybrid = 2
+}

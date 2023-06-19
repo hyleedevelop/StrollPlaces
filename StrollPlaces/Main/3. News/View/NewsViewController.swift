@@ -110,12 +110,6 @@ final class NewsViewController: UIViewController {
         
         // 좌측 상단에 위치한 타이틀 설정
         navigationItem.makeLeftSideTitle(title: "산책길 관련 소식")
-        
-//        // right bar button 설정
-//        let markBarButton = self.navigationItem.makeSFSymbolButton(
-//            self, action: #selector(pushToBookmark), symbolName: "bookmark"
-//        )
-//        self.navigationItem.rightBarButtonItems = [markBarButton]
     }
     
     // TableView 설정
@@ -223,7 +217,6 @@ final class NewsViewController: UIViewController {
                     
                     // indicator 비활성화
                     self.activityIndicator.stopAnimating()
-
                 }
             })
             .disposed(by: rx.disposeBag)

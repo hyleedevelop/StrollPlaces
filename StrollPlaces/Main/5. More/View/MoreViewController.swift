@@ -35,8 +35,8 @@ final class MoreViewController: UIViewController {
         self.setupNavigationBar()
         self.setupTableView()
         self.setupUserProfileView()
-        self.setupUserLogoutProcess()
-        self.setupUserSignoutProcess()
+        self.setupSignOutProcess()
+        self.setupRevocationProcess()
         self.viewModel.getUserNickname()
     }
     
@@ -76,7 +76,7 @@ final class MoreViewController: UIViewController {
         self.tableView.separatorStyle = .none
         //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         
-        self.viewModel.shouldReloadTableView.asObservable()
+        self.viewModel.shouldTableViewReloaded.asObservable()
             .filter { $0 == true }
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
@@ -90,30 +90,29 @@ final class MoreViewController: UIViewController {
     private func setupUserProfileView() {
         self.profileBackView.backgroundColor = #colorLiteral(red: 0.9855152965, green: 0.4191898108, blue: 0.6166006327, alpha: 1)
         
-        self.viewModel.userNickname
-            .bind(to: self.nicknameLabel.rx.text)
+        self.viewModel.userNickname.asDriver()
+            .drive(self.nicknameLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
     
     // 로그아웃 설정
-    private func setupUserLogoutProcess() {
+    private func setupSignOutProcess() {
         // 로그아웃을 시도한 경우
-        self.viewModel.isLogoutRequested.asObservable()
+        self.viewModel.isSignOutRequested.asObservable()
             .filter { $0 == true }
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
-                UserDefaults.standard.setValue(false, forKey: K.UserDefaults.loginStatus)
+                self.viewModel.updateAccountStatus(signUp: true, signIn: false)
                 self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
             })
             .disposed(by: rx.disposeBag)
     }
     
     // 회원탈퇴 설정
-    private func setupUserSignoutProcess() {
-        // Apple Signout (1): 애플 회원탈퇴 메뉴를 클릭한 경우
-        self.viewModel.startSignout.asObservable()
+    private func setupRevocationProcess() {
+        // 계정 삭제 메뉴를 클릭 -> 인증 요청을 보냄
+        self.viewModel.isRevocationRequested.asObservable()
             .filter { $0 == true }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -121,13 +120,40 @@ final class MoreViewController: UIViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        // Apple Signout (4): requestAuthorization()에서 회원탈퇴가 허용 되었을 경우
+        // 인증에 성공 -> 인증코드를 이용해 애플 서버에 refresh token을 요청함
         self.authorizationCode.asObservable()
-            .subscribe(onNext: { [weak self] code in
+            .filter { !$0.isEmpty }
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                self.goToLoginViewController()
+                AuthorizationService.shared.requestAppleRefreshToken(code: $0)
                 // 저장되어있던 이메일 정보 삭제
                 UserDefaults.standard.setValue(nil, forKey: K.UserDefaults.userEmail)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // secret key와 refresh token 요청에 성공하여 받은 데이터가 모두 준비됨
+        // -> refresh token 취소를 요청함
+        let clientSecret = Observable
+            .just(UserDefaults.standard.string(forKey: K.UserDefaults.clientSecret) ?? "")
+        let refreshToken = AuthorizationService.shared.decodedData.asObservable()
+            .map { ($0?.refresh_token ?? "") as String }
+        
+        Observable
+            .combineLatest(clientSecret, refreshToken)
+            .subscribe(onNext: {
+                AuthorizationService.shared.revokeRefreshToken(clientSecret: $0, token: $1)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // refresh token 취소에 성공 -> 로그인 화면으로 돌아가기
+        AuthorizationService.shared.isRefreshTokenRevoked.asObservable()
+            .filter { $0 == true }
+            .delay(.milliseconds(500), scheduler: MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                //self.activityIndicator.stopAnimating()
+                self.goToLoginViewController()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -189,8 +215,7 @@ extension MoreViewController: ASAuthorizationControllerDelegate {
 
 extension MoreViewController: MFMailComposeViewControllerDelegate {
 
-    func mailComposeController(_ controller: MFMailComposeViewController,
-                               didFinishWith result: MFMailComposeResult, error: Error?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
 }

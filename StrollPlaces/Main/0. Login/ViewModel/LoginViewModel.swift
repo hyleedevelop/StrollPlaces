@@ -31,8 +31,8 @@ final class LoginViewModel: CommonViewModel {
     
     // 다음 화면으로 이동
     func goToNextViewController(viewController: UIViewController) {
-        let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signupStatus)
-        let isUserAlreadyLoggedIn = UserDefaults.standard.bool(forKey: K.UserDefaults.loginStatus)
+        let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signUpStatus)
+        let isUserAlreadyLoggedIn = UserDefaults.standard.bool(forKey: K.UserDefaults.signInStatus)
         let hideOnboarding = UserDefaults.standard.bool(forKey: K.UserDefaults.hideOnboarding)
         
         print("사용자가 이미 회원가입 되어 있습니까?: \(isUserAlreadySignedUp)")

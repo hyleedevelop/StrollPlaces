@@ -350,7 +350,6 @@
 			isa = PBXGroup;
 			children = (
 				076DB0C22A2C9153008F5DC9 /* Shared */,
-				075ED46D2A3F4BF400331BE5 /* ViewModel */,
 				076DB0C42A2C919C008F5DC9 /* 0. Login */,
 				076DB0BE2A2C90AB008F5DC9 /* 1. Map */,
 				076DB0C32A2C9175008F5DC9 /* 2. MyPlace */,
@@ -418,6 +417,7 @@
 			children = (
 				076DB0D92A2C9BC9008F5DC9 /* Model */,
 				076DB0D82A2C9BC2008F5DC9 /* View */,
+				075ED46D2A3F4BF400331BE5 /* ViewModel */,
 			);
 			path = Shared;
 			sourceTree = "<group>";

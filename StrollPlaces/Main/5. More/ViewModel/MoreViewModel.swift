@@ -20,24 +20,11 @@ import Alamofire
 
 final class MoreViewModel: CommonViewModel {
     
-    //MARK: - in 속성 관련
-    
-    
-    //MARK: - out 속성 관련
-    
-    var currentNonce: String?
-    let isLogoutRequested = PublishSubject<Bool>()
-    let startSignout = BehaviorSubject<Bool>(value: false)
-    let userNickname = BehaviorRelay<String>(value: "")
-    
-    //MARK: - 내부 속성 관련
+    //MARK: - 생성자 관련
     
     private let appSettings: [MoreCellData]!
     private let feedback: [MoreCellData]!
     private let aboutTheApp: [MoreCellData]!
-    
-    //MARK: - 생성자 관련
-
     let moreCellData: [[MoreCellData]]!
     
     override init() {
@@ -65,46 +52,40 @@ final class MoreViewModel: CommonViewModel {
         moreCellData = [appSettings, feedback, aboutTheApp]
     }
     
+    //MARK: - 사용자 정보 및 인증 관련
+    
+    let isSignOutRequested = BehaviorSubject<Bool>(value: false)
+    let isRevocationRequested = BehaviorSubject<Bool>(value: false)
+    let userNickname = BehaviorRelay<String>(value: "-")
+    
     //MARK: - 앱 설정 관련
     
-    let shouldReloadTableView = BehaviorSubject<Bool>(value: false)
+    let shouldTableViewReloaded = PublishSubject<Bool>()
     
     // 현재 지도 표시 범위를 나타낼 텍스트
     var labelTextForMapRadius: String {
         let radius = UserDefaults.standard.double(forKey: K.UserDefaults.mapRadius)
-        var labelString = ""
         
-        if radius == 0.2 {
-            labelString = "200 m"
-        } else if radius == 0.3 {
-            labelString = "300 m"
-        } else if radius == 0.5 {
-            labelString = "500 m"
-        } else if radius == 1.0 {
-            labelString = "1 km"
-        } else if radius == 2.0 {
-            labelString = "2 km"
+        switch radius {
+        case 0.2: return "200 m"
+        case 0.3: return "300 m"
+        case 0.5: return "500 m"
+        case 1.0: return "1 km"
+        case 2.0: return "2 km"
+        default: return ""
         }
-        
-        return labelString
     }
     
     // 현재 지도 종류를 나타낼 텍스트
     var labelTextForMapType: String {
-        let type = MKMapType(
-            rawValue: UInt(UserDefaults.standard.integer(forKey: K.UserDefaults.mapType))
-        ) ?? .standard
-        var labelString = ""
+        let type = MKMapType(rawValue: UInt(UserDefaults.standard.integer(forKey: K.UserDefaults.mapType))) ?? .standard
         
-        if type == .standard {
-            labelString = "표준"
-        } else if type == .satellite {
-            labelString = "위성"
-        } else if type == .hybrid {
-            labelString = "하이브리드"
+        switch type {
+        case .standard: return "표준"
+        case .satellite: return "위성"
+        case .hybrid: return "하이브리드"
+        default: return ""
         }
-        
-        return labelString
     }
     
     //MARK: - 앱 및 유저 디바이스 정보 관련
@@ -231,32 +212,30 @@ final class MoreViewModel: CommonViewModel {
         }
     }
     
+    
     //MARK: - Action 관련
     
-    // 지도 종류 설정을 위한 Action 구성
+    // 지도 종류 설정
     var actionForMapType: UIAlertController {
         let actionSheet = UIAlertController(
             title: "지도 종류 선택", message: nil, preferredStyle: .actionSheet
         )
         
-        actionSheet.addAction(
-            UIAlertAction(title: "표준", style: .default, handler: { _ in
-                UserDefaults.standard.set(0, forKey: K.UserDefaults.mapType)
-                self.shouldReloadTableView.onNext(true)
-            })
-        )
-        actionSheet.addAction(
-            UIAlertAction(title: "위성", style: .default, handler: { _ in
-                UserDefaults.standard.set(1, forKey: K.UserDefaults.mapType)
-                self.shouldReloadTableView.onNext(true)
-            })
-        )
-        actionSheet.addAction(
-            UIAlertAction(title: "하이브리드", style: .default, handler: { _ in
-                UserDefaults.standard.set(2, forKey: K.UserDefaults.mapType)
-                self.shouldReloadTableView.onNext(true)
-            })
-        )
+        let options = [
+            ("표준", 0),
+            ("위성", 1),
+            ("하이브리드", 2),
+        ]
+  
+        for option in options {
+            actionSheet.addAction(
+                UIAlertAction(title: option.0, style: .default, handler: { _ in
+                    self.mapType = option.1
+                    self.shouldTableViewReloaded.onNext(true)
+                })
+            )
+        }
+        
         actionSheet.addAction(
             UIAlertAction(title: "취소", style: .cancel, handler: nil)
         )
@@ -270,41 +249,24 @@ final class MoreViewModel: CommonViewModel {
             title: "지도 표시 범위 선택", message: nil, preferredStyle: .actionSheet
         )
         
-        actionSheet.addAction(
-            UIAlertAction(title: "사용자 중심 200 m", style: .default, handler: { _ in
-                UserDefaults.standard.set(0.2, forKey: K.UserDefaults.mapRadius)
-                self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
-            })
-        )
-        actionSheet.addAction(
-            UIAlertAction(title: "사용자 중심 300 m", style: .default, handler: { _ in
-                UserDefaults.standard.set(0.3, forKey: K.UserDefaults.mapRadius)
-                self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
-            })
-        )
-        actionSheet.addAction(
-            UIAlertAction(title: "사용자 중심 500 m", style: .default, handler: { _ in
-                UserDefaults.standard.set(0.5, forKey: K.UserDefaults.mapRadius)
-                self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
-            })
-        )
-        actionSheet.addAction(
-            UIAlertAction(title: "사용자 중심 1 km", style: .default, handler: { _ in
-                UserDefaults.standard.set(1.0, forKey: K.UserDefaults.mapRadius)
-                self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
-            })
-        )
-        actionSheet.addAction(
-            UIAlertAction(title: "사용자 중심 2 km", style: .default, handler: { _ in
-                UserDefaults.standard.set(2.0, forKey: K.UserDefaults.mapRadius)
-                self.shouldReloadTableView.onNext(true)
-                NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
-            })
-        )
+        let options = [
+            ("사용자 중심 200 m", 0.2),
+            ("사용자 중심 300 m", 0.3),
+            ("사용자 중심 500 m", 0.5),
+            ("사용자 중심 1 km", 1.0),
+            ("사용자 중심 2 km", 2.0),
+        ]
+
+        for option in options {
+            actionSheet.addAction(
+                UIAlertAction(title: option.0, style: .default, handler: { _ in
+                    self.mapRadius = option.1
+                    self.shouldTableViewReloaded.onNext(true)
+                    NotificationCenter.default.post(name: Notification.Name(K.UserDefaults.mapRadius), object: nil)
+                })
+            )
+        }
+        
         actionSheet.addAction(
             UIAlertAction(title: "취소", style: .cancel, handler: nil)
         )
@@ -355,7 +317,7 @@ final class MoreViewModel: CommonViewModel {
                 NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
                 
                 // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-                UserDefaults.standard.set(false, forKey: K.UserDefaults.myPlaceExist)
+                UserDefaults.standard.set(false, forKey: K.UserDefaults.isMyPlaceExist)
                 NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
             }
         )
@@ -376,7 +338,7 @@ final class MoreViewModel: CommonViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.isLogoutRequested.onNext(true)
+                self.isSignOutRequested.onNext(true)
             }
         )
         
@@ -396,7 +358,7 @@ final class MoreViewModel: CommonViewModel {
         )
         alert.addAction(
             UIAlertAction(title: "네", style: .destructive) { _ in
-                self.startSignout.onNext(true)
+                self.isRevocationRequested.onNext(true)
             }
         )
         
@@ -432,20 +394,6 @@ final class MoreViewModel: CommonViewModel {
             sendMailErrorAlert.addAction(confirmAction)
             viewController.present(sendMailErrorAlert, animated: true, completion: nil)
         }
-    }
-    
-    //MARK: - Apple 로그인 관련
-    
-    var appleIDRequest: ASAuthorizationAppleIDRequest {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        let nonce = AuthorizationService.shared.randomNonceString()
-        
-        request.requestedScopes = [.fullName, .email]
-        request.nonce = AuthorizationService.shared.sha256(nonce)
-        self.currentNonce = nonce
-        
-        return request
     }
     
     //MARK: - Firebase DB 관련

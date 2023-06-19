@@ -12,7 +12,7 @@ import CoreLocation
 import MapKit
 import RealmSwift
 
-final class MapViewModel {
+final class MapViewModel: CommonViewModel {
     
     //MARK: - 생성자 관련
     
@@ -20,7 +20,7 @@ final class MapViewModel {
     private var publicData = [PublicData]()
     var pinData: PublicData!
     
-    init() {
+    override init() {
         let themeCell = [
             ThemeCellData(icon: UIImage(named: "icons8-park-96")!, title: "공원"),
             ThemeCellData(icon: UIImage(named: "icons8-forest-path-64")!, title: "산책로"),

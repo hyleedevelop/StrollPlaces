@@ -31,8 +31,6 @@ extension UINavigationController {
         self.additionalSafeAreaInsets.top = 10
         
         self.setNeedsStatusBarAppearanceUpdate()
-        
-        //self.extendedLayoutIncludesOpaqueBars = true
     }
     
     // 기본 설정

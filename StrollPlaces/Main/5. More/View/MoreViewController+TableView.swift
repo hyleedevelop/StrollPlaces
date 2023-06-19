@@ -84,23 +84,14 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
-            if indexPath.row == 0 {
-                self.present(self.viewModel.actionForMapType, animated: true)
-            }
-            if indexPath.row == 1 {
-                self.present(self.viewModel.actionForMapRadius, animated: true)
-            }
-            if indexPath.row == 2 {
-                self.present(self.viewModel.actionForMarkRemoval, animated: true)
-            }
-            if indexPath.row == 3 {
-                self.present(self.viewModel.actionForDBRemoval, animated: true)
-            }
-            if indexPath.row == 4 {
-                self.present(self.viewModel.actionForLogout, animated: true)
-            }
-            if indexPath.row == 5 {
-                self.present(self.viewModel.actionForSignout, animated: true)
+            switch indexPath.row {
+            case 0: self.present(self.viewModel.actionForMapType, animated: true)
+            case 1: self.present(self.viewModel.actionForMapRadius, animated: true)
+            case 2: self.present(self.viewModel.actionForMarkRemoval, animated: true)
+            case 3: self.present(self.viewModel.actionForDBRemoval, animated: true)
+            case 4: self.present(self.viewModel.actionForLogout, animated: true)
+            case 5: self.present(self.viewModel.actionForSignout, animated: true)
+            default: break
             }
             
         case .feedback:

@@ -78,8 +78,8 @@ final class NicknameViewModel {
                     print("There was an issue saving data to firestore, \(errorMessage)")
                 } else {
                     self.isUserRegistered.onNext(true)
-                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signupStatus)
-                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
+                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signUpStatus)
+                    UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signInStatus)
                 }
             }
             

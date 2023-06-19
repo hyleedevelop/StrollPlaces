@@ -24,7 +24,6 @@ final class MapViewController: UIViewController {
 
     //MARK: - IB outlet & action
     
-    //@IBOutlet weak var menuButton: Floaty!
     @IBOutlet weak var mapView: MKMapView!
     
     //MARK: - UI property
@@ -118,10 +117,8 @@ final class MapViewController: UIViewController {
     
     // 사용자의 현재 위치를 받아오고, 이를 중심으로 regionRadius 반경만큼의 영역을 보여주기
     internal var currentLocation: CLLocation {
-        let latitude = ((locationManager.location?.coordinate.latitude
-                        ) ?? K.Map.defaultLatitude) as Double
-        let longitude = ((locationManager.location?.coordinate.longitude
-                         ) ?? K.Map.defaultLongitude) as Double
+        let latitude = ((locationManager.location?.coordinate.latitude) ?? K.Map.defaultLatitude) as Double
+        let longitude = ((locationManager.location?.coordinate.longitude) ?? K.Map.defaultLongitude) as Double
         return CLLocation(latitude: latitude, longitude: longitude)
     }
     internal var isUserTrackingModeOn: Bool = false
@@ -144,6 +141,7 @@ final class MapViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.getLocationUsagePermission()
         }
+        
         self.setupNavigationBar()
         self.setupMapView()
         self.setupCollectionView()
@@ -170,9 +168,7 @@ final class MapViewController: UIViewController {
             $0.width.height.equalTo(40)
         }
         
-        self.mapView.mapType = MKMapType(
-            rawValue: UInt(self.userDefaults.integer(forKey: "mapType"))
-        )!
+        self.mapView.mapType = MKMapType(rawValue: UInt(self.viewModel.mapType))!
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -199,7 +195,7 @@ final class MapViewController: UIViewController {
         self.mapView.applyDefaultSettings(
             viewController: self, trackingMode: .follow, showsUserLocation: true
         )
-        self.mapView.mapType = MKMapType(rawValue: UInt(self.userDefaults.integer(forKey: "mapType")))!
+        self.mapView.mapType = MKMapType(rawValue: UInt(self.viewModel.mapType))!
         
         self.locationManager.startUpdatingLocation()
         
@@ -208,12 +204,12 @@ final class MapViewController: UIViewController {
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // 기본 지도 표시 범위 = 500 m
-        if self.userDefaults.double(forKey: "mapRadius") == 0.0 {
-            self.userDefaults.set(0.5, forKey: "mapRadius")
+        if UserDefaults.standard.double(forKey: K.UserDefaults.mapRadius) == 0.0 {
+            UserDefaults.standard.setValue(0.5, forKey: K.UserDefaults.mapRadius)
             self.mapView.centerToLocation(
                 location: self.currentLocation,
-                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-                deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+                deltaLat: 0.5.km,
+                deltaLon: 0.5.km
             )
         }
         
@@ -259,8 +255,8 @@ final class MapViewController: UIViewController {
             guard let self = self else { return }
             self.mapView.centerToLocation(
                 location: self.currentLocation,
-                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-                deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+                deltaLat: self.viewModel.mapRadius,
+                deltaLon: self.viewModel.mapRadius
             )
         }
         self.menuButton.addItem(
@@ -315,7 +311,7 @@ final class MapViewController: UIViewController {
     private func setupNotificationObserver() {
         NotificationCenter.default.addObserver(
             self, selector: #selector(self.setupMapRadius),
-            name: Notification.Name("mapRadius"), object: nil
+            name: Notification.Name(K.UserDefaults.mapRadius), object: nil
         )
         
         NotificationCenter.default.addObserver(
@@ -332,8 +328,8 @@ final class MapViewController: UIViewController {
     @objc private func setupMapRadius() {
         self.mapView.centerToLocation(
             location: self.currentLocation,
-            deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-            deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+            deltaLat: self.viewModel.mapRadius,
+            deltaLon: self.viewModel.mapRadius
         )
     }
     

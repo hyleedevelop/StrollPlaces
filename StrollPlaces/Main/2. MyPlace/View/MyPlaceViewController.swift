@@ -25,7 +25,6 @@ final class MyPlaceViewController: UIViewController {
     //MARK: - normal property
     
     internal let viewModel = MyPlaceViewModel()
-    private let userDefaults = UserDefaults.standard
     private let flowLayout = UICollectionViewFlowLayout()  // 컬렉션뷰의 레이아웃을 담당하는 객체
     private var timer = Timer()
     
@@ -85,7 +84,7 @@ final class MyPlaceViewController: UIViewController {
         navigationController?.applyCustomSettings()
         self.navigationController?.navigationBar.isHidden = false
         
-        let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
+        let isListEmpty = !UserDefaults.standard.bool(forKey: K.UserDefaults.isMyPlaceExist)
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
 
         if !isListEmpty {
@@ -94,21 +93,23 @@ final class MyPlaceViewController: UIViewController {
             }
         }
         
-        // 1분마다 Collection View를 갱신하는 Timer 시작
-        self.timer = Timer.scheduledTimer(timeInterval: 60, target: self,
-                                          selector: #selector(shouldReloadMyPlace),
-                                          userInfo: nil, repeats: true)
+        // 생성 시각(n분전, n시간 전 등...)을 1분마다 업데이트 하기 위해 Collection View를 갱신하는 Timer 시작
+        self.timer = Timer.scheduledTimer(
+            timeInterval: 60, target: self, selector: #selector(reloadMyPlace),
+            userInfo: nil, repeats: true
+        )
+        
         // 사용자가 메인쓰레드에서 작업(interaction, UI update 등)중이어도 타이머가 작동되도록 설정
         RunLoop.current.add(self.timer, forMode: .common)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
         // Navigation Bar 기본 설정
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         
-        // Timer 해제
+        // Collection View를 갱신하는 Timer 해제
         self.timer.invalidate()
     }
     
@@ -133,20 +134,15 @@ final class MyPlaceViewController: UIViewController {
         let sortBarButton = self.navigationItem.makeCustomSymbolButton(
             self, menu: self.viewModel.sortContextMenu, symbolName: "icons8-sort-100"
         )
-//        let helpBarButton = self.navigationItem.makeSFSymbolButton(
-//            self, action: #selector(pushToHelp), symbolName: "questionmark.circle"
-//        )
         let spacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         spacer.width = 15
         
         self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton]
-//        self.navigationItem.rightBarButtonItems = [addBarButton, spacer, sortBarButton, spacer, helpBarButton]
     }
     
     // 나만의 산책로 리스트가 없는 경우 애니메이션 표출 설정
     private func setupInitialView() {
         self.viewModel.itemViewModel.shouldShowAnimationView
-            .debug("애니메이션 표출")
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] shouldBeShown in
                 guard let self = self else { return }
@@ -203,7 +199,7 @@ final class MyPlaceViewController: UIViewController {
         )
         
         NotificationCenter.default.addObserver(
-            self, selector: #selector(shouldReloadMyPlace(_:)),
+            self, selector: #selector(reloadMyPlace(_:)),
             name: Notification.Name("reloadMyPlace"), object: nil
         )
     }
@@ -250,23 +246,24 @@ final class MyPlaceViewController: UIViewController {
     
     // context menu를 통해 목록 정렬 기준이 정해지면 메인쓰레드에서 TableView를 reload 하도록 설정
     private func setupReloadOfCollectionView() {
-        self.viewModel.itemViewModel.shouldReloadCollectionView.asObservable()
+        self.viewModel.itemViewModel.collectionViewShouldBeReloaded.asObservable()
+            .filter { $0 == true }
             .subscribe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] shouldReload in
+            .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                if shouldReload { self.myPlaceCollectionView.reloadData() }
+                self.myPlaceCollectionView.reloadData()
             })
             .disposed(by: rx.disposeBag)
     }
     
     // Notification을 받았을 때 수행할 내용 설정 (1)
     @objc private func shouldShowAnimation(_ notification: NSNotification) {
-        let isListEmpty = !self.userDefaults.bool(forKey: "myPlaceExist")
+        let isListEmpty = !self.viewModel.isMyPlaceExist
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
     }
     
     // Notification을 받았을 때 수행할 내용 설정 (2)
-    @objc private func shouldReloadMyPlace(_ notification: NSNotification) {
+    @objc private func reloadMyPlace(_ notification: NSNotification) {
         DispatchQueue.main.async {
             self.myPlaceCollectionView.reloadData()
         }

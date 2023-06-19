@@ -13,9 +13,9 @@ import RxCocoa
 // 추후 메인화면에 다른 UI 요소가 추가될 수도 있기 때문에
 // 확장성 측면에서 뉴스 아이템에 대한 뷰모델을 따로 분리 (for flexibility)
 
-//MARK: - NewsList View Model
+//MARK: - 뉴스 화면에 대한 뷰모델
 
-final class NewsViewModel {
+final class NewsViewModel: CommonViewModel {
     
     //MARK: - 생성자 관련
     var newsItemViewModel: [NewsItemViewModel]
@@ -32,7 +32,7 @@ final class NewsViewModel {
     
 }
 
-//MARK: - News View Model
+//MARK: - 뉴스 아이템 1개에 대한 뷰모델
 
 // 뉴스 아이템(셀) 하나하나에 대한 뷰모델
 final class NewsItemViewModel {

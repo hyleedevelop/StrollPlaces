@@ -13,6 +13,7 @@ import RealmSwift
 import CoreLocation
 import MapKit
 
+// ❌ CommonViewModel을 상속했을 때 생성자 부분에서 생기는 문제 해결하기
 final class DetailInfoViewModel {
     
     //MARK: - 속성 선언

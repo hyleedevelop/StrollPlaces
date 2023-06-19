@@ -9,23 +9,22 @@ import Foundation
 
 extension Date {
     
-    func getTimeIntervalString(since: Date) -> String {
-        // self 시간과 since 시간의 차이(초)
-        let timeIntervalInSeconds = Int(self.timeIntervalSince(since))
+    // self 시간과 since 시간의 차이(초)
+    func getTimeIntervalString(since target: Date) -> String {
+        let timeIntervalInSeconds = Int(self.timeIntervalSince(target))
+        let oneMinute = 60
+        let oneHour = oneMinute*60
+        let oneDay = oneHour*24
+        let oneWeek = oneDay*7
         
-        if (0..<60) ~= timeIntervalInSeconds {
-            return "방금 전"
-        } else if (60..<60*60) ~= timeIntervalInSeconds {
-            return "\(timeIntervalInSeconds/60)분 전"
-        } else if (60*60..<60*60*24) ~= timeIntervalInSeconds {
-            return "\(timeIntervalInSeconds/(60*60))시간 전"
-        } else if (60*60*24..<60*60*24*7) ~= timeIntervalInSeconds {
-            return "\(timeIntervalInSeconds/(60*60*24))일 전"
-        } else if ((60*60*24*7)...) ~= timeIntervalInSeconds {
-            return "\(timeIntervalInSeconds/(60*60*24*7))주 전"
+        switch timeIntervalInSeconds {
+        case 0..<oneMinute: return "방금 전"
+        case oneMinute..<oneHour: return "\(timeIntervalInSeconds/oneMinute)분 전"
+        case oneHour..<oneDay: return "\(timeIntervalInSeconds/oneHour)시간 전"
+        case oneDay..<oneWeek: return "\(timeIntervalInSeconds/oneDay)일 전"
+        case oneWeek...: return "\(timeIntervalInSeconds/oneWeek)주 전"
+        default: return "알수없음"
         }
-        
-        return "?초 전"
     }
     
 }

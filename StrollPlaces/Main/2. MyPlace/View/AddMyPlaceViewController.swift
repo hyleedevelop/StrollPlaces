@@ -275,7 +275,7 @@ class AddMyPlaceViewController: UIViewController {
                     rating: self.starRating.rating
                 ) {
                     // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
-                    self.userDefaults.set(true, forKey: "myPlaceExist")
+                    UserDefaults.standard.set(true, forKey: K.UserDefaults.isMyPlaceExist)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         // loading indicator 종료

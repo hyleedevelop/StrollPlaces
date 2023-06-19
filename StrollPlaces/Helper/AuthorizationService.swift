@@ -153,10 +153,10 @@ final class AuthorizationService {
     //MARK: - Membership withdrawal
     
     // Rx
-    let isAppleTokenRevoked = PublishSubject<Bool>()
+    let isRefreshTokenRevoked = PublishSubject<Bool>()
     
     // Receive Apple refresh token.
-    func getAppleRefreshToken(code: String) {
+    func requestAppleRefreshToken(code: String) {
         guard let secret = UserDefaults.standard.string(forKey: K.UserDefaults.clientSecret) else { return }
         
         let url = "https://appleid.apple.com/auth/token?" +
@@ -192,7 +192,7 @@ final class AuthorizationService {
     }
     
     // Revoke Apple refresh token.
-    func revokeAppleToken(clientSecret: String, token: String) {
+    func revokeRefreshToken(clientSecret: String, token: String) {
         let url = "https://appleid.apple.com/auth/revoke?" +
                   "client_id=\(K.App.appBundleID)&" +
                   "client_secret=\(clientSecret)&" +
@@ -212,7 +212,7 @@ final class AuthorizationService {
             
             if statusCode == 200 {
                 print("Apple token has successfully revoked.")
-                self.isAppleTokenRevoked.onNext(true)
+                self.isRefreshTokenRevoked.onNext(true)
             }
         }
     }

@@ -12,7 +12,7 @@ import RealmSwift
 
 //MARK: - 나만의 산책길 화면에 대한 ViewModel
 
-final class MyPlaceViewModel {
+final class MyPlaceViewModel: CommonViewModel {
     
     //MARK: - property
     
@@ -20,15 +20,16 @@ final class MyPlaceViewModel {
     private var sortMenuItems = [UIAction]()
     private var moreMenuItems = [UIAction]()
     private let userDefaults = UserDefaults.standard
-    var isRemoveButtonHidden = BehaviorSubject<Bool>(value: true)
     
     //MARK: - 생성자 관련
     
-    init() {
+    override init() {
+        super.init()
+        
         // TrackData와 TrackPoint의 인스턴스 생성
         let tracks = RealmService.shared.realm.objects(TrackData.self)
         let points = RealmService.shared.realm.objects(TrackPoint.self)
-        let index = self.userDefaults.integer(forKey: "selectedContextMenu")
+        let index = UserDefaults.standard.integer(forKey: K.UserDefaults.selectedContextMenu)
         
         // MyPlaceItemViewModel 초기화
         self.itemViewModel = MyPlaceItemViewModel(track: tracks, point: points)
@@ -115,16 +116,62 @@ final class MyPlaceViewModel {
         return self.itemViewModel.trackData.count
     }
     
-    func sortedTrackList(index: Int) -> TrackData {
+    // 특정 기준에 따라 정렬시킨 나만의 산책길 데이터
+    private func sortedTrackList(index: Int) -> TrackData {
         return self.itemViewModel.sortedTrackData[index]
     }
     
+    // 정렬된 산책길 데이터의 별점 값
+    func rating(index: Int) -> Double {
+        return self.itemViewModel.sortedTrackData[index].rating
+    }
+    
+    // 정렬된 산책길 데이터의 대표 이미지 소스
+    func mainImage(index: Int) -> UIImage? {
+        let imageName = self.itemViewModel.sortedTrackData[index]._id.stringValue
+        return self.loadImageFromDocumentDirectory(imageName: imageName)
+    }
+    
+    // 정렬된 산책길 데이터의 제목
+    func name(index: Int) -> String {
+        if self.itemViewModel.sortedTrackData[index].name.isEmpty {
+            return "제목없음"
+        } else {
+            return self.itemViewModel.sortedTrackData[index].name
+        }
+    }
+    
+    // 정렬된 산책길 데이터의 소요시간
+    func time(index: Int) -> String {
+        return self.itemViewModel.sortedTrackData[index].time
+    }
+    
+    // 정렬된 산책길 데이터의 거리
+    func distance(index: Int) -> String {
+        let distance = self.itemViewModel.sortedTrackData[index].distance
+        if distance < 1000.0 {
+            return String(format: "%.1f", distance) + "m"
+        } else {
+            return String(format: "%.2f", distance/1000.0) + "km"
+        }
+    }
+    
+    // 정렬된 산책길 데이터의 등록 날짜
+    func date(index: Int) -> String {
+        guard let date = self.itemViewModel.sortedTrackData[index].date.toDate(mode: .myPlace) else {
+            return "알수없음"
+        }
+        
+        return Date().getTimeIntervalString(since: date)
+    }
+    
+    // 정렬된 산책길 데이터의 ID
     func sortedID(index: Int) -> ObjectId {
         return self.itemViewModel.sortedTrackData[index]._id
     }
     
-    var realmDB: Results<TrackData> {
-        return self.itemViewModel.trackData
+    func indexOfRealm(id: ObjectId) -> Int? {
+        return self.itemViewModel.trackData.firstIndex(where: { $0._id == id })
     }
     
     //MARK: - Realm DB 관련
@@ -205,7 +252,7 @@ final class MyPlaceItemViewModel {
     lazy var shouldShowAnimationView = BehaviorSubject<Bool>(
         value: !self.userDefaults.bool(forKey: "myPlaceExist")
     )
-    let shouldReloadCollectionView = BehaviorSubject<Bool>(value: false)
+    let collectionViewShouldBeReloaded = BehaviorSubject<Bool>(value: false)
     var trackData: Results<TrackData> {
         didSet {
             // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
@@ -216,12 +263,12 @@ final class MyPlaceItemViewModel {
                 self.userDefaults.set(false, forKey: "myPlaceExist")
                 self.shouldShowAnimationView.onNext(true)
             }
-            self.shouldReloadCollectionView.onNext(true)
+            self.collectionViewShouldBeReloaded.onNext(true)
         }
     }
     var sortedTrackData: Results<TrackData>! {
         didSet {
-            self.shouldReloadCollectionView.onNext(true)
+            self.collectionViewShouldBeReloaded.onNext(true)
         }
     }
     var trackpoint: Results<TrackPoint>

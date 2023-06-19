@@ -72,8 +72,8 @@ final class LoginViewController: UIViewController {
             $0.centerX.centerY.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signupStatus)
-        let isUserAlreadyLoggedIn = UserDefaults.standard.bool(forKey: K.UserDefaults.loginStatus)
+        let isUserAlreadySignedUp = UserDefaults.standard.bool(forKey: K.UserDefaults.signUpStatus)
+        let isUserAlreadyLoggedIn = UserDefaults.standard.bool(forKey: K.UserDefaults.signInStatus)
         
         print("isUserAlreadySignedUp: \(isUserAlreadySignedUp)")
         print("isUserAlreadyLoggedIn: \(isUserAlreadyLoggedIn)")
@@ -232,7 +232,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                         
                         // The Apple ID credential is valid. Show Home UI Here
                         print("credentialState: authorized")
-                        UserDefaults.standard.setValue(true, forKey: K.UserDefaults.loginStatus)
+                        UserDefaults.standard.setValue(true, forKey: K.UserDefaults.signInStatus)
                     
                     case .revoked:
                         // The Apple ID credential is revoked. Show SignIn UI Here.

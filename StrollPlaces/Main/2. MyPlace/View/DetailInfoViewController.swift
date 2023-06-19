@@ -35,8 +35,6 @@ final class DetailInfoViewController: UIViewController {
     //MARK: - normal property
     
     var viewModel: DetailInfoViewModel!
-    private lazy var labelArray = [self.timeLabel, self.distanceLabel, self.ratingLabel,
-                                   self.explanationLabel, self.featureLabel, self.dateLabel]
     var cellIndex: Int = 0
     
     //MARK: - life cycle
@@ -99,38 +97,36 @@ final class DetailInfoViewController: UIViewController {
     
     // Label 설정
     private func setupLabel() {
-        // hero animation
         self.hero.isEnabled = true
         self.nameLabel.hero.id = "nameLabel\(self.cellIndex)"
         self.timeLabel.hero.id = "timeLabel\(self.cellIndex)"
         self.distanceLabel.hero.id = "distanceLabel\(self.cellIndex)"
         
-        // UI binding
-        self.viewModel.nameRelay.asDriver(onErrorJustReturn: "nameRealy error")
+        self.viewModel.nameRelay.asDriver(onErrorJustReturn: "")
             .drive(self.nameLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "dateRelay error")
+        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "")
             .drive(self.dateLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "timeRealy error")
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "")
             .drive(self.timeLabel.rx.text)
             .disposed(by: rx.disposeBag)
             
-        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "distanceRealy error")
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "")
             .drive(self.distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.explanationRelay.asDriver(onErrorJustReturn: "explanationRelay error")
+        self.viewModel.explanationRelay.asDriver(onErrorJustReturn: "")
             .drive(self.explanationLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.featureRelay.asDriver(onErrorJustReturn: "featureRelay error")
+        self.viewModel.featureRelay.asDriver(onErrorJustReturn: "")
             .drive(self.featureLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.ratingRelay.asDriver(onErrorJustReturn: "levelRelay error")
+        self.viewModel.ratingRelay.asDriver(onErrorJustReturn: "")
             .drive(self.ratingLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
