@@ -109,6 +109,11 @@ final class TrackingViewController: UIViewController {
     
     // label 설정
     private func setupLabel() {
+        // 글자 하나하나가 일정한 간격을 가지도록 monospaced digit 적용
+        self.timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
+        self.distanceLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
+        self.locationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
+        
         self.viewModel.timeRelay.asDriver(onErrorJustReturn: "알수없음")
             .drive(self.timeLabel.rx.text)
             .disposed(by: rx.disposeBag)
@@ -120,11 +125,6 @@ final class TrackingViewController: UIViewController {
         self.viewModel.locationRelay.asDriver(onErrorJustReturn: "알수없음")
             .drive(self.locationLabel.rx.text)
             .disposed(by: rx.disposeBag)
-        
-        // 글자 하나하나가 일정한 간격을 가지도록 monospaced digit 적용
-        self.timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
-        self.distanceLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
-        self.locationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
     }
     
     // 산책길 등록 시작/종료 버튼 설정
@@ -137,8 +137,6 @@ final class TrackingViewController: UIViewController {
         self.timerButton.changeAttributes(buttonTitle: "산책길 경로 생성", interaction: true)
         
         self.timerButton.rx.controlEvent(.touchUpInside).asObservable()
-            //.skip(until: self.isCountdownOngoing)
-            .debug("타이머 버튼 클릭")
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
@@ -216,7 +214,6 @@ final class TrackingViewController: UIViewController {
         }
             
         animatedCountdownView.countdownValue
-            .debug("카운트다운")
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { count in
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -278,15 +275,13 @@ final class TrackingViewController: UIViewController {
             // Realm DB에 track data 저장
             self.viewModel.createTrackData()
                     
-            self.viewModel.goToNextViewController
-                .debug("AddMyPlace 화면으로 이동")
-                .subscribe(onNext: { isTrue in
-                    if isTrue {
-                        guard let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddMyPlaceViewController") as? AddMyPlaceViewController else { return }
-                        self.navigationController?.pushViewController(nextViewController, animated: true)
-                        
-                        completion(true)  // okAction에 대한 콜백
-                    }
+            self.viewModel.shouldNextViewControllerAppear
+                .filter { $0 == true }
+                .subscribe(onNext: { _ in
+                    guard let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: K.Identifier.addMyPlaceVC) as? AddMyPlaceViewController else { return }
+                    self.navigationController?.pushViewController(nextViewController, animated: true)
+                    
+                    completion(true)  // okAction에 대한 콜백
                 })
                 .disposed(by: rx.disposeBag)
         }

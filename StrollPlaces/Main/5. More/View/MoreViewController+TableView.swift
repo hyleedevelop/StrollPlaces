@@ -44,7 +44,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     
     // TableViewCell에 표출할 내용
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MoreCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.Identifier.moreCell, for: indexPath)
                 as? MoreTableViewCell else { fatalError("Unable to find MoreCell") }
         
         cell.titleLabel.text = self.viewModel.cellItemTitle(indexPath: indexPath)
@@ -55,20 +55,20 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch MoreCellSection(rawValue: indexPath.section) {
         case .appSettings:
-            if indexPath.row == 0 {
-                cell.descriptionLabel.text = self.viewModel.labelTextForMapType
-            }
-            if indexPath.row == 1 {
-                cell.descriptionLabel.text = self.viewModel.labelTextForMapRadius
+            switch indexPath.row {
+            case 0: cell.descriptionLabel.text = self.viewModel.labelTextForMapType
+            case 1: cell.descriptionLabel.text = self.viewModel.labelTextForMapRadius
+            default: break
             }
             
         case .feedback:
             break
             
         case .aboutTheApp:
-            if indexPath.row == 3 {
-                cell.descriptionLabel.text =
+            switch indexPath.row {
+            case 3: cell.descriptionLabel.text =
                 "\(self.viewModel.appVersion) (\(self.viewModel.buildNumber))"
+            default: break
             }
             
         case .none:
@@ -95,30 +95,22 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         case .feedback:
-            if indexPath.row == 0 {
-                self.viewModel.showSafariView(
-                    viewController: self, urlString: K.More.writeReviewURL
-                )
-            }
-            if indexPath.row == 1 {
-                self.viewModel.contactMenuTapped(viewController: self)
+            switch indexPath.row {
+            case 0: self.viewModel.showSafariView(viewController: self,
+                                                  urlString: K.More.writeReviewURL)
+            case 1: self.viewModel.contactMenuTapped(viewController: self)
+            default: break
             }
             
         case .aboutTheApp:
-            if indexPath.row == 0 {
-                self.viewModel.showSafariView(
-                    viewController: self, urlString: K.More.helpURL
-                )
-            }
-            if indexPath.row == 1 {
-                self.viewModel.showSafariView(
-                    viewController: self, urlString: K.More.privacyPolicyURL
-                )
-            }
-            if indexPath.row == 2 {
-                self.viewModel.showSafariView(
-                    viewController: self, urlString: K.More.termsAndConditionsURL
-                )
+            switch indexPath.row {
+            case 0: self.viewModel.showSafariView(viewController: self,
+                                                  urlString: K.More.helpURL)
+            case 1: self.viewModel.showSafariView(viewController: self,
+                                                  urlString: K.More.privacyPolicyURL)
+            case 2: self.viewModel.showSafariView(viewController: self,
+                                                  urlString: K.More.termsAndConditionsURL)
+            default: break
             }
             
         case .none:

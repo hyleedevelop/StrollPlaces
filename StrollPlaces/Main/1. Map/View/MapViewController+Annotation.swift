@@ -80,7 +80,7 @@ extension MapViewController: MKMapViewDelegate {
             return annotationView
             
         } else if annotation is MKUserLocation {
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "UserLocationAnnotationView")
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: K.Identifier.userLocationAnnotationView)
             return annotationView
             
         } else {
@@ -140,11 +140,14 @@ extension MapViewController: MKMapViewDelegate {
             
             mapView.setVisibleMapRect(zoomRect, animated: true)
             
-//        } else if view.annotation as! String == "My Location" {
+        }
+        
+//        else if view.annotation as! String == "My Location" {
 //            print("현재 내 위치")
-//
+//        }
+        
         // 핀을 선택했을 때
-        } else if let pin = annotation as? Annotation {
+        else if let pin = annotation as? Annotation {
             self.currentPinNumber = pin.index ?? 0
             
             let latitude = annotation.coordinate.latitude
@@ -175,16 +178,20 @@ extension MapViewController: MKMapViewDelegate {
             MapService.shared.fetchRoute(
                 mapView: self.mapView, pickupCoordinate: startLocation,
                 destinationCoordinate: endLocation,
-                draw: false
-            ) { distance, time in
-                placeInfoViewController.viewModel.distance = distance
-                placeInfoViewController.viewModel.time = time
-            }
+                draw: false)
+            
+            MapService.shared.expectedTime.asObservable()
+                .bind(onNext: { placeInfoViewController.viewModel.time = $0 })
+                .disposed(by: rx.disposeBag)
+            
+            MapService.shared.expectedDistance.asObservable()
+                .bind(onNext: { placeInfoViewController.viewModel.distance = $0 })
+                .disposed(by: rx.disposeBag)
             
             // 파란색 점(사용자의 위치) annotation을 클릭한 것이 아니라면 상세정보 창 표출
             if annotation.title != "My Location" {
                 placeInfoViewController.modalPresentationStyle = .overCurrentContext
-                self.present(placeInfoViewController, animated: false, completion: nil)  // ⭐️
+                self.present(placeInfoViewController, animated: false, completion: nil)
             }
             
             // 기존에 경로를 표시하고 있었다면 제거
@@ -195,33 +202,29 @@ extension MapViewController: MKMapViewDelegate {
             // 경로안내 버튼을 누르면 경로 표시
             placeInfoViewController.navigateButton.rx.controlEvent(.touchUpInside).asObservable()
                 .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
-                .subscribe(
-                    onNext: { [weak self] in
-                        guard let self = self else { return }
-                        DispatchQueue.main.async {
-                            self.activityIndicator.startAnimating()
-                        }
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            MapService.shared.fetchRoute(
-                                mapView: self.mapView,
-                                pickupCoordinate: startLocation,
-                                destinationCoordinate: endLocation,
-                                draw: true
-                            ) { _, _ in
-                                DispatchQueue.main.async {
-                                    self.activityIndicator.stopAnimating()
-                                }
-                                SPIndicatorService.shared.showSuccessIndicator(title: "탐색 완료")
-                                placeInfoViewController.animateDismissView()
-                            }
-                        }
-                    }, onError: { _ in
-                        self.activityIndicator.stopAnimating()
-                        SPIndicatorService.shared.showSuccessIndicator(title: "탐색 불가", type: .error)
-                        
-                    }
-                )
+                .subscribe(on: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] in
+                    guard let self = self else { return }
+                    self.activityIndicator.startAnimating()
+                    
+                    MapService.shared.fetchRoute(
+                        mapView: self.mapView,
+                        pickupCoordinate: startLocation,
+                        destinationCoordinate: endLocation,
+                        draw: true
+                    )
+                })
+                .disposed(by: rx.disposeBag)
+            
+            MapService.shared.isRouteLineDrawn.asObservable()
+                .filter { $0 == true }
+                .subscribe(on: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.activityIndicator.stopAnimating()
+                    SPIndicatorService.shared.showSuccessIndicator(title: "탐색 완료")
+                    placeInfoViewController.animateDismissView()
+                })
                 .disposed(by: rx.disposeBag)
             
             // 선택된 annotation 해제

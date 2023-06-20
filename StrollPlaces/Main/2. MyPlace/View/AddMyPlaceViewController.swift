@@ -56,7 +56,6 @@ class AddMyPlaceViewController: UIViewController {
     //MARK: - normal property
     
     private let viewModel = AddMyPlaceViewModel()
-    private let userDefaults = UserDefaults.standard
     private var locationManager: CLLocationManager!
     
     //MARK: - life cycle
@@ -98,7 +97,7 @@ class AddMyPlaceViewController: UIViewController {
         self.mapView.layer.borderWidth = 0.5
         
         // 각 지점들을 기록하고 그 지점들 사이를 선으로 연결
-        let points: [CLLocationCoordinate2D] = self.viewModel.getTrackPointForPolyline()
+        let points: [CLLocationCoordinate2D] = self.viewModel.trackPointForPolyline
         let routeLine = MKPolyline(coordinates: points, count: points.count)
         
         // 지도에 선 나타내기(addOverlay 시 아래의 rendererFor 함수가 호출됨)
@@ -108,7 +107,7 @@ class AddMyPlaceViewController: UIViewController {
         self.mapView.addAnnotation(self.viewModel.endAnnotation)
         
         // 지도를 나타낼 영역 설정
-        guard let deltaCoordinate = self.viewModel.getDeltaCoordinate() else { return }
+        guard let deltaCoordinate = self.viewModel.deltaCoordinate else { return }
 
         var rect = MKCoordinateRegion(routeLine.boundingMapRect)
         rect.span.latitudeDelta = deltaCoordinate.0
@@ -149,24 +148,24 @@ class AddMyPlaceViewController: UIViewController {
     
     // Realm DB 설정
     private func setupLabel() {
-        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "dateRealy error")
+        self.viewModel.dateRelay.asDriver(onErrorJustReturn: "")
             .drive(self.dateLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "timeRealy error")
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "")
             .drive(self.timeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "distanceRelay error")
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "")
             .drive(self.distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
     
     // 각종 입력 자료에 대한 반응 설정
     private func setupInputResponse() {
-        let nameObservable = self.nameField.rx.text.orEmpty
-        let explanationObservable = self.explanationField.rx.text.orEmpty
-        let featureObservable = self.featureField.rx.text.orEmpty
+        let nameObservable = self.nameField.rx.text.orEmpty.asObservable()
+        let explanationObservable = self.explanationField.rx.text.orEmpty.asObservable()
+        let featureObservable = self.featureField.rx.text.orEmpty.asObservable()
         let ratingObservable = BehaviorSubject<Double>(value: self.starRating.rating)
         
         // 키보드 종류 설정
@@ -177,8 +176,7 @@ class AddMyPlaceViewController: UIViewController {
         
         nameObservable
             .skip(1)
-            .asSignal(onErrorJustReturn: "없음")
-            .emit(onNext: { [weak self] in
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 let str = self.viewModel.limitTextFieldLength(
                     text: $0, textField: self.nameField, isNameField: true
@@ -192,8 +190,7 @@ class AddMyPlaceViewController: UIViewController {
         
         explanationObservable
             .skip(1)
-            .asSignal(onErrorJustReturn: "없음")
-            .emit(onNext: { [weak self] in
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 let str = self.viewModel.limitTextFieldLength(
                     text: $0, textField: self.explanationField, isNameField: false
@@ -207,8 +204,7 @@ class AddMyPlaceViewController: UIViewController {
         
         featureObservable
             .skip(1)
-            .asSignal(onErrorJustReturn: "없음")
-            .emit(onNext: { [weak self] in
+            .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 let str = self.viewModel.limitTextFieldLength(
                     text: $0, textField: self.featureField, isNameField: false
@@ -258,41 +254,42 @@ class AddMyPlaceViewController: UIViewController {
         self.saveButton.layer.cornerRadius = 5
         self.saveButton.clipsToBounds = true
         
+        // 버튼을 누른 경우
         self.saveButton.rx.controlEvent(.touchUpInside).asObservable()
+            .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
                 // loading indicator 시작
-                DispatchQueue.main.async {
-                    self.activityIndicator.startAnimating()
-                }
+                self.activityIndicator.startAnimating()
                 
                 // DB 업데이트
                 self.viewModel.updateTrackData(
-                    name: self.nameField.text!,
-                    explanation: self.explanationField.text!,
-                    feature: self.featureField.text!,
+                    name: self.nameField.text ?? "",
+                    explanation: self.explanationField.text ?? "",
+                    feature: self.featureField.text ?? "",
                     rating: self.starRating.rating
-                ) {
-                    // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
-                    UserDefaults.standard.set(true, forKey: K.UserDefaults.isMyPlaceExist)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        // loading indicator 종료
-                        DispatchQueue.main.async {
-                            self.activityIndicator.stopAnimating()
-                        }
-                        
-                        // Tab Bar 뱃지의 숫자 업데이트 알리기
-                        NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
-                        
-                        // 완료 메세지 표시
-                        SPIndicatorService.shared.showSuccessIndicator(title: "생성 완료")
-                        
-                        // 나만의 산책길 탭 메인화면으로 돌아가기
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                }
+                )
+            })
+            .disposed(by: rx.disposeBag)
+        
+        // DB 업데이트가 완료된 경우
+        self.viewModel.isTrackDataUpdated.asObservable()
+            .filter { $0 == true }
+            .delay(.milliseconds(700), scheduler: MainScheduler.instance)
+            .subscribe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
+                self.viewModel.isMyPlaceExist = true
+                // loading indicator 종료
+                self.activityIndicator.stopAnimating()
+                // Tab Bar 뱃지의 숫자 업데이트 알리기
+                NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
+                // 완료 메세지 표시
+                SPIndicatorService.shared.showSuccessIndicator(title: "생성 완료")
+                // 나만의 산책길 탭 메인화면으로 돌아가기
+                self.navigationController?.popToRootViewController(animated: true)
             })
             .disposed(by: rx.disposeBag)
         

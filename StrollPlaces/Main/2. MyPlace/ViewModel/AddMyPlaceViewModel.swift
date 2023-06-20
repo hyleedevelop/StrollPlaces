@@ -14,25 +14,16 @@ import CoreLocation
 import MapKit
 import SkyFloatingLabelTextField
 
-final class AddMyPlaceViewModel {
+final class AddMyPlaceViewModel: CommonViewModel {
     
-    //MARK: - 속성 선언
-    
-    var trackData = RealmService.shared.realm.objects(TrackData.self)
-    private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
-    private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
-    private var points = [CLLocationCoordinate2D]()
-    
-    var dateRelay = BehaviorRelay<String>(value: "알수없음")
-    var timeRelay = BehaviorRelay<String>(value: "알수없음")
-    var distanceRelay = BehaviorRelay<String>(value: "알수없음")
+   
     
     //MARK: - 생성자 관련
     
     let startAnnotation: Artwork!
     let endAnnotation: Artwork!
     
-    init() {
+    override init() {
         self.startAnnotation = Artwork(
             title: "출발",
             coordinate: CLLocationCoordinate2D(
@@ -51,6 +42,19 @@ final class AddMyPlaceViewModel {
     }
     
     //MARK: - Realm DB 관련
+    
+    // Rx 관련 속성
+    let dateRelay = BehaviorRelay<String>(value: "알수없음")
+    let timeRelay = BehaviorRelay<String>(value: "알수없음")
+    let distanceRelay = BehaviorRelay<String>(value: "알수없음")
+    let isTrackDataUpdated = BehaviorSubject<Bool>(value: false)
+    
+    // DB 관련 속성
+    
+    private var trackData = RealmService.shared.realm.objects(TrackData.self)
+    private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
+    private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
+    private var points = [CLLocationCoordinate2D]()
     
     // Realm DB에 임시저장 해놓은 경로 데이터를 받아 relay에서 요소 방출
     func getTrackDataFromRealmDB() {
@@ -82,8 +86,7 @@ final class AddMyPlaceViewModel {
     }
     
     // Realm DB에 데이터 추가하기
-    func updateTrackData(name: String, explanation: String, feature: String, rating: Double,
-                         completion: @escaping () -> Void) {
+    func updateTrackData(name: String, explanation: String, feature: String, rating: Double) {
         // TrackData의 id, name, explanation, feature 업데이트
         let realm = try! Realm()
         try! realm.write {
@@ -106,7 +109,8 @@ final class AddMyPlaceViewModel {
                 pointDB[index].id = self.primaryKey!.stringValue
             }
         }
-        completion()
+        
+        isTrackDataUpdated.onNext(true)
     }
     
     // 임시로 저장했던 경로 데이터 지우기
@@ -149,7 +153,7 @@ final class AddMyPlaceViewModel {
     //MARK: - 지도 관련
     
     // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
-    func getTrackPointForPolyline() -> [CLLocationCoordinate2D] {
+    var trackPointForPolyline: [CLLocationCoordinate2D] {
         // Realm DB에서 자료 읽기 및 빈 배열 생성
         let trackPoint = RealmService.shared.realm.objects(TrackData.self).last?.points
         
@@ -165,7 +169,7 @@ final class AddMyPlaceViewModel {
     }
     
     // 경로를 보여줄 영역 정보 가져오기
-    func getDeltaCoordinate() -> (Double, Double)? {
+    var deltaCoordinate: (Double, Double)? {
         var latitudeArray = [Double]()
         var longitudeArray = [Double]()
         
@@ -214,7 +218,7 @@ final class AddMyPlaceViewModel {
                 mapImage.draw(at: .zero)
                 
                 // 좌표가 2개 이상인 경우에만 경로 그리기
-                let coordinates = self.getTrackPointForPolyline()
+                let coordinates = self.trackPointForPolyline
                 guard coordinates.count > 1 else { return }
                 
                 // [CLLocationCoordinate2D] -> [CGPoint]

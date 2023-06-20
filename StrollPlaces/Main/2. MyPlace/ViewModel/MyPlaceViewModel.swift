@@ -38,7 +38,6 @@ final class MyPlaceViewModel: CommonViewModel {
         self.initializeContextMenuItems(stateOn: index)
         
         // 나만의 산책길 목록 정렬 기준 기본값 (등록 날짜 오래된 것부터 나열)
-        
         self.itemViewModel.getSortedTrackData(
             mode: MyPlaceSorting(rawValue: index) ?? .ascendingByDate
         )

@@ -116,7 +116,6 @@
 		07ED15A529E979A700A158A4 /* Pods_StrollPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BB15C57B4A8E2861E602A1 /* Pods_StrollPlaces.framework */; };
 		07F4970B2A30172D00630082 /* AuthKey_AXVMC7CMQB.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 07F4970A2A30172D00630082 /* AuthKey_AXVMC7CMQB.p8 */; };
 		07F4970D2A30188E00630082 /* AppleTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F4970C2A30188E00630082 /* AppleTokenResponse.swift */; };
-		07F4970F2A3026E100630082 /* MoreViewController+AppleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F4970E2A3026E100630082 /* MoreViewController+AppleLogin.swift */; };
 		07FD50C12A0A064F00FFE3EC /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */; };
 		07FD50C32A0A0B3200FFE3EC /* OnboardingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */; };
 		07FD50C52A0A0B8B00FFE3EC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */; };
@@ -278,7 +277,6 @@
 		07E8A87B2A0E772000DE6D9F /* SouthKoreaRecreationForestData_qc_20230512.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SouthKoreaRecreationForestData_qc_20230512.csv; sourceTree = "<group>"; };
 		07F4970A2A30172D00630082 /* AuthKey_AXVMC7CMQB.p8 */ = {isa = PBXFileReference; lastKnownFileType = text; name = AuthKey_AXVMC7CMQB.p8; path = resources/Key/AuthKey_AXVMC7CMQB.p8; sourceTree = SOURCE_ROOT; };
 		07F4970C2A30188E00630082 /* AppleTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleTokenResponse.swift; sourceTree = "<group>"; };
-		07F4970E2A3026E100630082 /* MoreViewController+AppleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoreViewController+AppleLogin.swift"; sourceTree = "<group>"; };
 		07FD50C02A0A064F00FFE3EC /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		07FD50C22A0A0B3200FFE3EC /* OnboardingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingData.swift; sourceTree = "<group>"; };
 		07FD50C42A0A0B8B00FFE3EC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -573,7 +571,6 @@
 				07CDB0A529CF11BD00F139BB /* MoreTab.storyboard */,
 				07B2E3E529D156D300210207 /* MoreTableViewCell.xib */,
 				0799CCCD29BF5980006AB70D /* MoreViewController.swift */,
-				07F4970E2A3026E100630082 /* MoreViewController+AppleLogin.swift */,
 				0718B96329D0940E00D5CDDE /* MoreViewController+TableView.swift */,
 				07B2E3E429D156D300210207 /* MoreTableViewCell.swift */,
 			);
@@ -1164,7 +1161,6 @@
 				07AF72C12A28F4ED008EB64D /* MyPlaceViewController.swift in Sources */,
 				077C1BEC29CDEDC100DA3218 /* Network.swift in Sources */,
 				07866FA229E7E49A0001F1EF /* TrackingAttributes.swift in Sources */,
-				07F4970F2A3026E100630082 /* MoreViewController+AppleLogin.swift in Sources */,
 				0799CC9829BF584B006AB70D /* SceneDelegate.swift in Sources */,
 				07B1DEBB2A00FC5600A27F9F /* DetailInfoViewModel.swift in Sources */,
 				07F4970D2A30188E00630082 /* AppleTokenResponse.swift in Sources */,

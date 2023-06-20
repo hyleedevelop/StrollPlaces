@@ -13,67 +13,27 @@ import RealmSwift
 import CoreLocation
 import MapKit
 
-final class TrackingViewModel {
+final class TrackingViewModel: CommonViewModel {
     
-    //MARK: - 속성 선언
+    //MARK: - 생성자 관련
     
+    override init() {
+        
+    }
+    
+    //MARK: - 산책길 생성 관련
+    
+    // 시간 및 타이머 속성
     private var hours: Int = 0
     private var minutes: Int = 0
     private var seconds: Int = 0
     private var timer: Timer? = nil
     
-    var trackData = TrackData()
-    var trackPoint = TrackPoint()
-    
+    // 산책길 생성 화면의 UI 바인딩
+    let timeRelay = BehaviorRelay<String>(value: "00:00:00")
+    let distanceRelay = BehaviorRelay<String>(value: "0.0m")
+    let locationRelay = BehaviorRelay<String>(value: "-")
     var timeString: String = ""
-    var goToNextViewController = BehaviorSubject<Bool>(value: false)
-    
-    // 경로 포인트 갯수 카운트
-    private var count: Int = 0
-    
-    // 경로 거리 누적값 (m)
-    private var distance: Double = 0.0 {
-        didSet {
-            var distanceString: String!
-            
-            if (..<1000) ~= self.distance {
-                distanceString = String(format: "%.1f", self.distance) + "m"
-                self.distanceRelay.accept(distanceString)
-            } else {
-                distanceString = String(format: "%.2f", self.distance/1000.0) + "km"
-                self.distanceRelay.accept(distanceString)
-            }
-            
-            // live widget에 표출할 시간 문자열 전달 및 업데이트
-            LiveActivityService.shared.distanceString = distanceString
-        }
-    }
-    
-    // 형식을 갖춘 날짜 문자열
-    var dateString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분 ss초"
-        return dateFormatter.string(from: Date())
-    }
-    
-    // 경로 거리 계산에 사용할 변수
-    private var oldLatitude: Double = 0.0
-    private var oldLongitude: Double = 0.0
-    private var newLatitude: Double = 0.0
-    private var newLongitude: Double = 0.0
-    
-    // UI 바인딩을 위한 Relay
-    var timeRelay = BehaviorRelay<String>(value: "00:00:00")
-    var distanceRelay = BehaviorRelay<String>(value: "0.0m")
-    var locationRelay = BehaviorRelay<String>(value: "-")
-    
-    //MARK: - 생성자 관련
-    
-    init() {
-        
-    }
-    
-    //MARK: - 타이머 관련
     
     // 타이머 시작
     func startTimer() {
@@ -131,6 +91,41 @@ final class TrackingViewModel {
     
     //MARK: - Realm DB 관련
     
+    // Realm 객체
+    private var trackData = TrackData()
+    private var trackPoint = TrackPoint()
+    
+    // 다음 화면으로 넘어가기 허용 여부
+    let shouldNextViewControllerAppear = BehaviorSubject<Bool>(value: false)
+    
+    // 경로 포인트 갯수 카운트
+    private var count: Int = 0
+    
+    // 경로 거리 누적값 (m)
+    private var distance: Double = 0.0 {
+        didSet {
+            var distanceString: String!
+            
+            if (..<1000) ~= self.distance {
+                distanceString = String(format: "%.1f", self.distance) + "m"
+                self.distanceRelay.accept(distanceString)
+            } else {
+                distanceString = String(format: "%.2f", self.distance/1000.0) + "km"
+                self.distanceRelay.accept(distanceString)
+            }
+            
+            // live widget에 표출할 시간 문자열 전달 및 업데이트
+            LiveActivityService.shared.distanceString = distanceString
+        }
+    }
+    
+    // 형식을 갖춘 날짜 문자열
+    var dateString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분 ss초"
+        return dateFormatter.string(from: Date())
+    }
+    
     // Realm DB에 경로 데이터 저장하기
     func createTrackData() {
         let dataToAppend = TrackData(
@@ -145,7 +140,7 @@ final class TrackingViewModel {
         
         RealmService.shared.create(dataToAppend)
         
-        self.goToNextViewController.onNext(true)
+        self.shouldNextViewControllerAppear.onNext(true)
     }
     
     // 경로 데이터 배열 초기화
@@ -156,6 +151,12 @@ final class TrackingViewModel {
     }
     
     //MARK: - 지도 관련
+    
+    // 경로 거리 계산에 사용할 변수
+    private var oldLatitude: Double = 0.0
+    private var oldLongitude: Double = 0.0
+    private var newLatitude: Double = 0.0
+    private var newLongitude: Double = 0.0
     
     // 경로 추가 및 이동거리(현재 지점 <-> 이전 지점) 누적 계산
     func appendTrackPoint(currentLatitude: Double,

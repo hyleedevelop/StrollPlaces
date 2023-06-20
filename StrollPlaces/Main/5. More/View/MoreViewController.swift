@@ -70,8 +70,8 @@ final class MoreViewController: UIViewController {
     private func setupTableView() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.tableView.register(UINib(nibName: "MoreTableViewCell", bundle: nil),
-                                forCellReuseIdentifier: "MoreCell")
+        self.tableView.register(UINib(nibName: K.Identifier.moreCell, bundle: nil),
+                                forCellReuseIdentifier: K.Identifier.moreCell)
         self.tableView.backgroundColor = UIColor.white
         self.tableView.separatorStyle = .none
         //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
@@ -104,7 +104,7 @@ final class MoreViewController: UIViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.viewModel.updateAccountStatus(signUp: true, signIn: false)
-                self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
+                self.performSegue(withIdentifier: K.Identifier.toLoginViewController, sender: self)
             })
             .disposed(by: rx.disposeBag)
     }
@@ -182,7 +182,7 @@ final class MoreViewController: UIViewController {
     
     // If login process has successfully done, let's go to the HomeViewController.
     private func goToLoginViewController() {
-        self.performSegue(withIdentifier: "ToLoginViewController", sender: self)
+        self.performSegue(withIdentifier: K.Identifier.toLoginViewController, sender: self)
     }
 
 }

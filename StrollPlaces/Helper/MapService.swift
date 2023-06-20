@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 import MapKit
 import CoreLocation
 
@@ -13,6 +14,10 @@ final class MapService {
     
     static let shared = MapService()
     private init() {}
+    
+    let isRouteLineDrawn = BehaviorSubject<Bool>(value: false)
+    let expectedDistance = PublishSubject<Double>()
+    let expectedTime = PublishSubject<Double>()
     
     // MKOverlayRenderer 생성
     func getOverlayRenderer(mapView: MKMapView, overlay: MKOverlay) -> MKOverlayRenderer {
@@ -40,13 +45,7 @@ final class MapService {
     }
     
     // 지도에 경로 표시하기
-    func fetchRoute(
-        mapView: MKMapView,
-        pickupCoordinate: CLLocationCoordinate2D,
-        destinationCoordinate: CLLocationCoordinate2D,
-        draw: Bool,
-        completion: @escaping ((Double, Double) -> Void)
-    ) {
+    func fetchRoute(mapView: MKMapView, pickupCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, draw: Bool) {
         let request = MKDirections.Request()
         request.source = MKMapItem(
             placemark: MKPlacemark(coordinate: pickupCoordinate, addressDictionary: nil)
@@ -75,9 +74,11 @@ final class MapService {
                     
                     // 경로 그리기
                     mapView.addOverlay(route.polyline)
+                    self.isRouteLineDrawn.onNext(true)
+                } else {
+                    self.expectedDistance.onNext(route.distance)
+                    self.expectedTime.onNext(route.expectedTravelTime)
                 }
-                
-                completion(route.distance, route.expectedTravelTime)
             }
         }
     }

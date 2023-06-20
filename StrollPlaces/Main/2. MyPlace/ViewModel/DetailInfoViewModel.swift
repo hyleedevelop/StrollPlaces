@@ -13,8 +13,7 @@ import RealmSwift
 import CoreLocation
 import MapKit
 
-// ❌ CommonViewModel을 상속했을 때 생성자 부분에서 생기는 문제 해결하기
-final class DetailInfoViewModel {
+final class DetailInfoViewModel: CommonViewModel {
     
     //MARK: - 속성 선언
     
@@ -32,13 +31,12 @@ final class DetailInfoViewModel {
     
     //MARK: - 생성자 관련
     
-    let startAnnotation: Artwork!
-    let endAnnotation: Artwork!
-    let cellIndex: Int
+    var startAnnotation: Artwork!
+    var endAnnotation: Artwork!
+    var cellIndex: Int
     
     init(cellIndex: Int) {
         self.cellIndex = cellIndex
-        
         self.startAnnotation = Artwork(
             title: "출발",
             coordinate: CLLocationCoordinate2D(
@@ -46,7 +44,6 @@ final class DetailInfoViewModel {
                 longitude: self.trackData[cellIndex].points.first?.longitude ?? 0.0
             )
         )
-        
         self.endAnnotation = Artwork(
             title: "도착",
             coordinate: CLLocationCoordinate2D(
@@ -54,6 +51,8 @@ final class DetailInfoViewModel {
                 longitude: self.trackData[cellIndex].points.last?.longitude ?? 0.0
             )
         )
+        
+        super.init()
         
         self.getTrackDataFromRealmDB(index: cellIndex)
     }
