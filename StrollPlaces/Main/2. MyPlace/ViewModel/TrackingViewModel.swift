@@ -37,9 +37,9 @@ final class TrackingViewModel: CommonViewModel {
     
     // 타이머 시작
     func startTimer() {
-        invalidateTimer()
+        self.invalidateTimer()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             // 시간(시, 분, 초) 계산
             if self.seconds == 59 {
                 self.seconds = 0
@@ -67,12 +67,12 @@ final class TrackingViewModel: CommonViewModel {
     
     // 타이머 일시정지
     func pauseTimer() {
-        invalidateTimer()
+        self.invalidateTimer()
     }
     
     // 타이머 중단
     func stopTimer() {
-        invalidateTimer()
+        self.invalidateTimer()
         
         self.seconds = 0
         self.minutes = 0
@@ -85,8 +85,8 @@ final class TrackingViewModel: CommonViewModel {
     
     // 타이머 초기화
     private func invalidateTimer() {
-        timer?.invalidate()
-        timer = nil
+        self.timer?.invalidate()
+        self.timer = nil
     }
     
     //MARK: - Realm DB 관련
@@ -162,9 +162,11 @@ final class TrackingViewModel: CommonViewModel {
     func appendTrackPoint(currentLatitude: Double,
                           currentLongitude: Double) {
         // 신규 위치 추가
-        let newTrackPoint = TrackPoint(latitude: currentLatitude,
-                                       longitude: currentLongitude,
-                                       id: "")
+        let newTrackPoint = TrackPoint(
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+            id: ""
+        )
         
         self.trackData.appendTrackPoint(point: newTrackPoint)
         
@@ -232,7 +234,8 @@ final class TrackingViewModel: CommonViewModel {
             UIAlertAction(title: "아니요", style: .default)
         )
         alert.addAction(
-            UIAlertAction(title: "네", style: .destructive) { _ in
+            UIAlertAction(title: "네", style: .destructive) { [weak self] _ in
+                guard let self = self else { return }
                 // 타이머 중단
                 self.stopTimer()
                 // 경로 데이터 초기화

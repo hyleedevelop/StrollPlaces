@@ -20,6 +20,7 @@ final class LiveActivityService: ObservableObject {
     var timeString: String = ""
     var distanceString: String = ""
     
+    // Live Activity 활성화
     func activate() {
         guard activity == nil else { return }
         
@@ -38,15 +39,19 @@ final class LiveActivityService: ObservableObject {
         }
     }
     
+    // Live Activity 정보 업데이트
     func update() {
         Task {
-            let state = TrackingAttributes.TrackingStatus(time: self.timeString, distance: self.distanceString)
+            let state = TrackingAttributes.TrackingStatus(
+                time: self.timeString, distance: self.distanceString
+            )
             for activity in Activity<TrackingAttributes>.activities {
                 await activity.update(using: state)
             }
         }
     }
     
+    // Live Activity 비활성화
     func deactivate() {
         Task {
             for activity in Activity<TrackingAttributes>.activities {
@@ -56,3 +61,4 @@ final class LiveActivityService: ObservableObject {
     }
 
 }
+

@@ -51,17 +51,14 @@ final class AddMyPlaceViewModel: CommonViewModel {
     
     // DB 관련 속성
     
-    private var trackData = RealmService.shared.realm.objects(TrackData.self)
-    private var pointData = RealmService.shared.realm.objects(TrackPoint.self)
-    private var primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
+    private var trackData = RealmService.shared.trackDataObject
+    private var pointData = RealmService.shared.trackPointObject
+    private var primaryKey = RealmService.shared.trackDataObject.last?._id
     private var points = [CLLocationCoordinate2D]()
     
     // Realm DB에 임시저장 해놓은 경로 데이터를 받아 relay에서 요소 방출
     func getTrackDataFromRealmDB() {
-        //self.primaryKey = RealmService.shared.realm.objects(TrackData.self).last?._id
-        
         var dateString: String {
-            //let date = RealmService.shared.realm.objects(TrackData.self).last?.date ?? Date()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
             return dateFormatter.string(from: Date())
@@ -69,13 +66,13 @@ final class AddMyPlaceViewModel: CommonViewModel {
         self.dateRelay.accept(dateString)
         
         var timeString: String {
-            let time = RealmService.shared.realm.objects(TrackData.self).last?.time ?? "알수없음"
+            let time = RealmService.shared.readLastTrackData?.time ?? "알수없음"
             return time
         }
         self.timeRelay.accept(timeString)
         
         var distanceString: String {
-            let distance = RealmService.shared.realm.objects(TrackData.self).last?.distance ?? 0.0
+            let distance = RealmService.shared.readLastTrackData?.distance ?? 0.0
             if (..<1000) ~= distance {
                 return String(format: "%.1f", distance) + "m"
             } else {
@@ -88,29 +85,9 @@ final class AddMyPlaceViewModel: CommonViewModel {
     // Realm DB에 데이터 추가하기
     func updateTrackData(name: String, explanation: String, feature: String, rating: Double) {
         // TrackData의 id, name, explanation, feature 업데이트
-        let realm = try! Realm()
-        try! realm.write {
-            realm.create(TrackData.self,
-                         value: ["_id": self.primaryKey!,
-                                 "name": name,
-                                 "explanation": explanation,
-                                 "feature": feature,
-                                 "rating": rating]
-                         as [String: Any],
-                         update: .modified)
-        }
-        
-        // TrackPoint의 id 업데이트
-        let rangeEnd = self.pointData.count
-        let rangeStart = rangeEnd - (self.trackData.last?.points.count)!
-        for index in rangeStart..<rangeEnd {
-            let pointDB = realm.objects(TrackPoint.self)
-            try! realm.write {
-                pointDB[index].id = self.primaryKey!.stringValue
-            }
-        }
-        
-        isTrackDataUpdated.onNext(true)
+        RealmService.shared.addTrackData(
+            name: name, explanation: explanation, feature: feature, rating: rating
+        )
     }
     
     // 임시로 저장했던 경로 데이터 지우기
@@ -155,13 +132,12 @@ final class AddMyPlaceViewModel: CommonViewModel {
     // MapView에 이동경로를 표시하기 위해 track point 데이터를 좌표로 변환 후 가져오기
     var trackPointForPolyline: [CLLocationCoordinate2D] {
         // Realm DB에서 자료 읽기 및 빈 배열 생성
-        let trackPoint = RealmService.shared.realm.objects(TrackData.self).last?.points
+        let trackPoint = RealmService.shared.readLastTrackData?.points
         
         // List<TrackPoint> (위도+경도) -> CLLocationCoordinate2D (좌표)
-        guard let tp = trackPoint else { fatalError("could not find track points...") }
-        for index in 0..<tp.count {
-            let coordinate = CLLocationCoordinate2DMake(tp[index].latitude,
-                                                        tp[index].longitude)
+        guard let points = trackPoint else { fatalError("could not find track points...") }
+        for point in points {
+            let coordinate = CLLocationCoordinate2DMake(point.latitude, point.longitude)
             self.points.append(coordinate)
         }
         

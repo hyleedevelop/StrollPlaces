@@ -57,7 +57,7 @@ final class TabBarController: UITabBarController {
     
     // Tab Bar의 배지 업데이트
     private func updateNumberInBadge() {
-        let numberOfTracks = RealmService.shared.realm.objects(TrackData.self).count
+        let numberOfTracks = RealmService.shared.trackDataObject.count
         self.tabBar.items![1].badgeValue = "\(numberOfTracks)"
         self.tabBar.items![1].badgeColor = K.Color.themeGreen
     }

@@ -41,8 +41,8 @@ final class TrackingViewController: UIViewController {
     internal let viewModel = TrackingViewModel()
     internal var previousCoordinate: CLLocationCoordinate2D?
     internal var isTrackingAllowed = false
-    private var isCountdownOngoing = false
     private let isTrackButtonTapped = PublishSubject<Bool>()
+    private let isCountdownFinished = PublishSubject<Bool>()
     
     // 사용자의 현재 위치를 받아오고, 이를 중심으로 regionRadius 반경만큼의 영역을 보여주기
     var currentLocation: CLLocation {
@@ -63,6 +63,7 @@ final class TrackingViewController: UIViewController {
         self.setupBackView()
         self.setupLabel()
         self.setupTimerButton()
+        self.setupProcessAfterCountdown()
         self.setupCloseButton()
         
         MapService.shared.moveToCurrentLocation(
@@ -114,20 +115,20 @@ final class TrackingViewController: UIViewController {
         self.distanceLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
         self.locationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .semibold)
         
-        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "알수없음")
+        self.viewModel.timeRelay.asDriver(onErrorJustReturn: "")
             .drive(self.timeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "알수없음")
+        self.viewModel.distanceRelay.asDriver(onErrorJustReturn: "")
             .drive(self.distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        self.viewModel.locationRelay.asDriver(onErrorJustReturn: "알수없음")
+        self.viewModel.locationRelay.asDriver(onErrorJustReturn: "")
             .drive(self.locationLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
     
-    // 산책길 등록 시작/종료 버튼 설정
+    // 산책길 생성 시작/종료 버튼 설정
     private func setupTimerButton() {
         self.isTrackingAllowed = false
         
@@ -151,18 +152,25 @@ final class TrackingViewController: UIViewController {
                     // 카운트다운이 진행되는 동안 타이머 버튼을 작동할 수 없도록 설정
                     self.timerButton.changeAttributes(buttonTitle: "카운트다운 진행중", interaction: false)
                     // 카운트다운 시작 (SwiftUI 기반의 view 활용)
-                    guard !self.isCountdownOngoing else { return }
-                    self.showCountdownView {
-                        // 타이머 활성화
-                        self.activateTimer()
-                        // 시작/종료 버튼 UI 변경
-                        self.timerButton.changeAttributes(buttonTitle: "경로 생성 종료", interaction: true)
-                        // 잠금화면의 live activity 시작
-                        LiveActivityService.shared.activate()
-                    }
-                    // 카운트다운 종료 이후부터 타이머 버튼을 작동할 수 있도록 설정
-                    //self.timerButton.isEnabled = true
+                    self.showCountdownView()
                 }
+            })
+            .disposed(by: rx.disposeBag)
+    }
+    
+    // 카운트다운 종류 이후에 실행할 내용 설정
+    private func setupProcessAfterCountdown() {
+        self.isCountdownFinished.asObservable()
+            .filter { $0 == true }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                
+                // 타이머 활성화
+                self.activateTimer()
+                // 시작/종료 버튼 UI 변경
+                self.timerButton.changeAttributes(buttonTitle: "경로 생성 종료", interaction: true)
+                // 잠금화면의 live activity 시작
+                LiveActivityService.shared.activate()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -178,6 +186,7 @@ final class TrackingViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
+                // 확인 메세지 창 띄우기
                 self.viewModel.getActionForStopTracking(
                     viewController: self, mapView: self.mapView
                 )
@@ -189,16 +198,13 @@ final class TrackingViewController: UIViewController {
     //MARK: - indirectly called method
     
     // 타이머 활성화 시작 전, 카운트다운 보여주기
-    private func showCountdownView(completion: @escaping () -> Void) {
-        self.isCountdownOngoing = true
-        
+    private func showCountdownView() {
         // 참고: countdownView는 SwiftUI로 만들어졌음
         let countdownViewController = UIHostingController(rootView: AnimatedCountdownView())
         let countdownView = countdownViewController.view!
         let animatedCountdownView = countdownViewController.rootView
         
-        self.view.addSubview(countdownView)
-        
+        // 카운트다운 뷰의 외형 설정
         countdownView.layer.cornerRadius = 75
         countdownView.clipsToBounds = true
         countdownView.layer.masksToBounds = false
@@ -207,17 +213,22 @@ final class TrackingViewController: UIViewController {
         countdownView.layer.shadowRadius = 10
         countdownView.layer.shadowOffset = CGSize(width: 0, height: 5)
         
+        // 카운트다운 뷰를 하위 뷰로 등록 및 오토레이아웃 설정
+        self.view.addSubview(countdownView)
         countdownView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(150)
         }
             
-        animatedCountdownView.countdownValue
+        // 카운트다운 값이 변할 때마다 실행할 내용
+        animatedCountdownView.countdownValue.asObservable()
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { count in
+                // 햅틱 반응
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 
+                // 카운트다운 시간이 0초가 되면 실행할 내용
                 if count == 0.0 {
                     UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseIn) {
                         countdownView.alpha = 0.0
@@ -225,7 +236,7 @@ final class TrackingViewController: UIViewController {
                         countdownView.removeFromSuperview()
                     }
                     
-                    completion()
+                    self.isCountdownFinished.onNext(true)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -262,12 +273,16 @@ final class TrackingViewController: UIViewController {
     // 산책길 등록을 위한 알림 메세지 보여주기
     private func showAlertMessageForRegistration(completion: @escaping (Bool) -> Void) {
         // alert 메세지 설정
-        let alert = UIAlertController(title: "확인",
-                                      message: "지금까지 생성한 경로를\n나만의 산책길로 저장할까요?",
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "확인",
+            message: "지금까지 생성한 경로를\n나만의 산책길로 저장할까요?",
+            preferredStyle: .alert
+        )
+        
         let cancelAction = UIAlertAction(title: "아니요", style: .default) { _ in
             completion(false)
         }
+        
         let okAction = UIAlertAction(title: "네", style: .default) { [weak self] _ in
             // 다음 화면으로 이동
             guard let self = self else { return }
@@ -275,10 +290,11 @@ final class TrackingViewController: UIViewController {
             // Realm DB에 track data 저장
             self.viewModel.createTrackData()
                     
-            self.viewModel.shouldNextViewControllerAppear
+            self.viewModel.shouldNextViewControllerAppear.asObservable()
                 .filter { $0 == true }
                 .subscribe(onNext: { _ in
-                    guard let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: K.Identifier.addMyPlaceVC) as? AddMyPlaceViewController else { return }
+                    guard let nextViewController = self.storyboard?.instantiateViewController(withIdentifier: K.Identifier.addMyPlaceVC)
+                            as? AddMyPlaceViewController else { return }
                     self.navigationController?.pushViewController(nextViewController, animated: true)
                     
                     completion(true)  // okAction에 대한 콜백

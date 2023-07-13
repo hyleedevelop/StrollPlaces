@@ -80,7 +80,7 @@ final class SplashViewController: UIViewController {
             $0.height.equalTo(30)
         }
         
-        // "오늘 하루가 행복해지는"
+        // "나만을 위한 산책 앱"
         self.view.addSubview(self.subtitleLabel)
         self.subtitleLabel.snp.makeConstraints {
             $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(50)
@@ -100,10 +100,11 @@ final class SplashViewController: UIViewController {
             $0.bottom.equalTo(self.subtitleLabel.snp.top).offset(-50)
         }
         
+        // 애니메이션 재생
         self.initialAnimationView.play()
     }
     
-    // 다음 화면으로 이동
+    // 일정 시간 경과 후 다음 화면으로 이동
     private func goToNextViewController() {
         DispatchQueue.main.asyncAfter(deadline: .now() + K.App.splashScreenTime) {
             self.viewModel.goToNextViewController(viewController: self)

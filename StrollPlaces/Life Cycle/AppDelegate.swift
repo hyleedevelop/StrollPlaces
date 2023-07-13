@@ -86,40 +86,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    // 앱 종료 직전에 호출
+    // 앱 종료 직전에 호출되는 메서드로,
+    // MY산책길을 생성하는 도중 Realm DB에 데이터 생성을 완전히 마치지 않은 상태에서
+    // 앱이 강제로(비정상적으로) 종료되었을 때, 미완성된 산책길 데이터 지우기
     func applicationWillTerminate(_ application: UIApplication) {
-        // 나만의 산책길을 만들던 도중 앱이 강제로 종료되는 등
-        // 산책길 정보 입력이 완료되지 않은 경우 임시 저장했던 경로 데이터 지우기
-        let track = RealmService.shared.realm.objects(TrackData.self)
-        let point = RealmService.shared.realm.objects(TrackPoint.self)
+        // 오브젝트 접근을 위한 변수
+        let track = RealmService.shared.trackDataObject
+        let point = RealmService.shared.trackPointObject
         
-        // 가장 마지막에 저장된 TrackData에 접근
-        guard let latestTrackData = track.last else { return }
+        // 가장 마지막에 저장된 TrackData 오브젝트 데이터에 접근 시도
+        guard let latestTrackData = track.last,
+              latestTrackData.name.isEmpty else { return }
         
-        if latestTrackData.name.isEmpty {
-            for _ in 0..<latestTrackData.points.count {
-                guard let latestPointData = point.last else { return }
-                // TrackPoint에서 points의 갯수 만큼 삭제
-                RealmService.shared.delete(latestPointData)
-            }
-            
-            // TrackData 삭제
-            RealmService.shared.delete(latestTrackData)
-            
-            // 이미지 파일 삭제
-            guard let documentDirectory = FileManager.default
-                .urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-            let imageName = track.last?._id.stringValue ?? "noname"
-            let imageURL = documentDirectory.appendingPathComponent(imageName + ".png")
-            if FileManager.default.fileExists(atPath: imageURL.path) {
-                do {
-                    try FileManager.default.removeItem(at: imageURL)
-                } catch {
-                    print("이미지를 삭제하지 못했습니다.")
-                }
-            }
+        // 1. TrackPoint 오브젝트의 경로 지점의 위치정보를 하나씩 삭제
+        for _ in 0..<latestTrackData.points.count {
+            guard let latestPointData = point.last else { return }
+            RealmService.shared.delete(latestPointData)
         }
         
+        // 2. 이미지 파일 삭제
+        // 2-1. 폴더 경로 가져오기
+        guard let documentDirectory = FileManager
+            .default
+            .urls(for: .documentDirectory, in: .userDomainMask)
+            .first else { return }
+        // 2-2. 이미지 URL 만들기
+        let imageURL = documentDirectory.appendingPathComponent(
+            latestTrackData._id.stringValue + ".png"
+        )
+        // 2-3. 파일이 존재하면 삭제하기
+        if FileManager.default.fileExists(atPath: imageURL.path) {
+            do { try FileManager.default.removeItem(at: imageURL) }
+            catch { print("이미지를 삭제하지 못했습니다.") }
+        }
+        
+        // 3. TrackData 오브젝트 내 데이터 삭제
+        RealmService.shared.delete(latestTrackData)
     }
 
 }

@@ -77,7 +77,7 @@ final class DetailInfoViewController: UIViewController {
         
         // 각 지점들을 기록하고 그 지점들 사이를 선으로 연결
         let points: [CLLocationCoordinate2D] =
-        self.viewModel.getTrackPointForPolyline(index: self.cellIndex)
+        self.viewModel.getTrackPointsForPolyline(index: self.cellIndex)
         let routeLine = MKPolyline(coordinates: points, count: points.count)
         
         // 지도에 선 나타내기(addOverlay 시 아래의 rendererFor 함수가 호출됨)

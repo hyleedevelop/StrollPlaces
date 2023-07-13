@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class SplashViewModel {
     
@@ -19,7 +20,9 @@ final class SplashViewModel {
     
     // 다음 화면으로 이동
     func goToNextViewController(viewController: UIViewController) {
-        guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+        //guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else { return }
+        
+        guard let nextVC = viewController.storyboard?.instantiateViewController(withIdentifier: "UITabBarController") as? UITabBarController else { return }
         
         nextVC.modalPresentationStyle = .fullScreen
         nextVC.hero.isEnabled = true

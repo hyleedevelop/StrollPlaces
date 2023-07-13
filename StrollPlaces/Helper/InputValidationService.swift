@@ -88,7 +88,7 @@ final class InputValidationService {
     
     // 입력한 산책길 이름이 Realm DB에 저장된 산책길 이름과 중복되는지 체크
     private func checkIfThereIsTheSameName(name: String) -> Bool {
-        let trackData = RealmService.shared.realm.objects(TrackData.self)
+        let trackData = RealmService.shared.trackDataObject
         return trackData.firstIndex(where: { $0.name == name } ) == nil ? true : false
     }
     

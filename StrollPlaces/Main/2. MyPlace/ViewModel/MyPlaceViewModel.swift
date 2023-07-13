@@ -19,7 +19,6 @@ final class MyPlaceViewModel: CommonViewModel {
     var itemViewModel: MyPlaceItemViewModel!
     private var sortMenuItems = [UIAction]()
     private var moreMenuItems = [UIAction]()
-    private let userDefaults = UserDefaults.standard
     
     //MARK: - 생성자 관련
     
@@ -27,9 +26,9 @@ final class MyPlaceViewModel: CommonViewModel {
         super.init()
         
         // TrackData와 TrackPoint의 인스턴스 생성
-        let tracks = RealmService.shared.realm.objects(TrackData.self)
-        let points = RealmService.shared.realm.objects(TrackPoint.self)
-        let index = UserDefaults.standard.integer(forKey: K.UserDefaults.selectedContextMenu)
+        let tracks = RealmService.shared.trackDataObject
+        let points = RealmService.shared.trackPointObject
+        let index = self.selectedContextMenu
         
         // MyPlaceItemViewModel 초기화
         self.itemViewModel = MyPlaceItemViewModel(track: tracks, point: points)
@@ -47,48 +46,15 @@ final class MyPlaceViewModel: CommonViewModel {
     
     // context menu item 초기화
     private func initializeContextMenuItems(stateOn: Int) {
-        self.sortMenuItems = [
-            UIAction(title: "이전 등록순", handler: { [weak self] _ in
+        for (index, value) in K.MyPlace.titles.enumerated() {
+            let action = UIAction(title: value) { [weak self] _ in
                 guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .ascendingByDate)
-                self.userDefaults.set(0, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "최근 등록순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .descendingByDate)
-                self.userDefaults.set(1, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "소요시간 적은순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .ascendingByTime)
-                self.userDefaults.set(2, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "소요시간 많은순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .descendingByTime)
-                self.userDefaults.set(3, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "이동거리 적은순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .ascendingByDistance)
-                self.userDefaults.set(4, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "이동거리 많은순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .descendingByDistance)
-                self.userDefaults.set(5, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "별점 낮은순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .ascendingByRating)
-                self.userDefaults.set(6, forKey: "selectedContextMenu")
-            }),
-            UIAction(title: "별점 높은순", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.itemViewModel.getSortedTrackData(mode: .descendingByRating)
-                self.userDefaults.set(7, forKey: "selectedContextMenu")
-            }),
-        ]
+                self.itemViewModel.getSortedTrackData(mode: MyPlaceSorting(rawValue: index)!)
+                self.selectedContextMenu = index
+            }
+            
+            self.sortMenuItems.append(action)
+        }
         
         self.sortMenuItems[stateOn].state = .on
     }
@@ -198,7 +164,7 @@ final class MyPlaceViewModel: CommonViewModel {
         // 삭제 후 나만의 산책길 목록이 비어있다면 Lottie Animation 표출하기
         if self.itemViewModel.trackData.count == 0 {
             // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-            self.userDefaults.set(false, forKey: "myPlaceExist")
+            self.isMyPlaceExist = false
             NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
         }
     }
@@ -243,23 +209,20 @@ final class MyPlaceViewModel: CommonViewModel {
 
 //MARK: - CollectionView Cell에 대한 ViewModel
 
-final class MyPlaceItemViewModel {
+final class MyPlaceItemViewModel: CommonViewModel {
     
     //MARK: - property
     
-    private let userDefaults = UserDefaults.standard
-    lazy var shouldShowAnimationView = BehaviorSubject<Bool>(
-        value: !self.userDefaults.bool(forKey: "myPlaceExist")
-    )
+    lazy var shouldShowAnimationView = BehaviorSubject<Bool>(value: !self.isMyPlaceExist)
     let collectionViewShouldBeReloaded = BehaviorSubject<Bool>(value: false)
     var trackData: Results<TrackData> {
         didSet {
             // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
             if self.trackData.count > 0 {
-                self.userDefaults.set(true, forKey: "myPlaceExist")
+                self.isMyPlaceExist = true
                 self.shouldShowAnimationView.onNext(false)
             } else {
-                self.userDefaults.set(false, forKey: "myPlaceExist")
+                self.isMyPlaceExist = false
                 self.shouldShowAnimationView.onNext(true)
             }
             self.collectionViewShouldBeReloaded.onNext(true)

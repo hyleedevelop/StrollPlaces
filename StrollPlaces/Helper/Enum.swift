@@ -12,7 +12,7 @@ enum Selection: Int {
 }
 
 enum InfoType: Int, CaseIterable {
-    case park
+    case park = 0
     case strollWay
     case recreationForest
     case marked

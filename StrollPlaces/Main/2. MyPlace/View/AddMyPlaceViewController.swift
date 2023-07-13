@@ -274,13 +274,13 @@ class AddMyPlaceViewController: UIViewController {
             .disposed(by: rx.disposeBag)
         
         // DB 업데이트가 완료된 경우
-        self.viewModel.isTrackDataUpdated.asObservable()
+        RealmService.shared.isTrackDataUpdated.asObservable()
             .filter { $0 == true }
             .delay(.milliseconds(700), scheduler: MainScheduler.instance)
             .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                // 나만의 산책길 목록이 비어있는지의 여부를 UserDefaults에 저장
+                // 나만의 산책길 목록이 존재하는지의 여부를 UserDefaults에 저장
                 self.viewModel.isMyPlaceExist = true
                 // loading indicator 종료
                 self.activityIndicator.stopAnimating()

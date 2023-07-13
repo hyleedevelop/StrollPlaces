@@ -67,26 +67,35 @@ extension MapViewController: MKMapViewDelegate {
             let index = 0
             let identifier = "Cluster\(index)"
             let selection = Selection(rawValue: 0)!
-            //let selection = Selection(rawValue: index)!
-            return mapView.annotationView(selection: selection, annotation: annotation, reuseIdentifier: identifier)
-            
-        } else if annotation is MeAnnotation {
+            return mapView.annotationView(
+                selection: selection, annotation: annotation, reuseIdentifier: identifier
+            )
+        }
+        
+        else if annotation is MeAnnotation {
             let identifier = "Me"
             let annotationView = mapView.annotationView(
                 of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
             )
-            //annotationView.image = .me
             annotationView.image = UIImage()
             return annotationView
             
-        } else if annotation is MKUserLocation {
-            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: K.Identifier.userLocationAnnotationView)
+        }
+        
+        else if annotation is MKUserLocation {
+            let annotationView = mapView.dequeueReusableAnnotationView(
+                withIdentifier: K.Identifier.userLocationAnnotationView
+            )
             return annotationView
             
-        } else {
+        }
+        
+        else {
             let identifier = "Pin"
             let annotationView = mapView.annotationView(
-                of: MKPinAnnotationView.self, annotation: annotation, reuseIdentifier: identifier
+                of: MKPinAnnotationView.self,
+                annotation: annotation,
+                reuseIdentifier: identifier
             )
             
             annotationView.canShowCallout = true
@@ -100,23 +109,24 @@ extension MapViewController: MKMapViewDelegate {
     // 사용자의 위치가 업데이트 될 때 수행할 내용
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // 실시간 위경도 확인용
-        if let location = locations.last {
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            //print(#function, latitude, longitude, separator: ", ")
-        }
+//        if let location = locations.last {
+//            let latitude = location.coordinate.latitude
+//            let longitude = location.coordinate.longitude
+//            print(#function, latitude, longitude, separator: ", ")
+//        }
         
         // 위치 추적 모드 실행
         if self.isUserTrackingModeOn {
             self.mapView.centerToLocation(
                 location: self.currentLocation,
-                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-                deltaLon: self.userDefaults.double(forKey: "mapRadius").km)
+                deltaLat: self.viewModel.mapRadius,
+                deltaLon: self.viewModel.mapRadius
+            )
         }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        clusterManager.reload(mapView: mapView)
+        self.clusterManager.reload(mapView: mapView)
     }
     
     // annotation을 클릭했을 때 실행할 내용
@@ -129,17 +139,17 @@ extension MapViewController: MKMapViewDelegate {
             
             for annotation in cluster.annotations {
                 let annotationPoint = MKMapPoint(annotation.coordinate)
-                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y,
-                                          width: 0, height: 0)
-                if zoomRect.isNull {
-                    zoomRect = pointRect
-                } else {
-                    zoomRect = zoomRect.union(pointRect)
-                }
+                let pointRect = MKMapRect(
+                    x: annotationPoint.x,
+                    y: annotationPoint.y,
+                    width: 0,
+                    height: 0
+                )
+                
+                zoomRect = zoomRect.isNull ? pointRect : zoomRect.union(pointRect)
             }
             
             mapView.setVisibleMapRect(zoomRect, animated: true)
-            
         }
         
 //        else if view.annotation as! String == "My Location" {
@@ -155,12 +165,11 @@ extension MapViewController: MKMapViewDelegate {
             
             self.mapView.centerToLocation(
                 location: CLLocation(latitude: latitude, longitude: longitude),
-                deltaLat: self.userDefaults.double(forKey: "mapRadius").km,
-                deltaLon: self.userDefaults.double(forKey: "mapRadius").km
+                deltaLat: self.viewModel.mapRadius,
+                deltaLon: self.viewModel.mapRadius
             )
             
             // 데이터 보내기 (1): MapVC -> MapVM
-            self.viewModel.pinData = self.dataArray[pin.index]
             let placeInfoViewController = PlaceInfoViewController()
             placeInfoViewController.viewModel = self.viewModel.sendPinData(pinNumber: pin.index ?? 0)
             
@@ -176,9 +185,11 @@ extension MapViewController: MKMapViewDelegate {
             
             // 경로 계산하여 예상 거리 및 소요시간 데이터 넘겨주기
             MapService.shared.fetchRoute(
-                mapView: self.mapView, pickupCoordinate: startLocation,
+                mapView: self.mapView,
+                pickupCoordinate: startLocation,
                 destinationCoordinate: endLocation,
-                draw: false)
+                draw: false
+            )
             
             MapService.shared.expectedTime.asObservable()
                 .bind(onNext: { placeInfoViewController.viewModel.time = $0 })
@@ -227,7 +238,7 @@ extension MapViewController: MKMapViewDelegate {
                 })
                 .disposed(by: rx.disposeBag)
             
-            // 선택된 annotation 해제
+            // 선택된 annotation 초기화
             mapView.selectedAnnotations = []
         }
     }

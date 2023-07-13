@@ -10,9 +10,8 @@ import WidgetKit
 import UIKit
 import SwiftUI
 
-// 잠금화면에서 보여줄 위젯
-struct TrackingLiveActivity: Widget {
-    
+// 다이내믹 아일랜드에서 보여줄 내용
+struct DynamicIslandLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         
         ActivityConfiguration(for: TrackingAttributes.self) { context in
@@ -56,31 +55,25 @@ struct TrackingLiveActivity: Widget {
             }
         }
     }
-    
 }
 
-// 크기가 4kb 이상인 요소는 표시할 수 없음
+// 잠금화면 위젯에서 보여줄 내용
 struct LockScreenLiveActivityView: View {
     let context: ActivityViewContext<TrackingAttributes>
     
     var body: some View {
         ZStack {
-            
             VStack {
                 Spacer()
-                
                 HStack(alignment: .center) {
                     Text("나만의 산책길을 만들고 있어요")
                         .fontWeight(.bold)
                         .font(.title2)
                         .foregroundColor(.primary)
                 }
-                
                 Spacer()
-                
                 HStack {
                     Spacer()
-                    
                     Label {
                         Text(context.state.time)
                             .monospacedDigit()
@@ -93,9 +86,7 @@ struct LockScreenLiveActivityView: View {
                             .foregroundColor(Color.orange)
                     }
                     .font(.title3)
-                    
                     Spacer()
-                    
                     Label {
                         Text(context.state.distance)
                             .monospacedDigit()
@@ -108,14 +99,11 @@ struct LockScreenLiveActivityView: View {
                             .foregroundColor(Color.orange)
                     }
                     .font(.title3)
-                    
                     Spacer()
                 }
-                
                 Spacer()
             }
             .frame(height: 100)
-            
         }
 
     }

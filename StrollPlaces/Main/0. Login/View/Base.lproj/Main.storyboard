@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bQ4-pL-CNo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aPK-Hq-T5x">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -92,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M6r-OL-CTY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3480" y="-27"/>
+            <point key="canvasLocation" x="-1581" y="-27"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="uv3-qb-e1c">
@@ -107,7 +107,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TP4-2m-8f0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1469" y="-27"/>
+            <point key="canvasLocation" x="-1477" y="704"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="STf-EX-Zie">
@@ -347,7 +347,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjd-9u-bLJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="cJd-jX-6hJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2808" y="-27"/>
+            <point key="canvasLocation" x="-2834" y="704"/>
         </scene>
         <!--Nickname View Controller-->
         <scene sceneID="qPY-FB-ahS">
@@ -358,7 +358,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="e0i-PT-cPq">
-                                <rect key="frame" x="20" y="159" width="353" height="68"/>
+                                <rect key="frame" x="20" y="159" width="353" height="73.333333333333314"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이 앱에서 사용할 닉네임" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSB-jp-C0y">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="24"/>
@@ -367,14 +367,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zc8-Nu-asv" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                        <rect key="frame" x="0.0" y="34" width="353" height="34"/>
+                                        <rect key="frame" x="0.0" y="34" width="353" height="39.333333333333343"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ia-JE-4Ke">
-                                <rect key="frame" x="20" y="327" width="353" height="50"/>
+                                <rect key="frame" x="20" y="332.33333333333331" width="353" height="50"/>
                                 <color key="backgroundColor" red="0.1647058824" green="0.65490196079999996" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="qJf-6s-vP4"/>
@@ -404,7 +404,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMW-3S-q1y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2138" y="-27"/>
+            <point key="canvasLocation" x="-2149" y="704"/>
         </scene>
         <!--MyPlaceTab-->
         <scene sceneID="ITu-1R-zFe">
@@ -439,7 +439,7 @@
     </scenes>
     <designables>
         <designable name="zc8-Nu-asv">
-            <size key="intrinsicContentSize" width="32" height="34"/>
+            <size key="intrinsicContentSize" width="353" height="39.220703125"/>
         </designable>
     </designables>
     <resources>

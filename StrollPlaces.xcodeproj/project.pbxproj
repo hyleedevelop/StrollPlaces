@@ -81,14 +81,14 @@
 		07AC1EC629E3D525006BEA03 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EA829E3D3EB006BEA03 /* WidgetKit.framework */; };
 		07AC1EC729E3D525006BEA03 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */; };
 		07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */; };
-		07AC1ECC29E3D526006BEA03 /* TrackingLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */; };
+		07AC1ECC29E3D526006BEA03 /* LiveActivityUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* LiveActivityUI.swift */; };
 		07AC1ED129E3D527006BEA03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AC1ED029E3D527006BEA03 /* Assets.xcassets */; };
 		07AC1ED329E3D527006BEA03 /* Tracking.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */; };
 		07AC1ED429E3D527006BEA03 /* Tracking.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */; };
 		07AC1ED729E3D527006BEA03 /* TrackingExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		07AC1EE129E3E3FC006BEA03 /* LiveActivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */; };
 		07AC1EE229E3E3FC006BEA03 /* LiveActivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */; };
-		07AC1EE329E3E412006BEA03 /* TrackingLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */; };
+		07AC1EE329E3E412006BEA03 /* LiveActivityUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AC1ECB29E3D526006BEA03 /* LiveActivityUI.swift */; };
 		07AC1EE429E415C9006BEA03 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CCDA29BF5A6F006AB70D /* K.swift */; };
 		07AF72C12A28F4ED008EB64D /* MyPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF72C02A28F4ED008EB64D /* MyPlaceViewController.swift */; };
 		07AF72C32A28F577008EB64D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF72C22A28F577008EB64D /* MapViewController.swift */; };
@@ -245,7 +245,7 @@
 		07AC1EAA29E3D3EB006BEA03 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		07AC1EC529E3D525006BEA03 /* TrackingExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingBundle.swift; sourceTree = "<group>"; };
-		07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingLiveActivity.swift; sourceTree = "<group>"; };
+		07AC1ECB29E3D526006BEA03 /* LiveActivityUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityUI.swift; sourceTree = "<group>"; };
 		07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Tracking.intentdefinition; sourceTree = "<group>"; };
 		07AC1ED029E3D527006BEA03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07AC1ED229E3D527006BEA03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -535,6 +535,7 @@
 				070FFB0129D5D8D000987285 /* TrackingViewController+Route.swift */,
 				0709557629D2B2A300068C91 /* AddMyPlaceViewController.swift */,
 				07C16D1C29FE48FA00EFA39E /* MyPlaceCollectionViewCell.swift */,
+				07D01A2129E65AAC00FE85D4 /* CountdownView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -625,7 +626,6 @@
 			isa = PBXGroup;
 			children = (
 				0799CCC729BF595C006AB70D /* TabBarController.swift */,
-				07D01A2129E65AAC00FE85D4 /* CountdownView.swift */,
 				077C1BE129CD958D00DA3218 /* RouteAnnotationView.swift */,
 				072D5BE129C33B910024B938 /* ClusterAnnotationView.swift */,
 			);
@@ -736,8 +736,8 @@
 			isa = PBXGroup;
 			children = (
 				07AC1EC929E3D526006BEA03 /* TrackingBundle.swift */,
-				07AC1ECB29E3D526006BEA03 /* TrackingLiveActivity.swift */,
 				07866F9F29E7E3600001F1EF /* TrackingAttributes.swift */,
+				07AC1ECB29E3D526006BEA03 /* LiveActivityUI.swift */,
 				07AC1EE029E3E3FC006BEA03 /* LiveActivityService.swift */,
 				07AC1ECF29E3D526006BEA03 /* Tracking.intentdefinition */,
 				07AC1ED029E3D527006BEA03 /* Assets.xcassets */,
@@ -1200,7 +1200,7 @@
 				077C1BE229CD958D00DA3218 /* RouteAnnotationView.swift in Sources */,
 				0799CCEC29BF6E10006AB70D /* DataType.swift in Sources */,
 				0774AA8529D97CD70048C781 /* AddMyPlaceViewModel.swift in Sources */,
-				07AC1EE329E3E412006BEA03 /* TrackingLiveActivity.swift in Sources */,
+				07AC1EE329E3E412006BEA03 /* LiveActivityUI.swift in Sources */,
 				0799CCEA29BF65A9006AB70D /* Map.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1232,7 +1232,7 @@
 				07AC1ECA29E3D526006BEA03 /* TrackingBundle.swift in Sources */,
 				07AC1EE429E415C9006BEA03 /* K.swift in Sources */,
 				07AC1EE229E3E3FC006BEA03 /* LiveActivityService.swift in Sources */,
-				07AC1ECC29E3D526006BEA03 /* TrackingLiveActivity.swift in Sources */,
+				07AC1ECC29E3D526006BEA03 /* LiveActivityUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1417,7 +1417,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1459,7 +1459,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hyleedevelop.StrollPlaces;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -57,12 +57,12 @@ extension MapViewController: UICollectionViewDataSource,
         
         // 기존에 표출되고 있던 annotation을 없애고 선택한 타입의 annotation을 새롭게 표출
         self.removeAnnotations()
-        for index in 0..<InfoType.allCases.count {
+        for index in 0..<InfoType.allCases.count {  
             isAnnotationMarked[index] = false
         }
         
         if !self.isAnnotationMarked[indexPath.row] {
-            self.addAnnotations(with: InfoType(rawValue: indexPath.row)!)
+            self.addAnnotationsOnTheMapView(with: InfoType(rawValue: indexPath.row)!)
         }
         
         self.viewModel.changeCellUI(cell: cell, selected: true)

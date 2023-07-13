@@ -16,43 +16,46 @@ final class PlaceInfoViewModel {
     
     // 초기화가 필요한 속성
     let itemViewModel: PublicData
-    var pinNumber: Int
+    private var pinNumber: Int
+    var titleArray = [String]()
+    var infoArray = [String]()
     
     // 초기생성자
     init(_ itemViewModel: PublicData, pinNumber: Int) {
         self.itemViewModel = itemViewModel
         self.pinNumber = pinNumber
-        self.createPlaceInfoDictionary()
+        
+        self.createPlaceInfoArray()
     }
     
     // custom modal view를 통해 제공할 정보 초기화
-    func createPlaceInfoDictionary() {
+    private func createPlaceInfoArray() {
         switch self.itemViewModel.infoType {
         case .park:
             self.titleArray = [
                 "장소명", "유형", "주소", "참고사항", "주변시설", "관리담당", "문의연락처"
             ]
             self.infoArray = [
-                itemViewModel.name, itemViewModel.category, itemViewModel.address,
-                itemViewModel.feature, itemViewModel.infra, itemViewModel.organization,
-                itemViewModel.telephoneNumber,
+                self.itemViewModel.name, self.itemViewModel.category, self.itemViewModel.address,
+                self.itemViewModel.feature, self.itemViewModel.infra, self.itemViewModel.organization,
+                self.itemViewModel.telephoneNumber,
             ]
         case .strollWay:
             self.titleArray = [
                 "장소명", "코스명", "코스구성", "주소", "설명", "주변시설"
             ]
             self.infoArray = [
-                itemViewModel.name, itemViewModel.category, itemViewModel.route,
-                itemViewModel.address, itemViewModel.feature, itemViewModel.infra,
+                self.itemViewModel.name, self.itemViewModel.category, self.itemViewModel.route,
+                self.itemViewModel.address, self.itemViewModel.feature, self.itemViewModel.infra,
             ]
         case .recreationForest:
             self.titleArray = [
                 "장소명", "유형", "주소", "입장료", "주변시설", "관리담당", "문의연락처", "홈페이지"
             ]
             self.infoArray = [
-                itemViewModel.name, itemViewModel.category, itemViewModel.address,
-                itemViewModel.fee, itemViewModel.infra, itemViewModel.organization,
-                itemViewModel.telephoneNumber, itemViewModel.homepage,
+                self.itemViewModel.name, self.itemViewModel.category, self.itemViewModel.address,
+                self.itemViewModel.fee, self.itemViewModel.infra, self.itemViewModel.organization,
+                self.itemViewModel.telephoneNumber, self.itemViewModel.homepage,
             ]
         case .marked:
             self.titleArray = []
@@ -62,9 +65,7 @@ final class PlaceInfoViewModel {
     
     //MARK: - 일반 변수
     
-    var titleArray = [String]()
-    var infoArray = [String]()
-    var myPlaceData = RealmService.shared.realm.objects(MyPlace.self)
+    var myPlaceData = RealmService.shared.myPlaceObject
     var shouldCheckFaveButton = false
     
     //MARK: - Modal View 화면 관련
@@ -101,8 +102,6 @@ final class PlaceInfoViewModel {
     // 소요시간
     var time: Double = -1 {
         didSet {
-            //let minutes = self.time.truncatingRemainder(dividingBy: 60)
-
             if (3600...) ~= self.time {
                 let hours = self.time / 3600
                 let minutes = self.time.truncatingRemainder(dividingBy: 3600) / 60
@@ -158,28 +157,25 @@ final class PlaceInfoViewModel {
     func removeMyPlaceData() {
         // myPlaceData가 비어있지 않은 경우,
         // pinData의 name과 같은 name을 가지고 있는 myPlaceData 삭제
-        guard self.myPlaceData.count != 0 else { return }
+        guard !self.myPlaceData.isEmpty else { return }
         
         // 뒤에서부터 삭제
         for index in stride(from: self.myPlaceData.count-1, to: -1, by: -1) {
             if self.pinNumber == self.myPlaceData[index].pinNumber {
-                RealmService.shared.delete(self.myPlaceData[index])
+                RealmService.shared.deleteMyPlace(at: index)
             }
         }
   
         // 즐겨찾기 장소가 제거되었으므로 MapView에서 핀을 제거하도록 알리기
         NotificationCenter.default.post(name: Notification.Name("removeMarkedPin"), object: nil)
-        
         SPIndicatorService.shared.showSuccessIndicator(title: "삭제 완료")
     }
     
     // Realm DB의 MyPlace에 저장된 모든 데이터의 pinNumber와
     // 사용자가 현재 선택한 pinNumber의 일치 여부 확인
     func checkPinNumber() -> Bool {
-        for index in 0..<self.myPlaceData.count {
-            if self.myPlaceData[index].pinNumber == self.pinNumber {
-                return true
-            }
+        for (_, value) in self.myPlaceData.enumerated() {
+            if value.pinNumber == self.pinNumber { return true }
         }
         return false
     }
@@ -189,7 +185,7 @@ final class PlaceInfoViewModel {
 
 //MARK: - Place Info Item View Model
 
-// 뉴스 아이템(셀) 하나하나에 대한 뷰모델
+// 장소 아이템 하나하나에 대한 뷰모델
 final class PlaceInfoItemViewModel {
     
     let publicData: PublicData

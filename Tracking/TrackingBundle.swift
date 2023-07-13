@@ -11,6 +11,6 @@ import SwiftUI
 @main
 struct TrackingBundle: WidgetBundle {
     var body: some Widget {
-        TrackingLiveActivity()
+        DynamicIslandLiveActivityWidget()
     }
 }

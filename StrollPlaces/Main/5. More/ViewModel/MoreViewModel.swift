@@ -28,28 +28,30 @@ final class MoreViewModel: CommonViewModel {
     let moreCellData: [[MoreCellData]]!
     
     override init() {
-        appSettings = [
+        self.appSettings = [
             MoreCellData(title: "지도 종류", value: nil),
             MoreCellData(title: "지도 표시 범위", value: nil),
             MoreCellData(title: "즐겨찾기 데이터 초기화", value: nil),
             MoreCellData(title: "MY산책길 데이터 초기화", value: nil),
-            MoreCellData(title: "로그아웃", value: nil),
-            MoreCellData(title: "계정 삭제", value: nil),
+            //MoreCellData(title: "로그아웃", value: nil),
+            //MoreCellData(title: "계정 삭제", value: nil),
         ]
 
-        feedback = [
+        self.feedback = [
             MoreCellData(title: "앱 리뷰", value: nil),
             MoreCellData(title: "문의사항", value: nil),
         ]
         
-        aboutTheApp = [
+        self.aboutTheApp = [
             MoreCellData(title: "도움말", value: nil),
             MoreCellData(title: "개인정보 정책", value: nil),
             MoreCellData(title: "이용약관", value: nil),
             MoreCellData(title: "버전", value: nil),
         ]
         
-        moreCellData = [appSettings, feedback, aboutTheApp]
+        self.moreCellData = [self.appSettings, self.feedback, self.aboutTheApp]
+        
+        super.init()
     }
     
     //MARK: - 사용자 정보 및 인증 관련
@@ -64,21 +66,19 @@ final class MoreViewModel: CommonViewModel {
     
     // 현재 지도 표시 범위를 나타낼 텍스트
     var labelTextForMapRadius: String {
-        let radius = UserDefaults.standard.double(forKey: K.UserDefaults.mapRadius)
-        
-        switch radius {
-        case 0.2: return "200 m"
-        case 0.3: return "300 m"
-        case 0.5: return "500 m"
-        case 1.0: return "1 km"
-        case 2.0: return "2 km"
+        switch self.mapRadius {
+        case 200: return "200 m"
+        case 300: return "300 m"
+        case 500: return "500 m"
+        case 1000: return "1 km"
+        case 2000: return "2 km"
         default: return ""
         }
     }
     
     // 현재 지도 종류를 나타낼 텍스트
     var labelTextForMapType: String {
-        let type = MKMapType(rawValue: UInt(UserDefaults.standard.integer(forKey: K.UserDefaults.mapType))) ?? .standard
+        let type = MKMapType(rawValue: UInt(self.mapType)) ?? .standard
         
         switch type {
         case .standard: return "표준"
@@ -317,7 +317,7 @@ final class MoreViewModel: CommonViewModel {
                 NotificationCenter.default.post(name: Notification.Name("updateBadge"), object: nil)
                 
                 // userdefaults 값 false로 초기화 -> Lottie Animation 표출
-                UserDefaults.standard.set(false, forKey: K.UserDefaults.isMyPlaceExist)
+                self.isMyPlaceExist = false
                 NotificationCenter.default.post(name: Notification.Name("showLottieAnimation"), object: nil)
             }
         )
@@ -433,19 +433,19 @@ final class MoreViewModel: CommonViewModel {
     // MY산책길 관련 Realm DB 삭제
     func clearMyPlaceDB() {
         // 폴더 내 지도 이미지 삭제
-        let trackData = RealmService.shared.realm.objects(TrackData.self)
+        let trackData = RealmService.shared.trackDataObject
         for index in 0..<trackData.count {
             deleteImageFromDocumentDirectory(imageName: trackData[index]._id.stringValue)
         }
         
         // 오브젝트 내 데이터 삭제
-        RealmService.shared.deleteTrack()
+        RealmService.shared.deleteTrackAll()
     }
     
     // 즐겨찾기 관련 Realm DB 삭제
     func clearMarkDB() {
         // 오브젝트 내 데이터 삭제
-        RealmService.shared.deleteMyPlace()
+        RealmService.shared.deleteMyPlaceAll()
         
         // MapView 갱신 알리기
         NotificationCenter.default.post(name: Notification.Name("reloadMap"), object: nil)

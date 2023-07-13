@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 extension PlaceInfoViewController {
     
@@ -16,16 +15,20 @@ extension PlaceInfoViewController {
         // Set dynamic constraints
         // First, set container to default height
         // after panning, the height can expand
-        containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: defaultHeight)
+        self.containerViewHeightConstraint = self.containerView.heightAnchor.constraint(
+            equalToConstant: self.defaultHeight
+        )
         
         // By setting the height to default height, the container will be hide below the bottom anchor view
         // Later, will bring it up by set it to 0
         // set the constant to default height to bring it down again
-        containerViewBottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: defaultHeight)
+        self.containerViewBottomConstraint = self.containerView.bottomAnchor.constraint(
+            equalTo: self.view.bottomAnchor, constant: self.defaultHeight
+        )
         
         // Activate constraints
-        containerViewHeightConstraint?.isActive = true
-        containerViewBottomConstraint?.isActive = true
+        self.containerViewHeightConstraint?.isActive = true
+        self.containerViewBottomConstraint?.isActive = true
     }
     
     internal func setupTapGesture() {
@@ -33,7 +36,7 @@ extension PlaceInfoViewController {
         let tapGesture = UITapGestureRecognizer(
             target: self, action: #selector(self.handleCloseAction)
         )
-        dimmedView.addGestureRecognizer(tapGesture)
+        self.dimmedView.addGestureRecognizer(tapGesture)
     }
     
     internal func setupPanGesture() {
@@ -42,12 +45,12 @@ extension PlaceInfoViewController {
         // change to false to immediately listen on gesture movement
         panGesture.delaysTouchesBegan = false
         panGesture.delaysTouchesEnded = false
-        view.addGestureRecognizer(panGesture)
+        self.view.addGestureRecognizer(panGesture)
         self.containerView.addGestureRecognizer(panGesture)
     }
     
     internal func animateShowDimmedView() {
-        dimmedView.alpha = 0
+        self.dimmedView.alpha = 0
         
         UIView.animate(withDuration: 0.3) {
             self.dimmedView.alpha = self.maxDimmedAlpha
@@ -56,7 +59,7 @@ extension PlaceInfoViewController {
     
     internal func animateDismissView() {
         // hide blur view
-        dimmedView.alpha = maxDimmedAlpha
+        self.dimmedView.alpha = maxDimmedAlpha
         
         UIView.animate(withDuration: 0.3) {
             self.dimmedView.alpha = 0
@@ -122,15 +125,15 @@ extension PlaceInfoViewController {
 //        print("Dragging direction: \(isDraggingDown ? "going down" : "going up")")
         
         // New height is based on value of dragging plus current container height
-        let newHeight = currentContainerHeight - translation.y
+        let newHeight = self.currentContainerHeight - translation.y
         
         // Handle based on gesture state
         switch gesture.state {
         case .changed:
             // This state will occur when user is dragging
-            if newHeight < maximumContainerHeight {
+            if newHeight < self.maximumContainerHeight {
                 // Keep updating the height constraint
-                containerViewHeightConstraint?.constant = newHeight
+                self.containerViewHeightConstraint?.constant = newHeight
                 // refresh layout
                 view.layoutIfNeeded()
             }
@@ -139,12 +142,12 @@ extension PlaceInfoViewController {
             // so we will get the last height of container
             
             // Condition 1: If new height is below min, dismiss controller
-            if newHeight < dismissibleHeight {
+            if newHeight < self.dismissibleHeight {
                 self.animateDismissView()
             }
-            else if newHeight < defaultHeight {
+            else if newHeight < self.defaultHeight {
                 // Condition 2: If new height is below default, animate back to default
-                animateContainerHeight(defaultHeight)
+                self.animateContainerHeight(self.defaultHeight)
             }
             else if newHeight < maximumContainerHeight && isDraggingDown {
                 // Condition 3: If new height is below max and going down, set to default height
@@ -153,17 +156,17 @@ extension PlaceInfoViewController {
                     self.tableView.alpha = 0.0  // TableView 넣기
                 }
                 
-                animateContainerHeight(defaultHeight)
+                self.animateContainerHeight(self.defaultHeight)
                 
                 self.disclosureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
-                isDetailActivated = false
+                self.isDetailActivated = false
             }
-            else if newHeight > defaultHeight && !isDraggingDown {
+            else if newHeight > self.defaultHeight && !isDraggingDown {
                 // Condition 4: If new height is below max and going up, set to max height at top
-                animateContainerHeight(maximumContainerHeight)
+                self.animateContainerHeight(self.maximumContainerHeight)
                 
                 self.disclosureButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-                isDetailActivated = true
+                self.isDetailActivated = true
             }
         default:
             break

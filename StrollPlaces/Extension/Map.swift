@@ -79,16 +79,30 @@ extension MKMapView {
     func annotationView(selection: Selection, annotation: MKAnnotation?, reuseIdentifier: String) -> MKAnnotationView {
         switch selection {
         case .count:
-            let annotationView = self.annotationView(of: CountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
+            let annotationView = self.annotationView(
+                of: CountClusterAnnotationView.self,
+                annotation: annotation,
+                reuseIdentifier: reuseIdentifier
+            )
             annotationView.countLabel.backgroundColor = K.Map.placeColor
             return annotationView
+            
         case .imageCount:
-            let annotationView = self.annotationView(of: ImageCountClusterAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
+            let annotationView = self.annotationView(
+                of: ImageCountClusterAnnotationView.self,
+                annotation: annotation,
+                reuseIdentifier: reuseIdentifier
+            )
             annotationView.countLabel.textColor = K.Map.placeColor
             annotationView.image = .pin2
             return annotationView
+            
         case .image:
-            let annotationView = self.annotationView(of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
+            let annotationView = self.annotationView(
+                of: MKAnnotationView.self,
+                annotation: annotation,
+                reuseIdentifier: reuseIdentifier
+            )
             annotationView.image = .pin2
             return annotationView
         }

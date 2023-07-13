@@ -270,22 +270,18 @@ class PlaceInfoViewController: UIViewController {
     }
     
     private func setupBinding() {
-        let placeName = self.viewModel.placeName.asDriver(onErrorJustReturn: "알수없음")
-        let distance = self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "알수없음")
-        let time = self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "알수없음")
-        
         // 장소명
-        placeName
+        self.viewModel.placeName.asDriver(onErrorJustReturn: "")
             .drive(self.nameLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         // 거리
-        distance
+        self.viewModel.estimatedDistance.asDriver(onErrorJustReturn: "")
             .drive(self.distanceLabel.rx.text)
             .disposed(by: rx.disposeBag)
 
         // 소요시간
-        time
+        self.viewModel.estimatedTime.asDriver(onErrorJustReturn: "")
             .drive(self.expectedTimeLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
@@ -324,7 +320,6 @@ class PlaceInfoViewController: UIViewController {
                     self.viewModel.addMyPlaceData()
                 } else {
                     self.viewModel.removeMyPlaceData()
-                    //self.animateDismissView()
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -332,6 +327,7 @@ class PlaceInfoViewController: UIViewController {
     
     //MARK: - indirectly called method
     
+    // 자연휴양림 홈페이지 바로가기 링크 적용
     @objc private func visitWebPage() {
         let url = URL(string: self.viewModel.itemViewModel.homepage)!
         UIApplication.shared.open(url)
@@ -352,27 +348,33 @@ extension PlaceInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PlaceInfoCell", for: indexPath) as? PlaceInfoTableViewCell else { fatalError() }
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "PlaceInfoCell", for: indexPath)
+                as? PlaceInfoTableViewCell else { fatalError() }
         
         // 데이터 보내기 (3): PlaceVM -> PlaceVC(바인딩)
         self.viewModel.titleInfo
-            .asDriver(onErrorJustReturn: ["알수없음"])
+            .asDriver(onErrorJustReturn: [""])
             .compactMap { $0[indexPath.row ] }
             .drive(cell.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         self.viewModel.subtitleInfo
-            .asDriver(onErrorJustReturn: ["알수없음"])
+            .asDriver(onErrorJustReturn: [""])
             .compactMap { $0[indexPath.row ] }
             .drive(cell.descriptionLabel.rx.text)
             .disposed(by: rx.disposeBag)
+        
+        // 셀이 재사용될 때 제스처 인식기가 다른 label에 적용되는 것을 방지하기 위해 제거
+        cell.descriptionLabel.gestureRecognizers?.forEach {
+            cell.descriptionLabel.removeGestureRecognizer($0)
+        }
+        cell.descriptionLabel.textColor = UIColor.black
         
         // 자연휴양림의 경우 label을 클릭했을 때 홈페이지 연결 기능 적용
         if self.viewModel.itemViewModel.infoType == .recreationForest && indexPath.row == 7 {
             if self.viewModel.itemViewModel.homepage != K.Map.noDataMessage {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.visitWebPage))
-                let titleString = "접속하기"
-                let attributedLinkString = NSMutableAttributedString(string: titleString)
+                let attributedLinkString = NSMutableAttributedString(string: "접속하기")
                 cell.descriptionLabel.addGestureRecognizer(tap)
                 cell.descriptionLabel.isUserInteractionEnabled = true
                 cell.descriptionLabel.attributedText = attributedLinkString

@@ -96,7 +96,6 @@ final class MapViewController: UIViewController {
     //MARK: - normal property
     
     internal let viewModel = MapViewModel()
-    internal let userDefaults = UserDefaults.standard
     
     internal lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -125,7 +124,6 @@ final class MapViewController: UIViewController {
     
     // 지도 및 CSV데이터 관련
     internal var currentPinNumber: Int = 0
-    internal var dataArray = [PublicData]()
     internal var annotationArray = [Annotation]()
     
     // annotation의 지도 표시 여부
@@ -152,7 +150,7 @@ final class MapViewController: UIViewController {
         MapService.shared.moveToCurrentLocation(
             manager: self.locationManager, mapView: self.mapView
         )
-        self.addAnnotations(with: .park)
+        self.addAnnotationsOnTheMapView(with: .park)
         
         self.setupNotificationObserver()
     }
@@ -204,8 +202,8 @@ final class MapViewController: UIViewController {
         self.mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // 기본 지도 표시 범위 = 500 m
-        if UserDefaults.standard.double(forKey: K.UserDefaults.mapRadius) == 0.0 {
-            UserDefaults.standard.setValue(0.5, forKey: K.UserDefaults.mapRadius)
+        if self.viewModel.mapRadius == 0.0 {
+            self.viewModel.mapRadius = 0.5
             self.mapView.centerToLocation(
                 location: self.currentLocation,
                 deltaLat: 0.5.km,
@@ -214,7 +212,7 @@ final class MapViewController: UIViewController {
         }
         
         // Tap Gesture 추가
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mapViewTapped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.mapViewTapped))
         self.mapView.addGestureRecognizer(tapGesture)
     }
     
@@ -272,8 +270,8 @@ final class MapViewController: UIViewController {
             self.mapView.zoomLevel += 1
         }
         
-        self.view.addSubview(compassButton)
-        compassButton.snp.makeConstraints {
+        self.view.addSubview(self.compassButton)
+        self.compassButton.snp.makeConstraints {
             $0.left.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-30)
         }
@@ -337,65 +335,64 @@ final class MapViewController: UIViewController {
         // 기존에 경로를 표시하고 있었다면 제거
         if !self.mapView.overlays.isEmpty {
             self.mapView.removeOverlays(self.mapView.overlays)
+            MapService.shared.isRouteLineDrawn.onNext(false)
         }
     }
     
     //MARK: - 지도 위 annotation 추가/제거 관련
     
-    // annotation cluster 설정
-    internal func addAnnotations(with type: InfoType) {
-        // 앱을 최초로 실행할 때(dataArray가 비어있을 떄)만 데이터 불러오기
-        if dataArray.count == 0 {
-            dataArray = viewModel.getPublicData()
-        }
-        
-        // 배열 비우기
+    // 지도 위에 annotation 추가하기
+    internal func addAnnotationsOnTheMapView(with type: InfoType) {
+        // annotation 배열 비우기
         self.clusterManager.remove(self.annotationArray)
         self.annotationArray.removeAll()
         
-        // 모든 장소에 대해 Annotation 생성 후 배열에 담기
-        self.annotationArray = (0..<self.dataArray.count).map { index in
-            let annotation = Annotation()
-            if let lat = self.dataArray[index].lat,
-               let lon = self.dataArray[index].lon {
-                annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                annotation.title = self.dataArray[index].name
-                annotation.subtitle = "\(self.dataArray[index].infoType.rawValue)"
-                annotation.index = index
-                annotation.marked = false
-                
-                // Realm DB에 저장된 MyPlace의 pinNumber와 annotation의 index를 비교하여
-                // 즐겨찾기에 등록된 annotation 찾아내기
-                if type == .marked {
-                    for (_, value) in self.viewModel.myPlaceData.enumerated() {
-                        if value.pinNumber == index { annotation.marked = true }
-                    }
-                }
-            }
-            return annotation
-        }
-        
+        // 모든 장소에 대해 annotation 생성 후 배열에 담기
+        self.annotationArray = self.createAnnotations(with: type)
+
         // 선택한 테마에 해당하는 annotation만 추가하기
         if type == .marked {
-            self.clusterManager.add(annotationArray.filter { $0.marked == true })
+            self.clusterManager.add(self.annotationArray.filter { $0.marked == true })
         } else {
-            self.clusterManager.add(annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
+            self.clusterManager.add(self.annotationArray.filter { $0.subtitle == "\(type.rawValue)" })
         }
         self.clusterManager.reload(mapView: self.mapView)
         self.isAnnotationMarked[type.rawValue] = true
     }
     
-    @objc private func removeMarkedAnnotation() {
-        if self.themeButtonCollectionView.indexPathsForSelectedItems?.first?.row == 3 {
-            self.clusterManager.remove(annotationArray[self.currentPinNumber])
-            self.clusterManager.reload(mapView: self.mapView)
+    // publicData를 이용해 annotation 생성하기
+    private func createAnnotations(with type: InfoType) -> [Annotation] {
+        return self.viewModel.publicData.enumerated().compactMap { index, data in
+            guard let lat = data.lat, let lon = data.lon else { return nil }
+            
+            let annotation = Annotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            annotation.title = data.name
+            annotation.subtitle = "\(data.infoType.rawValue)"
+            annotation.index = index
+            annotation.marked = false
+            
+            if type == .marked {
+                let markedAnnotations = self.viewModel.myPlaceData.filter { $0.pinNumber == index }
+                annotation.marked = !markedAnnotations.isEmpty
+            }
+            
+            return annotation
         }
-        
     }
     
+    // 즐겨찾기에 등록되어있던 annotation 제거하기
+    @objc private func removeMarkedAnnotation() {
+        if self.themeButtonCollectionView.indexPathsForSelectedItems?.first?.row == 3 {
+            self.clusterManager.remove(self.annotationArray[self.currentPinNumber])
+            self.clusterManager.reload(mapView: self.mapView)
+        }
+    }
+    
+    // annotation 전부 제거하기
     @objc internal func removeAnnotations() {
         if self.themeButtonCollectionView.indexPathsForSelectedItems?.first?.row == 3 {
-            self.clusterManager.remove(annotationArray)
+            self.clusterManager.remove(self.annotationArray)
             self.clusterManager.reload(mapView: self.mapView)
             self.annotationArray.removeAll()
         }
