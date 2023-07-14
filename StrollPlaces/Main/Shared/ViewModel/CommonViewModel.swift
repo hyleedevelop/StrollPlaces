@@ -37,6 +37,12 @@ class CommonViewModel {
         set { UserDefaults.standard.setValue(newValue, forKey: K.UserDefaults.isMyPlaceExist) }
     }
     
+    // 온보딩 화면 표출 여부
+    var shouldOnboardingHidden: Bool {
+        get { UserDefaults.standard.bool(forKey: K.UserDefaults.hideOnboarding) }
+        set { UserDefaults.standard.setValue(newValue, forKey: K.UserDefaults.hideOnboarding) }
+    }
+    
     //MARK: - 사용자 계정 상태 관련
     
     // 사용자의 회원가입 여부
@@ -66,7 +72,7 @@ class CommonViewModel {
     //MARK: - 온보딩 관련
     
     // 온보딩 스크린 표출 여부
-    let shouldOnboardingHidden = BehaviorSubject<Bool>(value: false)
+    //let shouldOnboardingHidden = BehaviorSubject<Bool>(value: false)
     
     
 }

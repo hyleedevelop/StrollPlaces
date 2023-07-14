@@ -84,7 +84,7 @@ final class MyPlaceViewController: UIViewController {
         navigationController?.applyCustomSettings()
         self.navigationController?.navigationBar.isHidden = false
         
-        let isListEmpty = !UserDefaults.standard.bool(forKey: K.UserDefaults.isMyPlaceExist)
+        let isListEmpty = !self.viewModel.isMyPlaceExist
         _  = isListEmpty ? self.showInitialView() : self.hideInitialView()
 
         if !isListEmpty {

@@ -107,7 +107,10 @@ final class SplashViewController: UIViewController {
     // 일정 시간 경과 후 다음 화면으로 이동
     private func goToNextViewController() {
         DispatchQueue.main.asyncAfter(deadline: .now() + K.App.splashScreenTime) {
-            self.viewModel.goToNextViewController(viewController: self)
+            self.viewModel.goToNextViewController(
+                viewController: self,
+                skipOnboarding: self.viewModel.shouldOnboardingHidden
+            )
         }
     }
 
